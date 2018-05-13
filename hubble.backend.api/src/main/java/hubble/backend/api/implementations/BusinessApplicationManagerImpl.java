@@ -3,9 +3,7 @@ package hubble.backend.api.implementations;
 import hubble.backend.api.configurations.mappers.ApplicationMapper;
 import hubble.backend.api.configurations.mappers.UptimeMapper;
 import hubble.backend.api.interfaces.BusinessApplicationManager;
-import hubble.backend.api.models.ApplicationUptime;
-import hubble.backend.api.models.BusinessApplication;
-import hubble.backend.api.models.BusinessApplicationProfile;
+import hubble.backend.api.models.*;
 import hubble.backend.business.services.interfaces.services.AvailabilityService;
 import hubble.backend.business.services.interfaces.services.IssueService;
 import hubble.backend.business.services.interfaces.services.PerformanceService;
@@ -193,4 +191,73 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         return applicationsProfiles;
     }
 
+    @Override
+    public BusinessApplicationFrontend getBusinessApplicationFrontend(String id) {
+
+        BusinessApplicationFrontend businessApplicationFrontend = new BusinessApplicationFrontend();
+
+        businessApplicationFrontend.setId(id);
+        setHealthIndex(businessApplicationFrontend, id);
+        setPastHealthIndex(businessApplicationFrontend, id);
+        setKPIs(businessApplicationFrontend, id);
+
+        return businessApplicationFrontend;
+    }
+
+    @Override
+    public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend() {
+        List<BusinessApplication> applications = getAllApplications();
+        List<BusinessApplicationFrontend> applicationsFrontend = new ArrayList<>();
+
+        for (BusinessApplication businessApplication : applications) {
+
+            if (businessApplication.getId() == null) {
+                continue;
+            }
+
+            BusinessApplicationFrontend currentFrontendApplication = getBusinessApplicationFrontend(businessApplication.getId());
+
+            applicationsFrontend.add(currentFrontendApplication);
+        }
+        return applicationsFrontend;
+    }
+
+    public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id){
+        double availabilityKPIminutes = availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get();
+        double performanceKPIminutes = performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get();
+        double issuesKPIminutes = issueService.calculateLast10MinutesKpiByApplication(id).get();
+
+        double healthIndex = (availabilityKPIminutes + performanceKPIminutes + issuesKPIminutes) / 3;
+        businessApplicationFrontend.setHealthIndex(healthIndex);
+    }
+
+    public void setPastHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id) {
+        double availabilityKPImonth = availabilityService.calculateLastMonthKpiByApplication(id).getAvailabilityKpi().get();
+        double performanceKPIday = performanceService.calculateLastDayKpiByApplication(id).getPerformanceKpi().get();
+        double issuesKPIday = issueService.calculateLastDayKpiByApplication(id).get();
+
+        double pastHealthIndex = (availabilityKPImonth + performanceKPIday + issuesKPIday) / 3;
+
+        businessApplicationFrontend.setHealthIndexPast(pastHealthIndex);
+    }
+
+    public void setKPIs(BusinessApplicationFrontend businessApplicationFrontend, String id) {
+        List<KpiFrontend> kpis = new ArrayList<>();
+        KpiFrontend availabilityKpi = new KpiFrontend();
+        availabilityKpi.setKpiName("Disponibilidad");
+        availabilityKpi.setKpiShortName("Disp");
+        availabilityKpi.setKpiValue(availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get());
+        kpis.add(availabilityKpi);
+        KpiFrontend performanceKpi = new KpiFrontend();
+        performanceKpi.setKpiName("Performance");
+        performanceKpi.setKpiShortName("Perf");
+        performanceKpi.setKpiValue(performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get());
+        kpis.add(performanceKpi);
+        KpiFrontend issuesKpi = new KpiFrontend();
+        issuesKpi.setKpiName("Incidencias");
+        issuesKpi.setKpiShortName("Inc");
+        issuesKpi.setKpiValue(issueService.calculateLast10MinutesKpiByApplication(id).get());
+        kpis.add(issuesKpi);
+        businessApplicationFrontend.setKpis(kpis);
+    }
 }

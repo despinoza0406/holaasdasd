@@ -20,7 +20,6 @@ public class TestEnvironmentConfigurationUnitTests {
 
     @Test
     public void EnvironmentConfiguration_getting_properties_for_test_env_are_expected() {
-
         //Assert
         assertTrue(storageConfiguration.getHost().equals("10.10.20.175"));
         assertTrue(storageConfiguration.getDbname().equals("hubble-test"));

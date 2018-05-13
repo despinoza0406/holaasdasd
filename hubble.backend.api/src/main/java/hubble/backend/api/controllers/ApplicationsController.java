@@ -2,6 +2,7 @@ package hubble.backend.api.controllers;
 
 import hubble.backend.api.interfaces.BusinessApplicationManager;
 import hubble.backend.api.models.BusinessApplication;
+import hubble.backend.api.models.BusinessApplicationFrontend;
 import hubble.backend.api.models.BusinessApplicationProfile;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ public class ApplicationsController {
         return applicationView;
     }
 
-    @GetMapping(value = "applications/all/")
+    @GetMapping(value = "applications/all")
     public List<BusinessApplication> getAll(HttpServletRequest req) {
 
         List<BusinessApplication> applications = businessAppMgr.getAllApplications();
@@ -36,7 +37,7 @@ public class ApplicationsController {
     }
 
     @CrossOrigin(origins = "http://localhost:8888")
-    @GetMapping(value = "applications/")
+    @GetMapping(value = "applications")
     public List<BusinessApplicationProfile> getApplicationsProfiles(HttpServletRequest req,
             @RequestParam("page") int page,
             @RequestParam("limit") int limit) {
@@ -44,5 +45,13 @@ public class ApplicationsController {
         List<BusinessApplicationProfile> applications = businessAppMgr.getBusinessApplicationsPageLimit(page, limit);
 
         return applications;
+    }
+
+    @GetMapping(value = "frontendApplications/applications/")
+    public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
+             @RequestParam("page") int page,
+             @RequestParam("limit") int limit) {
+        List<BusinessApplicationFrontend> applicationFrontends = businessAppMgr.getBusinessApplicationsFrontend();
+        return applicationFrontends;
     }
 }
