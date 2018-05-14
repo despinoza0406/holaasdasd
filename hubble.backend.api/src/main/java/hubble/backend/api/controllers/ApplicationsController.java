@@ -48,6 +48,7 @@ public class ApplicationsController {
     }
 
     @GetMapping(value = "frontendApplications/applications/")
+    @CrossOrigin(origins = "http://localhost:8888")
     public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
              @RequestParam("page") int page,
              @RequestParam("limit") int limit) {
