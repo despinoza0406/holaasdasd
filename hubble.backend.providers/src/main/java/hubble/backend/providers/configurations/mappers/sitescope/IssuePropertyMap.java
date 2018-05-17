@@ -1,11 +1,11 @@
-package hubble.backend.providers.configurations.mappers.alm;
+package hubble.backend.providers.configurations.mappers.sitescope;
 
 import hubble.backend.providers.models.alm.AlmDefectProviderModel;
 import hubble.backend.storage.models.IssueStorage;
 import org.modelmapper.PropertyMap;
 
 
-
+//Hay que cambiarlo para que sea de SiteScope
 public class IssuePropertyMap extends PropertyMap<AlmDefectProviderModel,IssueStorage> {
 
     @Override
