@@ -17,10 +17,8 @@ public class SiteScopeProviderEnviromentImpl implements SiteScopeProviderEnvirom
     private String userName;
     @Value("${sitescope.password}")
     private String password;
-    @Value("${sitescope.domain}")
-    private String domain;
-    @Value("${sitescope.project}")
-    private String project;
+
+
 
     @Override
     public String getHost() {
@@ -42,14 +40,5 @@ public class SiteScopeProviderEnviromentImpl implements SiteScopeProviderEnvirom
         return password;
     }
 
-    @Override
-    public String getDomain() {
-        return domain;
-    }
-
-    @Override
-    public String getProject() {
-        return project;
-    }
 
 }
