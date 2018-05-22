@@ -56,6 +56,7 @@ public class TasksRunnerApplication {
         scheduler = new SchedulerMediator(context);
 
         //AppPulse
+        /*
         AppPulseActiveDataParser appPulseparser = context.getBean(AppPulseActiveDataParser.class);
         ParserJob appPulseJob = new AppPulseDataParserJob(appPulseparser);
         ParserTask appPulseDataTask = new AppPulseDataTaskImpl(appPulseJob);
@@ -71,7 +72,7 @@ public class TasksRunnerApplication {
         appPulseApplicationTask.setIntervalSeconds(100);
         scheduler.addTask(appPulseApplicationTask);
         scheduler.addTask(appPulseDataTask);
-
+        */
         //BSM
         BsmDataParser bsmParser = context.getBean(BsmDataParser.class);
         ParserJob bsmJob = new BsmDataParserJob(bsmParser);
