@@ -26,6 +26,7 @@ public class WorkItemStorage {
     private String transaction;
     private String transactionId;
     private int percentCompleted;
+    private int deflectionDays;
 
     public String getId() {
         return id;
@@ -187,4 +188,11 @@ public class WorkItemStorage {
         this.dueDate = dueDate;
     }
 
+    public int getDeflectionDays() {
+        return deflectionDays;
+    }
+
+    public void setDeflectionDays(int deflectionDays) {
+        this.deflectionDays = deflectionDays;
+    }
 }

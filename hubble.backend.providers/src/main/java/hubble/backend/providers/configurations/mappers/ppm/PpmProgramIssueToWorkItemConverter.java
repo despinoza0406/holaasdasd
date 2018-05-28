@@ -34,7 +34,9 @@ public class PpmProgramIssueToWorkItemConverter extends AbstractConverter<PpmPro
         workItem.setRegisteredDate(stringToDate(source.getCreatedDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
         workItem.setModifiedDate(stringToDate(source.getLastUpdateDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
         workItem.setDueDate(stringToDate(source.getDueDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
-
+        long millis = (int) workItem.getRegisteredDate().getTime() - new Date().getTime();
+        int diffDays = (int) (millis / (1000 * 60 * 60 * 24));
+        workItem.setDeflectionDays(diffDays);
         return workItem;
     }
 

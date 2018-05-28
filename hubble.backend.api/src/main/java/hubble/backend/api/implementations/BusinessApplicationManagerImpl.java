@@ -245,19 +245,23 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         List<KpiFrontend> kpis = new ArrayList<>();
         KpiFrontend availabilityKpi = new KpiFrontend();
         availabilityKpi.setKpiName("Disponibilidad");
-        availabilityKpi.setKpiShortName("Disp");
+        availabilityKpi.setKpiShortName("D");
         availabilityKpi.setKpiValue(availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get());
         kpis.add(availabilityKpi);
         KpiFrontend performanceKpi = new KpiFrontend();
         performanceKpi.setKpiName("Performance");
-        performanceKpi.setKpiShortName("Perf");
+        performanceKpi.setKpiShortName("P");
         performanceKpi.setKpiValue(performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get());
         kpis.add(performanceKpi);
         KpiFrontend issuesKpi = new KpiFrontend();
         issuesKpi.setKpiName("Incidencias");
-        issuesKpi.setKpiShortName("Inc");
+        issuesKpi.setKpiShortName("I");
         issuesKpi.setKpiValue(issueService.calculateLast10MinutesKpiByApplication(id).get());
         kpis.add(issuesKpi);
+        KpiFrontend workitemKpi = new KpiFrontend();
+        workitemKpi.setKpiName("Tareas");
+        workitemKpi.setKpiShortName("T");
+        //TODO: AGREGAR CALCULO DE DESVÍO PARA SETEAR EL KPI VALUE
         businessApplicationFrontend.setKpis(kpis);
     }
 }
