@@ -40,12 +40,16 @@ public class PpmProgramIssueToWorkItemConverter extends AbstractConverter<PpmPro
         workItem.setModifiedDate(stringToDate(source.getLastUpdateDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
         workItem.setDueDate(stringToDate(source.getDueDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
         Date now = getDateNow();
-        long millis = now.getTime() - workItem.getDueDate().getTime();
-        long diffDays = TimeUnit.DAYS.convert(millis, TimeUnit.MILLISECONDS);
-        if(diffDays > 0) {
-            workItem.setDeflectionDays(diffDays);
-        } else {
-            workItem.setDeflectionDays(0);
+        long millisNow = now.getTime();
+        if(workItem.getDueDate() != null) {
+            long millisDueDate = workItem.getDueDate().getTime();
+            long diffMillis = millisNow - millisDueDate;
+            long diffDays = TimeUnit.DAYS.convert(diffMillis, TimeUnit.MILLISECONDS);
+            if (diffDays > 0) {
+                workItem.setDeflectionDays(diffDays);
+            } else {
+                workItem.setDeflectionDays(0);
+            }
         }
         return workItem;
     }
