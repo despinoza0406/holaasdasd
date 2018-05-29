@@ -1,0 +1,13 @@
+body {
+  font-family: 'Dosis', sans-serif;
+  padding-top: 3.5rem; }
+  body > .container {
+    height: 100%; }
+    body > .container > main {
+      height: 100%; }
+
+table#aplicaciones th.check, table#aplicaciones td.check, table#proveedores th.check, table#proveedores td.check {
+  text-align: center;
+  width: 100px; }
+
+/*# sourceMappingURL=hubble.css.map */

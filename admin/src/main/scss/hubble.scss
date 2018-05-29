@@ -1,0 +1,23 @@
+
+
+body {
+    font-family: 'Dosis', sans-serif;
+    padding-top: 3.5rem;
+
+    & > .container {
+        height: 100%;
+
+        & > main {
+            height: 100%;
+        }
+    }
+}
+ 
+table#aplicaciones, table#proveedores {
+    th, td {
+        &.check {
+            text-align: center;
+            width: 100px;
+        }
+    }
+}

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="widtd=device-widtd, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" value="Fit Software & Consulting">
+        <title>Proveedores</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet"> 
+        <link href="css/hubble.css" rel="stylesheet" th:href="@{/css/maite.css}">
+    </head>
+    <body>
+        <header th:fragment="header">
+            <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
+                <a class="navbar-brand" href="#" th:href="@{/}">Hubble- Admin</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navBar" aria-controls="navBar" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navBar">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="aplicaciones.html">Aplicaciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="proveedores.html">Proveedores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="usuarios.html">Usuarios</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </nav>
+        </header>
+        <main class="container">
+            <h1>Proveedores</h1>
+            <table id="proveedores" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Proveedor</th>
+                        <th>KPIs a los que contribuye</th>
+                        <th class="check">Habilitado</th>
+                        <th class="check">Task runner</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="alm.html">ALM</a>
+                        </td>
+                        <td>Defectos</td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="apppulse.html">AppPulse</a>
+                        </td>
+                        <td>Performance</td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="bsm.html">BSM</a>
+                        </td>
+                        <td>Performance</td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="jira.html">Jira</a>
+                        </td>
+                        <td>Defectos</td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="ppm.html">PPM</a>
+                        </td>
+                        <td>Tareas</td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="sitescope.html">SiteScope</a>
+                        </td>
+                        <td>Disponibilidad</td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                        <td class="check">
+                            <input class="form-check-input" type="checkbox" checked>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+    </body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="widtd=device-widtd, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" value="Fit Software & Consulting">
+        <title>PPM</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet"> 
+        <link href="css/hubble.css" rel="stylesheet" th:href="@{/css/maite.css}">
+    </head>
+    <body>
+        <header th:fragment="header">
+            <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
+                <a class="navbar-brand" href="#" th:href="@{/}">Hubble- Admin</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navBar" aria-controls="navBar" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navBar">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="aplicaciones.html">Aplicaciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="proveedores.html">Proveedores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Usuarios</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <main class="container">
+            <h1>PPM</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">Entorno</div>
+                        <div class="card-body">
+                            <div class="form-group ">
+                                <label>Host</label>
+                                <input type="text" value="ppm.tsoft.com.ar" class="form-control">
+                            </div>
+                            <div class="form-group ">
+                                <label>Puerto</label>
+                                <input type="numbre" step="1" min="0" value="80" class="form-control">
+                            </div>
+                            <div class="form-group ">
+                                <label>Host</label>
+                                <input type="text" value="ppm.tsoft.com.ar" class="form-control">
+                            </div>
+                            <div class="form-group ">
+                                <label>Usuario</label>
+                                <input type="text" value="martin.straus" class="form-control">
+                            </div>
+                            <div class="form-group ">
+                                <label>Contrase&ntilde;a</label>
+                                <input type="text" value="12345" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">Configuraci&oacute;n</div>
+                        <div class="card-body">
+                            <div class="form-group ">
+                                <label>Campo con el nombre de la aplicaci&oacute;n</label>
+                                <input type="text" class="form-control" value="REQ.KNTA_PROGRAM_REFERENCE">
+                                <small class="form-text text-muted">businessApplication.fieldName.</small>
+                            </div>
+                            <div class="form-group ">
+                                <label>Campo con la transacci&oacute;n</label>
+                                <input type="text" class="form-control" value="not_defined">
+                                <small class="form-text text-muted">transaction.fieldName</small>
+                            </div>
+                            <div class="form-group ">
+                                <label>Origen del proveedor</label>
+                                <input type="text" value="Ppm" class="form-control">
+                                <small class="form-text text-muted">provider.origin</small>
+                            </div>
+                            <div class="form-group ">
+                                <label>Nombre del proveedor</label>
+                                <input type="text" value="Ppm Tsoft" class="form-control">
+                                <small class="form-text text-muted">provider.name</small>
+                            </div>
+                            <div class="form-group ">
+                                <label>C&oacute;digos de tipos de solicitudes</label>
+                                <input type="text" value="30219" class="form-control">
+                                <small class="form-text text-muted">requestTypeIds</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">Task runner</div>
+                        <div class="card-body">
+                            <button class="btn btn-outline-success"><i class="fa fa-play"></i> Habilitar</button>
+                            <button class="btn btn-outline-danger"><i class="fa fa-stop"></i> Deshabilitar</button>
+                            <div class="form-group">
+                                <label>Frecuencia de ejecuci&oacute;n</label>
+                                <input type="text" value="0 0 9 * * *" class="form-control">
+                                <span>
+                                    <a href="http://www.quartz-scheduler.org/documentation/quartz-2.x/tutorials/crontrigger.html"
+                                       title="Informaci&oacute;n sobre cómo armar la expresi&oacute;n"
+                                       target="_blank">
+                                        <i class="fa fa-question"></i> Ayuda
+                                    </a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Guardar cambios</button>
+        </main>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+    </body>
+</html>
