@@ -2,9 +2,14 @@ package hubble.backend.providers.configurations.mappers.ppm;
 
 import hubble.backend.providers.models.ppm.PpmProgramIssueProviderModel;
 import hubble.backend.storage.models.WorkItemStorage;
+
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import org.modelmapper.AbstractConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,9 +39,14 @@ public class PpmProgramIssueToWorkItemConverter extends AbstractConverter<PpmPro
         workItem.setRegisteredDate(stringToDate(source.getCreatedDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
         workItem.setModifiedDate(stringToDate(source.getLastUpdateDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
         workItem.setDueDate(stringToDate(source.getDueDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
-        long millis = (int) workItem.getRegisteredDate().getTime() - new Date().getTime();
-        int diffDays = (int) (millis / (1000 * 60 * 60 * 24));
-        workItem.setDeflectionDays(diffDays);
+        Date now = getDateNow();
+        long millis = now.getTime() - workItem.getDueDate().getTime();
+        long diffDays = TimeUnit.DAYS.convert(millis, TimeUnit.MILLISECONDS);
+        if(diffDays > 0) {
+            workItem.setDeflectionDays(diffDays);
+        } else {
+            workItem.setDeflectionDays(0);
+        }
         return workItem;
     }
 
@@ -67,6 +77,12 @@ public class PpmProgramIssueToWorkItemConverter extends AbstractConverter<PpmPro
             logger.error(ex.getMessage());
         }
         return dateToReturn;
+    }
+
+    private Date getDateNow() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Calendar cal = Calendar.getInstance();
+        return cal.getTime();
     }
 
     private boolean isValid(String stringToValidate) {
