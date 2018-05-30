@@ -10,4 +10,13 @@ table#aplicaciones th.check, table#aplicaciones td.check, table#proveedores th.c
   text-align: center;
   width: 100px; }
 
+table#usuarios th.acciones, table#usuarios td.acciones {
+  text-align: center; }
+
+ul.etiquetas {
+  list-style-type: none;
+  padding-left: 0; }
+  ul.etiquetas li {
+    display: inline; }
+
 /*# sourceMappingURL=hubble.css.map */

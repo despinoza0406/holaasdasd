@@ -12,12 +12,29 @@ body {
         }
     }
 }
- 
+
 table#aplicaciones, table#proveedores {
     th, td {
         &.check {
             text-align: center;
             width: 100px;
         }
+    }
+}
+
+table#usuarios {
+    th, td {
+        &.acciones {
+            text-align: center;
+        }
+    }
+}
+
+ul.etiquetas {
+    list-style-type: none;
+    padding-left: 0;
+
+    li {
+        display: inline;
     }
 }
