@@ -4,6 +4,7 @@ import hubble.backend.providers.configurations.SiteScopeConfiguration;
 import hubble.backend.providers.configurations.mappers.sitescope.SiteScopeMapperConfiguration;
 import hubble.backend.providers.models.sitescope.SiteScopeApplicationProviderModel;
 import hubble.backend.providers.parsers.interfaces.sitescope.SiteScopeApplicationParser;
+import hubble.backend.providers.transports.interfaces.SiteScopeTransport;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import org.json.JSONArray;
@@ -45,17 +46,8 @@ public class SiteScopeApplicationParserImpl implements SiteScopeApplicationParse
 
     @Override
     public void run() {
-        siteScopeTransport.login();
-        Map<String, String> cookies = siteScopeTransport.getSessionCookies();
-        JSONObject allDefects = siteScopeTransport.getAllDefects(cookies);
-        List<JSONObject> defects = this.parseList(allDefects);
-        for (JSONObject defect : defects) {
-            ApplicationStorage application = this.convert(this.parse(defect));
-            if (!applicationRepository.exist(application)) {
-                applicationRepository.save(application);
-            }
-        }
-        siteScopeTransport.logout();
+        ApplicationStorage application;
+
     }
 
     @Override

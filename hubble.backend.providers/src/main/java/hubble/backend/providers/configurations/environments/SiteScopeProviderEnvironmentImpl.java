@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @PropertySource("classpath:config/sitescope.properties")
-public class SiteScopeProviderEnviromentImpl implements SiteScopeProviderEnviroment {
+public class SiteScopeProviderEnvironmentImpl implements SiteScopeProviderEnvironment {
 
     @Value("${sitescope.host}")
     private String host;
@@ -31,7 +31,7 @@ public class SiteScopeProviderEnviromentImpl implements SiteScopeProviderEnvirom
     }
 
     @Override
-    public String getUserName() {
+    public String getUser() {
         return userName;
     }
 

@@ -19,7 +19,8 @@ public class SiteScopeConfigurationImpl implements SiteScopeConfiguration {
         return applicationFieldName;
     }
 
-    public void setApplicationValueToIdMap(String applicationValueToIdMap) {
-        this.applicationValueToIdMap = applicationValueToIdMap;
+    @Override
+    public String getApplicationValueToIdMap() {
+        return applicationValueToIdMap;
     }
 }

@@ -10,12 +10,13 @@ import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.IssueStorage;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
 import java.util.List;
 
 //Falta cambiar todo a lo que sea que tenga que convertir de SiteScope
-
+@Component
 public class SiteScopeMapperConfiguration {
 
     private ModelMapper mapper;
@@ -35,7 +36,7 @@ public class SiteScopeMapperConfiguration {
         this.mapper = mapper;
     }
 
-    public IssueStorage maptoIssueStorage(SiteScopeDefectProviderModel siteScopeProviderModel){
+    /*public IssueStorage maptoIssueStorage(SiteScopeDefectProviderModel siteScopeProviderModel){
         if(siteScopeProviderModel==null)
             return null;
         return mapper.map(siteScopeProviderModel, IssueStorage.class);
@@ -46,8 +47,8 @@ public class SiteScopeMapperConfiguration {
             return null;
         Type typeList = new TypeToken<List<IssueStorage>>() {
         }.getType();
-        return mapper.map(siteScopeProviderModel, typeList);
-    }
+        return mapper.map(siteScopeProviderModel, typeList);   //Depende a que se mappea
+    }*/
 
     public ApplicationStorage mapToApplicationStorage(SiteScopeApplicationProviderModel siteScopeApplication){
         if(siteScopeApplication==null)

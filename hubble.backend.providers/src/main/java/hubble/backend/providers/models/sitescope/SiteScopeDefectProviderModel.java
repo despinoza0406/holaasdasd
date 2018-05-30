@@ -1,6 +1,6 @@
 package hubble.backend.providers.models.sitescope;
 
-public class SiteScopeDefectProviderModel {
+public class SiteScopeDefectProviderModel {  //No es un defect, pero no se que es ni que posee
     private int id;
     private String registeredDate;
     private String modifiedDate;
