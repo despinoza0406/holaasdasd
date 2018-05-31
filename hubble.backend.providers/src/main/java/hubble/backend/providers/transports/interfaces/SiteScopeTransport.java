@@ -11,6 +11,7 @@ public interface SiteScopeTransport {
     public SiteScopeProviderEnvironment getEnvironment();
     public SiteScopeConfiguration getConfiguration();
     public List<JSONObject> getGroupsSnapshots(List<String> paths);
+    public List<String> getPathsToGroups(List<String> groups);
 
 
 }

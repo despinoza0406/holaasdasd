@@ -6,6 +6,7 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import hubble.backend.providers.configurations.SiteScopeConfiguration;
 import hubble.backend.providers.configurations.environments.SiteScopeProviderEnvironment;
+import hubble.backend.providers.parsers.implementations.sitescope.SiteScopeGroupPathParser;
 import hubble.backend.providers.transports.interfaces.SiteScopeTransport;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,6 +28,9 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
     @Autowired
     SiteScopeConfiguration configuration;
 
+    @Autowired
+    SiteScopeGroupPathParser siteScopeGroupPathParser;
+
     private final Logger logger = LoggerFactory.getLogger(SiteScopeTransportImpl.class);
 
 
@@ -41,18 +45,16 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
     }
 
     public List<JSONObject> getGroupsSnapshots(List<String> groupPaths){
-        String fullPathsToGroups = StringUtils.join(groupPaths,"%3B");
-        String path = String.format("/api/monitors/groups/snapshots");
+        String fullPathsToGroups = StringUtils.join(groupPaths,";");
+        String path = String.format("/SiteScope/api/monitors/groups/snapshots");
         String requestsUri = buildUri(path);
         HttpResponse<JsonNode> data = null;
-        JSONArray jsonArray = null;
         JSONObject jsonObject = null;
         List<JSONObject> dataList = new ArrayList<JSONObject>();
         boolean hasMultipleGroups = true;
 
         try {
             data = Unirest.get(requestsUri)
-                    .header("accept","application/json")
                     .queryString("fullPathsToGroups",fullPathsToGroups)
                     .basicAuth(environment.getUser(),environment.getPassword())
                     .asJson();
@@ -61,37 +63,46 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
             return null;
         }
 
-        /*try {
+        try {
             for(String groupPath: groupPaths ) {
-                jsonArray = data.getBody().getObject().getJSONObject(groupPath).getJSONArray("group");
-            }
-        } catch (Exception e) {
-            hasMultipleGroups = false;
-            try {
-                jsonObject = data.getBody().getObject().getJSONObject(groupPaths.get(0)).getJSONObject("group");
-            } catch (Exception ex) {
-                logger.warn("There are no groups with said names");
-                return null;
-            }
-        }
-
-        if (hasMultipleGroups) {
-            for (int x = 0; x < jsonArray.length(); x++) {
-                JSONObject object = jsonArray.getJSONObject(x);
-                if(!object.has("error_code")) {
-                    dataList.add(object);
-                }
-            }
-        } else {
-            if(!jsonObject.has("error_code")) {
+                jsonObject = data.getBody().getObject().getJSONObject(groupPath);
+                if(!jsonObject.has("error_code"))
                 dataList.add(jsonObject);
             }
+        } catch (Exception e) {
+            logger.warn("There was a problem", e);
         }
-        */
+
+
+
         return dataList;
 
     }
 
+    public List<String> getPathsToGroups(List<String> groups){
+        List<String> pathsToGroups = new ArrayList<>();
+        String path = String.format("/SiteScope/api/admin/config/snapshot");
+        String requestsUri = buildUri(path);
+        HttpResponse<JsonNode> data = null;
+        JSONObject jsonObject = null;
+
+        try {
+            data = Unirest.get(requestsUri)
+                    .basicAuth(environment.getUser(),environment.getPassword())
+                    .asJson();
+        } catch (UnirestException e) {
+            logger.error(e.getMessage());
+            return null;
+        }
+
+        jsonObject = data.getBody().getObject().getJSONObject("snapshot_groupSnapshotChildren");
+        for (String group : groups) {
+            pathsToGroups.add (siteScopeGroupPathParser.generateJsonPathArgumentFromJson(jsonObject, group ,""));
+        }
+
+
+        return pathsToGroups;
+    }
 
 
     private String buildUri(String path) {

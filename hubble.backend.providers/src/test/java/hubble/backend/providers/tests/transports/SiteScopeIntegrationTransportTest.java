@@ -22,7 +22,7 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ProvidersConfiguration.class)
-public class SiteScopeTransportUnitTest {
+public class SiteScopeIntegrationTransportTest {
 
     @Autowired
     private SiteScopeTransport siteScopeTransport;
@@ -33,34 +33,20 @@ public class SiteScopeTransportUnitTest {
     }
 
     @Test
-    public void SiteScopeTransport_getSnapShots_should_get_all_data_from_groups() {
-        //Assign
-        List<String> pathsToGroups = new ArrayList<String>();
-        pathsToGroups.add("VM_sis_path_delimiter_Home Banking");
-        pathsToGroups.add("VM_sis_path_delimiter_CRM");
-        //Act
-        List<JSONObject> objects = null;
-        objects = siteScopeTransport.getGroupsSnapshots(pathsToGroups);
-
-        //Assert
-        assertNotNull(objects);
-
-    }
-
-    @Test
     public void SiteScopeTransport_getPaths_should_get_paths() {
         //Assign
         List<String> groups = new ArrayList<>();
         groups.add("Home Banking");
         groups.add("CRM");
-        groups.add("AmoALean");
 
         //Act
         List<String> paths = siteScopeTransport.getPathsToGroups(groups);
-
+        List<JSONObject> objects = null;
+        objects = siteScopeTransport.getGroupsSnapshots(paths);
 
         //Assert
-        assertNotNull(paths);
+        assertNotNull(objects);
+
 
     }
 
