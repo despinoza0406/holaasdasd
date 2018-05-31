@@ -10,4 +10,6 @@ public interface WorkItemService extends ServiceBase<WorkItem>,
     public WorkItemQuantity calculateWorkItemQuantityLastMonth(String applicationId);
 
     public WorkItemQuantity calculateWorkItemQuantityLastWeek(String applicationId);
+
+    public long calculateLastDayDeflectionDaysKpi(String applicationId);
 }

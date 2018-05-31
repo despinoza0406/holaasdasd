@@ -74,6 +74,7 @@ public class TasksRunnerApplication {
         scheduler.addTask(appPulseDataTask);
         */
         //BSM
+
         BsmDataParser bsmParser = context.getBean(BsmDataParser.class);
         ParserJob bsmJob = new BsmDataParserJob(bsmParser);
         ParserTask bsmTask = new BsmDataTaskImpl(bsmJob);

@@ -1,5 +1,6 @@
 package hubble.backend.tasksrunner.jobs.ppm;
 
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import org.quartz.JobExecutionContext;
@@ -42,6 +43,7 @@ public class PpmDataParserJob implements ParserJob {
             schedulerContext = (SchedulerContext) jec.getScheduler().getContext();
         } catch (SchedulerException ex) {
             logger.error(ex.getMessage());
+
         }
 
         ConfigurableApplicationContext taskRunnerAppContext = (ConfigurableApplicationContext) schedulerContext.get("context");
@@ -49,6 +51,7 @@ public class PpmDataParserJob implements ParserJob {
 
         try {
             parser.run();
+            DateHelper.lastExecutionDate = DateHelper.getDateNow();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }

@@ -39,18 +39,7 @@ public class PpmProgramIssueToWorkItemConverter extends AbstractConverter<PpmPro
         workItem.setRegisteredDate(stringToDate(source.getCreatedDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
         workItem.setModifiedDate(stringToDate(source.getLastUpdateDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
         workItem.setDueDate(stringToDate(source.getDueDate(), "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"));
-        Date now = getDateNow();
-        long millisNow = now.getTime();
-        if(workItem.getDueDate() != null) {
-            long millisDueDate = workItem.getDueDate().getTime();
-            long diffMillis = millisNow - millisDueDate;
-            long diffDays = TimeUnit.DAYS.convert(diffMillis, TimeUnit.MILLISECONDS);
-            if (diffDays > 0) {
-                workItem.setDeflectionDays(diffDays);
-            } else {
-                workItem.setDeflectionDays(0);
-            }
-        }
+        setTimestampAndDeflectionDays(workItem);
         return workItem;
     }
 
@@ -96,4 +85,19 @@ public class PpmProgramIssueToWorkItemConverter extends AbstractConverter<PpmPro
         return true;
     }
 
+    private void setTimestampAndDeflectionDays(WorkItemStorage workItem) {
+        Date now = getDateNow();
+        workItem.setTimestamp(now);
+        long millisNow = now.getTime();
+        if(workItem.getDueDate() != null) {
+            long millisDueDate = workItem.getDueDate().getTime();
+            long diffMillis = millisNow - millisDueDate;
+            long diffDays = TimeUnit.DAYS.convert(diffMillis, TimeUnit.MILLISECONDS);
+            if (diffDays > 0) {
+                workItem.setDeflectionDays(diffDays);
+            } else {
+                workItem.setDeflectionDays(0);
+            }
+        }
+    }
 }

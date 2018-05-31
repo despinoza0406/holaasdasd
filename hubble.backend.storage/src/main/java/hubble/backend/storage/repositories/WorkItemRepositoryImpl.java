@@ -3,6 +3,9 @@ package hubble.backend.storage.repositories;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.storage.models.WorkItemStorage;
 import hubble.backend.storage.operations.WorkItemOperations;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +47,26 @@ public class WorkItemRepositoryImpl implements WorkItemOperations {
     }
 
     @Override
+    public List<WorkItemStorage> findWorkItemsByApplicationIdAndStatusLastDay(String applicationId, String status){
+        Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
+        Criteria statusCriteria = Criteria.where("status").is(status);
+        Criteria deflectionCriteria = Criteria.where("deflectionDays").gt(0);
+        Date now = getDateNow();
+        Criteria startDateCriteria = Criteria.where("timestamp").gte(getYesterday());
+        Criteria endDateCriteria = Criteria.where("timestamp").lte(getDateNow());
+
+        List<WorkItemStorage> workItems = mongo
+                .find(Query
+                                .query(applicationIdCriteria
+                                        .andOperator(startDateCriteria, endDateCriteria)
+                                        .andOperator(statusCriteria)
+                                        .andOperator(deflectionCriteria)
+                                ),
+                        WorkItemStorage.class);
+        return workItems;
+    }
+
+    @Override
     public List<WorkItemStorage> findWorkItemsByApplicationIdAndDurationMinutes(int duration, String applicationId) {
 
         Calendar from = CalendarHelper.getNow();
@@ -77,4 +100,16 @@ public class WorkItemRepositoryImpl implements WorkItemOperations {
         return issues;
     }
 
+    private Date getDateNow() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Calendar cal = Calendar.getInstance();
+        return cal.getTime();
+    }
+
+    private Date getYesterday(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
+        return cal.getTime();
+    }
 }

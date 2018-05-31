@@ -20,6 +20,8 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
+import hubble.backend.core.utils.DateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -197,12 +199,15 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         BusinessApplicationFrontend businessApplicationFrontend = new BusinessApplicationFrontend();
 
         businessApplicationFrontend.setId(id);
+        businessApplicationFrontend.setLastUpdate(DateHelper.lastExecutionDate);
+        businessApplicationFrontend.setPastUpdate(DateHelper.addDaysToDate(DateHelper.lastExecutionDate, -1));
         setHealthIndex(businessApplicationFrontend, id);
         setPastHealthIndex(businessApplicationFrontend, id);
         setKPIs(businessApplicationFrontend, id);
 
         return businessApplicationFrontend;
     }
+
 
     @Override
     public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend() {
@@ -226,8 +231,9 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         double availabilityKPIminutes = availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get();
         double performanceKPIminutes = performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get();
         double issuesKPIminutes = issueService.calculateLast10MinutesKpiByApplication(id).get();
+        double workItemKPIday = (double) workItemService.calculateLastDayDeflectionDaysKpi(id);
 
-        double healthIndex = (availabilityKPIminutes + performanceKPIminutes + issuesKPIminutes) / 3;
+        double healthIndex = (availabilityKPIminutes + performanceKPIminutes + issuesKPIminutes + workItemKPIday) / 4;
         businessApplicationFrontend.setHealthIndex(healthIndex);
     }
 

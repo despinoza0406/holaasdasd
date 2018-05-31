@@ -1,10 +1,13 @@
 package hubble.backend.api.models;
 
+import java.util.Date;
 import java.util.List;
 
 public class BusinessApplicationFrontend extends ApiResponseBase {
     private String id;
+    private Date lastUpdate;
     private double healthIndex;
+    private Date pastUpdate;
     private double healthIndexPast;
     private List<KpiFrontend> kpis;
 
@@ -38,6 +41,22 @@ public class BusinessApplicationFrontend extends ApiResponseBase {
 
     public void setHealthIndexPast(double healthIndexPast) {
         this.healthIndexPast = healthIndexPast;
+    }
+
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
+
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
+
+    public Date getPastUpdate() {
+        return pastUpdate;
+    }
+
+    public void setPastUpdate(Date pastUpdate) {
+        this.pastUpdate = pastUpdate;
     }
 
     public List<KpiFrontend> getKpis() {

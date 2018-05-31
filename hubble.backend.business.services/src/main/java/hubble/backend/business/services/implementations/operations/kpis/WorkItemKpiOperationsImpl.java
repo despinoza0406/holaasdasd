@@ -8,8 +8,12 @@ import hubble.backend.business.services.models.measures.rules.WorkItemsGroupRule
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.utils.KpiHelper;
 import hubble.backend.core.utils.Threshold;
+import hubble.backend.storage.models.WorkItemStorage;
+import hubble.backend.storage.repositories.WorkItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
@@ -18,6 +22,8 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
     CalculateKpiLowNumberBestIndicator calculateIssuesKpi;
     @Autowired
     WorkItemGroupRuleOperations workItemsRulesOperation;
+    @Autowired
+    WorkItemRepository workItemRepository;
 
     private double warningKpiThreshold;
     private double criticalKpiThreshold;
@@ -160,4 +166,25 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
         this.criticalIdxThreshold = KpiHelper.WorkItems.CRITICAL_WORKITEMS_KPI_DEFAULT;
     }
 
+    @Override
+    public long calculateLastDayKPI(String applicationId){
+        List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusLastDay(applicationId,
+                "IN_PROGRESS");
+        long deflectionDaysTotal = 0;
+
+        for(WorkItemStorage workItemStorage : workItems) {
+            deflectionDaysTotal = deflectionDaysTotal + workItemStorage.getDeflectionDays();
+        }
+
+        long kpi = 0;
+
+        for (int i = 0; i <= 10; i++ ) {
+            if (deflectionDaysTotal==i){
+                kpi = 10 - i;
+                break;
+            }
+        }
+
+        return kpi;
+    }
 }
