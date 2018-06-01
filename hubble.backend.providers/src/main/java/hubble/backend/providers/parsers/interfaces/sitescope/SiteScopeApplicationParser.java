@@ -10,6 +10,5 @@ import java.util.List;
 public interface SiteScopeApplicationParser extends Parser {
 
     public SiteScopeApplicationProviderModel parse(JSONObject data);
-    public List<JSONObject> parseList(JSONObject data);
     public ApplicationStorage convert(SiteScopeApplicationProviderModel almApplicationProviderModel);
 }

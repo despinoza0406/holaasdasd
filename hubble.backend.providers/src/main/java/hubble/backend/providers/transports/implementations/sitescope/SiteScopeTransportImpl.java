@@ -44,6 +44,18 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
         return this.configuration;
     }
 
+    public List<String> getApplicationNames(){
+            String[] applicationsIdMap = configuration.getApplicationValueToIdMap().split(",");
+            String[] applicationName = null;
+            List<String> applicationNames = new ArrayList<>();
+            for (int x = 0; x < applicationsIdMap.length; x++) {
+                applicationName = applicationsIdMap[x].split(":");
+                applicationNames.add(applicationName[1]);
+            }
+            return applicationNames;
+
+    }
+
     public List<JSONObject> getGroupsSnapshots(List<String> groupPaths){
         String fullPathsToGroups = StringUtils.join(groupPaths,";");
         String path = String.format("/SiteScope/api/monitors/groups/snapshots");
@@ -72,8 +84,6 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
         } catch (Exception e) {
             logger.warn("There was a problem", e);
         }
-
-
 
         return dataList;
 

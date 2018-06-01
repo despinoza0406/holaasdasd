@@ -12,9 +12,6 @@ public class AlmDefectProviderModel {
     private String project;
     private String status;
     private String assignee;
-    private String detectedOnRelease;
-    private String correctedOnRelease;
-    private String reproducible;
     private String description;
     private String detectedBy;
     private String businessApplication;
@@ -106,30 +103,6 @@ public class AlmDefectProviderModel {
         this.assignee = assignee;
     }
 
-    public String getDetectedOnRelease() {
-        return detectedOnRelease;
-    }
-
-    public void setDetectedOnRelease(String detectedOnRelease) {
-        this.detectedOnRelease = detectedOnRelease;
-    }
-
-    public String getCorrectedOnRelease() {
-        return correctedOnRelease;
-    }
-
-    public void setCorrectedOnRelease(String correctedOnRelease) {
-        this.correctedOnRelease = correctedOnRelease;
-    }
-
-    public String getReproducible() {
-        return reproducible;
-    }
-
-    public void setReproducible(String reproducible) {
-        this.reproducible = reproducible;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -184,5 +157,5 @@ public class AlmDefectProviderModel {
 
     public void setProviderOrigin(String providerOrigin) {
         this.providerOrigin = providerOrigin;
-    }    
+    }
 }

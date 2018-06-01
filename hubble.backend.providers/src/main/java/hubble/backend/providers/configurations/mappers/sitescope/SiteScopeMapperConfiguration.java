@@ -2,12 +2,9 @@ package hubble.backend.providers.configurations.mappers.sitescope;
 
 import hubble.backend.providers.configurations.mappers.alm.ApplicationPropertyMap;
 import hubble.backend.providers.configurations.mappers.alm.IssuePropertyMap;
-import hubble.backend.providers.models.alm.AlmApplicationProviderModel;
-import hubble.backend.providers.models.alm.AlmDefectProviderModel;
 import hubble.backend.providers.models.sitescope.SiteScopeApplicationProviderModel;
-import hubble.backend.providers.models.sitescope.SiteScopeDefectProviderModel;
+import hubble.backend.providers.models.sitescope.SiteScopeEventProviderModel;
 import hubble.backend.storage.models.ApplicationStorage;
-import hubble.backend.storage.models.IssueStorage;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Component;
@@ -35,17 +32,17 @@ public class SiteScopeMapperConfiguration {
     public void setMapper(ModelMapper mapper) {
         this.mapper = mapper;
     }
-
-    /*public IssueStorage maptoIssueStorage(SiteScopeDefectProviderModel siteScopeProviderModel){
+    /*
+    public EventStorage maptoEventStorage(SiteScopeEventProviderModel siteScopeProviderModel){
         if(siteScopeProviderModel==null)
             return null;
-        return mapper.map(siteScopeProviderModel, IssueStorage.class);
+        return mapper.map(siteScopeProviderModel, EventStorage.class);
     }
 
-    public List<IssueStorage> maptoIssueStorageList(List<SiteScopeDefectProviderModel> siteScopeProviderModel){
+    public List<EventStorage> maptoIssueStorageList(List<SiteScopeEventProviderModel> siteScopeProviderModel){
         if(siteScopeProviderModel==null)
             return null;
-        Type typeList = new TypeToken<List<IssueStorage>>() {
+        Type typeList = new TypeToken<List<EventStorage>>() {
         }.getType();
         return mapper.map(siteScopeProviderModel, typeList);   //Depende a que se mappea
     }*/

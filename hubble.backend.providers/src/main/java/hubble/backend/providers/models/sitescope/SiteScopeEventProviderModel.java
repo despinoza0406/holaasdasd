@@ -1,18 +1,11 @@
 package hubble.backend.providers.models.sitescope;
 
-public class SiteScopeDefectProviderModel {  //No es un defect, pero no se que es ni que posee
+public class SiteScopeEventProviderModel {
     private int id;
-    private String registeredDate;
-    private String modifiedDate;
+    private String updatedDate;
     private String closedDate;
     private String title;
-    private String priority;
-    private String severity;
-    private String project;
     private String status;
-    private String assignee;
-    private String detectedOnRelease;
-    private String correctedOnRelease;
     private String reproducible;
     private String description;
     private String detectedBy;
@@ -22,7 +15,7 @@ public class SiteScopeDefectProviderModel {  //No es un defect, pero no se que e
     private String providerName;
     private String providerOrigin;
 
-    public SiteScopeDefectProviderModel() {
+    public SiteScopeEventProviderModel() {
     }
 
     public int getId() {
@@ -31,22 +24,6 @@ public class SiteScopeDefectProviderModel {  //No es un defect, pero no se que e
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getRegisteredDate() {
-        return registeredDate;
-    }
-
-    public void setRegisteredDate(String registeredDate) {
-        this.registeredDate = registeredDate;
-    }
-
-    public String getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(String modifiedDate) {
-        this.modifiedDate = modifiedDate;
     }
 
     public String getClosedDate() {
@@ -65,60 +42,12 @@ public class SiteScopeDefectProviderModel {  //No es un defect, pero no se que e
         this.title = title;
     }
 
-    public String getPriority() {
-        return priority;
-    }
-
-    public void setPriority(String priority) {
-        this.priority = priority;
-    }
-
-    public String getSeverity() {
-        return severity;
-    }
-
-    public void setSeverity(String severity) {
-        this.severity = severity;
-    }
-
-    public String getProject() {
-        return project;
-    }
-
-    public void setProject(String project) {
-        this.project = project;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getAssignee() {
-        return assignee;
-    }
-
-    public void setAssignee(String assignee) {
-        this.assignee = assignee;
-    }
-
-    public String getDetectedOnRelease() {
-        return detectedOnRelease;
-    }
-
-    public void setDetectedOnRelease(String detectedOnRelease) {
-        this.detectedOnRelease = detectedOnRelease;
-    }
-
-    public String getCorrectedOnRelease() {
-        return correctedOnRelease;
-    }
-
-    public void setCorrectedOnRelease(String correctedOnRelease) {
-        this.correctedOnRelease = correctedOnRelease;
     }
 
     public String getReproducible() {
@@ -183,5 +112,13 @@ public class SiteScopeDefectProviderModel {  //No es un defect, pero no se que e
 
     public void setProviderOrigin(String providerOrigin) {
         this.providerOrigin = providerOrigin;
+    }
+
+    public String getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(String updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

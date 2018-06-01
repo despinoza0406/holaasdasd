@@ -1,6 +1,6 @@
 package hubble.backend.providers.configurations.mappers.sitescope;
 
-import hubble.backend.providers.models.sitescope.SiteScopeDefectProviderModel;
+import hubble.backend.providers.models.sitescope.SiteScopeEventProviderModel;
 import hubble.backend.storage.models.IssueStorage;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,13 +10,13 @@ import org.modelmapper.AbstractConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SiteScopeDefectToIssueConverter extends AbstractConverter<SiteScopeDefectProviderModel, IssueStorage> {
+public class SiteScopeDefectToIssueConverter extends AbstractConverter<SiteScopeEventProviderModel, IssueStorage> {
 
 
     private final Logger logger = LoggerFactory.getLogger(SiteScopeDefectToIssueConverter.class);
 
     @Override
-    protected IssueStorage convert(SiteScopeDefectProviderModel source) {
+    protected IssueStorage convert(SiteScopeEventProviderModel source) {
         IssueStorage issue = new IssueStorage();
         issue.setClosedDate(stringToDate(source.getClosedDate(), "yyyy-MM-dd"));
         issue.setModifiedDate(stringToDate(source.getModifiedDate(), "yyyy-MM-dd"));

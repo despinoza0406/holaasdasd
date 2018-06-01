@@ -33,68 +33,44 @@ public class SiteScopeApplicationParserImpl implements SiteScopeApplicationParse
     private final Logger logger = LoggerFactory.getLogger(SiteScopeApplicationParserImpl.class);
 
     @Override
-    public SiteScopeApplicationProviderModel parse(JSONObject data) {
-        if (data == null) {
+    public SiteScopeApplicationProviderModel parse(JSONObject snapshot) {
+        if (snapshot == null) {
             return null;
         }
 
-        JSONArray issueFields = data.getJSONArray("Fields");
-        SiteScopeApplicationProviderModel almApplication = this.mapToSiteScopeModel(issueFields);
+        JSONObject configurationSnapshot = snapshot.getJSONObject("configuration_snapshot");
+        SiteScopeApplicationProviderModel siteScopeApplication = this.mapToSiteScopeModel(configurationSnapshot);
 
-        return almApplication;
+        return siteScopeApplication;
     }
 
     @Override
     public void run() {
+        List<String> groups = siteScopeTransport.getApplicationNames();
         ApplicationStorage application;
-
-    }
-
-    @Override
-    public List<JSONObject> parseList(JSONObject data) {
-        JSONArray jsonArray = data.getJSONArray("entities");
-        List<JSONObject> dataList = new ArrayList<>();
-
-        for (int x = 0; x < jsonArray.length(); x++) {
-            dataList.add(jsonArray.getJSONObject(x));
+        List<String> groupPaths = siteScopeTransport.getPathsToGroups(groups);
+        List<JSONObject> groupsSnapshots = siteScopeTransport.getGroupsSnapshots(groupPaths);
+        for(JSONObject snapshot : groupsSnapshots){
+            application = this.convert(this.parse(snapshot));
+            if (!applicationRepository.exist(application)) {
+                applicationRepository.save(application);
+            }
         }
-
-        return dataList;
     }
+
 
     @Override
     public ApplicationStorage convert(SiteScopeApplicationProviderModel application) {
         return mapperConfiguration.mapToApplicationStorage(application);
     }
 
-    private SiteScopeApplicationProviderModel mapToSiteScopeModel(JSONArray almIssue) {
+    private SiteScopeApplicationProviderModel mapToSiteScopeModel(JSONObject sitescopeConfigSnapshot) {
         SiteScopeApplicationProviderModel application = new SiteScopeApplicationProviderModel();
-        application.setName(getValue(almIssue, configuration.getApplicationFieldName()));
+        application.setName(sitescopeConfigSnapshot.getString("name"));
         application.setApplicationId(resolveApplicationIdFromConfiguration(application.getName()));
         return application;
     }
 
-    private String getValue(JSONArray issueFields, String fieldName) {
-        String valueToReturn;
-        for (int x = 0; x < issueFields.length(); x++) {
-
-            if (!fieldName.equals(issueFields.getJSONObject(x).getString("Name"))) {
-                continue;
-            }
-
-            JSONArray valueArray = issueFields.getJSONObject(x).getJSONArray("values");
-            if (valueArray.length() <= 0 || !valueArray.getJSONObject(0).has("value")) {
-                return null;
-            }
-
-            JSONObject values = valueArray.getJSONObject(0);
-            valueToReturn = values.getString("value");
-            return valueToReturn;
-        }
-
-        logger.debug("SITESCOPE: no name field found");
-        return "";
-    }
 
     public String resolveApplicationIdFromConfiguration(String applicationName) {
         String[] applicationsIdMap = configuration.getApplicationValueToIdMap().split(",");
@@ -103,7 +79,7 @@ public class SiteScopeApplicationParserImpl implements SiteScopeApplicationParse
                 return applicationsIdMap1.split(":")[1];
             }
         }
-        logger.debug("ALM: field for applications and ids map not correctly configured in properties file");
+        logger.debug("SiteScope: field for applications and ids map not correctly configured in properties file");
         return null;
     }
 
