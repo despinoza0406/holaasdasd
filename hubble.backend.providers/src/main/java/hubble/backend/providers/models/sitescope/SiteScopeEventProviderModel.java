@@ -1,46 +1,22 @@
 package hubble.backend.providers.models.sitescope;
 
+import java.util.Date;
+
 public class SiteScopeEventProviderModel {
-    private int id;
-    private String updatedDate;
-    private String closedDate;
-    private String title;
+    private String summary;
     private String status;
-    private String reproducible;
+    private String name;
     private String description;
-    private String detectedBy;
+    private Date updatedDate;
     private String businessApplication;
     private String applicationId;
-    private String transaction;
+    private String type;
     private String providerName;
     private String providerOrigin;
 
     public SiteScopeEventProviderModel() {
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getClosedDate() {
-        return closedDate;
-    }
-
-    public void setClosedDate(String closedDate) {
-        this.closedDate = closedDate;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getStatus() {
         return status;
@@ -50,13 +26,6 @@ public class SiteScopeEventProviderModel {
         this.status = status;
     }
 
-    public String getReproducible() {
-        return reproducible;
-    }
-
-    public void setReproducible(String reproducible) {
-        this.reproducible = reproducible;
-    }
 
     public String getDescription() {
         return description;
@@ -64,14 +33,6 @@ public class SiteScopeEventProviderModel {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getDetectedBy() {
-        return detectedBy;
-    }
-
-    public void setDetectedBy(String detectedBy) {
-        this.detectedBy = detectedBy;
     }
 
     public String getBusinessApplication() {
@@ -90,14 +51,6 @@ public class SiteScopeEventProviderModel {
         this.applicationId = applicationId;
     }
 
-    public String getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(String transaction) {
-        this.transaction = transaction;
-    }
-
     public String getProviderName() {
         return providerName;
     }
@@ -114,11 +67,35 @@ public class SiteScopeEventProviderModel {
         this.providerOrigin = providerOrigin;
     }
 
-    public String getUpdatedDate() {
+    public Date getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(String updatedDate) {
+    public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

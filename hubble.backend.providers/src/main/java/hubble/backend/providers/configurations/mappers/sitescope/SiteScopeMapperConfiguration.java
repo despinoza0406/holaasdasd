@@ -5,6 +5,7 @@ import hubble.backend.providers.configurations.mappers.alm.IssuePropertyMap;
 import hubble.backend.providers.models.sitescope.SiteScopeApplicationProviderModel;
 import hubble.backend.providers.models.sitescope.SiteScopeEventProviderModel;
 import hubble.backend.storage.models.ApplicationStorage;
+import hubble.backend.storage.models.EventStorage;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,7 @@ public class SiteScopeMapperConfiguration {
     public SiteScopeMapperConfiguration(){
         mapper = new ModelMapper();
         mapper.addMappings(new IssuePropertyMap());
-        mapper.addMappings(new ApplicationPropertyMap());
-       // mapper.addConverter(new SiteScopeDefectToIssueConverter());
+        mapper.addMappings(new EventPropertyMap());;
     }
 
     public ModelMapper getMapper() {
@@ -32,20 +32,20 @@ public class SiteScopeMapperConfiguration {
     public void setMapper(ModelMapper mapper) {
         this.mapper = mapper;
     }
-    /*
-    public EventStorage maptoEventStorage(SiteScopeEventProviderModel siteScopeProviderModel){
+
+    public EventStorage mapToEventStorage(SiteScopeEventProviderModel siteScopeProviderModel){
         if(siteScopeProviderModel==null)
             return null;
         return mapper.map(siteScopeProviderModel, EventStorage.class);
     }
 
-    public List<EventStorage> maptoIssueStorageList(List<SiteScopeEventProviderModel> siteScopeProviderModel){
+    public List<EventStorage> mapToEventStorageList(List<SiteScopeEventProviderModel> siteScopeProviderModel){
         if(siteScopeProviderModel==null)
             return null;
         Type typeList = new TypeToken<List<EventStorage>>() {
         }.getType();
         return mapper.map(siteScopeProviderModel, typeList);   //Depende a que se mappea
-    }*/
+    }
 
     public ApplicationStorage mapToApplicationStorage(SiteScopeApplicationProviderModel siteScopeApplication){
         if(siteScopeApplication==null)
