@@ -10,6 +10,7 @@ import hubble.backend.providers.transports.interfaces.SiteScopeTransport;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.models.WorkItemStorage;
+import hubble.backend.storage.repositories.EventRepository;
 import hubble.backend.storage.repositories.WorkItemRepository;
 import org.json.JSONObject;
 import org.slf4j.Logger;

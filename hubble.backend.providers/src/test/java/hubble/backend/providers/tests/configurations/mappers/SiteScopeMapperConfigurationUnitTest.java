@@ -2,10 +2,19 @@ package hubble.backend.providers.tests.configurations.mappers;
 
 
 import hubble.backend.providers.configurations.mappers.sitescope.SiteScopeMapperConfiguration;
+import hubble.backend.providers.models.sitescope.SiteScopeEventProviderModel;
+import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.models.WorkItemStorage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.powermock.api.mockito.PowerMockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SiteScopeMapperConfigurationUnitTest {
@@ -14,47 +23,31 @@ public class SiteScopeMapperConfigurationUnitTest {
 
 
     @Test
-    public void _mapper_should_map_ppmprovidermodel_to_workitemstorage() {
- /*       //Assign
-        PpmProgramIssueProviderModel ppmProviderModel = mock(PpmProgramIssueProviderModel.class);
+    public void _mapper_should_map_sitescope_event_providermodel_to_event_storage() {
+        //Assign
+        SiteScopeEventProviderModel eventProviderModel = mock(SiteScopeEventProviderModel.class);
 
         //Act
-        when(ppmProviderModel.getAssignee()).thenReturn("fake-assignee");
-        when(ppmProviderModel.getDetailedDescription()).thenReturn("description");
-        when(ppmProviderModel.getCreatedBy()).thenReturn("fake-user");
-        when(ppmProviderModel.getId()).thenReturn(12);
-        when(ppmProviderModel.getLastUpdateDate()).thenReturn("2017-02-18T00:09:37.000-03:00 ");
-        when(ppmProviderModel.getPriority()).thenReturn("Alto/a");
-        when(ppmProviderModel.getPercentComplete()).thenReturn(35);
-        when(ppmProviderModel.getCreatedDate()).thenReturn("2017-02-17T00:10:35.000-03:00");
-        when(ppmProviderModel.getStatusCode()).thenReturn("Corrected");
-        when(ppmProviderModel.getDescription()).thenReturn("fake-title");
-        when(ppmProviderModel.getProviderName()).thenReturn("Ppm installed on fake place");
-        when(ppmProviderModel.getProviderOrigin()).thenReturn("Ppm");
-        when(ppmProviderModel.getBusinessApplication()).thenReturn("fake business application");
-        when(ppmProviderModel.getApplicationId()).thenReturn("fake application id");
-        when(ppmProviderModel.getTransaction()).thenReturn("fake transaction");
-        when(ppmProviderModel.getTransactionId()).thenReturn("fake transaction id");
+        when(eventProviderModel.getSummary()).thenReturn("Hubble is so good");
+        when(eventProviderModel.getStatus()).thenReturn("Good");
+        when(eventProviderModel.getName()).thenReturn("Hubble");
+        when(eventProviderModel.getUpdatedDate()).thenReturn(new Date(999999999));
+        when(eventProviderModel.getType()).thenReturn("Groovy");
+        when(eventProviderModel.getDescription()).thenReturn("fake-title");
+        when(eventProviderModel.getProviderName()).thenReturn("Ppm installed on fake place");
+        when(eventProviderModel.getProviderOrigin()).thenReturn("Ppm");
+        when(eventProviderModel.getBusinessApplication()).thenReturn("fake business application");
+        when(eventProviderModel.getApplicationId()).thenReturn("fake application id");
 
-        WorkItemStorage workItemStorage = SiteScopeMapperConfiguration.mapToWorkItemStorage(ppmProviderModel);
+        EventStorage eventStorage = siteScopeMapperConfiguration.mapToEventStorage(eventProviderModel);
 
         //Assert
-        assertEquals("fake-assignee", workItemStorage.getAssignee());
-        assertEquals("description", workItemStorage.getDescription());
-        assertEquals("fake-user", workItemStorage.getRegisteredBy());
-        assertEquals(12, workItemStorage.getExternalId());
-        assertTrue(workItemStorage.getModifiedDate().toString().startsWith("Sat Feb 18"));
-        assertEquals(2, workItemStorage.getPriority());
-        assertEquals(35, workItemStorage.getPercentCompleted());
-        assertTrue(workItemStorage.getRegisteredDate().toString().startsWith("Fri Feb 17"));
-        assertEquals("Corrected", workItemStorage.getStatus());
-        assertEquals("fake-title", workItemStorage.getTitle());
-        assertEquals("Ppm installed on fake place", workItemStorage.getProviderName());
-        assertEquals("Ppm", workItemStorage.getProviderOrigin());
-        assertEquals("fake business application", workItemStorage.getBusinessApplication());
-        assertEquals("fake application id", workItemStorage.getBusinessApplicationId());
-        assertEquals("fake transaction", workItemStorage.getTransaction());
-        assertEquals("fake transaction id", workItemStorage.getTransactionId());
-*/
+        assertEquals("Hubble is so good", eventStorage.getSummary());
+        assertEquals("fake-title", eventStorage.getDescription());
+        assertEquals("Good", eventStorage.getStatus());
+        assertEquals(new Date(999999999), eventStorage.getUpdatedDate());
+        assertEquals("Ppm installed on fake place", eventStorage.getProviderName());
+        assertEquals("Ppm", eventStorage.getProviderOrigin());
+        assertEquals("fake business application", eventStorage.getBusinessApplication());
     }
 }
