@@ -34,8 +34,8 @@ public class SiteScopeMapperConfigurationUnitTest {
         when(eventProviderModel.getUpdatedDate()).thenReturn(new Date(999999999));
         when(eventProviderModel.getType()).thenReturn("Groovy");
         when(eventProviderModel.getDescription()).thenReturn("fake-title");
-        when(eventProviderModel.getProviderName()).thenReturn("Ppm installed on fake place");
-        when(eventProviderModel.getProviderOrigin()).thenReturn("Ppm");
+        when(eventProviderModel.getProviderName()).thenReturn("SiteScope installed on fake place");
+        when(eventProviderModel.getProviderOrigin()).thenReturn("SiteScope");
         when(eventProviderModel.getBusinessApplication()).thenReturn("fake business application");
         when(eventProviderModel.getApplicationId()).thenReturn("fake application id");
 
@@ -46,8 +46,11 @@ public class SiteScopeMapperConfigurationUnitTest {
         assertEquals("fake-title", eventStorage.getDescription());
         assertEquals("Good", eventStorage.getStatus());
         assertEquals(new Date(999999999), eventStorage.getUpdatedDate());
-        assertEquals("Ppm installed on fake place", eventStorage.getProviderName());
-        assertEquals("Ppm", eventStorage.getProviderOrigin());
+        assertEquals("SiteScope installed on fake place", eventStorage.getProviderName());
+        assertEquals("SiteScope", eventStorage.getProviderOrigin());
         assertEquals("fake business application", eventStorage.getBusinessApplication());
+        assertEquals("Hubble", eventStorage.getName());
+        assertEquals("Groovy", eventStorage.getType());
+        assertEquals("fake application id", eventStorage.getApplicationId());
     }
 }
