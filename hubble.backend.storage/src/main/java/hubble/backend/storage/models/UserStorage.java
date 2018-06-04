@@ -1,5 +1,8 @@
 package hubble.backend.storage.models;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Set;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -93,4 +96,26 @@ public class UserStorage {
         return "UserStorage{" + "id=" + id + ", email=" + email + ", name=" + name + ", password=" + password + '}';
     }
 
+    public ObjectNode toJson() {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode json = mapper.createObjectNode();
+        json.put("id", id)
+            .put("email", email)
+            .put("name", name);
+        json.set("roles", rolesToJson());
+        json.set("applications", applicationsToJson());
+        return json;
+    }
+
+    private ArrayNode rolesToJson() {
+        ArrayNode array = new ObjectMapper().createArrayNode();
+        roles.forEach(array::add);
+        return array;
+    }
+
+    private ArrayNode applicationsToJson() {
+        ArrayNode array = new ObjectMapper().createArrayNode();
+        applications.forEach((application) -> array.add(application.getId()));
+        return array;
+    }
 }

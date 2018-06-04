@@ -1,13 +1,18 @@
 package hubble.backend.api.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import hubble.backend.business.services.interfaces.services.UsersService;
 import hubble.backend.business.services.models.Roles;
 import hubble.backend.storage.models.UserStorage;
+import hubble.backend.storage.repositories.UsersRepository;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +27,23 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsersController {
 
     private final UsersService users;
+    private final UsersRepository usersRepo;
 
     @Autowired
-    public UsersController(UsersService users) {
+    public UsersController(UsersService users, UsersRepository usersRepo) {
         this.users = users;
+        this.usersRepo = usersRepo;
+    }
+
+    @GetMapping
+    public ResponseEntity get() {
+        return new ResponseEntity(allUsers(), HttpStatus.OK);
+    }
+
+    private ArrayNode allUsers() {
+        return new ObjectMapper().createArrayNode().addAll(
+            usersRepo.findAll().stream().map(UserStorage::toJson).collect(toList())
+        );
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
