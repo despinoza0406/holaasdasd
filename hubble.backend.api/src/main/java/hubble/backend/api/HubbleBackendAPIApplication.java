@@ -1,5 +1,6 @@
 package hubble.backend.api;
 
+import hubble.backend.business.services.interfaces.services.InitialDataService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
@@ -11,6 +12,6 @@ public class HubbleBackendAPIApplication {
 
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(HubbleBackendAPIApplication.class, args);
-
+        ctx.getBean(InitialDataService.class).createData();
     }
 }
