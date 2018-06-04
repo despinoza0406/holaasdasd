@@ -10,6 +10,8 @@ import hubble.backend.providers.parsers.interfaces.jira.JiraApplicationParser;
 import hubble.backend.providers.parsers.interfaces.jira.JiraDataParser;
 import hubble.backend.providers.parsers.interfaces.ppm.PpmApplicationParser;
 import hubble.backend.providers.parsers.interfaces.ppm.PpmDataParser;
+import hubble.backend.providers.parsers.interfaces.sitescope.SiteScopeApplicationParser;
+import hubble.backend.providers.parsers.interfaces.sitescope.SiteScopeDataParser;
 import hubble.backend.tasksrunner.application.scheduler.SchedulerMediator;
 import hubble.backend.tasksrunner.configurations.TasksRunnerConfiguration;
 import hubble.backend.tasksrunner.jobs.ParserJob;
@@ -23,6 +25,8 @@ import hubble.backend.tasksrunner.jobs.jira.JiraApplicationParserJob;
 import hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob;
 import hubble.backend.tasksrunner.jobs.ppm.PpmApplicationParserJob;
 import hubble.backend.tasksrunner.jobs.ppm.PpmDataParserJob;
+import hubble.backend.tasksrunner.jobs.sitescope.SiteScopeApplicationParserJob;
+import hubble.backend.tasksrunner.jobs.sitescope.SiteScopeDataParserJob;
 import hubble.backend.tasksrunner.tasks.ParserTask;
 import hubble.backend.tasksrunner.tasks.Task;
 import hubble.backend.tasksrunner.tasks.alm.AlmApplicationTaskImpl;
@@ -35,6 +39,8 @@ import hubble.backend.tasksrunner.tasks.jira.JiraApplicationTaskImpl;
 import hubble.backend.tasksrunner.tasks.jira.JiraDataTaskImpl;
 import hubble.backend.tasksrunner.tasks.ppm.PpmApplicationTaskImpl;
 import hubble.backend.tasksrunner.tasks.ppm.PpmDataTaskImpl;
+import hubble.backend.tasksrunner.tasks.sitescope.SiteScopeApplicationTaskImpl;
+import hubble.backend.tasksrunner.tasks.sitescope.SiteScopeDataTaskImpl;
 import org.quartz.SchedulerException;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -54,7 +60,7 @@ public class TasksRunnerApplication {
     public void run(ConfigurableApplicationContext context) throws SchedulerException, Exception {
 
         scheduler = new SchedulerMediator(context);
-
+/*
         //AppPulse
         AppPulseActiveDataParser appPulseparser = context.getBean(AppPulseActiveDataParser.class);
         ParserJob appPulseJob = new AppPulseDataParserJob(appPulseparser);
@@ -141,7 +147,25 @@ public class TasksRunnerApplication {
         jiraAppTask.setIntervalSeconds(100);
  
         scheduler.addTask(jiraDataTask);
-        scheduler.addTask(jiraAppTask);
+        scheduler.addTask(jiraAppTask);*/
+
+        //SiteScope
+        SiteScopeDataParser siteScopeDataParser = context.getBean(SiteScopeDataParser.class);
+        ParserJob siteScopeJob = new SiteScopeDataParserJob(siteScopeDataParser);
+        ParserTask siteScopeDataTask = new SiteScopeDataTaskImpl(siteScopeJob);
+        siteScopeDataTask.setIndentityGroupName("SiteScope Provider Job");
+        siteScopeDataTask.setIndentityName("SiteScope Data");
+        siteScopeDataTask.setIntervalSeconds(40);
+
+        SiteScopeApplicationParser siteScopeApplicationParser = context.getBean(SiteScopeApplicationParser.class);
+        ParserJob siteScopeAppJob = new SiteScopeApplicationParserJob(siteScopeApplicationParser);
+        ParserTask siteScopeAppTask = new SiteScopeApplicationTaskImpl(siteScopeAppJob);
+        siteScopeAppTask.setIndentityGroupName("SiteScope Provider Job");
+        siteScopeAppTask.setIndentityName("SiteScope Applications");
+        siteScopeAppTask.setIntervalSeconds(100);
+
+        scheduler.addTask(siteScopeDataTask);
+        scheduler.addTask(siteScopeAppTask);
 
         scheduler.showMenu();
     }

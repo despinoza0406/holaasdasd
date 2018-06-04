@@ -50,7 +50,7 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
             List<String> applicationNames = new ArrayList<>();
             for (int x = 0; x < applicationsIdMap.length; x++) {
                 applicationName = applicationsIdMap[x].split(":");
-                applicationNames.add(applicationName[1]);
+                applicationNames.add(applicationName[0]);
             }
             return applicationNames;
 

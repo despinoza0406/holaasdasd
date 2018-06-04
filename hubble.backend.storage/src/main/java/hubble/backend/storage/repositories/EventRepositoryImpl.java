@@ -16,10 +16,10 @@ public class EventRepositoryImpl implements EventOperations {
 
     @Override
     public boolean exist(EventStorage issue) {
-        //Criteria isSameIssueExternalId = Criteria.where("externalId").is(issue.getExternalId()); SiteScope no viene con ID
+        Criteria isSameObjectId= Criteria.where("_id").is(issue.getId()); //SiteScope no viene con ID
         Criteria isSameProviderName = Criteria.where("providerName").is(issue.getProviderName());
 
-        List<EventStorage> issues = mongo.find(Query.query(isSameProviderName),
+        List<EventStorage> issues = mongo.find(Query.query(isSameProviderName.andOperator(isSameObjectId)),
                                                 EventStorage.class);
 
         return !issues.isEmpty();

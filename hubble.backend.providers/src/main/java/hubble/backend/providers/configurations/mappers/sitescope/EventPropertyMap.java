@@ -14,6 +14,7 @@ public class EventPropertyMap extends PropertyMap<SiteScopeEventProviderModel, E
     @Override
     protected void configure() {
 
+        skip().setId(null);
         map().setSummary(source.getSummary());
         map().setBusinessApplication(source.getBusinessApplication());
         map().setUpdatedDate(source.getUpdatedDate());

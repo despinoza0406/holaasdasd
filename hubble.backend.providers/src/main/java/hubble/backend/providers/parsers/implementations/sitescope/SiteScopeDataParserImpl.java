@@ -75,12 +75,12 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
     public SiteScopeEventProviderModel mapToSiteScopeEvent(JSONObject config, JSONObject runtime){
         SiteScopeEventProviderModel model = new SiteScopeEventProviderModel();
 
-        model.setSummary(config.getString("summary"));
-        model.setStatus(config.getString("status"));
-        model.setName(runtime.getString("name"));
-        model.setDescription(runtime.getString(("description")));
-        model.setUpdatedDate(this.getDate(runtime.getString("updated_date")));
-        model.setBusinessApplication(runtime.getString("name"));
+        model.setSummary(runtime.getString("summary"));
+        model.setStatus(runtime.getString("status"));
+        model.setName(config.getString("name"));
+        model.setDescription(config.getString(("description")));
+        model.setUpdatedDate(this.getDate(config.getString("updated_date")));
+        model.setBusinessApplication(config.getString("name"));
         model.setApplicationId(resolveApplicationIdFromConfiguration(model.getBusinessApplication()));
         model.setProviderName(Providers.PROVIDERS_NAME.SITE_SCOPE.toString());
         model.setProviderOrigin(Providers.PROVIDERS_NAME.SITE_SCOPE.toString());
@@ -103,7 +103,7 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
                 return applicationsIdMap[x].split(":")[1];
             }
         }
-        logger.warn("Ppm field for applications and ids map not correctly"
+        logger.warn("SiteScope field for applications and ids map not correctly"
                 + " configured in properties file for specified app name: "
                 + applicationName);
         return null;
