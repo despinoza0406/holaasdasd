@@ -43,7 +43,7 @@ La colección se llama __applicationStorage__. Registra las aplicaciones adminis
                     }
                 }
             },
-            defects: {
+            availability: {
                 thresholds: {
                     normal: "double",
                     warning: "double",
@@ -218,7 +218,7 @@ Los atributos puntuales de los atributos _environment_ y _configuration_ depende
         }
     }
 
-## AppPulse
+### AppPulse
 
     {
         name: "AppPulse",
@@ -236,7 +236,7 @@ Los atributos puntuales de los atributos _environment_ y _configuration_ depende
     }
 
 
-## BSM
+### BSM
 
     {
         name: "BSM",
@@ -257,7 +257,7 @@ Los atributos puntuales de los atributos _environment_ y _configuration_ depende
     }
 
 
-## Jira
+### Jira
 
     {
         name: "Jira",
@@ -278,7 +278,7 @@ Los atributos puntuales de los atributos _environment_ y _configuration_ depende
         }
     }
 
-## Jira
+### PPM
 
     {
         name: "PPM",
@@ -304,8 +304,7 @@ Los atributos puntuales de los atributos _environment_ y _configuration_ depende
         }
     }
 
-
-## SiteScope
+### SiteScope
 
     {
         name: "SiteScope",
@@ -316,4 +315,26 @@ Los atributos puntuales de los atributos _environment_ y _configuration_ depende
             enabled: true,
             cronExpression: "0 0 0 * * *"
         }
+    }
+
+## Usuarios
+
+Los usuarios se almacenarán en una colección llamada "users".
+
+    {
+        email: "string",
+        name: "string",
+        password: "string",
+        roles: "string[]",
+        applications: "integer[]"
+    }
+
+### Ejemplo:
+
+    {
+        email: "martin.straus@fit.com.ar",
+        name: "Martín Gaspar Straus",
+        password: "",
+        roles: ["administrator"", "user"],
+        applications: [1, 2, 3]
     }
