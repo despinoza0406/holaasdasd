@@ -59,8 +59,6 @@ public class WorkItemRepositoryImpl implements WorkItemOperations {
                 .find(Query
                                 .query(applicationIdCriteria
                                         .andOperator(startDateCriteria, endDateCriteria)
-                                        .andOperator(statusCriteria)
-                                        .andOperator(deflectionCriteria)
                                 ),
                         WorkItemStorage.class);
         return workItems;
