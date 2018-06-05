@@ -49,9 +49,7 @@ public class PpmDataParserImpl implements PpmDataParser {
 
         for (JSONObject detailedRequest : detailedRequests) {
             WorkItemStorage workItem = this.convert(this.parse(detailedRequest));
-            if (!workItemRepository.exist(workItem)) {
-                workItemRepository.save(workItem);
-            }
+            workItemRepository.save(workItem);
         }
     }
 

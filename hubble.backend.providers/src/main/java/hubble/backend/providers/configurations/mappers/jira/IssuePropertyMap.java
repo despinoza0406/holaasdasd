@@ -34,9 +34,10 @@ public class IssuePropertyMap extends PropertyMap<JiraIssueModel, IssueStorage> 
         using(dateConverter).
                 map(source.getFields().getUpdated()).setModifiedDate(null);
         map().setBusinessApplication(source.getFields().getProject().getName());
+        map().setBusinessApplicationId(source.getFields().getProject().getName());
 
         //TODO: Severity is not set by default.
-        map().setSeverity(0);
+        map().setSeverity(2);
     }
 
     Converter<String, Date> dateConverter = (MappingContext<String, Date> context) -> {

@@ -20,7 +20,7 @@ public class AvailabilityPropertyMap extends PropertyMap<BsmProviderModel, Avail
         String providerOrigin = Providers.PROVIDERS_NAME.BSM.toString();
 
         skip().setId(null);
-        skip().setApplicationId(null);
+        skip().setApplicationId(source.getProfile_name());
         skip().setTransactionId(null);
         skip().setLocationId(null);
         skip().setServerName(null);

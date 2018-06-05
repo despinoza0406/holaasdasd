@@ -1,5 +1,6 @@
 package hubble.backend.tasksrunner.jobs.jira;
 
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.providers.parsers.interfaces.jira.JiraDataParser;
 import hubble.backend.tasksrunner.jobs.ParserJob;
@@ -49,6 +50,7 @@ public class JiraDataParserJob implements ParserJob {
         
         try {
             jiraParser.run();
+            DateHelper.lastExecutionDate = DateHelper.getDateNow();
         } catch(Exception e) {
             logger.log(Level.SEVERE, null, e);
         }

@@ -123,8 +123,8 @@ public class BsmTransportImpl implements BsmTransport {
         long now = to.getTimeInMillis() / 1000;
 
         StringBuilder queryBuilder = new StringBuilder("SELECT distinct(profile_name), dGreenThreshold, dRedThreshold from trans_t");
-        queryBuilder.append(" where time_stamp>=").append(Long.toString(since));
-        queryBuilder.append(" and time_stamp<=").append(Long.toString(now));
+        //queryBuilder.append(" where time_stamp>=").append(Long.toString(since));
+        //queryBuilder.append(" and time_stamp<=").append(Long.toString(now));
 
         //Act
         createMessage(queryBuilder.toString());

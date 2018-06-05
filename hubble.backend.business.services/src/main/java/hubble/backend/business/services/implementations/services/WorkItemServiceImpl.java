@@ -84,4 +84,13 @@ public class WorkItemServiceImpl implements WorkItemService {
         return workItemKpiOperation.calculateLastDayKeyPerformanceIndicatorByApplication(applicationId);
     }
 
+    @Override
+    public long calculateLastDayDeflectionDaysKpi(String applicationId){
+        return workItemKpiOperation.calculateLastDayKPI(applicationId);
+    }
+
+    @Override
+    public long calculatePastDayDeflectionDaysKpi(String applicationId) {
+        return workItemKpiOperation.calculatePastDayKPI(applicationId);
+    }
 }

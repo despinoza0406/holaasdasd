@@ -10,6 +10,10 @@ public interface WorkItemOperations {
 
     List<WorkItemStorage> findWorkItemsByApplicationIdBetweenDates(String applicationId, Date startDate, Date endDate);
 
+    List<WorkItemStorage> findWorkItemsByApplicationIdAndStatusLastDay(String applicationId, String status);
+
+    List<WorkItemStorage> findWorkItemsByApplicationIdAndStatusPastDay(String applicationId, String status);
+
     List<WorkItemStorage> findWorkItemsByApplicationIdAndDurationMinutes(int duration, String applicationId);
 
     List<WorkItemStorage> findWorkItemsByApplicationIdAndDurationMonths(int duration, String applicationId);
