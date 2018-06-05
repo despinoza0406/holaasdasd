@@ -13,4 +13,6 @@ public interface WorkItemKpiOperations extends
     public WorkItemsKpi calculateLastMonthKeyPerformanceIndicatorByApplication(String applicationId);
 
     public long calculateLastDayKPI(String applicationId);
+
+    public long calculatePastDayKPI(String applicationId);
 }

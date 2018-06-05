@@ -228,12 +228,18 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id){
-        double availabilityKPIminutes = availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get();
-        double performanceKPIminutes = performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get();
-        double issuesKPIminutes = issueService.calculateLast10MinutesKpiByApplication(id).get();
-        double workItemKPIday = (double) workItemService.calculateLastDayDeflectionDaysKpi(id);
+        Double availabilityKPIminutes = availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get();
+        Double performanceKPIminutes = performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get();
+        Double issuesKPIminutes = issueService.calculateLast10MinutesKpiByApplication(id).get();
+        Double workItemKPIday = (double) workItemService.calculateLastDayDeflectionDaysKpi(id);
 
-        double healthIndex = (availabilityKPIminutes + performanceKPIminutes + issuesKPIminutes + workItemKPIday) / 4;
+        List<Double> kpis = new ArrayList<>();
+        kpis.add(availabilityKPIminutes);
+        kpis.add(performanceKPIminutes);
+        kpis.add(issuesKPIminutes);
+        kpis.add(workItemKPIday);
+
+        double healthIndex = getKPIAverage(kpis);
         businessApplicationFrontend.setHealthIndex(healthIndex);
     }
 
@@ -241,9 +247,15 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         double availabilityKPImonth = availabilityService.calculateLastMonthKpiByApplication(id).getAvailabilityKpi().get();
         double performanceKPIday = performanceService.calculateLastDayKpiByApplication(id).getPerformanceKpi().get();
         double issuesKPIday = issueService.calculateLastDayKpiByApplication(id).get();
+        double workItemKPIday = (double) workItemService.calculatePastDayDeflectionDaysKpi(id);
 
-        double pastHealthIndex = (availabilityKPImonth + performanceKPIday + issuesKPIday) / 3;
+        List<Double> kpis = new ArrayList<>();
+        kpis.add(availabilityKPImonth);
+        kpis.add(performanceKPIday);
+        kpis.add(issuesKPIday);
+        kpis.add(workItemKPIday);
 
+        double pastHealthIndex = getKPIAverage(kpis);
         businessApplicationFrontend.setHealthIndexPast(pastHealthIndex);
     }
 
@@ -267,7 +279,18 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         KpiFrontend workitemKpi = new KpiFrontend();
         workitemKpi.setKpiName("Tareas");
         workitemKpi.setKpiShortName("T");
-        //TODO: AGREGAR CALCULO DE DESVÍO PARA SETEAR EL KPI VALUE
+        workitemKpi.setKpiValue((double) workItemService.calculateLastDayDeflectionDaysKpi(id));
+        kpis.add(workitemKpi);
         businessApplicationFrontend.setKpis(kpis);
+    }
+
+    public double getKPIAverage(List<Double> kpis) {
+        double average = 0;
+
+        for(Double kpi : kpis) {
+            average = average + kpi;
+        }
+
+        return average / (double) kpis.size();
     }
 }

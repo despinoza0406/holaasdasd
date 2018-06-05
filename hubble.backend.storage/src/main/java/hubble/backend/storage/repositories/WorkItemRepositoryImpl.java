@@ -56,10 +56,28 @@ public class WorkItemRepositoryImpl implements WorkItemOperations {
         Criteria endDateCriteria = Criteria.where("timestamp").lte(getDateNow());
 
         List<WorkItemStorage> workItems = mongo
-                .find(Query
-                                .query(applicationIdCriteria
-                                        .andOperator(startDateCriteria, endDateCriteria)
-                                ),
+                .find(Query.query(applicationIdCriteria
+                                        .andOperator(startDateCriteria, endDateCriteria))
+                                .addCriteria(statusCriteria)
+                                .addCriteria(deflectionCriteria),
+                        WorkItemStorage.class);
+        return workItems;
+    }
+
+    @Override
+    public List<WorkItemStorage> findWorkItemsByApplicationIdAndStatusPastDay(String applicationId, String status){
+        Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
+        Criteria statusCriteria = Criteria.where("status").is(status);
+        Criteria deflectionCriteria = Criteria.where("deflectionDays").gt(0);
+        Date now = getDateNow();
+        Criteria startDateCriteria = Criteria.where("timestamp").gte(getBeforeYesterday());
+        Criteria endDateCriteria = Criteria.where("timestamp").lte(getYesterday());
+
+        List<WorkItemStorage> workItems = mongo
+                .find(Query.query(applicationIdCriteria
+                                .andOperator(startDateCriteria, endDateCriteria))
+                                .addCriteria(statusCriteria)
+                                .addCriteria(deflectionCriteria),
                         WorkItemStorage.class);
         return workItems;
     }
@@ -108,6 +126,13 @@ public class WorkItemRepositoryImpl implements WorkItemOperations {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -1);
+        return cal.getTime();
+    }
+
+    private Date getBeforeYesterday(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -2);
         return cal.getTime();
     }
 }

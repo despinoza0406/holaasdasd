@@ -27,6 +27,13 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
 
     private double warningKpiThreshold;
     private double criticalKpiThreshold;
+
+    private long lWarningKpiThreshold;
+    private long lCriticalKpiThreshold;
+    private long okKpiThreshold;
+    private final long warningIndexThreshold = 6;
+    private final long criticalIndexThreshold = 8;
+
     private double warningIdxThreshold;
     private double criticalIdxThreshold;
 
@@ -170,20 +177,59 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
     public long calculateLastDayKPI(String applicationId){
         List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusLastDay(applicationId,
                 "IN_PROGRESS");
+        this.lWarningKpiThreshold = 4;
+        this.lCriticalKpiThreshold = 10;
+        this.okKpiThreshold = 0;
+        return calculateKPI(workItems);
+    }
+
+    @Override
+    public long calculatePastDayKPI(String applicationId){
+        List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusPastDay(applicationId,
+                "IN_PROGRESS");
+        this.lWarningKpiThreshold = 4;
+        this.lCriticalKpiThreshold = 10;
+        this.okKpiThreshold = 0;
+        return calculateKPI(workItems);
+    }
+
+    private long calculateKPI(List<WorkItemStorage> workItems){
         long deflectionDaysTotal = 0;
+        long a = 0;
+        long b = 0;
+        long x = 0;
+        long y = 0;
+        long kpi;
 
         for(WorkItemStorage workItemStorage : workItems) {
             deflectionDaysTotal = deflectionDaysTotal + workItemStorage.getDeflectionDays();
         }
 
-        long kpi = 0;
-
-        for (int i = 0; i <= 10; i++ ) {
-            if (deflectionDaysTotal==i){
-                kpi = 10 - i;
-                break;
-            }
+        if (deflectionDaysTotal == this.okKpiThreshold) {
+            return 10;
         }
+
+        if (deflectionDaysTotal > this.lCriticalKpiThreshold ) {
+            return 0;
+        }
+
+        //warning thresholds setting
+        if (deflectionDaysTotal > this.okKpiThreshold & deflectionDaysTotal < this.lWarningKpiThreshold) {
+            a = 1;
+            b = this.lWarningKpiThreshold;
+            x = 6;
+            y = 10;
+        }
+
+        //critical threshold setting
+        if (deflectionDaysTotal >= this.lWarningKpiThreshold & deflectionDaysTotal <= this.lCriticalKpiThreshold) {
+            a = this.lWarningKpiThreshold;
+            b = this.lCriticalKpiThreshold;
+            x = 1;
+            y = 6;
+        }
+
+        kpi = ((deflectionDaysTotal - a)/(b-a)) * (y-x) + x;
 
         return kpi;
     }
