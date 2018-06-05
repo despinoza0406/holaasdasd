@@ -1,6 +1,6 @@
 package hubble.backend.providers.models.ppm;
 
-public class PpmProgramIssueProviderModel {
+public class PpmProgramIssueProviderModel {  //Parcialmente lo que se guarda en mongo, capaz lo que recibe de la api
 
     private int id;
     private String contactEmail;

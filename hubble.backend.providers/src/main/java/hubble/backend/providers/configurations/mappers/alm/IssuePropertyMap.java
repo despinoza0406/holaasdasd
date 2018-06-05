@@ -4,6 +4,8 @@ import hubble.backend.providers.models.alm.AlmDefectProviderModel;
 import hubble.backend.storage.models.IssueStorage;
 import org.modelmapper.PropertyMap;
 
+
+
 public class IssuePropertyMap extends PropertyMap<AlmDefectProviderModel,IssueStorage> {
 
     @Override
