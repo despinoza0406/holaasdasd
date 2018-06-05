@@ -20,6 +20,8 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
+import hubble.backend.core.utils.DateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -197,12 +199,15 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         BusinessApplicationFrontend businessApplicationFrontend = new BusinessApplicationFrontend();
 
         businessApplicationFrontend.setId(id);
+        businessApplicationFrontend.setLastUpdate(DateHelper.lastExecutionDate);
+        businessApplicationFrontend.setPastUpdate(DateHelper.addDaysToDate(DateHelper.lastExecutionDate, -1));
         setHealthIndex(businessApplicationFrontend, id);
         setPastHealthIndex(businessApplicationFrontend, id);
         setKPIs(businessApplicationFrontend, id);
 
         return businessApplicationFrontend;
     }
+
 
     @Override
     public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend() {
@@ -223,11 +228,18 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id){
-        double availabilityKPIminutes = availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get();
-        double performanceKPIminutes = performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get();
-        double issuesKPIminutes = issueService.calculateLast10MinutesKpiByApplication(id).get();
+        Double availabilityKPIminutes = availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get();
+        Double performanceKPIminutes = performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get();
+        Double issuesKPIminutes = issueService.calculateLast10MinutesKpiByApplication(id).get();
+        Double workItemKPIday = (double) workItemService.calculateLastDayDeflectionDaysKpi(id);
 
-        double healthIndex = (availabilityKPIminutes + performanceKPIminutes + issuesKPIminutes) / 3;
+        List<Double> kpis = new ArrayList<>();
+        kpis.add(availabilityKPIminutes);
+        kpis.add(performanceKPIminutes);
+        kpis.add(issuesKPIminutes);
+        kpis.add(workItemKPIday);
+
+        double healthIndex = getKPIAverage(kpis);
         businessApplicationFrontend.setHealthIndex(healthIndex);
     }
 
@@ -235,9 +247,15 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         double availabilityKPImonth = availabilityService.calculateLastMonthKpiByApplication(id).getAvailabilityKpi().get();
         double performanceKPIday = performanceService.calculateLastDayKpiByApplication(id).getPerformanceKpi().get();
         double issuesKPIday = issueService.calculateLastDayKpiByApplication(id).get();
+        double workItemKPIday = (double) workItemService.calculatePastDayDeflectionDaysKpi(id);
 
-        double pastHealthIndex = (availabilityKPImonth + performanceKPIday + issuesKPIday) / 3;
+        List<Double> kpis = new ArrayList<>();
+        kpis.add(availabilityKPImonth);
+        kpis.add(performanceKPIday);
+        kpis.add(issuesKPIday);
+        kpis.add(workItemKPIday);
 
+        double pastHealthIndex = getKPIAverage(kpis);
         businessApplicationFrontend.setHealthIndexPast(pastHealthIndex);
     }
 
@@ -245,19 +263,34 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         List<KpiFrontend> kpis = new ArrayList<>();
         KpiFrontend availabilityKpi = new KpiFrontend();
         availabilityKpi.setKpiName("Disponibilidad");
-        availabilityKpi.setKpiShortName("Disp");
+        availabilityKpi.setKpiShortName("D");
         availabilityKpi.setKpiValue(availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get());
         kpis.add(availabilityKpi);
         KpiFrontend performanceKpi = new KpiFrontend();
         performanceKpi.setKpiName("Performance");
-        performanceKpi.setKpiShortName("Perf");
+        performanceKpi.setKpiShortName("P");
         performanceKpi.setKpiValue(performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get());
         kpis.add(performanceKpi);
         KpiFrontend issuesKpi = new KpiFrontend();
         issuesKpi.setKpiName("Incidencias");
-        issuesKpi.setKpiShortName("Inc");
+        issuesKpi.setKpiShortName("I");
         issuesKpi.setKpiValue(issueService.calculateLast10MinutesKpiByApplication(id).get());
         kpis.add(issuesKpi);
+        KpiFrontend workitemKpi = new KpiFrontend();
+        workitemKpi.setKpiName("Tareas");
+        workitemKpi.setKpiShortName("T");
+        workitemKpi.setKpiValue((double) workItemService.calculateLastDayDeflectionDaysKpi(id));
+        kpis.add(workitemKpi);
         businessApplicationFrontend.setKpis(kpis);
+    }
+
+    public double getKPIAverage(List<Double> kpis) {
+        double average = 0;
+
+        for(Double kpi : kpis) {
+            average = average + kpi;
+        }
+
+        return average / (double) kpis.size();
     }
 }

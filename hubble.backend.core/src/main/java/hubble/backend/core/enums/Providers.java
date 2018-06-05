@@ -33,6 +33,12 @@ public class Providers {
             public String toString() {
                 return "PPM";
             }
+        },
+        SITE_SCOPE {
+            @Override
+            public String toString() {
+                return "SITESCOPE";
+            }
         }
     }
 }

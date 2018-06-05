@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="widtd=device-widtd, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" value="Fit Software & Consulting">
+        <title>Usuarios</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet"> 
+        <link href="css/hubble.css" rel="stylesheet" th:href="@{/css/maite.css}">
+    </head>
+    <body>
+        <header th:fragment="header">
+            <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
+                <a class="navbar-brand" href="#" th:href="@{/}">Hubble- Admin</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navBar" aria-controls="navBar" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navBar">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="aplicaciones.html">Aplicaciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="proveedores.html">Proveedores</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="usuarios.html">Usuarios</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </nav>
+        </header>
+        <main class="container">
+            <h1>Usuarios</h1>
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary"
+                            data-toggle="modal" data-target="#crearUsuario">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+            <table id="usuarios" class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Correo electr&oacute;nico</th>
+                        <th>Nombre</th>
+                        <th>Roles</th>
+                        <th>Aplicaciones</th>
+                        <th class="acciones">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <a href="#" onclick="modificarUsuario(event)">guelmy.diaz.blanco@fit.com.ar</a>
+                        </td>
+                        <td>Guelmy D&iacute;az Blanco</td>
+                        <td>
+                            <ul class="etiquetas">
+                                <li><span class="badge badge-primary">Administrador</span></li>
+                                <li><span class="badge badge-primary">Usuario</span></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="etiquetas">
+                                <li><span class="badge badge-primary">Home banking</span></li>
+                                <li><span class="badge badge-primary">Mobile banking</span></li>
+                            </ul>
+                        </td>
+                        <td class="acciones">
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                    data-toggle="modal" data-target="#modificarUsuario">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="#">martin.straus@fit.com.ar</a>
+                        </td>
+                        <td>Mart&iacute;n Gaspar Straus</td>
+                        <td>
+                            <ul class="etiquetas">
+                                <li><span class="badge badge-primary">Usuario</span></li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="etiquetas">
+                                <li><span class="badge badge-primary">Mobile banking</span></li>
+                            </ul>
+                        </td>
+                        <td class="acciones">
+                            <button type="button" class="btn btn-secondary btn-sm"
+                                    data-toggle="modal" data-target="#modificarUsuario">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+        <div id="crearUsuario" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Nuevo usuario</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" required class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Correo electr&oacute;nico</label>
+                                <input type="email" required class="form-control">
+                                <small class="form-text text-muted">
+                                    El correo electrónico será el usuario de ingreso al sistema
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label>Contrase&ntilde;a</label>
+                                <input type="password" required class="form-control" autocomplete="off">
+                                <small class="form-text text-muted">
+                                    Al menos 10 caracteres; letras may&uacute;sculas, min&uacute;sculas, y n&uacute;meros.
+                                </small>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Roles</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="defaultCheck1">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Administrador
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="defaultCheck2">
+                                            <label class="form-check-label" for="defaultCheck2">
+                                                Usuario
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Aplicaciones</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="defaultCheck1">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Home banking
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="defaultCheck2">
+                                            <label class="form-check-label" for="defaultCheck2">
+                                                Mobile banking
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">
+                            <i class="fa fa-check"></i> Registrar el usuario
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="modificarUsuario" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Guelmy D&iacute;az Blanco</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" required class="form-control" value="Guelmy D&iacute;z Blanco">
+                            </div>
+                            <div class="form-group">
+                                <label>Correo electr&oacute;nico</label>
+                                <input type="email" required class="form-control" value="guelmy.diaz.blanco@fit.com.ar">
+                                <small class="form-text text-muted">
+                                    El correo electrónico será el usuario de ingreso al sistema
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <label>Contrase&ntilde;a</label>
+                                <input type="password" required class="form-control" autocomplete="off">
+                                <small class="form-text text-muted">
+                                    Al menos 10 caracteres; letras may&uacute;sculas, min&uacute;sculas, y n&uacute;meros.
+                                </small>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Roles</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="defaultCheck1">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Administrador
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="defaultCheck2">
+                                            <label class="form-check-label" for="defaultCheck2">
+                                                Usuario
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Aplicaciones</label>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="defaultCheck1">
+                                            <label class="form-check-label" for="defaultCheck1">
+                                                Home banking
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="defaultCheck2">
+                                            <label class="form-check-label" for="defaultCheck2">
+                                                Mobile banking
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">
+                            <i class="fa fa-check"></i> Actualizar el usuario
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

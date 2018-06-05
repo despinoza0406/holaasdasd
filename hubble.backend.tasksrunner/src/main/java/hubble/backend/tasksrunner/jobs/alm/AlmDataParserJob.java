@@ -1,5 +1,6 @@
 package hubble.backend.tasksrunner.jobs.alm;
 
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.providers.parsers.interfaces.alm.AlmDataParser;
 import hubble.backend.tasksrunner.jobs.ParserJob;
@@ -39,6 +40,7 @@ public class AlmDataParserJob implements ParserJob{
 
         try {
             almParser.run();
+            DateHelper.lastExecutionDate = DateHelper.getDateNow();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
         }

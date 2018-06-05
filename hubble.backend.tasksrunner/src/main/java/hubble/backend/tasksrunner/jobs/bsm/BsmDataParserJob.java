@@ -1,5 +1,6 @@
 package hubble.backend.tasksrunner.jobs.bsm;
 
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.providers.parsers.interfaces.bsm.BsmDataParser;
 import hubble.backend.tasksrunner.jobs.ParserJob;
@@ -39,6 +40,7 @@ public class BsmDataParserJob implements ParserJob {
 
         try {
             bsmParser.run();
+            DateHelper.lastExecutionDate = DateHelper.getDateNow();
         } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
         }

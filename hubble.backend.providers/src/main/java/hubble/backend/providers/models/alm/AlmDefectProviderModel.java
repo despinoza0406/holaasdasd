@@ -184,5 +184,5 @@ public class AlmDefectProviderModel {
 
     public void setProviderOrigin(String providerOrigin) {
         this.providerOrigin = providerOrigin;
-    }    
+    }
 }

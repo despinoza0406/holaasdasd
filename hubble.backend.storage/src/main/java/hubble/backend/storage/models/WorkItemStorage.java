@@ -13,6 +13,7 @@ public class WorkItemStorage {
     private Date registeredDate;
     private Date modifiedDate;
     private Date dueDate;
+    private Date timestamp;
     private int priority;
     private int severity;
     private String status;
@@ -26,6 +27,7 @@ public class WorkItemStorage {
     private String transaction;
     private String transactionId;
     private int percentCompleted;
+    private long deflectionDays;
 
     public String getId() {
         return id;
@@ -187,4 +189,19 @@ public class WorkItemStorage {
         this.dueDate = dueDate;
     }
 
+    public long getDeflectionDays() {
+        return deflectionDays;
+    }
+
+    public void setDeflectionDays(long deflectionDays) {
+        this.deflectionDays = deflectionDays;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 }

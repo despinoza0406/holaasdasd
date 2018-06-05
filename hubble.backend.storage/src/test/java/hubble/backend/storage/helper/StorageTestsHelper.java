@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hubble.backend.storage.models.AvailabilityStorage;
 import hubble.backend.storage.models.ErrorStorage;
+import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.models.IssueStorage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,6 +69,25 @@ public class StorageTestsHelper {
         issue.setTitle("fake title");
 
         return issue;
+    }
+
+    public EventStorage getFakeEventStorage(){
+
+        Date eventDate = new Date();
+        EventStorage event = new EventStorage();
+
+        event.setType("Group");
+        event.setName("Andre");
+        event.setUpdatedDate(eventDate);
+        event.setBusinessApplication("Home Banking");
+        event.setBusinessApplicationId("Benchmark Home Banking");
+        event.setDescription("Andre <3");
+        event.setStatus("Good");
+        event.setProviderName("Fake SiteScope");
+        event.setProviderOrigin("SiteScope");
+        event.setId("Andre123");
+
+        return event;
     }
 
     public List<AvailabilityStorage> getFakeListOfAvailabilityStorage() {
