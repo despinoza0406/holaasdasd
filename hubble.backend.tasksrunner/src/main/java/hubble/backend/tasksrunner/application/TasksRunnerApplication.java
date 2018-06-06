@@ -149,7 +149,7 @@ public class TasksRunnerApplication {
         jiraAppTask.setIntervalSeconds(60 * 60);
  
         scheduler.addTask(jiraDataTask);
-        scheduler.addTask(jiraAppTask);*/
+        scheduler.addTask(jiraAppTask);
 
         //SiteScope
         SiteScopeDataParser siteScopeDataParser = context.getBean(SiteScopeDataParser.class);
@@ -157,7 +157,7 @@ public class TasksRunnerApplication {
         ParserTask siteScopeDataTask = new SiteScopeDataTaskImpl(siteScopeJob);
         siteScopeDataTask.setIndentityGroupName("SiteScope Provider Job");
         siteScopeDataTask.setIndentityName("SiteScope Data");
-        siteScopeDataTask.setIntervalSeconds(40);
+        siteScopeDataTask.setIntervalSeconds(60 * 5);
 
         SiteScopeApplicationParser siteScopeApplicationParser = context.getBean(SiteScopeApplicationParser.class);
         ParserJob siteScopeAppJob = new SiteScopeApplicationParserJob(siteScopeApplicationParser);

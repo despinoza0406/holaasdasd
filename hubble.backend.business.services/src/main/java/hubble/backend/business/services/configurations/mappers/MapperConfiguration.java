@@ -1,18 +1,9 @@
 package hubble.backend.business.services.configurations.mappers;
 
+import hubble.backend.business.services.models.*;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
-import hubble.backend.business.services.models.Application;
-import hubble.backend.business.services.models.Availability;
-import hubble.backend.business.services.models.Issue;
-import hubble.backend.business.services.models.Performance;
-import hubble.backend.business.services.models.TransactionAvg;
-import hubble.backend.business.services.models.Transaction;
-import hubble.backend.business.services.models.WorkItem;
-import hubble.backend.storage.models.ApplicationStorage;
-import hubble.backend.storage.models.AvailabilityStorage;
-import hubble.backend.storage.models.IssueStorage;
-import hubble.backend.storage.models.TransactionStorage;
-import hubble.backend.storage.models.WorkItemStorage;
+import hubble.backend.storage.models.*;
+
 import java.lang.reflect.Type;
 import java.util.List;
 import org.modelmapper.ModelMapper;
@@ -172,6 +163,15 @@ public class MapperConfiguration {
         Type issueDtoTypeList = new TypeToken<List<WorkItem>>() {
         }.getType();
         return mapper.map(workItemStorageList, issueDtoTypeList);
+    }
+
+    public List<Event> mapToEventDtoList(List<EventStorage> eventStorageList){
+        if (eventStorageList == null) {
+            return null;
+        }
+        Type issueDtoTypeList = new TypeToken<List<Event>>() {
+        }.getType();
+        return mapper.map(eventStorageList, issueDtoTypeList);
     }
 
 }
