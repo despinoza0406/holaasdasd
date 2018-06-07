@@ -5,6 +5,9 @@ import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.UsersRepository;
 import java.util.Collections;
 import java.util.Random;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
 
@@ -37,7 +40,23 @@ public class UsersServiceImplTest {
         char[] password = password();
         service.create(email, "Martin Straus", password, Collections.EMPTY_SET, Collections.EMPTY_SET);
         UserStorage expectedUser = new UserStorage(email, "Martin Straus", password, Collections.EMPTY_SET, Collections.EMPTY_SET);
-        verify(repository).save(expectedUser);
+        verify(repository).save(argThat(matches(expectedUser)));
+    }
+
+    private Matcher<UserStorage> matches(UserStorage user) {
+        return new TypeSafeMatcher<UserStorage>() {
+            @Override
+            protected boolean matchesSafely(UserStorage t) {
+                return t.getEmail().equals(user.getEmail())
+                    && t.getName().equals(user.getName());
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("user that matches ").appendValue(user);
+            }
+
+        };
     }
 
     private String randomEmail() {
