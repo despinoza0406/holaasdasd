@@ -7,6 +7,7 @@
         <title>Home banking</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet"> 
+        <link href="css/jquery.switchButton.css" rel="stylesheet"> 
         <link href="css/hubble.css" rel="stylesheet" th:href="@{/css/maite.css}">
     </head>
     <body>
@@ -35,6 +36,9 @@
         <main class="container">
             <h1>Home banking</h1>
             <div class="form-group">
+                <input id="habilitada" type="checkbox" checked class="switch">
+            </div>
+            <div class="form-group">
                 <label>Descripci&oacute;n</label>
                 <textarea class="form-control" rows="3">Home Banking es una aplicación que permite a los clientes del banco:
    * Consultar saldos y movimientos de sus cuentas (cajas de ahorro, cuentas corrientes).
@@ -56,12 +60,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="disponibilidad-tab" data-toggle="tab" href="#disponibilidad" role="tab" aria-controls="disponibilidad" aria-selected="false">
-                        Disponibilidad
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="performance-tab" data-toggle="tab" href="#performance" role="tab" aria-controls="performance" aria-selected="false">
-                        Performance
+                        Performance y disponibilidad
                     </a>
                 </li>
                 <li class="nav-item">
@@ -73,12 +72,7 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="tareas" role="tabpanel" aria-labelledby="tareas-tab">
                     <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="habilitar-tareas" checked>
-                            <label class="form-check-label" for="habilitar-tareas">
-                                Habilitar medici&oacute;n de tareas
-                            </label>
-                        </div>
+                        <input type="checkbox" checked class="habilitar switch">
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -87,15 +81,15 @@
                                 <div class="card-body">
                                     <p>Este KPI se mide en <b>cantidad de días de desvío</b> en la ejecución de la tarea.</p>
                                     <div class="form-group">
-                                        <label class="text-success"><i class="fa fa-thumbs-up"></i> Normal</label>
+                                        <label class="text-success"><i class="fa fa-thumbs-up"></i> OK</label>
                                         <input type="number" step="1" class="form-control" value="1">
                                     </div>
                                     <div class="form-group">
-                                        <label class="text-warning"><i class="fa fa-exclamation-triangle"></i> Advertencia</label>
+                                        <label class="text-warning"><i class="fa fa-exclamation-triangle"></i> Warning</label>
                                         <input type="number" step="1" class="form-control" value="2">
                                     </div>
                                     <div class="form-group">
-                                        <label  class="text-danger"><i class="fa fa-times-circle"></i> D&Cr&iacute;tico</label>
+                                        <label  class="text-danger"><i class="fa fa-times-circle"></i> Critical</label>
                                         <input type="number" step="1" class="form-control" value="5">
                                     </div>
                                 </div>
@@ -106,16 +100,12 @@
                                 <div class="card-header">Integraci&oacute;n con PPM</div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="ppm-task-runner">
-                                            <label class="form-check-label" for="ppm-task-runner">
-                                                Habilitar en Task Runner
-                                            </label>
-                                        </div>
+                                        <input type="checkbox" checked class="tr switch">
                                     </div>
                                     <div class="form-group">
                                         <label>Nombre de la aplicaci&oacute;n</label>
                                         <input type="text" step="1" class="form-control" value="Benchmark Home Banking">
+                                        <small>Este es el nombre de la aplicación en el campo REQ.KNTA_PROGRAM_REFERENCE.</small>
                                     </div>
                                 </div>
                             </div>
@@ -124,12 +114,7 @@
                 </div>
                 <div class="tab-pane fade show" id="defectos" role="tabpanel" aria-labelledby="defectos-tab">
                     <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="habilitar-defectos" checked>
-                            <label class="form-check-label" for="habilitar-defectos">
-                                Habilitar medici&oacute;n de defectos
-                            </label>
-                        </div>
+                        <input type="checkbox" checked class="habilitar switch">
                     </div>
                     <div class="row">
                         <div class="col-md-4">
@@ -138,15 +123,15 @@
                                 <div class="card-body">
                                     <p>Este KPI se mide en cantidad de <b>puntos de criticidad</b>.</p>
                                     <div class="form-group">
-                                        <label class="text-success"><i class="fa fa-thumbs-up"></i> Normal</label>
+                                        <label class="text-success"><i class="fa fa-thumbs-up"></i> OK</label>
                                         <input type="number" step="1" class="form-control" value="1">
                                     </div>
                                     <div class="form-group">
-                                        <label class="text-warning"><i class="fa fa-exclamation-triangle"></i> Advertencia</label>
+                                        <label class="text-warning"><i class="fa fa-exclamation-triangle"></i> Warning</label>
                                         <input type="number" step="1" class="form-control" value="2">
                                     </div>
                                     <div class="form-group">
-                                        <label  class="text-danger"><i class="fa fa-times-circle"></i> D&Cr&iacute;tico</label>
+                                        <label  class="text-danger"><i class="fa fa-times-circle"></i> Critical</label>
                                         <input type="number" step="1" class="form-control" value="5">
                                     </div>
                                 </div>
@@ -157,16 +142,12 @@
                                 <div class="card-header">Integraci&oacute;n con ALM</div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="ppm-task-runner">
-                                            <label class="form-check-label" for="ppm-task-runner">
-                                                Habilitar en Task Runner
-                                            </label>
-                                        </div>
+                                        <input type="checkbox" checked class="tr switch">
                                     </div>
                                     <div class="form-group">
                                         <label>Nombre de la aplicaci&oacute;n</label>
                                         <input type="text" step="1" class="form-control" value="Benchmark Home Banking">
+                                        <small>Este es el nombre de la aplicación en el campo project.</small>
                                     </div>
                                 </div>
                             </div>
@@ -176,16 +157,13 @@
                                 <div class="card-header">Integraci&oacute;n con Jira</div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="ppm-task-runner">
-                                            <label class="form-check-label" for="ppm-task-runner">
-                                                Habilitar en Task Runner
-                                            </label>
-                                        </div>
+                                        <input type="checkbox" checked class="tr switch">
                                     </div>
+
                                     <div class="form-group">
                                         <label>Nombre de la aplicaci&oacute;n</label>
                                         <input type="text" step="1" class="form-control" value="Benchmark Home Banking">
+                                        <small>Este es el nombre de la aplicación en el campo project.</small>
                                     </div>
                                 </div>
                             </div>
@@ -194,30 +172,45 @@
                 </div>
                 <div class="tab-pane fade show" id="disponibilidad" role="tabpanel" aria-labelledby="disponibilidad-tab">
                     <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="habilitar-defectos" checked>
-                            <label class="form-check-label" for="habilitar-defectos">
-                                Habilitar medici&oacute;n de disponibilidad
-                            </label>
-                        </div>
+                        <input type="checkbox" checked class="habilitar switch">
                     </div>
                     <div class="row">
                         <div class="col">
                             <div class="card">
-                                <div class="card-header">Configuraci&oacute;n del KPI</div>
+                                <div class="card-header">Configuraci&oacute;n del KPI <b>Disponibilidad</b></div>
                                 <div class="card-body">
                                     <p>Este KPI se mide en <b>porcentaje de disponibilidad por unidad de tiempo</b>.</p>
                                     <div class="form-group">
-                                        <label class="text-success"><i class="fa fa-thumbs-up"></i> Normal</label>
+                                        <label class="text-success"><i class="fa fa-thumbs-up"></i> OK</label>
                                         <input type="number" step="1" class="form-control" value="99.9999">
                                     </div>
                                     <div class="form-group">
-                                        <label class="text-warning"><i class="fa fa-exclamation-triangle"></i> Advertencia</label>
+                                        <label class="text-warning"><i class="fa fa-exclamation-triangle"></i> Warning</label>
                                         <input type="number" step="1" class="form-control" value="75">
                                     </div>
                                     <div class="form-group">
-                                        <label  class="text-danger"><i class="fa fa-times-circle"></i> D&Cr&iacute;tico</label>
+                                        <label  class="text-danger"><i class="fa fa-times-circle"></i> Critical</label>
                                         <input type="number" step="1" class="form-control" value="5">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header">Configuraci&oacute;n del KPI <b>Performance</b></div>
+                                <div class="card-body">
+                                    <p>Este KPI se mide en <b>milisegundos</b> de tiempo de respuesta.</p>
+                                    <div class="form-group">
+                                        <label class="text-success"><i class="fa fa-thumbs-up"></i> OK</label>
+                                        <input type="number" step="0.01" class="form-control" value="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="text-warning"><i class="fa fa-exclamation-triangle"></i> Warning</label>
+                                        <input type="number" step="0.01" class="form-control" value="10">
+                                    </div>
+                                    <div class="form-group">
+                                        <label  class="text-danger"><i class="fa fa-times-circle"></i> Critical</label>
+                                        <input type="number" step="0.01" class="form-control" value="100">
                                     </div>
                                 </div>
                             </div>
@@ -227,91 +220,7 @@
                                 <div class="card-header">Integraci&oacute;n con BSM</div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="ppm-task-runner">
-                                            <label class="form-check-label" for="ppm-task-runner">
-                                                Habilitar en Task Runner
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade show" id="performance" role="tabpanel" aria-labelledby="performance-tab">
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="habilitar-defectos" checked>
-                            <label class="form-check-label" for="habilitar-defectos">
-                                Habilitar medici&oacute;n de performance
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card">
-                                <div class="card-header">Configuraci&oacute;n del KPI</div>
-                                <div class="card-body">
-                                    <p>Este KPI se mide en <b>milisegundos</b> de tiempo de respuesta.</p>
-                                    <div class="form-group">
-                                        <label class="text-success"><i class="fa fa-thumbs-up"></i> Normal</label>
-                                        <input type="number" step="0.01" class="form-control" value="1">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="text-warning"><i class="fa fa-exclamation-triangle"></i> Advertencia</label>
-                                        <input type="number" step="0.01" class="form-control" value="10">
-                                    </div>
-                                    <div class="form-group">
-                                        <label  class="text-danger"><i class="fa fa-times-circle"></i> D&Cr&iacute;tico</label>
-                                        <input type="number" step="0.01" class="form-control" value="100">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card">
-                                <div class="card-header">Integraci&oacute;n con AppPulse</div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="ppm-task-runner">
-                                            <label class="form-check-label" for="ppm-task-runner">
-                                                Habilitar en Task Runner
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade show" id="eventos" role="tabpanel" aria-labelledby="eventos-tab">
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="habilitar-defectos" checked>
-                            <label class="form-check-label" for="habilitar-defectos">
-                                Habilitar medici&oacute;n de eventos
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="card">
-                                <div class="card-header">Configuraci&oacute;n del KPI</div>
-                                <div class="card-body">
-                                    <p>Este KPI se mide en <b>puntos de severidad</b>.</p>
-                                    <div class="form-group">
-                                        <label class="text-success"><i class="fa fa-thumbs-up"></i> Normal</label>
-                                        <input type="number" step="1" class="form-control" value="1">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="text-warning"><i class="fa fa-exclamation-triangle"></i> Advertencia</label>
-                                        <input type="number" step="1" class="form-control" value="2">
-                                    </div>
-                                    <div class="form-group">
-                                        <label  class="text-danger"><i class="fa fa-times-circle"></i> D&Cr&iacute;tico</label>
-                                        <input type="number" step="1" class="form-control" value="5">
+                                        <input type="checkbox" checked class="tr switch">
                                     </div>
                                 </div>
                             </div>
@@ -321,12 +230,53 @@
                                 <div class="card-header">Integraci&oacute;n con SiteScope</div>
                                 <div class="card-body">
                                     <div class="form-group">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="ppm-task-runner">
-                                            <label class="form-check-label" for="ppm-task-runner">
-                                                Habilitar en Task Runner
-                                            </label>
-                                        </div>
+                                        <input type="checkbox" checked class="tr switch">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="eventos" role="tabpanel" aria-labelledby="eventos-tab">
+                    <div class="form-group">
+                        <input type="checkbox" checked class="habilitar switch">
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header">Configuraci&oacute;n del KPI</div>
+                                <div class="card-body">
+                                    <p>Este KPI se mide en <b>puntos de severidad</b>.</p>
+                                    <div class="form-group">
+                                        <label class="text-success"><i class="fa fa-thumbs-up"></i> OK</label>
+                                        <input type="number" step="1" class="form-control" value="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="text-warning"><i class="fa fa-exclamation-triangle"></i> Warning</label>
+                                        <input type="number" step="5" class="form-control" value="2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label  class="text-danger"><i class="fa fa-times-circle"></i> Critical</label>
+                                        <input type="number" step="10" class="form-control" value="5">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header">Integraci&oacute;n con AppPulse</div>
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <input type="checkbox" checked class="tr switch">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Ponderación de eventos amarillos</label>
+                                        <input type="number" class="form-control" value="1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Ponderación de eventos rojos</label>
+                                        <input type="number" class="form-control" value="3">
                                     </div>
                                 </div>
                             </div>
@@ -338,9 +288,19 @@
 
             <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Guardar cambios</button>
         </main>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+        <script
+            src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
         <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+        <script src="js/jquery.switchButton.js"></script>
+        <script src="js/hubble.js"></script>
     </body>
 </html>

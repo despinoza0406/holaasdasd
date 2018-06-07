@@ -4,9 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="widtd=device-widtd, initial-scale=1, shrink-to-fit=no">
         <meta name="author" value="Fit Software & Consulting">
-        <title>Plantilla</title>
+        <title>Aplicaciones</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet"> 
+        <link href="css/jquery.switchButton.css" rel="stylesheet"> 
         <link href="css/hubble.css" rel="stylesheet" th:href="@{/css/maite.css}">
     </head>
     <body>
@@ -53,23 +54,33 @@
                     <tr>
                         <td>
                             <a href="homeBanking.html">Home banking</a>
-                            <p><smal>De esta aplicación se miden: <b>disponibilidad (BSM y AppPulse)</b>, <b>eventos (SiteScope)</b>, y <b>tareas (PPM)</b>.</smal></p>
-                </td>
-                <td class="check"><i class="fa fa-check"></i></td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="mobileBanking.html">Mobile banking</a>
-                    </td>
-                    <td class="check"><i class="fa fa-check"></i></td>
-                </tr>
+                            <p><small><i class="fa fa-plus"></i> De esta aplicación se miden: <b>disponibilidad (BSM y AppPulse)</b>, <b>eventos (SiteScope)</b>, y <b>tareas (PPM)</b>.</small></p>
+                        </td>
+                        <td class="check">
+                            <input type="checkbox" checked class="switch">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a href="mobileBanking.html">Mobile banking</a>
+                            <p><small><i class="fa fa-plus"></i> De esta aplicación se miden: <b>eventos (SiteScope)</b>, y <b>tareas (PPM)</b>.</small></p>
+                        </td>
+                        <td class="check">
+                            <input type="checkbox" checked class="switch">
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </main>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-        <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+        <script
+            src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+        <script
+            src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+        crossorigin="anonymous"></script>
+
         <div id="crearAplicacion" class="modal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -102,5 +113,11 @@
                 </div>
             </div>
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.2/js/all.js"></script>
+        <script src="js/jquery.switchButton.js"></script>       
+        <script src="js/hubble.js"></script>
+
     </body>
 </html>
