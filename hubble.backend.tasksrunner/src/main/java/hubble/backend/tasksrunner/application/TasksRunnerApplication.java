@@ -149,7 +149,7 @@ public class TasksRunnerApplication {
         jiraAppTask.setIntervalSeconds(60 * 60);
  
         scheduler.addTask(jiraDataTask);
-        scheduler.addTask(jiraAppTask);*/
+        scheduler.addTask(jiraAppTask);
 
         //SiteScope
         SiteScopeDataParser siteScopeDataParser = context.getBean(SiteScopeDataParser.class);
