@@ -4,14 +4,15 @@ import hubble.backend.providers.configurations.ProvidersConfiguration;
 import hubble.backend.providers.parsers.interfaces.sitescope.SiteScopeDataParser;
 import hubble.backend.providers.transports.interfaces.SiteScopeTransport;
 import hubble.backend.storage.repositories.WorkItemRepository;
+import static org.junit.Assert.assertNotNull;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertNotNull;
-
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ProvidersConfiguration.class)
 public class SiteScopeDataParserIntegrationTest {

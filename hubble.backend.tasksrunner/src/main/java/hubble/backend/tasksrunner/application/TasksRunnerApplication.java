@@ -2,8 +2,6 @@ package hubble.backend.tasksrunner.application;
 
 import hubble.backend.providers.parsers.interfaces.alm.AlmApplicationParser;
 import hubble.backend.providers.parsers.interfaces.alm.AlmDataParser;
-import hubble.backend.providers.parsers.interfaces.apppulse.AppPulseActiveApplicationsParser;
-import hubble.backend.providers.parsers.interfaces.apppulse.AppPulseActiveDataParser;
 import hubble.backend.providers.parsers.interfaces.bsm.BsmApplicationParser;
 import hubble.backend.providers.parsers.interfaces.bsm.BsmDataParser;
 import hubble.backend.providers.parsers.interfaces.jira.JiraApplicationParser;
@@ -17,8 +15,6 @@ import hubble.backend.tasksrunner.configurations.TasksRunnerConfiguration;
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import hubble.backend.tasksrunner.jobs.alm.AlmApplicationParserJob;
 import hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob;
-import hubble.backend.tasksrunner.jobs.apppulse.AppPulseApplicationParserJob;
-import hubble.backend.tasksrunner.jobs.apppulse.AppPulseDataParserJob;
 import hubble.backend.tasksrunner.jobs.bsm.BsmApplicationParserJob;
 import hubble.backend.tasksrunner.jobs.bsm.BsmDataParserJob;
 import hubble.backend.tasksrunner.jobs.jira.JiraApplicationParserJob;
@@ -31,8 +27,6 @@ import hubble.backend.tasksrunner.tasks.ParserTask;
 import hubble.backend.tasksrunner.tasks.Task;
 import hubble.backend.tasksrunner.tasks.alm.AlmApplicationTaskImpl;
 import hubble.backend.tasksrunner.tasks.alm.AlmDataTaskImpl;
-import hubble.backend.tasksrunner.tasks.apppulse.AppPulseApplicationTaskImpl;
-import hubble.backend.tasksrunner.tasks.apppulse.AppPulseDataTaskImpl;
 import hubble.backend.tasksrunner.tasks.bsm.BsmApplicationTaskImpl;
 import hubble.backend.tasksrunner.tasks.bsm.BsmDataTaskImpl;
 import hubble.backend.tasksrunner.tasks.jira.JiraApplicationTaskImpl;
@@ -147,7 +141,7 @@ public class TasksRunnerApplication {
         jiraAppTask.setIndentityGroupName("Jira Provider Job");
         jiraAppTask.setIndentityName("Jira Applications");
         jiraAppTask.setIntervalSeconds(60 * 60);
- 
+        /*
         scheduler.addTask(jiraDataTask);
         scheduler.addTask(jiraAppTask);*/
 

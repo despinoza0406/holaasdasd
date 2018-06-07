@@ -9,6 +9,7 @@ import hubble.backend.tasksrunner.tasks.Task;
 import hubble.backend.tasksrunner.tasks.apppulse.AppPulseApplicationTaskImpl;
 import hubble.backend.tasksrunner.tasks.apppulse.AppPulseDataTaskImpl;
 import hubble.backend.tasksrunner.tests.configurations.TasksRunnerTestConfiguration;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.quartz.SchedulerException;
@@ -18,6 +19,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TasksRunnerTestConfiguration.class)
 public class AppPulseTaskIntegrationTests {

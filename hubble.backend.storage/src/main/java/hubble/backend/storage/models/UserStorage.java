@@ -118,4 +118,5 @@ public class UserStorage {
         applications.forEach((application) -> array.add(application.getId()));
         return array;
     }
+
 }

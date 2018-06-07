@@ -7,6 +7,7 @@ import hubble.backend.providers.tests.AppPulseBaseUnitTests;
 import hubble.backend.providers.transports.implementations.apppulse.AppPulseActiveTransportImpl;
 import org.json.JSONObject;
 import static org.junit.Assert.assertNull;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.Matchers.anyString;
@@ -14,6 +15,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Unirest.class)
 public class AppPulseActiveTransportUnitTest extends AppPulseBaseUnitTests {
