@@ -6,6 +6,7 @@ import hubble.backend.business.services.interfaces.services.UsersService;
 import hubble.backend.business.services.models.Roles;
 import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.UsersRepository;
+import java.util.Optional;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,14 @@ public class UsersController {
     @GetMapping
     public ResponseEntity get() {
         return new ResponseEntity(allUsers(), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/{email:.+}")
+    public ResponseEntity get(@PathVariable String email) {
+        Optional<UserStorage> found = usersRepo.findByEmail(email);
+        return found.isPresent()
+            ? new ResponseEntity(found.get().toJson(), HttpStatus.OK)
+            : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
     private ArrayNode allUsers() {
