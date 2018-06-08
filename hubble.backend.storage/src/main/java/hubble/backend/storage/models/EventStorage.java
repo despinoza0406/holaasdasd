@@ -8,6 +8,7 @@ public class EventStorage {
     private Date modifiedDate;
     private Date closedDate;
     private Date updatedDate;
+    private String monitors;
     private String providerOrigin;
     private String providerName;
     private String applicationId;
@@ -168,9 +169,17 @@ public class EventStorage {
     }
 
     public int getSeverityPoints(){
-        if(this.status == "Error"){
+        if(this.status.equals("Error")){
             return 2;
         }
         return 1;
+    }
+
+    public String getMonitors() {
+        return monitors;
+    }
+
+    public void setMonitors(String monitors) {
+        this.monitors = monitors;
     }
 }

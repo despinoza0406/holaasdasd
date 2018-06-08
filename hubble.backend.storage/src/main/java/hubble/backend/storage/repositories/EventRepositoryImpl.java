@@ -23,7 +23,7 @@ public class EventRepositoryImpl implements EventOperations {
 
     @Override
     public boolean exist(EventStorage issue) {
-        Criteria isSameObjectId= Criteria.where("_id").is(issue.getId()); //SiteScope no viene con ID
+        Criteria isSameObjectId= Criteria.where("_id").is(issue.getId());
         Criteria isSameProviderName = Criteria.where("providerName").is(issue.getProviderName());
 
         List<EventStorage> issues = mongo.find(Query.query(isSameProviderName.andOperator(isSameObjectId)),
@@ -33,14 +33,13 @@ public class EventRepositoryImpl implements EventOperations {
     }
     public List<EventStorage> findEventsByApplicationIdAndDifferentStatusLastDay(String applicationId, String status){
         Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
-        Criteria statusCriteria = Criteria.where("status").not().is(status);
-        Criteria startDateCriteria = Criteria.where("timestamp").gte(getYesterday());
-        Criteria endDateCriteria = Criteria.where("timestamp").lte(getDateNow());
+        Criteria statusCriteria = Criteria.where("status").ne(status);
+        Criteria startDateCriteria = Criteria.where("updatedDate").gte(getYesterday());
+        Criteria endDateCriteria = Criteria.where("updatedDate").lte(getDateNow());
 
         List<EventStorage> events = mongo
                 .find(Query.query(applicationIdCriteria
-                                .andOperator(startDateCriteria, endDateCriteria))
-                                .addCriteria(statusCriteria),
+                                .andOperator(startDateCriteria, endDateCriteria)),
                         EventStorage.class);
         return events;
     }
@@ -48,8 +47,8 @@ public class EventRepositoryImpl implements EventOperations {
     public List<EventStorage> findEventsByApplicationIdAndDifferentStatusPastDay(String applicationId, String status){
         Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
         Criteria statusCriteria = Criteria.where("status").ne(status);
-        Criteria startDateCriteria = Criteria.where("timestamp").gte(getBeforeYesterday());
-        Criteria endDateCriteria = Criteria.where("timestamp").lte(getYesterday());
+        Criteria startDateCriteria = Criteria.where("updatedDate").gte(getBeforeYesterday());
+        Criteria endDateCriteria = Criteria.where("updatedDate").lte(getYesterday());
 
         List<EventStorage> events = mongo
                 .find(Query.query(applicationIdCriteria

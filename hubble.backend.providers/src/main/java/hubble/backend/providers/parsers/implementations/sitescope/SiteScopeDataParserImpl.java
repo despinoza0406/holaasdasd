@@ -4,6 +4,7 @@ import com.mashape.unirest.http.JsonNode;
 import hubble.backend.core.enums.Providers;
 import hubble.backend.providers.configurations.SiteScopeConfiguration;
 import hubble.backend.providers.configurations.mappers.sitescope.SiteScopeMapperConfiguration;
+import hubble.backend.providers.configurations.mappers.sitescope.SiteScopeMonitorMapper;
 import hubble.backend.providers.models.sitescope.SiteScopeEventProviderModel;
 import hubble.backend.providers.parsers.interfaces.sitescope.SiteScopeDataParser;
 import hubble.backend.providers.transports.interfaces.SiteScopeTransport;
@@ -12,6 +13,7 @@ import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.models.WorkItemStorage;
 import hubble.backend.storage.repositories.EventRepository;
 import hubble.backend.storage.repositories.WorkItemRepository;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,8 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
     SiteScopeMapperConfiguration mapper;
     @Autowired
     EventRepository eventRepository;
+    @Autowired
+    SiteScopeMonitorMapper monitorMapper;
 
     private final Logger logger = LoggerFactory.getLogger(SiteScopeDataParserImpl.class);
 
@@ -55,24 +59,46 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
 
     @Override
     public SiteScopeEventProviderModel parse(JSONObject data) {
+        String groupName;
+        JSONArray monitors;
+
         if (data == null) {
             return null;
         }
 
         JSONObject siteScopeRuntimeSnapshot = data.getJSONObject("runtime_snapshot");
         JSONObject siteScopeConfigSnapshot = data.getJSONObject("configuration_snapshot");
+        groupName = siteScopeConfigSnapshot.getString("name");
+        monitors = this.getMonitors(groupName);
 
-        SiteScopeEventProviderModel siteScopeEvent= this.mapToSiteScopeEvent(siteScopeConfigSnapshot,siteScopeRuntimeSnapshot);
+        SiteScopeEventProviderModel siteScopeEvent= this.mapToSiteScopeEvent(siteScopeConfigSnapshot,siteScopeRuntimeSnapshot,monitors);
 
         return siteScopeEvent;
     }
+
+    private JSONArray getMonitors(String groupName){
+        List<String> paths = new ArrayList<>();
+        List<JSONObject> monitorsSnapshots = null;
+        JSONArray monitors = new JSONArray();
+        paths = siteScopeTransport.getMonitorPaths(groupName);
+
+
+        monitorsSnapshots = siteScopeTransport.getMonitorSnapshots(paths);
+
+        for(JSONObject monitor : monitorsSnapshots){
+
+            monitors.put(monitorMapper.mapToSimpleMonitor(monitor));
+        }
+        return monitors;
+    }
+
 
     @Override
     public EventStorage convert(SiteScopeEventProviderModel siteScopeEventProviderModel) {
         return mapper.mapToEventStorage(siteScopeEventProviderModel);
     }
 
-    public SiteScopeEventProviderModel mapToSiteScopeEvent(JSONObject config, JSONObject runtime){
+    public SiteScopeEventProviderModel mapToSiteScopeEvent(JSONObject config, JSONObject runtime,JSONArray monitors){
         SiteScopeEventProviderModel model = new SiteScopeEventProviderModel();
 
         model.setSummary(runtime.getString("summary"));
@@ -80,6 +106,7 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
         model.setName(config.getString("name"));
         model.setDescription(config.getString(("description")));
         model.setUpdatedDate(this.getDate(config.getString("updated_date")));
+        model.setMonitors(monitorMapper.getMonitors(monitors));
         model.setBusinessApplication(config.getString("name"));
         model.setApplicationId(resolveApplicationIdFromConfiguration(model.getBusinessApplication()));
         model.setProviderName(Providers.PROVIDERS_NAME.SITE_SCOPE.toString());

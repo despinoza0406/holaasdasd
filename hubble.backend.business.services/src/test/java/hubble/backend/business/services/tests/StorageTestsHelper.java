@@ -2,10 +2,8 @@ package hubble.backend.business.services.tests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hubble.backend.storage.models.AvailabilityStorage;
-import hubble.backend.storage.models.ErrorStorage;
-import hubble.backend.storage.models.IssueStorage;
-import hubble.backend.storage.models.WorkItemStorage;
+import hubble.backend.storage.models.*;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
@@ -93,6 +91,63 @@ public class StorageTestsHelper {
         workItem.setAssignee("fake-user");
 
         return workItem;
+    }
+
+    public EventStorage getGoodFakeEventStorage(int i){
+
+        Date eventDate = new Date();
+        EventStorage event = new EventStorage();
+
+        event.setType("Group");
+        event.setName("Andre");
+        event.setUpdatedDate(eventDate);
+        event.setBusinessApplication("Home Banking");
+        event.setBusinessApplicationId("Benchmark Home Banking");
+        event.setDescription("Andre <3");
+        event.setStatus("Good");
+        event.setProviderName("Fake SiteScope");
+        event.setProviderOrigin("SiteScope");
+        event.setId(Integer.toString(i));
+
+        return event;
+    }
+
+    public EventStorage getWarningFakeEventStorage(int i){
+
+        Date eventDate = new Date();
+        EventStorage event = new EventStorage();
+
+        event.setType("Group");
+        event.setName("Andre");
+        event.setUpdatedDate(eventDate);
+        event.setBusinessApplication("Home Banking");
+        event.setBusinessApplicationId("Benchmark Home Banking");
+        event.setDescription("Andre <3");
+        event.setStatus("Warning");
+        event.setProviderName("Fake SiteScope");
+        event.setProviderOrigin("SiteScope");
+        event.setId(Integer.toString(i));
+
+        return event;
+    }
+
+    public EventStorage getErrorFakeEventStorage(int i){
+
+        Date eventDate = new Date();
+        EventStorage event = new EventStorage();
+
+        event.setType("Group");
+        event.setName("Andre");
+        event.setUpdatedDate(eventDate);
+        event.setBusinessApplication("Home Banking");
+        event.setBusinessApplicationId("Benchmark Home Banking");
+        event.setDescription("Andre <3");
+        event.setStatus("Error");
+        event.setProviderName("Fake SiteScope");
+        event.setProviderOrigin("SiteScope");
+        event.setId(Integer.toString(i));
+
+        return event;
     }
 
     public List<AvailabilityStorage> getFakeListOfAvailabilityStorage() {

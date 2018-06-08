@@ -10,12 +10,14 @@ import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+@Component
 public class EventServiceImpl implements EventService {
 
     @Autowired

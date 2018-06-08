@@ -12,9 +12,11 @@ import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class EventGroupRulesOperationsImpl implements EventGroupRulesOperations {
 
 

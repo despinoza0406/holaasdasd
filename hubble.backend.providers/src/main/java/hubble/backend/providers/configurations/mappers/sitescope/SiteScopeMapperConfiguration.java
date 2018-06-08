@@ -21,8 +21,7 @@ public class SiteScopeMapperConfiguration {
 
     public SiteScopeMapperConfiguration(){
         mapper = new ModelMapper();
-        mapper.addMappings(new IssuePropertyMap());
-        mapper.addMappings(new EventPropertyMap());;
+        mapper.addMappings(new EventPropertyMap());
     }
 
     public ModelMapper getMapper() {

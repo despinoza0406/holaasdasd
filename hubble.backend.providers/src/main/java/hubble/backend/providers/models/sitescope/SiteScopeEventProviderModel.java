@@ -8,6 +8,7 @@ public class SiteScopeEventProviderModel {
     private String name;
     private String description;
     private Date updatedDate;
+    private String monitors;
     private String businessApplication;
     private String applicationId;
     private String type;
@@ -97,5 +98,13 @@ public class SiteScopeEventProviderModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getMonitors() {
+        return monitors;
+    }
+
+    public void setMonitors(String monitors) {
+        this.monitors = monitors;
     }
 }

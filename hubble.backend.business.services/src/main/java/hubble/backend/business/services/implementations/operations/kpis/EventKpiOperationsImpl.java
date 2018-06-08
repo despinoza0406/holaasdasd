@@ -211,7 +211,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
             return 10;
         }
 
-        if (severityPointsTotal > this.lCriticalKpiThreshold ) {
+        if (severityPointsTotal >= this.lCriticalKpiThreshold ) {
             return 0;
         }
 
