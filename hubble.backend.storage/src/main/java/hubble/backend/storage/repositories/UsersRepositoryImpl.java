@@ -2,6 +2,7 @@ package hubble.backend.storage.repositories;
 
 import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.operations.UsersOperations;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import static org.springframework.data.mongodb.core.query.Criteria.*;
@@ -18,7 +19,13 @@ public class UsersRepositoryImpl implements UsersOperations {
 
     @Override
     public boolean emailExists(String email) {
-        return mongo.find(query(where("email").is(email)), UserStorage.class).size() > 0;
+        return findByEmail(email).isPresent();
     }
+
+    @Override
+    public Optional<UserStorage> findByEmail(String email) {
+        return Optional.ofNullable(mongo.findOne(query(where("email").is(email)), UserStorage.class));
+    }
+
 
 }

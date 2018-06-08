@@ -3,7 +3,9 @@ package hubble.backend.storage.models;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -21,6 +23,7 @@ public class UserStorage {
     private String email;
     private String name;
     private String password;
+    private AuthToken token;
     private Set<String> roles;
     private Set<ApplicationStorage> applications;
 
@@ -83,6 +86,14 @@ public class UserStorage {
         this.applications = applications;
     }
 
+    public AuthToken getToken() {
+        return token;
+    }
+
+    public void setToken(AuthToken token) {
+        this.token = token;
+    }
+
     public void changePassword(char[] newPassword) {
         this.password = new String(encrypter.encrypt(newPassword));
     }
@@ -117,6 +128,14 @@ public class UserStorage {
         ArrayNode array = new ObjectMapper().createArrayNode();
         applications.forEach((application) -> array.add(application.getId()));
         return array;
+    }
+
+    public AuthToken authenticate(char[] password) {
+        if (!verifyPassword(password)) {
+            throw new RuntimeException("Usuario o clave inválidos.");
+        }
+        this.token = new AuthToken(UUID.randomUUID(), LocalDateTime.now().plusDays(1));
+        return token;
     }
 
 }

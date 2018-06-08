@@ -10,7 +10,6 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -31,20 +30,10 @@ public class UsersRepositoryTests {
     }
 
     @Test
-    public void canRetrieveStoredUser() {
+    public void findByEmailWithExistingEmailReturnsUser() {
         String email = randomEmail();
-        UserStorage saved = users.save(
-            new UserStorage(email, "test", randomPassword(), Collections.EMPTY_SET, Collections.EMPTY_SET)
-        );
-        assertTrue(saved.getId().length() > 0);
-        UserStorage probe = new UserStorage();
-        probe.setEmail(email);
-        UserStorage found = users.findOne(Example.of(probe));
-        assertThat(
-            "found has the same id as saved",
-            found.getId(),
-            allOf(is(not(nullValue())), is(equalTo(saved.getId())))
-        );
+        users.save(new UserStorage(email, "test", randomPassword(), Collections.EMPTY_SET, Collections.EMPTY_SET));
+        assertThat("is present", users.findByEmail(email).isPresent(), is(true));
     }
 
     @Test
@@ -67,4 +56,5 @@ public class UsersRepositoryTests {
     private char[] randomPassword() {
         return new char[]{};
     }
+
 }

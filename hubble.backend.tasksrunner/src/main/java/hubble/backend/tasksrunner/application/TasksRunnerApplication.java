@@ -141,7 +141,6 @@ public class TasksRunnerApplication {
         jiraAppTask.setIndentityGroupName("Jira Provider Job");
         jiraAppTask.setIndentityName("Jira Applications");
         jiraAppTask.setIntervalSeconds(60 * 60);
-        /*
         scheduler.addTask(jiraDataTask);
         scheduler.addTask(jiraAppTask);
 

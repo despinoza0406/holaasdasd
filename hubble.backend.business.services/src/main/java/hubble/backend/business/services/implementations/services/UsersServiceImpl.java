@@ -3,6 +3,7 @@ package hubble.backend.business.services.implementations.services;
 import hubble.backend.business.services.interfaces.services.UsersService;
 import hubble.backend.business.services.models.Roles;
 import hubble.backend.storage.models.ApplicationStorage;
+import hubble.backend.storage.models.AuthToken;
 import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.UsersRepository;
@@ -44,6 +45,17 @@ public class UsersServiceImpl implements UsersService {
 
     private ApplicationStorage findApplication(String id) {
         return applications.findApplicationById(id);
+    }
+
+    @Transactional
+    @Override
+    public AuthToken authenticate(String email, char[] password) {
+        UserStorage user = users
+            .findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Usuario o clave inválidos."));
+        AuthToken token = user.authenticate(password);
+        users.save(user);
+        return token;
     }
 
 }
