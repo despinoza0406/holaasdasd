@@ -1,9 +1,11 @@
 package hubble.backend.api.controllers;
 
 import hubble.backend.business.services.interfaces.services.UsersService;
-import hubble.backend.storage.models.UserStorage;
+import hubble.backend.storage.models.AuthToken;
 import hubble.backend.storage.repositories.UsersRepository;
+import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 import static org.hamcrest.CoreMatchers.is;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -11,7 +13,9 @@ import org.hamcrest.TypeSafeMatcher;
 import static org.junit.Assert.assertThat;
 import org.junit.Test;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,32 +42,30 @@ public class UsersControllerTest {
 
     @Test
     public void autenticateWithWrongPasswordReturnsFORBIDDEN() {
-        UsersRepository repository = Mockito.mock(UsersRepository.class);
-        UserStorage user = new UserStorage();
-        user.changePassword("pepe123456".toCharArray());
-        when(repository.findByEmail(anyString())).thenReturn(Optional.of(user));
-        UsersService service = Mockito.mock(UsersService.class);
-        UsersController controller = new UsersController(service, repository);
-        String wrongPassword = "123456pepe";
+        UsersService service = mock(UsersService.class);
+        Auth auth = new Auth("123456pepe");
+        when(
+            service.authenticate(anyString(), eq(auth.getPassword().toCharArray()))
+        ).thenThrow(new RuntimeException());
+        UsersController controller = new UsersController(service, mock(UsersRepository.class));
         assertThat(
             "autentication",
-            controller.authenticate("test@tsoftlatam.com", new Auth(wrongPassword)),
+            controller.authenticate("test@tsoftlatam.com", auth),
             is(forbidden())
         );
     }
 
     @Test
-    public void autenticateWithWightPasswordReturnsOK() {
-        UsersRepository repository = Mockito.mock(UsersRepository.class);
-        UserStorage user = new UserStorage();
-        String password = "pepe123456";
-        user.changePassword(password.toCharArray());
-        when(repository.findByEmail(anyString())).thenReturn(Optional.of(user));
-        UsersService service = Mockito.mock(UsersService.class);
-        UsersController controller = new UsersController(service, repository);
+    public void autenticateWithRightPasswordReturnsOK() {
+        UsersService service = mock(UsersService.class);
+        Auth auth = new Auth("pepe123456");
+        when(
+            service.authenticate(anyString(), eq(auth.getPassword().toCharArray()))
+        ).thenReturn(new AuthToken(UUID.randomUUID(), LocalDateTime.now()));
+        UsersController controller = new UsersController(service, mock(UsersRepository.class));
         assertThat(
             "autentication",
-            controller.authenticate("test@tsoftlatam.com", new Auth(password)),
+            controller.authenticate("test@tsoftlatam.com", auth),
             is(ok())
         );
     }
