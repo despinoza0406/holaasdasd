@@ -8,10 +8,13 @@ import hubble.backend.business.services.models.Application;
 import hubble.backend.business.services.models.Performance;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
 import hubble.backend.core.utils.CalendarHelper;
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.AvailabilityStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.AvailabilityRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -131,4 +134,14 @@ public class PerformanceServiceImpl implements PerformanceService {
         return appDto;
     }
 
+    @Override
+    public List<Integer> getDistValuesLastHour(String id) {
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesBydAndPeriod(DateHelper.getDateNow(), DateHelper.getAnHourAgo());
+        List<Integer> distValuesInt = new ArrayList<>();
+        for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
+            distValuesInt.add((int) availabilityStorage.getResponseTime());
+        }
+        return distValuesInt;
+    }
 }

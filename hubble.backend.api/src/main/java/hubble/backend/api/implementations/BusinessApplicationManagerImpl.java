@@ -212,6 +212,20 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         return businessApplicationFrontend;
     }
 
+    @Override
+    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id) {
+        BusinessApplicationFrontend businessApplicationFrontend = getBusinessApplicationFrontend(id);
+        setDistValues(businessApplicationFrontend.getKpis(), id);
+        return businessApplicationFrontend;
+    }
+
+    private void setDistValues(List<KpiFrontend> kpis, String id) {
+        List<DistValues> distValues;
+        for (KpiFrontend kpi : kpis) {
+            distValues = getDistValuesOf(kpi.getKpiName(), id);
+            kpi.setDistribution(distValues);
+        }
+    }
 
     @Override
     public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend() {
@@ -304,5 +318,37 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         }
 
         return average / (double) kpis.size();
+    }
+
+    private List<DistValues> getDistValuesOf(String kpiName, String id) {
+        List<DistValues> distValues;
+        List<Integer> distValuesInt;
+        switch (kpiName) {
+            case "Disponibilidad":
+                distValuesInt = availabilityService.getDistValuesLastHour(id);
+                break;
+            case "Performance":
+                distValuesInt = performanceService.getDistValuesLastHour(id);
+                break;
+            case "Incidencias":
+                distValuesInt = issueService.getDistValuesLastDay(id);
+                break;
+            case "Tareas":
+                distValuesInt = workItemService.getDistValuesLastDay(id);
+                break;
+            default:
+                distValuesInt = new ArrayList<>();
+                break;
+        }
+        distValues = convertIntegerListToDistValues(distValuesInt);
+        return distValues;
+    }
+
+    private List<DistValues> convertIntegerListToDistValues(List<Integer> distValuesInt) {
+        List<DistValues> distValues = new ArrayList<>();
+        for (Integer distValue : distValuesInt) {
+            distValues.add(new DistValues(distValue));
+        }
+        return distValues;
     }
 }

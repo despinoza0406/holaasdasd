@@ -28,21 +28,18 @@ public class ApplicationsController {
         return applicationView;
     }
 
+    @GetMapping(value = "/applications/")
+    public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req, @RequestParam("id") String applicationId) {
+
+        BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId);
+
+        return applicationFrontend;
+    }
+
     @GetMapping(value = "applications/all")
     public List<BusinessApplication> getAll(HttpServletRequest req) {
 
         List<BusinessApplication> applications = businessAppMgr.getAllApplications();
-
-        return applications;
-    }
-
-    @CrossOrigin(origins = "http://localhost:8888")
-    @GetMapping(value = "applications")
-    public List<BusinessApplicationProfile> getApplicationsProfiles(HttpServletRequest req,
-            @RequestParam("page") int page,
-            @RequestParam("limit") int limit) {
-
-        List<BusinessApplicationProfile> applications = businessAppMgr.getBusinessApplicationsPageLimit(page, limit);
 
         return applications;
     }

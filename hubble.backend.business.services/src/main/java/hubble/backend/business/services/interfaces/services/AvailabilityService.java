@@ -21,4 +21,6 @@ public interface AvailabilityService extends
 
     public List<Availability> getLastHour(String applicationId);
 
+    public List<Integer> getDistValuesLastHour(String applicationId);
+
 }
