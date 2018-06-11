@@ -1,6 +1,7 @@
 package hubble.backend.storage.models;
 
 import java.util.Date;
+import java.util.List;
 
 public class EventStorage {
     private String id;
@@ -8,7 +9,7 @@ public class EventStorage {
     private Date modifiedDate;
     private Date closedDate;
     private Date updatedDate;
-    private String monitors;
+    private List<Monitor> monitors;
     private String providerOrigin;
     private String providerName;
     private String applicationId;
@@ -175,11 +176,11 @@ public class EventStorage {
         return 1;
     }
 
-    public String getMonitors() {
+    public List<Monitor> getMonitors() {
         return monitors;
     }
 
-    public void setMonitors(String monitors) {
+    public void setMonitors(List<Monitor> monitors) {
         this.monitors = monitors;
     }
 }

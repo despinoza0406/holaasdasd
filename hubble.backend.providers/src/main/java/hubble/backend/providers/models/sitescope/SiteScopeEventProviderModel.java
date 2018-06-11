@@ -1,6 +1,9 @@
 package hubble.backend.providers.models.sitescope;
 
+import hubble.backend.storage.models.Monitor;
+
 import java.util.Date;
+import java.util.List;
 
 public class SiteScopeEventProviderModel {
     private String summary;
@@ -8,7 +11,7 @@ public class SiteScopeEventProviderModel {
     private String name;
     private String description;
     private Date updatedDate;
-    private String monitors;
+    private List<Monitor> monitors;
     private String businessApplication;
     private String applicationId;
     private String type;
@@ -100,11 +103,11 @@ public class SiteScopeEventProviderModel {
         this.type = type;
     }
 
-    public String getMonitors() {
+    public List<Monitor> getMonitors() {
         return monitors;
     }
 
-    public void setMonitors(String monitors) {
+    public void setMonitors(List<Monitor> monitors) {
         this.monitors = monitors;
     }
 }
