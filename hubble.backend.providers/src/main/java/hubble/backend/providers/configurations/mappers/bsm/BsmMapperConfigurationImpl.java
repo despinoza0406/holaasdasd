@@ -112,8 +112,8 @@ public class BsmMapperConfigurationImpl implements BsmMapperConfiguration {
             String[] record = row[i].split(",");
             BsmProviderModel newBsmProviderModel = new BsmProviderModel();
             newBsmProviderModel.setProfile_name(record[0]);
-            newBsmProviderModel.setDgreenthreshold((int) Double.parseDouble(record[1]));
-            newBsmProviderModel.setDredthreshold((int) Double.parseDouble(record[2]));
+//            newBsmProviderModel.setDgreenthreshold((int) Double.parseDouble(record[1]));
+//            newBsmProviderModel.setDredthreshold((int) Double.parseDouble(record[2]));
             transactions.add(newBsmProviderModel);
         }
 

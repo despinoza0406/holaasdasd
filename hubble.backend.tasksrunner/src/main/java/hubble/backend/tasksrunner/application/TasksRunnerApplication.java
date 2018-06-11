@@ -97,7 +97,7 @@ public class TasksRunnerApplication {
         ParserTask almDataTask = new AlmDataTaskImpl(almJob);
         almDataTask.setIndentityGroupName("Alm Provider Job");
         almDataTask.setIndentityName("Alm Data");
-        almDataTask.setIntervalSeconds(60 * 60 * 24); //1 día
+        almDataTask.setIntervalSeconds(60); //1 día
         
         AlmApplicationParser almApplicationParser = context.getBean(AlmApplicationParser.class);
         ParserJob almApplicationJob = new AlmApplicationParserJob(almApplicationParser);
@@ -133,7 +133,7 @@ public class TasksRunnerApplication {
         ParserTask jiraDataTask = new JiraDataTaskImpl(jiraJob);
         jiraDataTask.setIndentityGroupName("Jira Provider Job");
         jiraDataTask.setIndentityName("Jira Data");
-        jiraDataTask.setIntervalSeconds(60 * 60);
+        jiraDataTask.setIntervalSeconds(60);
         
         JiraApplicationParser jiraAppParser = context.getBean(JiraApplicationParser.class);
         ParserJob jiraAppJob = new JiraApplicationParserJob(jiraAppParser);
