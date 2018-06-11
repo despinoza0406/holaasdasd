@@ -310,15 +310,25 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     private List<DistValues> getDistValuesOf(String kpiName, String id) {
         List<DistValues> distValues;
+        List<Integer> distValuesInt;
         switch (kpiName) {
             case "Disponibilidad":
-                List<Integer> distValuesInt = availabilityService.getDistValuesLastHour(id);
-                distValues = convertIntegerListToDistValues(distValuesInt);
+                distValuesInt = availabilityService.getDistValuesLastHour(id);
+                break;
+            case "Performance":
+                distValuesInt = performanceService.getDistValuesLastHour(id);
+                break;
+            case "Incidencias":
+                distValuesInt = issueService.getDistValuesLastDay(id);
+                break;
+            case "Tareas":
+                distValuesInt = workItemService.getDistValuesLastDay(id);
                 break;
             default:
-                distValues = new ArrayList<>();
+                distValuesInt = new ArrayList<>();
                 break;
         }
+        distValues = convertIntegerListToDistValues(distValuesInt);
         return distValues;
     }
 

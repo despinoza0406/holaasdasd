@@ -10,10 +10,9 @@ import hubble.backend.business.services.models.measures.quantities.WorkItemQuant
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.storage.models.WorkItemStorage;
 import hubble.backend.storage.repositories.WorkItemRepository;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -92,5 +91,16 @@ public class WorkItemServiceImpl implements WorkItemService {
     @Override
     public long calculatePastDayDeflectionDaysKpi(String applicationId) {
         return workItemKpiOperation.calculatePastDayKPI(applicationId);
+    }
+
+    @Override
+    public List<Integer> getDistValuesLastDay(String id) {
+        List<WorkItemStorage> workItemsStorage =
+                workItemRepository.findWorkItemsByApplicationIdAndStatusLastDay(id, "IN_PROGRESS");
+        List<Integer> distValuesInt = new ArrayList<>();
+        for (WorkItemStorage workItemStorage : workItemsStorage){
+            distValuesInt.add((int) workItemStorage.getDeflectionDays());
+        }
+        return distValuesInt;
     }
 }

@@ -31,7 +31,7 @@ public class ApplicationsController {
     @GetMapping(value = "/applications/")
     public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req, @RequestParam("id") String applicationId) {
 
-        BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontend(applicationId);
+        BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId);
 
         return applicationFrontend;
     }

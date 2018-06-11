@@ -8,12 +8,12 @@ import hubble.backend.business.services.models.Issue;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
 import hubble.backend.core.utils.CalendarHelper;
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.IssueStorage;
 import hubble.backend.storage.repositories.IssueRepository;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -75,6 +75,28 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public IssuesQuantity calculateIssuesQuantityLastDay(String applicationId) {
         return issueOperation.calculateIssuesQuantityLastDay(applicationId);
+    }
+
+    @Override
+    public List<Integer> getDistValuesLastDay(String id) {
+        List<IssueStorage> issuesStorage =
+                issueRepository.findIssuesByApplicationIdBetweenDates(id, DateHelper.getDateNow(), DateHelper.getAnHourAgo());
+        List<Integer> distValuesInt = new ArrayList<>();
+        for (IssueStorage issue : issuesStorage) {
+            float criticity = (issue.getPriority() + issue.getSeverity()) / 2;
+            distValuesInt.add(calculateCriticityForDashboardTwo(criticity));
+        }
+        return distValuesInt;
+    }
+
+    private Integer calculateCriticityForDashboardTwo(float criticity){
+        if(criticity >= 4){
+            return 1;
+        }
+        if(criticity >=3) {
+            return 2;
+        } else
+            return 3;
     }
 
 }

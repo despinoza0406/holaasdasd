@@ -32,4 +32,10 @@ public class DateHelper {
         cal.add(Calendar.DATE, -1);
         return cal.getTime();
     }
+
+    public static Date getAnHourAgo(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, -1);
+        return cal.getTime();
+    }
 }

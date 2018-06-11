@@ -4,6 +4,8 @@ import hubble.backend.business.services.interfaces.services.kpis.WorkItemsOperat
 import hubble.backend.business.services.models.WorkItem;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;
 
+import java.util.List;
+
 public interface WorkItemService extends ServiceBase<WorkItem>,
         WorkItemsOperationsKeyPerformanceIndicatorServiceBase {
 
@@ -14,4 +16,6 @@ public interface WorkItemService extends ServiceBase<WorkItem>,
     public long calculateLastDayDeflectionDaysKpi(String applicationId);
 
     public long calculatePastDayDeflectionDaysKpi(String applicationId);
+
+    List<Integer> getDistValuesLastDay(String id);
 }

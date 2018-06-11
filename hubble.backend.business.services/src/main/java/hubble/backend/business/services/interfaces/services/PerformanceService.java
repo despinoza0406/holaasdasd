@@ -20,4 +20,6 @@ public interface PerformanceService extends
     public List<Performance> getLast10Minutes(String applicationId);
 
     public List<Performance> getLastHour(String applicationId);
+
+    List<Integer> getDistValuesLastHour(String id);
 }

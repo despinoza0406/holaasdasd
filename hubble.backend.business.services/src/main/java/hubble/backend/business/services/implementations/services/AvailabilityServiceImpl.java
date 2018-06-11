@@ -138,7 +138,8 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
     @Override
     public List<Integer> getDistValuesLastHour(String applicationId) {
-        List<AvailabilityStorage> availabilityStorageList = availabilityRepository.findAvailabilitiesBydAndPeriod(DateHelper.getDateNow(), DateHelper.getYesterday());
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesBydAndPeriod(DateHelper.getDateNow(), DateHelper.getAnHourAgo());
         List<Integer> distValuesInt = new ArrayList<>();
         for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
             distValuesInt.add(Integer.parseInt(availabilityStorage.getAvailabilityStatus()));
