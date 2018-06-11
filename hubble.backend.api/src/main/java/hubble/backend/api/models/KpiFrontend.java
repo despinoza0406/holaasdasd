@@ -1,10 +1,13 @@
 package hubble.backend.api.models;
 
+import java.util.List;
+
 public class KpiFrontend {
     private String kpiName;
     private String kpiShortName;
     private double kpiValue;
     private String kpiComment;
+    private List<DistValues> distribution;
 
     public KpiFrontend() {
     }
@@ -39,5 +42,13 @@ public class KpiFrontend {
 
     public void setKpiComment(String kpiComment) {
         this.kpiComment = kpiComment;
+    }
+
+    public List<DistValues> getDistribution() {
+        return distribution;
+    }
+
+    public void setDistribution(List<DistValues> distribution) {
+        this.distribution = distribution;
     }
 }

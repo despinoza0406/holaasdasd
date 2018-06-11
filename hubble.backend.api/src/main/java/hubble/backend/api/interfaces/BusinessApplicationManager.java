@@ -24,4 +24,6 @@ public interface BusinessApplicationManager {
     public BusinessApplicationFrontend getBusinessApplicationFrontend(String id);
 
     public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend();
+
+    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id);
 }

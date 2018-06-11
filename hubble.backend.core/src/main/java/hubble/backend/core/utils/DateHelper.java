@@ -23,8 +23,13 @@ public class DateHelper {
     }
 
     public static Date getDateNow() {
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
         Calendar cal = Calendar.getInstance();
+        return cal.getTime();
+    }
+
+    public static Date getYesterday(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -1);
         return cal.getTime();
     }
 }

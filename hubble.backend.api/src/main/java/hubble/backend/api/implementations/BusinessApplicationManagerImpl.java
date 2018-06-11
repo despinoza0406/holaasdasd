@@ -208,6 +208,20 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         return businessApplicationFrontend;
     }
 
+    @Override
+    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id) {
+        BusinessApplicationFrontend businessApplicationFrontend = getBusinessApplicationFrontend(id);
+        setDistValues(businessApplicationFrontend.getKpis(), id);
+        return businessApplicationFrontend;
+    }
+
+    private void setDistValues(List<KpiFrontend> kpis, String id) {
+        List<DistValues> distValues;
+        for (KpiFrontend kpi : kpis) {
+            distValues = getDistValuesOf(kpi.getKpiName(), id);
+            kpi.setDistribution(distValues);
+        }
+    }
 
     @Override
     public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend() {
@@ -292,5 +306,27 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         }
 
         return average / (double) kpis.size();
+    }
+
+    private List<DistValues> getDistValuesOf(String kpiName, String id) {
+        List<DistValues> distValues;
+        switch (kpiName) {
+            case "Disponibilidad":
+                List<Integer> distValuesInt = availabilityService.getDistValuesLastHour(id);
+                distValues = convertIntegerListToDistValues(distValuesInt);
+                break;
+            default:
+                distValues = new ArrayList<>();
+                break;
+        }
+        return distValues;
+    }
+
+    private List<DistValues> convertIntegerListToDistValues(List<Integer> distValuesInt) {
+        List<DistValues> distValues = new ArrayList<>();
+        for (Integer distValue : distValuesInt) {
+            distValues.add(new DistValues(distValue));
+        }
+        return distValues;
     }
 }
