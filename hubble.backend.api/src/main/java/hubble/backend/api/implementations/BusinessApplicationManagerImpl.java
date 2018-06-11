@@ -4,11 +4,7 @@ import hubble.backend.api.configurations.mappers.ApplicationMapper;
 import hubble.backend.api.configurations.mappers.UptimeMapper;
 import hubble.backend.api.interfaces.BusinessApplicationManager;
 import hubble.backend.api.models.*;
-import hubble.backend.business.services.interfaces.services.AvailabilityService;
-import hubble.backend.business.services.interfaces.services.IssueService;
-import hubble.backend.business.services.interfaces.services.PerformanceService;
-import hubble.backend.business.services.interfaces.services.UptimeDowntimeService;
-import hubble.backend.business.services.interfaces.services.WorkItemService;
+import hubble.backend.business.services.interfaces.services.*;
 import hubble.backend.business.services.interfaces.services.kpis.KpiAveragesService;
 import hubble.backend.business.services.models.Application;
 import hubble.backend.business.services.models.Availability;
@@ -40,6 +36,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     UptimeDowntimeService uptimeService;
     @Autowired
     WorkItemService workItemService;
+    @Autowired
+    EventService eventService;
     @Autowired
     UptimeMapper uptimeMapper;
     @Autowired
@@ -128,6 +126,12 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         //Tareas Kpi
         businessView.setWorkItemsKpiLastDay(workItemService.calculateLastDayKpiByApplication(id).get());
         businessView.setWorkItemsKpiLastMonth(workItemService.calculateLastMonthKpiByApplication(id).get());
+
+        //Events Kpi
+        /* No tiene sentido porque al final termina pidiendole un campo a mongo que no esta. Registered date. Se tendria que agregar
+        businessView.setEventsKpiLastDay(eventService.calculateLastDayKpiByApplication(id).get());
+        businessView.setEventsKpiLastMonth(eventService.calculateLastMonthKpiByApplication(id).get());
+        */
 
         //Kpi Averages
         businessView.setHealthIndex(kpiAverageService.getStandardHealthIndex(id));
@@ -232,12 +236,14 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         Double performanceKPIminutes = performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get();
         Double issuesKPIminutes = issueService.calculateLast10MinutesKpiByApplication(id).get();
         Double workItemKPIday = (double) workItemService.calculateLastDayDeflectionDaysKpi(id);
+        Double eventKPIday = (double) eventService.calculateLastDaySeverityKpi(id);
 
         List<Double> kpis = new ArrayList<>();
         kpis.add(availabilityKPIminutes);
         kpis.add(performanceKPIminutes);
         kpis.add(issuesKPIminutes);
         kpis.add(workItemKPIday);
+        kpis.add(eventKPIday);
 
         double healthIndex = getKPIAverage(kpis);
         businessApplicationFrontend.setHealthIndex(healthIndex);
@@ -248,12 +254,14 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         double performanceKPIday = performanceService.calculateLastDayKpiByApplication(id).getPerformanceKpi().get();
         double issuesKPIday = issueService.calculateLastDayKpiByApplication(id).get();
         double workItemKPIday = (double) workItemService.calculatePastDayDeflectionDaysKpi(id);
+        double eventKPIday = (double) eventService.calculatePastDaySeverityKpi(id);
 
         List<Double> kpis = new ArrayList<>();
         kpis.add(availabilityKPImonth);
         kpis.add(performanceKPIday);
         kpis.add(issuesKPIday);
         kpis.add(workItemKPIday);
+        kpis.add(eventKPIday);
 
         double pastHealthIndex = getKPIAverage(kpis);
         businessApplicationFrontend.setHealthIndexPast(pastHealthIndex);
@@ -281,6 +289,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         workitemKpi.setKpiShortName("T");
         workitemKpi.setKpiValue((double) workItemService.calculateLastDayDeflectionDaysKpi(id));
         kpis.add(workitemKpi);
+        KpiFrontend eventKpi = new KpiFrontend();
+        eventKpi.setKpiName("Eventos");
+        eventKpi.setKpiShortName("E");
+        eventKpi.setKpiValue((double) eventService.calculateLastDaySeverityKpi(id));
         businessApplicationFrontend.setKpis(kpis);
     }
 

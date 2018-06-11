@@ -6,9 +6,8 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import hubble.backend.providers.configurations.SiteScopeConfiguration;
 import hubble.backend.providers.configurations.environments.SiteScopeProviderEnvironment;
-import hubble.backend.providers.parsers.implementations.sitescope.SiteScopeGroupPathParser;
+import hubble.backend.providers.parsers.implementations.sitescope.SiteScopePathParser;
 import hubble.backend.providers.transports.interfaces.SiteScopeTransport;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +28,7 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
     SiteScopeConfiguration configuration;
 
     @Autowired
-    SiteScopeGroupPathParser siteScopeGroupPathParser;
+    SiteScopePathParser siteScopePathParser;
 
     private final Logger logger = LoggerFactory.getLogger(SiteScopeTransportImpl.class);
 
@@ -89,15 +88,18 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
 
     }
 
-    public List<String> getPathsToGroups(List<String> groups){
-        List<String> pathsToGroups = new ArrayList<>();
-        String path = String.format("/SiteScope/api/admin/config/snapshot");
+    public List<JSONObject> getMonitorSnapshots(List<String> paths){
+        String fullPathsToGroups = StringUtils.join(paths,";");
+        String path = String.format("/SiteScope/api/monitors/snapshots");
         String requestsUri = buildUri(path);
         HttpResponse<JsonNode> data = null;
         JSONObject jsonObject = null;
+        List<JSONObject> dataList = new ArrayList<JSONObject>();
+        boolean hasMultipleGroups = true;
 
         try {
             data = Unirest.get(requestsUri)
+                    .queryString("fullPathsToMonitors",fullPathsToGroups)
                     .basicAuth(environment.getUser(),environment.getPassword())
                     .asJson();
         } catch (UnirestException e) {
@@ -105,13 +107,62 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
             return null;
         }
 
-        jsonObject = data.getBody().getObject().getJSONObject("snapshot_groupSnapshotChildren");
-        for (String group : groups) {
-            pathsToGroups.add (siteScopeGroupPathParser.generateJsonPathArgumentFromJson(jsonObject, group ,""));
+        try {
+            for(String groupPath: paths ) {
+                jsonObject = data.getBody().getObject().getJSONObject(groupPath);
+                if(!jsonObject.has("error_code"))
+                    dataList.add(jsonObject);
+            }
+        } catch (Exception e) {
+            logger.warn("There was a problem", e);
         }
 
+        return dataList;
+    }
+
+    public List<String> getPathsToGroups(List<String> groups){
+        List<String> pathsToGroups = new ArrayList<>();
+        HttpResponse<JsonNode> data = null;
+        JSONObject jsonObject = null;
+
+        data = this.getFullConfig();
+
+        jsonObject = data.getBody().getObject().getJSONObject("snapshot_groupSnapshotChildren");
+        for (String group : groups) {
+            pathsToGroups.add (siteScopePathParser.generateJsonGroupPathArgumentFromJson(jsonObject, group ,""));
+        }
 
         return pathsToGroups;
+    }
+
+    public List<String> getMonitorPaths(String group){
+        List<String> pathsToMonitors;
+        HttpResponse<JsonNode> data = null;
+        JSONObject jsonObject = null;
+
+        data = this.getFullConfig();
+
+        jsonObject = data.getBody().getObject().getJSONObject("snapshot_groupSnapshotChildren");
+
+        pathsToMonitors = siteScopePathParser.generateJsonMonitorPathArgumentFromJson(jsonObject,group,new ArrayList<String>(),"");
+
+        return pathsToMonitors;
+    }
+
+    private HttpResponse<JsonNode> getFullConfig(){
+        String path = String.format("/SiteScope/api/admin/config/snapshot");
+        String requestsUri = buildUri(path);
+        HttpResponse<JsonNode> data = null;
+
+        try {
+            data = Unirest.get(requestsUri)
+                    .basicAuth(environment.getUser(),environment.getPassword())
+                    .asJson();
+            return data;
+        } catch (UnirestException e) {
+            logger.error(e.getMessage());
+            return null;
+        }
     }
 
 

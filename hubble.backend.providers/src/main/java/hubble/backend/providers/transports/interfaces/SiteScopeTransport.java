@@ -8,11 +8,13 @@ import java.util.List;
 
 public interface SiteScopeTransport {
 
-    public SiteScopeProviderEnvironment getEnvironment();
-    public SiteScopeConfiguration getConfiguration();
-    public List<JSONObject> getGroupsSnapshots(List<String> paths);
-    public List<String> getPathsToGroups(List<String> groups);
-    public List<String> getApplicationNames();
+    SiteScopeProviderEnvironment getEnvironment();
+    SiteScopeConfiguration getConfiguration();
+    List<JSONObject> getGroupsSnapshots(List<String> paths);
+    List<JSONObject> getMonitorSnapshots(List<String> paths);
+    List<String> getPathsToGroups(List<String> groups);
+    List<String> getApplicationNames();
+    List<String> getMonitorPaths(String group);
 
 
 }

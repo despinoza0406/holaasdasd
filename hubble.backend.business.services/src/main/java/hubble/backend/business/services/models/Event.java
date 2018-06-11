@@ -1,15 +1,13 @@
-package hubble.backend.storage.models;
+package hubble.backend.business.services.models;
 
 import java.util.Date;
-import java.util.List;
 
-public class EventStorage {
+public class Event {
     private String id;
     private Date registeredDate;
     private Date modifiedDate;
     private Date closedDate;
     private Date updatedDate;
-    private List<Monitor> monitors;
     private String providerOrigin;
     private String providerName;
     private String applicationId;
@@ -167,20 +165,5 @@ public class EventStorage {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getSeverityPoints(){
-        if(this.status.equals("Error")){
-            return 2;
-        }
-        return 1;
-    }
-
-    public List<Monitor> getMonitors() {
-        return monitors;
-    }
-
-    public void setMonitors(List<Monitor> monitors) {
-        this.monitors = monitors;
     }
 }
