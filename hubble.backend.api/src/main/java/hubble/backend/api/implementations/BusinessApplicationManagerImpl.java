@@ -307,6 +307,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         eventKpi.setKpiName("Eventos");
         eventKpi.setKpiShortName("E");
         eventKpi.setKpiValue((double) eventService.calculateLastDaySeverityKpi(id));
+        kpis.add(eventKpi);
         businessApplicationFrontend.setKpis(kpis);
     }
 
@@ -336,6 +337,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             case "Tareas":
                 distValuesInt = workItemService.getDistValuesLastDay(id);
                 break;
+            case "Eventos":
+                distValuesInt = eventService.getDistValuesLastDay(id);
             default:
                 distValuesInt = new ArrayList<>();
                 break;
