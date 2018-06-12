@@ -23,6 +23,7 @@ public class UserStorage {
     private String email;
     private String name;
     private String password;
+    private boolean enabled;
     private AuthToken token;
     private Set<String> roles;
     private Set<ApplicationStorage> applications;
@@ -35,6 +36,7 @@ public class UserStorage {
         this.name = name;
         this.roles = roles;
         this.applications = applications;
+        this.enabled = true;
         changePassword(password);
     }
 
@@ -94,6 +96,14 @@ public class UserStorage {
         this.token = token;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     public void changePassword(char[] newPassword) {
         this.password = new String(encrypter.encrypt(newPassword));
     }
@@ -111,8 +121,8 @@ public class UserStorage {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode json = mapper.createObjectNode();
         json.put("id", id)
-            .put("email", email)
-            .put("name", name);
+                .put("email", email)
+                .put("name", name);
         json.set("roles", rolesToJson());
         json.set("applications", applicationsToJson());
         return json;
@@ -131,7 +141,7 @@ public class UserStorage {
     }
 
     public AuthToken authenticate(char[] password) {
-        if (!verifyPassword(password)) {
+        if (!enabled || !verifyPassword(password)) {
             throw new RuntimeException("Usuario o clave inválidos.");
         }
         this.token = new AuthToken(UUID.randomUUID(), LocalDateTime.now().plusDays(1));

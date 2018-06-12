@@ -25,8 +25,16 @@ public class UserStorageTest {
         assertFalse(userWithPassword("pepe1234").verifyPassword("1234pepe".toCharArray()));
     }
 
+    @Test(expected = RuntimeException.class)
+    public void authenticateDisaabledUserThrowsException() {
+        UserStorage disabledUser = new UserStorage();
+        disabledUser.setEnabled(false);
+        disabledUser.authenticate("pepe".toCharArray());
+    }
+
     private UserStorage userWithPassword(String password) {
         final UserStorage user = new UserStorage();
+        user.setEnabled(true);
         user.changePassword(password.toCharArray());
         return user;
     }
