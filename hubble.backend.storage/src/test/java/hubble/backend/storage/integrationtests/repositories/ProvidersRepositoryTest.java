@@ -2,6 +2,10 @@ package hubble.backend.storage.integrationtests.repositories;
 
 import hubble.backend.storage.configurations.StorageComponentConfiguration;
 import hubble.backend.storage.models.ALM;
+import hubble.backend.storage.models.Days;
+import hubble.backend.storage.models.Frecuency;
+import hubble.backend.storage.models.HourRange;
+import hubble.backend.storage.models.Schedule;
 import hubble.backend.storage.models.TaskRunner;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import static org.hamcrest.CoreMatchers.is;
@@ -36,6 +40,11 @@ public class ProvidersRepositoryTest {
     }
 
     private ALM alm() {
-        return new ALM(true, new TaskRunner(true, "0 0 0 * * *"), new ALM.Environment(), new ALM.Configuration());
+        return new ALM(
+            true,
+            new TaskRunner(true, new Schedule(Days.EVERY_DAY, HourRange._24hs, Frecuency.HOURLY)),
+            new ALM.Environment(),
+            new ALM.Configuration()
+        );
     }
 }

@@ -5,8 +5,12 @@ import hubble.backend.business.services.models.Roles;
 import hubble.backend.storage.models.ALM;
 import hubble.backend.storage.models.AppPulse;
 import hubble.backend.storage.models.BSM;
+import hubble.backend.storage.models.Days;
+import hubble.backend.storage.models.Frecuency;
+import hubble.backend.storage.models.HourRange;
 import hubble.backend.storage.models.Jira;
 import hubble.backend.storage.models.PPM;
+import hubble.backend.storage.models.Schedule;
 import hubble.backend.storage.models.SiteScope;
 import hubble.backend.storage.models.SoapEndpoint;
 import hubble.backend.storage.models.TaskRunner;
@@ -29,7 +33,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class InitialDataServiceImpl implements InitialDataService {
 
     private static final String ADMIN_EMAIL = "admin@tsoftlatam.com";
-    private static final TaskRunner EVERY_DAY_AT_9 = new TaskRunner(true, "0 0 9 * * *");
+    private static final TaskRunner EVERY_DAY_AT_9 = new TaskRunner(
+        true, 
+        new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.DAYLY)
+    );
     private final UsersRepository users;
     private final ProvidersRepository providers;
 

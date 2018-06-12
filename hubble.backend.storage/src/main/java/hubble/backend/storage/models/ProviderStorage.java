@@ -5,7 +5,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 /**
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
- * @param <T> El tipo del entorno.
+ * @param <E> El tipo del entorno.
+ * @param <C> El tipo de la configuración.
  */
 @Document
 public abstract class ProviderStorage<E, C> {

@@ -11,14 +11,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class TaskRunner {
 
     private boolean enabled;
-    private String cronExpression;
+    private Schedule schedule;
 
     public TaskRunner() {
     }
 
-    public TaskRunner(boolean enabled, String cronExpression) {
+    public TaskRunner(boolean enabled, Schedule schedule) {
         this.enabled = enabled;
-        this.cronExpression = cronExpression;
+        this.schedule = schedule;
     }
 
     public boolean isEnabled() {
@@ -29,12 +29,12 @@ public class TaskRunner {
         this.enabled = enabled;
     }
 
-    public String getCronExpression() {
-        return cronExpression;
+    public Schedule getSchedule() {
+        return schedule;
     }
 
-    public void setCronExpression(String cronExpression) {
-        this.cronExpression = cronExpression;
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
     }
 
 }
