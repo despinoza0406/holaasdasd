@@ -1,0 +1,31 @@
+13/06/2018 11:55:47.638 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final 
+13/06/2018 11:55:48.134 [main] INFO  h.b.t.a.TasksRunnerApplication - Starting TasksRunnerApplication v1.0-SNAPSHOT on AR-NB-234 with PID 20920 (C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target\hubble.backend.tasksrunner-1.0-SNAPSHOT.jar started by andre.vigneaux in C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target) 
+13/06/2018 11:55:48.136 [main] INFO  h.b.t.a.TasksRunnerApplication - The following profiles are active: test 
+13/06/2018 11:55:48.328 [main] INFO  o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@2bf358f5: startup date [Wed Jun 13 11:55:48 ART 2018]; root of context hierarchy 
+13/06/2018 11:55:52.931 [main] WARN  o.h.v.m.ParameterMessageInterpolator - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported 
+13/06/2018 11:55:57.441 [main] INFO  org.mongodb.driver.cluster - Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=50} 
+13/06/2018 11:55:58.136 [cluster-ClusterId{value='5b21307dd16f2451b884aeac', description='null'}-localhost:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:1, serverValue:1}] to localhost:27017 
+13/06/2018 11:55:58.140 [cluster-ClusterId{value='5b21307dd16f2451b884aeac', description='null'}-localhost:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 6, 4]}, minWireVersion=0, maxWireVersion=6, maxDocumentSize=16777216, roundTripTimeNanos=744000} 
+13/06/2018 11:55:59.802 [main] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:2, serverValue:2}] to localhost:27017 
+13/06/2018 11:56:01.367 [main] WARN  o.h.v.m.ParameterMessageInterpolator - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported 
+13/06/2018 11:56:01.562 [main] INFO  o.s.j.e.a.AnnotationMBeanExporter - Registering beans for JMX exposure on startup 
+13/06/2018 11:56:01.585 [main] INFO  h.b.t.a.TasksRunnerApplication - Started TasksRunnerApplication in 14.538 seconds (JVM running for 16.671) 
+13/06/2018 11:56:01.675 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor 
+13/06/2018 11:56:01.715 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl 
+13/06/2018 11:56:01.719 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.2.1 created. 
+13/06/2018 11:56:01.721 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized. 
+13/06/2018 11:56:01.724 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.2.1) '"Hubble Job Quartz Scheduler"' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 3 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+ 
+13/06/2018 11:56:01.725 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler '"Hubble Job Quartz Scheduler"' initialized from default resource file in Quartz package: 'quartz.properties' 
+13/06/2018 11:56:01.725 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.2.1 
+13/06/2018 11:56:01.776 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler "Hubble Job Quartz Scheduler"_$_NON_CLUSTERED started. 
+13/06/2018 11:56:05.077 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:3, serverValue:3}] to localhost:27017 
+13/06/2018 11:56:07.822 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.ppm.PpmTransportImpl - org.apache.http.conn.HttpHostConnectException: Connect to demoppm.tsoftglobal.com:8888 [demoppm.tsoftglobal.com/192.168.1.13] failed: Connection refused: connect 
+13/06/2018 11:56:07.823 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.j.ppm.PpmApplicationParserJob - null 
+13/06/2018 11:57:03.702 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:4, serverValue:6}] to localhost:27017 

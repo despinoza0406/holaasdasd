@@ -307,6 +307,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         eventKpi.setKpiName("Eventos");
         eventKpi.setKpiShortName("E");
         eventKpi.setKpiValue((double) eventService.calculateLastDaySeverityKpi(id));
+        kpis.add(eventKpi);
         businessApplicationFrontend.setKpis(kpis);
     }
 

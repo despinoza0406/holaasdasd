@@ -80,7 +80,7 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public List<Integer> getDistValuesLastDay(String id) {
         List<IssueStorage> issuesStorage =
-                issueRepository.findIssuesByApplicationIdBetweenDates(id, DateHelper.getDateNow(), DateHelper.getAnHourAgo());
+                issueRepository.findIssuesByApplicationIdBetweenDates(id, DateHelper.getYesterday(), DateHelper.getDateNow());
         List<Integer> distValuesInt = new ArrayList<>();
         for (IssueStorage issue : issuesStorage) {
             float criticity = (issue.getPriority() + issue.getSeverity()) / 2;
