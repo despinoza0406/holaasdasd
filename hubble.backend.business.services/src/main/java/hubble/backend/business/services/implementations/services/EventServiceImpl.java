@@ -12,10 +12,7 @@ import hubble.backend.storage.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class EventServiceImpl implements EventService {
@@ -68,5 +65,16 @@ public class EventServiceImpl implements EventService {
     @Override
     public long calculatePastDaySeverityKpi(String applicationId) {
         return eventKpiOperation.calculatePastDayKPI(applicationId);
+    }
+
+    @Override
+    public List<Integer> getDistValuesLastDay(String id) {
+        List<EventStorage> eventsStorage =
+            eventRepository.findEventsByApplicationIdAndDifferentStatusLastDay(id, "Good");
+        List<Integer> distValuesInt = new ArrayList<>();
+        for (EventStorage eventStorage : eventsStorage){
+            //distValuesInt.add((int) eventStorage.getDeflectionDays());
+        }
+        return distValuesInt;
     }
 }
