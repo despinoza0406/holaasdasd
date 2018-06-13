@@ -142,7 +142,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                 availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(applicationId,DateHelper.getAnHourAgo(), DateHelper.getDateNow());
         List<Integer> distValuesInt = new ArrayList<>();
         for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
-            distValuesInt.add(Integer.parseInt(availabilityStorage.getAvailabilityStatus()));
+            distValuesInt.add(availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1);
         }
         return distValuesInt;
     }

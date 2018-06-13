@@ -30,6 +30,7 @@ public class ApplicationsController {
     }
 
     @GetMapping(value = "/applications/")
+    @CrossOrigin(origins = "http://localhost:8888")
     public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req, @RequestParam("id") String applicationId) {
 
         BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId);
@@ -37,7 +38,7 @@ public class ApplicationsController {
         return applicationFrontend;
     }
 
-    @GetMapping(value = "applications/all")
+    //@GetMapping(value = "applications/all")
     public List<BusinessApplication> getAll(HttpServletRequest req) {
 
         List<BusinessApplication> applications = businessAppMgr.getAllApplications();
@@ -45,7 +46,7 @@ public class ApplicationsController {
         return applications;
     }
 
-    @GetMapping(value = "frontendApplications/applications/")
+    @GetMapping(value = "/applications/all")
     @CrossOrigin(origins = "http://localhost:8888")
     public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
              @RequestParam("page") int page,
