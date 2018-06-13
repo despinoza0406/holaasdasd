@@ -337,6 +337,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             case "Tareas":
                 distValuesInt = workItemService.getDistValuesLastDay(id);
                 break;
+            case "Eventos":
+                distValuesInt = eventService.getDistValuesLastDay(id);
             default:
                 distValuesInt = new ArrayList<>();
                 break;
