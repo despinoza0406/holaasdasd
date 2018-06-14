@@ -150,7 +150,7 @@ public class TasksRunnerApplication {
         ParserTask siteScopeDataTask = new SiteScopeDataTaskImpl(siteScopeJob);
         siteScopeDataTask.setIndentityGroupName("SiteScope Provider Job");
         siteScopeDataTask.setIndentityName("SiteScope Data");
-        siteScopeDataTask.setIntervalSeconds(5);
+        siteScopeDataTask.setIntervalSeconds(60 * 5);
 
         SiteScopeApplicationParser siteScopeApplicationParser = context.getBean(SiteScopeApplicationParser.class);
         ParserJob siteScopeAppJob = new SiteScopeApplicationParserJob(siteScopeApplicationParser);
