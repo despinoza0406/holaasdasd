@@ -420,3 +420,295 @@ Caused by: com.mongodb.MongoTimeoutException: Timed out after 30000 ms while wai
 13/06/2018 12:37:11.511 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:2, serverValue:2}] to localhost:27017 because there was a socket exception raised on another connection from this pool. 
 13/06/2018 12:37:11.522 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:117, serverValue:3}] to localhost:27017 
 13/06/2018 12:37:11.523 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:116, serverValue:2}] to localhost:27017 
+13/06/2018 16:32:12.065 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 16:32:12.065 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 16:32:12.068 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:19:34.136 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:19:34.351 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:19:44.361 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+13/06/2018 17:19:44.362 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.j.s.SiteScopeApplicationParserJob - null 
+13/06/2018 17:20:11.767 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:20:11.773 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:20:11.784 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:20:21.768 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:20:21.769 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:21:11.773 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:21:11.779 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:21:11.780 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+13/06/2018 17:21:11.803 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:21:11.807 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.j.s.SiteScopeDataParserJob - null 
+13/06/2018 17:21:21.782 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:21:21.787 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:22:11.772 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:22:11.776 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:22:11.786 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:22:21.775 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:22:21.878 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:22:51.781 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+13/06/2018 17:22:51.791 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.j.s.SiteScopeApplicationParserJob - null 
+13/06/2018 17:23:11.773 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:23:11.776 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:23:11.960 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:23:21.794 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:23:21.830 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:24:11.768 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:24:11.775 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:24:11.887 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:24:21.867 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:24:21.873 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:24:31.781 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+13/06/2018 17:24:31.785 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.j.s.SiteScopeApplicationParserJob - null 
+13/06/2018 17:25:11.770 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:25:11.775 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:25:11.785 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:25:21.774 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:25:21.779 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:26:11.775 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:26:11.779 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+13/06/2018 17:26:11.779 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:26:11.941 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.j.s.SiteScopeDataParserJob - null 
+13/06/2018 17:26:11.945 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:26:21.918 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:26:21.923 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:27:11.770 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:27:11.777 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:27:11.907 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:27:21.795 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:27:21.898 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:27:51.781 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+13/06/2018 17:27:51.938 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.j.s.SiteScopeApplicationParserJob - null 
+13/06/2018 17:28:11.771 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:28:11.775 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:28:11.836 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:28:21.823 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:28:21.868 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:29:11.770 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:29:11.778 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:29:11.798 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:29:21.779 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:29:21.784 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:29:31.782 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+13/06/2018 17:29:31.785 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.j.s.SiteScopeApplicationParserJob - null 
+13/06/2018 17:30:11.769 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:30:11.774 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:30:11.793 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:30:21.777 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:30:21.781 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:31:11.770 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:31:11.774 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:31:11.780 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+13/06/2018 17:31:11.791 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.j.s.SiteScopeDataParserJob - null 
+13/06/2018 17:31:11.790 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:31:21.775 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:31:21.780 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:32:11.774 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:32:11.776 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:32:11.799 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:32:21.781 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:32:21.784 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:32:51.779 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+13/06/2018 17:32:51.783 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.j.s.SiteScopeApplicationParserJob - null 
+13/06/2018 17:33:11.771 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:33:11.776 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:33:11.786 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:33:21.774 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:33:21.777 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:34:11.774 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:34:11.777 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:34:11.801 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:34:21.783 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:34:21.789 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:34:31.781 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+13/06/2018 17:34:31.784 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.t.j.s.SiteScopeApplicationParserJob - null 
+13/06/2018 17:35:11.768 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:35:11.775 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.jira.JiraTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.175:8888 [/10.10.20.175] failed: connect timed out 
+13/06/2018 17:35:11.789 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.t.jobs.jira.JiraDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.parsers.implementations.jira.JiraDataParserImpl.run(JiraDataParserImpl.java:60)
+	at hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob.execute(JiraDataParserJob.java:52)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
+13/06/2018 17:35:21.771 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.alm.AlmTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.170:8080 [/10.10.20.170] failed: connect timed out 
+13/06/2018 17:35:21.773 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.t.jobs.alm.AlmDataParserJob - null 
+java.lang.NullPointerException: null
+	at hubble.backend.providers.transports.implementations.alm.AlmTransportImpl.getAllDefects(AlmTransportImpl.java:88)
+	at hubble.backend.providers.parsers.implementations.alm.AlmDataParserImpl.run(AlmDataParserImpl.java:96)
+	at hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob.execute(AlmDataParserJob.java:42)
+	at org.quartz.core.JobRunShell.run(JobRunShell.java:202)
+	at org.quartz.simpl.SimpleThreadPool$WorkerThread.run(SimpleThreadPool.java:573)
