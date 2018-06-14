@@ -207,7 +207,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
             severityPointsTotal = severityPointsTotal + eventStorage.getSeverityPoints();
         }
 
-        if (severityPointsTotal == this.okKpiThreshold) {
+        if (severityPointsTotal <= this.okKpiThreshold) {
             return 10;
         }
 
