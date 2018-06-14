@@ -174,7 +174,7 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
     }
 
     @Override
-    public long calculateLastDayKPI(String applicationId){
+    public double calculateLastDayKPI(String applicationId){
         List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusLastDay(applicationId,
                 "IN_PROGRESS");
         this.lWarningKpiThreshold = 4;
@@ -184,7 +184,7 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
     }
 
     @Override
-    public long calculatePastDayKPI(String applicationId){
+    public double calculatePastDayKPI(String applicationId){
         List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusPastDay(applicationId,
                 "IN_PROGRESS");
         this.lWarningKpiThreshold = 4;
@@ -193,13 +193,13 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
         return calculateKPI(workItems);
     }
 
-    private long calculateKPI(List<WorkItemStorage> workItems){
-        long deflectionDaysTotal = 0;
-        long a = 0;
-        long b = 0;
-        long x = 0;
-        long y = 0;
-        long kpi;
+    private double calculateKPI(List<WorkItemStorage> workItems){
+        double deflectionDaysTotal = 0;
+        double a = 0;
+        double b = 0;
+        double x = 0;
+        double y = 0;
+        double kpi;
 
         for(WorkItemStorage workItemStorage : workItems) {
             deflectionDaysTotal = deflectionDaysTotal + workItemStorage.getDeflectionDays();

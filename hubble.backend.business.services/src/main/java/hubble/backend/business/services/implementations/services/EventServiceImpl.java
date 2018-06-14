@@ -58,12 +58,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public long calculateLastDaySeverityKpi(String applicationId){
+    public double calculateLastDaySeverityKpi(String applicationId){
         return eventKpiOperation.calculateLastDayKPI(applicationId);
     }
 
     @Override
-    public long calculatePastDaySeverityKpi(String applicationId) {
+    public double calculatePastDaySeverityKpi(String applicationId) {
         return eventKpiOperation.calculatePastDayKPI(applicationId);
     }
 

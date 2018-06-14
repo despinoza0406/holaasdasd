@@ -249,8 +249,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         Double availabilityKPIminutes = availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get();
         Double performanceKPIminutes = performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get();
         Double issuesKPIminutes = issueService.calculateLast10MinutesKpiByApplication(id).get();
-        Double workItemKPIday = (double) workItemService.calculateLastDayDeflectionDaysKpi(id);
-        Double eventKPIday = (double) eventService.calculateLastDaySeverityKpi(id);
+        Double workItemKPIday = workItemService.calculateLastDayDeflectionDaysKpi(id);
+        Double eventKPIday = eventService.calculateLastDaySeverityKpi(id);
 
         List<Double> kpis = new ArrayList<>();
         kpis.add(availabilityKPIminutes);
@@ -267,8 +267,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         double availabilityKPImonth = availabilityService.calculateLastMonthKpiByApplication(id).getAvailabilityKpi().get();
         double performanceKPIday = performanceService.calculateLastDayKpiByApplication(id).getPerformanceKpi().get();
         double issuesKPIday = issueService.calculateLastDayKpiByApplication(id).get();
-        double workItemKPIday = (double) workItemService.calculatePastDayDeflectionDaysKpi(id);
-        double eventKPIday = (double) eventService.calculatePastDaySeverityKpi(id);
+        double workItemKPIday = workItemService.calculatePastDayDeflectionDaysKpi(id);
+        double eventKPIday = eventService.calculatePastDaySeverityKpi(id);
 
         List<Double> kpis = new ArrayList<>();
         kpis.add(availabilityKPImonth);

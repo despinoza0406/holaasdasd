@@ -13,13 +13,14 @@ public class SiteScopeEventProviderModel {
     private Date updatedDate;
     private List<Monitor> monitors;
     private String businessApplication;
-    private String applicationId;
+    private String businessApplicationId;
     private String type;
     private String providerName;
     private String providerOrigin;
 
     public SiteScopeEventProviderModel() {
     }
+
 
 
     public String getStatus() {
@@ -48,11 +49,11 @@ public class SiteScopeEventProviderModel {
     }
 
     public String getApplicationId() {
-        return applicationId;
+        return businessApplicationId;
     }
 
     public void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
+        this.businessApplicationId = applicationId;
     }
 
     public String getProviderName() {

@@ -43,7 +43,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
     public double calculateKeyPerformanceIndicator(EventsGroupRule eventsGroupRule) {
 
         if (eventsGroupRule == null) {
-            return 0d;
+            return 0;
         }
 
         calculateIssuesKpi.setWarningKpiThreshold(this.warningKpiThreshold);
@@ -176,17 +176,17 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
     }
 
     @Override
-    public long calculateLastDayKPI(String applicationId){
+    public double calculateLastDayKPI(String applicationId){
         List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusLastDay(applicationId,
                 "Good");
-        this.lWarningKpiThreshold = 100;
+        this.lWarningKpiThreshold = 100;  //despues los busca en la base de datos
         this.lCriticalKpiThreshold = 150;
         this.okKpiThreshold = 5;
         return calculateKPI(events);
     }
 
     @Override
-    public long calculatePastDayKPI(String applicationId){
+    public double calculatePastDayKPI(String applicationId){
         List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusPastDay(applicationId,
                 "Good");
         this.lWarningKpiThreshold = 100;
@@ -195,13 +195,13 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         return calculateKPI(events);
     }
 
-    private long calculateKPI(List<EventStorage> events){
+    private double calculateKPI(List<EventStorage> events){
         long severityPointsTotal = 0;
-        long a = 0;
-        long b = 0;
-        long x = 0;
-        long y = 0;
-        long kpi;
+        double a = 0;
+        double b = 0;
+        double x = 0;
+        double y = 0;
+        double kpi;
 
         for(EventStorage eventStorage : events) {
             severityPointsTotal = severityPointsTotal + eventStorage.getSeverityPoints();
@@ -217,7 +217,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
 
         //warning thresholds setting
         if (severityPointsTotal > this.okKpiThreshold & severityPointsTotal < this.lWarningKpiThreshold) {
-            a = 1;
+            a = this.okKpiThreshold;
             b = this.lWarningKpiThreshold;
             x = 6;
             y = 10;
