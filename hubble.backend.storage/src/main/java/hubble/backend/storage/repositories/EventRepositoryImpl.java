@@ -39,7 +39,8 @@ public class EventRepositoryImpl implements EventOperations {
 
         List<EventStorage> events = mongo
                 .find(Query.query(applicationIdCriteria
-                                .andOperator(startDateCriteria, endDateCriteria)),
+                                .andOperator(startDateCriteria, endDateCriteria))
+                                .addCriteria(statusCriteria),
                         EventStorage.class);
         return events;
     }

@@ -181,7 +181,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
                 "Good");
         this.lWarningKpiThreshold = 100;
         this.lCriticalKpiThreshold = 150;
-        this.okKpiThreshold = 0;
+        this.okKpiThreshold = 5;
         return calculateKPI(events);
     }
 
@@ -191,7 +191,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
                 "Good");
         this.lWarningKpiThreshold = 100;
         this.lCriticalKpiThreshold = 150;
-        this.okKpiThreshold = 0;
+        this.okKpiThreshold = 5;
         return calculateKPI(events);
     }
 
