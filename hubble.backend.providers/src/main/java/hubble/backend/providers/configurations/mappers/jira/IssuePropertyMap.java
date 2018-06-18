@@ -1,6 +1,7 @@
 package hubble.backend.providers.configurations.mappers.jira;
 
 import hubble.backend.core.enums.Providers;
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.models.jira.JiraIssueModel;
 import hubble.backend.storage.models.IssueStorage;
 import java.text.DateFormat;
@@ -18,7 +19,7 @@ public class IssuePropertyMap extends PropertyMap<JiraIssueModel, IssueStorage> 
     protected void configure() {
 
         String providerName = Providers.PROVIDERS_NAME.JIRA.toString();
-
+        map().setTimestamp(DateHelper.getDateNow());
         map().setExternalId(source.getId());
         map().setAssignee(source.getFields().getAssignee().getName());
         map().setDescription(source.getFields().getDescription());

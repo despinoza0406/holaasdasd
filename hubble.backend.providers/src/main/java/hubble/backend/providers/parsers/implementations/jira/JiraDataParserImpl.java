@@ -61,9 +61,7 @@ public class JiraDataParserImpl implements JiraDataParser {
 
             for (JiraIssueModel issue : issues) {
                 issueStorage = jiraMapperConfiguration.mapToIssueStorage(issue);
-                if (!issueRepository.exist(issueStorage)) {
-                    issueRepository.save(issueStorage);
-                }
+                issueRepository.save(issueStorage);
             }
         }
     }

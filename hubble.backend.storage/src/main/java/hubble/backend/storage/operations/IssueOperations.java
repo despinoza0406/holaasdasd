@@ -13,4 +13,6 @@ public interface IssueOperations {
     List<IssueStorage> findIssuesByApplicationIdAndDurationMinutes(int duration, String applicationId);
 
     List<IssueStorage> findIssuesByApplicationIdAndDurationMonths(int duration, String applicationId);
+
+    List<IssueStorage> findIssuesByApplicationIdBetweenTimestampDates(String applicationId, Date yesterday, Date dateNow);
 }
