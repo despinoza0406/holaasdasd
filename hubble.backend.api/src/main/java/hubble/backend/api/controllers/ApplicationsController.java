@@ -21,7 +21,7 @@ public class ApplicationsController {
     private BusinessApplicationManager businessAppMgr;
 
     @GetMapping(value = "/applications/{applicationId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin(origins = "http://localhost:8888")
+    @CrossOrigin//(origins = "http://localhost:8888")
     public BusinessApplicationProfile get(HttpServletRequest req, @PathVariable String applicationId) {
 
         BusinessApplicationProfile applicationView = businessAppMgr.getBusinessApplicationView(applicationId);
@@ -30,7 +30,7 @@ public class ApplicationsController {
     }
 
     @GetMapping(value = "/applications/")
-    @CrossOrigin(origins = "http://localhost:8888")
+    @CrossOrigin//(origins = "http://localhost:8888")
     public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req, @RequestParam("id") String applicationId) {
 
         BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId);
@@ -47,7 +47,7 @@ public class ApplicationsController {
     }
 
     @GetMapping(value = "/applications/all")
-    @CrossOrigin(origins = "http://localhost:8888")
+    @CrossOrigin//(origins = "http://localhost:8888")
     public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
              @RequestParam("page") int page,
              @RequestParam("limit") int limit) {
