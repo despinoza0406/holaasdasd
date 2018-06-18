@@ -8,6 +8,7 @@ public class IssueStorage {
     
     private String id;
     private int externalId;
+    private Date timestamp;
     private Date registeredDate;
     private Date modifiedDate;
     private Date closedDate;
@@ -203,5 +204,13 @@ public class IssueStorage {
 
     public void setDetectedBy(String detectedBy) {
         this.detectedBy = detectedBy;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 }

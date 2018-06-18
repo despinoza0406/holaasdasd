@@ -1,5 +1,7 @@
 package hubble.backend.providers.configurations.mappers.alm;
 
+import hubble.backend.core.utils.CalendarHelper;
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.models.alm.AlmDefectProviderModel;
 import hubble.backend.storage.models.IssueStorage;
 import java.text.ParseException;
@@ -17,6 +19,7 @@ public class AlmDefectToIssueConverter extends AbstractConverter<AlmDefectProvid
     @Override
     protected IssueStorage convert(AlmDefectProviderModel source) {
         IssueStorage issue = new IssueStorage();
+        issue.setTimestamp(DateHelper.getDateNow());
         issue.setClosedDate(stringToDate(source.getClosedDate(), "yyyy-MM-dd"));
         issue.setModifiedDate(stringToDate(source.getModifiedDate(), "yyyy-MM-dd"));
         issue.setPriority(selectorToInteger(source.getPriority()));
