@@ -246,8 +246,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id){
-        Double availabilityKPIminutes = availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get();
-        Double performanceKPIminutes = performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get();
+        Double availabilityKPIminutes = availabilityService.calculateLastHourKpiByApplication(id).getAvailabilityKpi().get();
+        Double performanceKPIminutes = performanceService.calculateLastHourKpiByApplication(id).getPerformanceKpi().get();
         Double issuesKPIminutes = issueService.calculateHistoryLastDayKpiByApplication(id);
         Double workItemKPIday = workItemService.calculateLastDayDeflectionDaysKpi(id);
         Double eventKPIday = eventService.calculateLastDaySeverityKpi(id);
@@ -265,7 +265,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     public void setPastHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id) {
         double availabilityKPImonth = availabilityService.calculateLastMonthKpiByApplication(id).getAvailabilityKpi().get();
-        double performanceKPIday = performanceService.calculateLastDayKpiByApplication(id).getPerformanceKpi().get();
+        double performanceKPIday = performanceService.calculateLastMonthKpiByApplication(id).getPerformanceKpi().get();
         double issuesKPIday = issueService.calculateHistoryDayBeforeKpiByApplication(id);
         double workItemKPIday = workItemService.calculatePastDayDeflectionDaysKpi(id);
         double eventKPIday = eventService.calculatePastDaySeverityKpi(id);
@@ -286,12 +286,12 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         KpiFrontend availabilityKpi = new KpiFrontend();
         availabilityKpi.setKpiName("Disponibilidad");
         availabilityKpi.setKpiShortName("D");
-        availabilityKpi.setKpiValue(availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get());
+        availabilityKpi.setKpiValue(availabilityService.calculateLastHourKpiByApplication(id).getAvailabilityKpi().get());
         kpis.add(availabilityKpi);
         KpiFrontend performanceKpi = new KpiFrontend();
         performanceKpi.setKpiName("Performance");
         performanceKpi.setKpiShortName("P");
-        performanceKpi.setKpiValue(performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get());
+        performanceKpi.setKpiValue(performanceService.calculateLastHourKpiByApplication(id).getPerformanceKpi().get());
         kpis.add(performanceKpi);
         KpiFrontend issuesKpi = new KpiFrontend();
         issuesKpi.setKpiName("Incidencias");
