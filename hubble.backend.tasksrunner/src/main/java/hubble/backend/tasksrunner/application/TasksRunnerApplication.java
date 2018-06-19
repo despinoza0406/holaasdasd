@@ -80,14 +80,14 @@ public class TasksRunnerApplication {
         ParserTask bsmTask = new BsmDataTaskImpl(bsmJob);
         bsmTask.setIndentityGroupName("BSM");
         bsmTask.setIndentityName("BSM Data Transacciones");
-        bsmTask.setIntervalSeconds(60 * 60);
+        bsmTask.setIntervalSeconds(60 * 10);
 
         BsmApplicationParser bsmApplicationParser = context.getBean(BsmApplicationParser.class);
         ParserJob bsmApplicationJob = new BsmApplicationParserJob(bsmApplicationParser);
         Task bsmApplicationTask = new BsmApplicationTaskImpl(bsmApplicationJob);
         bsmApplicationTask.setIndentityGroupName("BSM");
         bsmApplicationTask.setIndentityName("BSM Applicaciones");
-        bsmApplicationTask.setIntervalSeconds(60 * 60);
+        bsmApplicationTask.setIntervalSeconds(60 * 60 * 24);
         scheduler.addTask(bsmApplicationTask);
         scheduler.addTask(bsmTask);
         
@@ -97,7 +97,7 @@ public class TasksRunnerApplication {
         ParserTask almDataTask = new AlmDataTaskImpl(almJob);
         almDataTask.setIndentityGroupName("Alm Provider Job");
         almDataTask.setIndentityName("Alm Data");
-        almDataTask.setIntervalSeconds(60); //1 día
+        almDataTask.setIntervalSeconds(60 * 60 * 24); //1 día
         
         AlmApplicationParser almApplicationParser = context.getBean(AlmApplicationParser.class);
         ParserJob almApplicationJob = new AlmApplicationParserJob(almApplicationParser);
@@ -133,14 +133,14 @@ public class TasksRunnerApplication {
         ParserTask jiraDataTask = new JiraDataTaskImpl(jiraJob);
         jiraDataTask.setIndentityGroupName("Jira Provider Job");
         jiraDataTask.setIndentityName("Jira Data");
-        jiraDataTask.setIntervalSeconds(60);
+        jiraDataTask.setIntervalSeconds(60 * 60 * 24);
         
         JiraApplicationParser jiraAppParser = context.getBean(JiraApplicationParser.class);
         ParserJob jiraAppJob = new JiraApplicationParserJob(jiraAppParser);
         ParserTask jiraAppTask = new JiraApplicationTaskImpl(jiraAppJob);
         jiraAppTask.setIndentityGroupName("Jira Provider Job");
         jiraAppTask.setIndentityName("Jira Applications");
-        jiraAppTask.setIntervalSeconds(60 * 60);
+        jiraAppTask.setIntervalSeconds(60 * 60 * 24);
         scheduler.addTask(jiraDataTask);
         scheduler.addTask(jiraAppTask);
 
