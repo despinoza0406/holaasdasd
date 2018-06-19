@@ -5,6 +5,7 @@ import hubble.backend.api.models.BusinessApplication;
 import hubble.backend.api.models.BusinessApplicationFrontend;
 import hubble.backend.api.models.BusinessApplicationProfile;
 import java.util.List;
+import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +51,9 @@ public class ApplicationsController {
     @GetMapping(value = "/applications")
     @CrossOrigin//(origins = "http://localhost:8888")
     public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
-             @RequestParam("page") int page,
-             @RequestParam("limit") int limit) {
-        List<BusinessApplicationFrontend> applicationFrontends = businessAppMgr.getBusinessApplicationsFrontend();
-        return applicationFrontends;
+        @RequestParam("include-inactives") Optional<Boolean> includeInactives,
+        @RequestParam("page") int page,
+        @RequestParam("limit") int limit) {
+        return businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false));
     }
 }
