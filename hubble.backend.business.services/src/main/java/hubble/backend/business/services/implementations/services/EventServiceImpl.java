@@ -73,7 +73,7 @@ public class EventServiceImpl implements EventService {
             eventRepository.findEventsByApplicationIdAndDifferentStatusLastDay(id, "Good");
         List<Integer> distValuesInt = new ArrayList<>();
         for (EventStorage eventStorage : eventsStorage){
-            //distValuesInt.add((int) eventStorage.getDeflectionDays());
+            distValuesInt.add((int) eventStorage.getSeverityPoints());
         }
         return distValuesInt;
     }
