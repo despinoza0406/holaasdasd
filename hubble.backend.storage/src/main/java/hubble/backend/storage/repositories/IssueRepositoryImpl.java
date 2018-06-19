@@ -3,6 +3,8 @@ package hubble.backend.storage.repositories;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.storage.models.IssueStorage;
 import hubble.backend.storage.operations.IssueOperations;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -73,6 +75,24 @@ public class IssueRepositoryImpl implements IssueOperations {
                 .find(Query
                         .query(applicationIdCriteria.andOperator(
                                 startDateCriteria)),
+                        IssueStorage.class);
+        return issues;
+    }
+
+    @Override
+    public List<IssueStorage> findIssuesByApplicationIdBetweenTimestampDates(String applicationId, Date yesterday, Date dateNow) {
+        Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
+        Criteria startDateCriteria = Criteria.where("timestamp").gte(yesterday);
+        Criteria endDateCriteria = Criteria.where("timestamp").lte(dateNow);
+        List<String> statuses = new ArrayList<>();
+        statuses.add("Nuevo");
+        statuses.add("To Do");
+        Criteria status = Criteria.where("status").in(statuses);
+
+        List<IssueStorage> issues = mongo
+                .find(Query.query(applicationIdCriteria.andOperator(
+                                        startDateCriteria, endDateCriteria))
+                        .addCriteria(status),
                         IssueStorage.class);
         return issues;
     }

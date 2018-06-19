@@ -15,4 +15,8 @@ public interface IssueService extends ServiceBase<Issue>,
     public IssuesQuantity calculateIssuesQuantityLastDay(String applicationId);
 
     List<Integer> getDistValuesLastDay(String id);
+
+    double calculateHistoryLastDayKpiByApplication(String applicationId);
+
+    double calculateHistoryDayBeforeKpiByApplication(String applicationId);
 }

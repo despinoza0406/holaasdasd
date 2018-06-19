@@ -33,9 +33,22 @@ public class DateHelper {
         return cal.getTime();
     }
 
+    public static Date getNDaysBefore(int n){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -n);
+        return cal.getTime();
+    }
+
+
     public static Date getAnHourAgo(){
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.HOUR, -1);
+        return cal.getTime();
+    }
+
+    public static Date getNHoursAgo(int hours){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, -hours);
         return cal.getTime();
     }
 }

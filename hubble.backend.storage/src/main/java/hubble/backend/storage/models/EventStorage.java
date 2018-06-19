@@ -19,8 +19,6 @@ public class EventStorage {
     private String type;
     private String businessApplication;
     private String businessApplicationId;
-    private String transaction;
-    private int transactionId;
     private String status;
     private String externalUri;
     private String description;
@@ -116,22 +114,6 @@ public class EventStorage {
         this.businessApplicationId = businessApplicationId;
     }
 
-    public String getTransaction() {
-        return transaction;
-    }
-
-    public void setTransaction(String transaction) {
-        this.transaction = transaction;
-    }
-
-    public int getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(int transactionId) {
-        this.transactionId = transactionId;
-    }
-
     public String getExternalUri() {
         return externalUri;
     }
@@ -178,6 +160,8 @@ public class EventStorage {
         }
         return 1;
     }
+
+
 
     public List<Monitor> getMonitors() {
         return monitors;

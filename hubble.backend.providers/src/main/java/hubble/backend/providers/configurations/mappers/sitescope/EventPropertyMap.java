@@ -22,7 +22,7 @@ public class EventPropertyMap extends PropertyMap<SiteScopeEventProviderModel, E
         map().setDescription(source.getDescription());
         map().setProviderName(source.getProviderName());
         map().setProviderOrigin(source.getProviderOrigin());
-        map().setApplicationId(source.getApplicationId());
+        map().setBusinessApplicationId(source.getApplicationId());
         map().setStatus(source.getStatus());
         map().setName(source.getName());
         map().setType(source.getType());

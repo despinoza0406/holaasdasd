@@ -17,6 +17,8 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static java.lang.Math.round;
+
 @Component
 public class IssueServiceImpl implements IssueService {
 
@@ -68,6 +70,20 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
+    public double calculateHistoryDayBeforeKpiByApplication(String applicationId) {
+        List<IssueStorage> issuesStorage =
+                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(applicationId, DateHelper.getNDaysBefore(2), DateHelper.getYesterday());
+        return calculateKPI(issuesStorage);
+    }
+
+    @Override
+    public double calculateHistoryLastDayKpiByApplication(String applicationId) {
+        List<IssueStorage> issuesStorage =
+                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(applicationId, DateHelper.getYesterday(), DateHelper.getDateNow());
+        return calculateKPI(issuesStorage);
+    }
+
+    @Override
     public IssuesKpi calculateLastMonthKpiByApplication(String applicationId) {
         return issueKpiOperation.calculateLastMonthKeyPerformanceIndicatorByApplication(applicationId);
     }
@@ -80,7 +96,7 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public List<Integer> getDistValuesLastDay(String id) {
         List<IssueStorage> issuesStorage =
-                issueRepository.findIssuesByApplicationIdBetweenDates(id, DateHelper.getDateNow(), DateHelper.getAnHourAgo());
+                issueRepository.findIssuesByApplicationIdBetweenDates(id, DateHelper.getYesterday(), DateHelper.getDateNow());
         List<Integer> distValuesInt = new ArrayList<>();
         for (IssueStorage issue : issuesStorage) {
             float criticity = (issue.getPriority() + issue.getSeverity()) / 2;
@@ -99,4 +115,24 @@ public class IssueServiceImpl implements IssueService {
             return 3;
     }
 
+    private double calculateKPI(List<IssueStorage> issuesStorage){
+        double totalCriticity = 0;
+
+        for(IssueStorage issueStorage : issuesStorage) {
+            double criticity = round((issueStorage.getSeverity() + issueStorage.getPriority()) / 2);
+            totalCriticity = totalCriticity + criticity;
+        }
+
+        double criticalThreshold = 15;
+
+        if(totalCriticity > criticalThreshold) {
+            return 0;
+        }
+
+        if(totalCriticity == 0) {
+            return 10;
+        }
+
+        return ( (totalCriticity - 1) / (criticalThreshold - 1) ) * (10-1) + 1;
+    }
 }

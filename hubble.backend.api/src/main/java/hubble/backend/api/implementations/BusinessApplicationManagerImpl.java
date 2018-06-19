@@ -246,11 +246,11 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id){
-        Double availabilityKPIminutes = availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get();
-        Double performanceKPIminutes = performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get();
-        Double issuesKPIminutes = issueService.calculateLast10MinutesKpiByApplication(id).get();
-        Double workItemKPIday = (double) workItemService.calculateLastDayDeflectionDaysKpi(id);
-        Double eventKPIday = (double) eventService.calculateLastDaySeverityKpi(id);
+        Double availabilityKPIminutes = availabilityService.calculateLastHourKpiByApplication(id).getAvailabilityKpi().get();
+        Double performanceKPIminutes = performanceService.calculateLastHourKpiByApplication(id).getPerformanceKpi().get();
+        Double issuesKPIminutes = issueService.calculateHistoryLastDayKpiByApplication(id);
+        Double workItemKPIday = workItemService.calculateLastDayDeflectionDaysKpi(id);
+        Double eventKPIday = eventService.calculateLastDaySeverityKpi(id);
 
         List<Double> kpis = new ArrayList<>();
         kpis.add(availabilityKPIminutes);
@@ -265,10 +265,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     public void setPastHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id) {
         double availabilityKPImonth = availabilityService.calculateLastMonthKpiByApplication(id).getAvailabilityKpi().get();
-        double performanceKPIday = performanceService.calculateLastDayKpiByApplication(id).getPerformanceKpi().get();
-        double issuesKPIday = issueService.calculateLastDayKpiByApplication(id).get();
-        double workItemKPIday = (double) workItemService.calculatePastDayDeflectionDaysKpi(id);
-        double eventKPIday = (double) eventService.calculatePastDaySeverityKpi(id);
+        double performanceKPIday = performanceService.calculateLastMonthKpiByApplication(id).getPerformanceKpi().get();
+        double issuesKPIday = issueService.calculateHistoryDayBeforeKpiByApplication(id);
+        double workItemKPIday = workItemService.calculatePastDayDeflectionDaysKpi(id);
+        double eventKPIday = eventService.calculatePastDaySeverityKpi(id);
 
         List<Double> kpis = new ArrayList<>();
         kpis.add(availabilityKPImonth);
@@ -286,27 +286,28 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         KpiFrontend availabilityKpi = new KpiFrontend();
         availabilityKpi.setKpiName("Disponibilidad");
         availabilityKpi.setKpiShortName("D");
-        availabilityKpi.setKpiValue(availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get());
+        availabilityKpi.setKpiValue(availabilityService.calculateLastHourKpiByApplication(id).getAvailabilityKpi().get());
         kpis.add(availabilityKpi);
         KpiFrontend performanceKpi = new KpiFrontend();
         performanceKpi.setKpiName("Performance");
         performanceKpi.setKpiShortName("P");
-        performanceKpi.setKpiValue(performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get());
+        performanceKpi.setKpiValue(performanceService.calculateLastHourKpiByApplication(id).getPerformanceKpi().get());
         kpis.add(performanceKpi);
         KpiFrontend issuesKpi = new KpiFrontend();
         issuesKpi.setKpiName("Incidencias");
         issuesKpi.setKpiShortName("I");
-        issuesKpi.setKpiValue(issueService.calculateLast10MinutesKpiByApplication(id).get());
+        issuesKpi.setKpiValue(issueService.calculateHistoryLastDayKpiByApplication(id));
         kpis.add(issuesKpi);
         KpiFrontend workitemKpi = new KpiFrontend();
         workitemKpi.setKpiName("Tareas");
         workitemKpi.setKpiShortName("T");
-        workitemKpi.setKpiValue((double) workItemService.calculateLastDayDeflectionDaysKpi(id));
+        workitemKpi.setKpiValue(workItemService.calculateLastDayDeflectionDaysKpi(id));
         kpis.add(workitemKpi);
         KpiFrontend eventKpi = new KpiFrontend();
         eventKpi.setKpiName("Eventos");
         eventKpi.setKpiShortName("E");
-        eventKpi.setKpiValue((double) eventService.calculateLastDaySeverityKpi(id));
+        eventKpi.setKpiValue(eventService.calculateLastDaySeverityKpi(id));
+        kpis.add(eventKpi);
         businessApplicationFrontend.setKpis(kpis);
     }
 
@@ -335,6 +336,9 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
                 break;
             case "Tareas":
                 distValuesInt = workItemService.getDistValuesLastDay(id);
+                break;
+            case "Eventos":
+                distValuesInt = eventService.getDistValuesLastDay(id);
                 break;
             default:
                 distValuesInt = new ArrayList<>();

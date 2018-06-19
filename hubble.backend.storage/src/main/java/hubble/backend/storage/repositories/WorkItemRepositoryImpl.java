@@ -50,7 +50,6 @@ public class WorkItemRepositoryImpl implements WorkItemOperations {
     public List<WorkItemStorage> findWorkItemsByApplicationIdAndStatusLastDay(String applicationId, String status){
         Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
         Criteria statusCriteria = Criteria.where("status").is(status);
-        Criteria deflectionCriteria = Criteria.where("deflectionDays").gt(0);
         Date now = getDateNow();
         Criteria startDateCriteria = Criteria.where("timestamp").gte(getYesterday());
         Criteria endDateCriteria = Criteria.where("timestamp").lte(getDateNow());
@@ -58,8 +57,7 @@ public class WorkItemRepositoryImpl implements WorkItemOperations {
         List<WorkItemStorage> workItems = mongo
                 .find(Query.query(applicationIdCriteria
                                         .andOperator(startDateCriteria, endDateCriteria))
-                                .addCriteria(statusCriteria)
-                                .addCriteria(deflectionCriteria),
+                                .addCriteria(statusCriteria),
                         WorkItemStorage.class);
         return workItems;
     }

@@ -97,9 +97,7 @@ public class AlmDataParserImpl implements AlmDataParser {
         List<JSONObject> defects = this.parseList(allDefects);
         for (JSONObject defect : defects) {
             IssueStorage issue = this.convert(this.parse(defect));
-            if (!issueRepository.exist(issue)) {
-                issueRepository.save(issue);
-            }
+            issueRepository.save(issue);
         }
         almTransport.logout();
     }

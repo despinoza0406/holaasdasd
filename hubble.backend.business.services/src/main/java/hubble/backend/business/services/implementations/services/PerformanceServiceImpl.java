@@ -137,7 +137,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Override
     public List<Integer> getDistValuesLastHour(String id) {
         List<AvailabilityStorage> availabilityStorageList =
-                availabilityRepository.findAvailabilitiesBydAndPeriod(DateHelper.getDateNow(), DateHelper.getAnHourAgo());
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id, DateHelper.getAnHourAgo(), DateHelper.getDateNow());
         List<Integer> distValuesInt = new ArrayList<>();
         for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
             distValuesInt.add((int) availabilityStorage.getResponseTime());
