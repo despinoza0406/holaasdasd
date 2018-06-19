@@ -6,6 +6,7 @@ import hubble.backend.api.models.BusinessApplicationFrontend;
 import hubble.backend.api.models.BusinessApplicationProfile;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,9 +30,9 @@ public class ApplicationsController {
         return applicationView;
     }
 
-    @GetMapping(value = "/applications/")
+    @GetMapping(value = "/applications/{id}")
     @CrossOrigin//(origins = "http://localhost:8888")
-    public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req, @RequestParam("id") String applicationId) {
+    public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req, @PathParam("id") String applicationId) {
 
         BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId);
 
@@ -46,7 +47,7 @@ public class ApplicationsController {
         return applications;
     }
 
-    @GetMapping(value = "/applications/all")
+    @GetMapping(value = "/applications")
     @CrossOrigin//(origins = "http://localhost:8888")
     public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
              @RequestParam("page") int page,
