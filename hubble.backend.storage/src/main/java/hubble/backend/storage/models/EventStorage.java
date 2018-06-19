@@ -3,6 +3,9 @@ package hubble.backend.storage.models;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Eventos de SiteScope.
+ */
 public class EventStorage {
     private String id;
     private Date registeredDate;

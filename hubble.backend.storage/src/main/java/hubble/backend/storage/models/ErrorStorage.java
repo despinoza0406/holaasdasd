@@ -1,5 +1,8 @@
 package hubble.backend.storage.models;
 
+/**
+ * ¿Qué es esto?
+ */
 public class ErrorStorage {
     private String fileName;
     private int lineNumber;

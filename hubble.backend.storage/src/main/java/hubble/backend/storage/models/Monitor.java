@@ -1,5 +1,8 @@
 package hubble.backend.storage.models;
 
+/**
+ * Monitor de un grupo en SiteScope.
+ */
 public class Monitor {
     private String name;
     private String summary;

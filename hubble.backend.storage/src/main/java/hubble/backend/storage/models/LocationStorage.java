@@ -2,6 +2,9 @@ package hubble.backend.storage.models;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Cada Location es una computadora/robot o lo que sea que simula un usuario en la integración de BSM.
+ */
 @Document
 public class LocationStorage {
 

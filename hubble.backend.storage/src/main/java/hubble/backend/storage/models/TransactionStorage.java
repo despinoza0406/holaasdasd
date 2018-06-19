@@ -2,6 +2,9 @@ package hubble.backend.storage.models;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Estas son las transacciones de BSM.
+ */
 @Document
 public class TransactionStorage {
 

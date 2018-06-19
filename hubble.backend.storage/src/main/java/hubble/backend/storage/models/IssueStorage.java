@@ -3,6 +3,9 @@ package hubble.backend.storage.models;
 import java.util.Date;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Los defectos en ALM o Jira.
+ */
 @Document
 public class IssueStorage {
     

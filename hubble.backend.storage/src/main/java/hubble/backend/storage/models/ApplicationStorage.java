@@ -3,6 +3,9 @@ package hubble.backend.storage.models;
 import java.util.List;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * 
+ */
 @Document
 public class ApplicationStorage {
 
