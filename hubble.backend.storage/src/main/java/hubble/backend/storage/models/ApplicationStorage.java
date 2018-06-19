@@ -1,10 +1,11 @@
 package hubble.backend.storage.models;
 
 import java.util.List;
+import java.util.Set;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * 
+ *
  */
 @Document
 public class ApplicationStorage {
@@ -21,8 +22,17 @@ public class ApplicationStorage {
     private List<TransactionStorage> transactions;
     private List<LocationStorage> locations;
     private int applicationConfigurationVersion;
+    private KPIs kpis;
 
     public ApplicationStorage() {
+    }
+
+    public ApplicationStorage(String applicationId, String applicationName, boolean active, KPIs kpis) {
+        this.id = applicationId;
+        this.applicationId = applicationId;
+        this.applicationName = applicationName;
+        this.active = active;
+        this.kpis = kpis;
     }
 
     public String getApplicationId() {
@@ -120,4 +130,13 @@ public class ApplicationStorage {
     public void setApplicationConfigurationVersion(int applicationConfigurationVersion) {
         this.applicationConfigurationVersion = applicationConfigurationVersion;
     }
+
+    public KPIs getKpis() {
+        return kpis;
+    }
+
+    public void setKpis(KPIs kpis) {
+        this.kpis = kpis;
+    }
+
 }

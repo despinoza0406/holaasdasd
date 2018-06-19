@@ -4,17 +4,27 @@ import hubble.backend.business.services.interfaces.services.InitialDataService;
 import hubble.backend.business.services.models.Roles;
 import hubble.backend.storage.models.ALM;
 import hubble.backend.storage.models.AppPulse;
+import hubble.backend.storage.models.ApplicationStorage;
+import hubble.backend.storage.models.Availavility;
 import hubble.backend.storage.models.BSM;
 import hubble.backend.storage.models.Days;
+import hubble.backend.storage.models.Defects;
+import hubble.backend.storage.models.Events;
 import hubble.backend.storage.models.Frecuency;
 import hubble.backend.storage.models.HourRange;
 import hubble.backend.storage.models.Jira;
+import hubble.backend.storage.models.KPITypes;
+import hubble.backend.storage.models.KPIs;
 import hubble.backend.storage.models.PPM;
+import hubble.backend.storage.models.Performance;
 import hubble.backend.storage.models.Schedule;
 import hubble.backend.storage.models.SiteScope;
 import hubble.backend.storage.models.SoapEndpoint;
 import hubble.backend.storage.models.TaskRunner;
+import hubble.backend.storage.models.Tasks;
+import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.models.UserStorage;
+import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.storage.repositories.UsersRepository;
 import static java.util.Arrays.asList;
@@ -34,16 +44,18 @@ public class InitialDataServiceImpl implements InitialDataService {
 
     private static final String ADMIN_EMAIL = "admin@tsoftlatam.com";
     private static final TaskRunner EVERY_DAY_AT_9 = new TaskRunner(
-        true, 
+        true,
         new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.DAYLY)
     );
     private final UsersRepository users;
     private final ProvidersRepository providers;
+    private final ApplicationRepository applications;
 
     @Autowired
-    public InitialDataServiceImpl(UsersRepository users, ProvidersRepository providers) {
+    public InitialDataServiceImpl(UsersRepository users, ProvidersRepository providers, ApplicationRepository applications) {
         this.users = users;
         this.providers = providers;
+        this.applications = applications;
     }
 
     @Transactional
@@ -51,12 +63,35 @@ public class InitialDataServiceImpl implements InitialDataService {
     public void createData() {
         createAdminUser();
         configureProviders();
+        configureApplications();
     }
 
     private void createAdminUser() {
         if (!exists(adminSample())) {
             users.save(admin());
         }
+    }
+
+    private void configureApplications() {
+        guardarAplicacion("home-banking", "Home Banking");
+        guardarAplicacion("mobile-banking", "Mobile Banking");
+        guardarAplicacion("crm", "CRM");        
+    }
+    
+    private void guardarAplicacion(String id, String nombre) {
+        Threashold th = new Threashold(1d, 2, 5d);
+        applications.save(new ApplicationStorage(
+            id,
+            nombre,
+            true,
+            new KPIs(
+                new Tasks(true, th, th, th),
+                new Defects(true, th, th, th),
+                new Availavility(true, th, th, th, th),
+                new Performance(true, th, th, th, th),
+                new Events(true, th, th, th, th)
+            )
+        ));
     }
 
     private boolean exists(UserStorage adminSample) {
