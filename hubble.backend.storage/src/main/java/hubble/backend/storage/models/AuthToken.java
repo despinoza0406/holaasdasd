@@ -46,4 +46,12 @@ public class AuthToken {
             .put("expiration", DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(expiration));
     }
 
+    public boolean validate(UUID token) {
+        return this.token.equals(token);
+    }
+
+    public boolean isValid() {
+        return LocalDateTime.now().isBefore(this.expiration);
+    }
+
 }

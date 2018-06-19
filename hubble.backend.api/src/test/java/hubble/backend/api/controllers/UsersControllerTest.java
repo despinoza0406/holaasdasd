@@ -6,6 +6,7 @@ import hubble.backend.storage.repositories.UsersRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.is;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -70,12 +71,47 @@ public class UsersControllerTest {
         );
     }
 
+    @Test
+    public void refreshTokenWithValidTokenReturnsOK() {
+        UsersService service = mock(UsersService.class);
+        UUID token = UUID.randomUUID();
+        when(service.refreshToken("test@tsoftlatam.com", token)).thenReturn(randomToken());
+        UsersController controller = new UsersController(service, mock(UsersRepository.class));
+        assertThat(
+            "new token",
+            controller.refreshToken("test@tsoftlatam.com", token),
+            is(ok())
+        );
+    }
+
+    private AuthToken randomToken() {
+        return new AuthToken(UUID.randomUUID(), LocalDateTime.now().plusDays(1));
+    }
+
+    @Test
+    public void refreshTokenWithInvalidTokenReturnsBAD_REQUEST() {
+        UsersService service = mock(UsersService.class);
+        when(
+            service.refreshToken(Mockito.any(String.class), Mockito.any(UUID.class))
+        ).thenThrow(new RuntimeException());
+        UsersController controller = new UsersController(service, mock(UsersRepository.class));
+        assertThat(
+            "new token",
+            controller.refreshToken("test@tsoftlatam.com", UUID.randomUUID()),
+            is(badRequest())
+        );
+    }
+
     private Matcher<ResponseEntity> forbidden() {
         return hasStatus(HttpStatus.FORBIDDEN);
     }
 
     private Matcher<ResponseEntity> ok() {
         return hasStatus(HttpStatus.OK);
+    }
+
+    private Matcher<ResponseEntity> badRequest() {
+        return hasStatus(HttpStatus.BAD_REQUEST);
     }
 
     private Matcher<ResponseEntity> hasStatus(HttpStatus status) {

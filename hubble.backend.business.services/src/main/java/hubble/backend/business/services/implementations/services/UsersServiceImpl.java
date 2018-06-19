@@ -8,6 +8,8 @@ import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.UsersRepository;
 import java.util.Set;
+import java.util.UUID;
+import java.util.function.Supplier;
 import static java.util.stream.Collectors.toSet;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,12 +52,25 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     @Override
     public AuthToken authenticate(String email, char[] password) {
-        UserStorage user = users
-            .findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Usuario o clave inválidos."));
+        UserStorage user = user(email, () -> "Usuario o contraseña inválidos.");
         AuthToken token = user.authenticate(password);
         users.save(user);
         return token;
+    }
+
+    @Transactional
+    @Override
+    public AuthToken refreshToken(String email, UUID token) {
+        UserStorage user = user(email, () -> "No existe el usuario.");
+        AuthToken newToken = user.refreshToken(token);
+        users.save(user);
+        return newToken;
+    }
+
+    private UserStorage user(String email, Supplier<String> error) {
+        return users
+            .findByEmail(email)
+            .orElseThrow(() -> new RuntimeException(error.get()));
     }
 
 }

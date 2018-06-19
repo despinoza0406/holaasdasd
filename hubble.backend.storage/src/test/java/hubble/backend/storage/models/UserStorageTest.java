@@ -1,5 +1,11 @@
 package hubble.backend.storage.models;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.UUID;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
@@ -37,6 +43,35 @@ public class UserStorageTest {
         user.setEnabled(true);
         user.changePassword(password.toCharArray());
         return user;
+    }
+
+    @Test
+    public void refreshTokenSuccessIfNotExpired() {
+        String password = "pass123456";
+        UserStorage user = user(password);
+        AuthToken token = user.authenticate(password.toCharArray());
+        assertThat("new token", user.refreshToken(token.getToken()), is(not(nullValue())));
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void refreshTokenFailsIfIncorrectToken() {
+        String password = "pass123456";
+        UserStorage user = user(password);
+        user.authenticate(password.toCharArray());
+        user.refreshToken(UUID.randomUUID());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void refreshTokenFailsIfExpired() {
+        String password = "pass123456";
+        UserStorage user = user(password);
+        AuthToken token = user.authenticate(password.toCharArray());
+        token.setExpiration(LocalDateTime.now().minusDays(1)); // Horrible, pero es la única forma de simular esto.
+        user.refreshToken(token.getToken());
+    }
+
+    private UserStorage user(String password) {
+        return new UserStorage("a@tsoftlatam.com", "A", password.toCharArray(), Collections.EMPTY_SET, Collections.EMPTY_SET);
     }
 
 }

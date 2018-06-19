@@ -7,6 +7,7 @@ import hubble.backend.business.services.models.Roles;
 import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.UsersRepository;
 import java.util.Optional;
+import java.util.UUID;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,19 @@ public class UsersController {
             );
         } catch (RuntimeException ex) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
+        }
+    }
+    
+    
+    @PostMapping(value = "/{email}/tokens/{token}/refresh", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity refreshToken(@PathVariable String email, @PathVariable UUID token) {
+        try {
+            return new ResponseEntity(
+                users.refreshToken(email, token).toJson(),
+                HttpStatus.OK
+            );
+        } catch (RuntimeException ex) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }
 

@@ -13,7 +13,6 @@ import hubble.backend.storage.models.Events;
 import hubble.backend.storage.models.Frecuency;
 import hubble.backend.storage.models.HourRange;
 import hubble.backend.storage.models.Jira;
-import hubble.backend.storage.models.KPITypes;
 import hubble.backend.storage.models.KPIs;
 import hubble.backend.storage.models.PPM;
 import hubble.backend.storage.models.Performance;
