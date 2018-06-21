@@ -45,6 +45,20 @@ public class EventRepositoryImpl implements EventOperations {
         return events;
     }
 
+    public List<EventStorage> findEventsByApplicationIdAndDifferentStatusLastHour(String applicationId, String status){
+        Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
+        Criteria statusCriteria = Criteria.where("status").ne(status);
+        Criteria startDateCriteria = Criteria.where("updatedDate").gte(getLastHour());
+        Criteria endDateCriteria = Criteria.where("updatedDate").lte(getDateNow());
+
+        List<EventStorage> events = mongo
+                .find(Query.query(applicationIdCriteria
+                                .andOperator(startDateCriteria, endDateCriteria))
+                                .addCriteria(statusCriteria),
+                        EventStorage.class);
+        return events;
+    }
+
     public List<EventStorage> findEventsByApplicationIdAndDifferentStatusPastDay(String applicationId, String status){
         Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
         Criteria statusCriteria = Criteria.where("status").ne(status);
@@ -128,6 +142,12 @@ public class EventRepositoryImpl implements EventOperations {
         return cal.getTime();
     }
 
+    private Date getLastHour(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.HOUR, -1);
+        return cal.getTime();
+    }
 
 
 }
