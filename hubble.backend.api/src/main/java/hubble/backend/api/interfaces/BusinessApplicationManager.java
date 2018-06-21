@@ -23,7 +23,7 @@ public interface BusinessApplicationManager {
 
     public BusinessApplicationFrontend getBusinessApplicationFrontend(String id);
 
-    public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend();
+    public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend(boolean includeInactives);
 
     public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id);
 }

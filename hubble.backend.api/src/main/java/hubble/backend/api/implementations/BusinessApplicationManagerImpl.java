@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import hubble.backend.core.utils.DateHelper;
+import static java.util.stream.Collectors.toList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -131,8 +132,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         /* No tiene sentido porque al final termina pidiendole un campo a mongo que no esta. Registered date. Se tendria que agregar
         businessView.setEventsKpiLastDay(eventService.calculateLastDayKpiByApplication(id).get());
         businessView.setEventsKpiLastMonth(eventService.calculateLastMonthKpiByApplication(id).get());
-        */
-
+         */
         //Kpi Averages
         businessView.setHealthIndex(kpiAverageService.getStandardHealthIndex(id));
         //TODO: Eventos Kpi.
@@ -199,16 +199,13 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     @Override
     public BusinessApplicationFrontend getBusinessApplicationFrontend(String id) {
-
         BusinessApplicationFrontend businessApplicationFrontend = new BusinessApplicationFrontend();
-
         businessApplicationFrontend.setId(id);
         businessApplicationFrontend.setLastUpdate(DateHelper.lastExecutionDate);
         businessApplicationFrontend.setPastUpdate(DateHelper.addDaysToDate(DateHelper.lastExecutionDate, -1));
         setHealthIndex(businessApplicationFrontend, id);
         setPastHealthIndex(businessApplicationFrontend, id);
         setKPIs(businessApplicationFrontend, id);
-
         return businessApplicationFrontend;
     }
 
@@ -228,24 +225,15 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     @Override
-    public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend() {
-        List<BusinessApplication> applications = getAllApplications();
-        List<BusinessApplicationFrontend> applicationsFrontend = new ArrayList<>();
-
-        for (BusinessApplication businessApplication : applications) {
-
-            if (businessApplication.getId() == null) {
-                continue;
-            }
-
-            BusinessApplicationFrontend currentFrontendApplication = getBusinessApplicationFrontend(businessApplication.getId());
-
-            applicationsFrontend.add(currentFrontendApplication);
-        }
-        return applicationsFrontend;
+    public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend(boolean includeInactives) {
+        return getAllApplications()
+            .stream()
+            .filter((a) -> includeInactives || a.isActive())
+            .map((a) -> getBusinessApplicationFrontend(a.getId()))
+            .collect(toList());
     }
 
-    public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id){
+    public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id) {
         Double availabilityKPIminutes = availabilityService.calculateLastHourKpiByApplication(id).getAvailabilityKpi().get();
         Double performanceKPIminutes = performanceService.calculateLastHourKpiByApplication(id).getPerformanceKpi().get();
         Double issuesKPIminutes = issueService.calculateHistoryLastDayKpiByApplication(id);
@@ -314,7 +302,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     public double getKPIAverage(List<Double> kpis) {
         double average = 0;
 
-        for(Double kpi : kpis) {
+        for (Double kpi : kpis) {
             average = average + kpi;
         }
 

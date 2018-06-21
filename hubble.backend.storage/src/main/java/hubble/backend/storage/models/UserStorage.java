@@ -121,8 +121,8 @@ public class UserStorage {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode json = mapper.createObjectNode();
         json.put("id", id)
-                .put("email", email)
-                .put("name", name);
+            .put("email", email)
+            .put("name", name);
         json.set("roles", rolesToJson());
         json.set("applications", applicationsToJson());
         return json;
@@ -144,8 +144,20 @@ public class UserStorage {
         if (!enabled || !verifyPassword(password)) {
             throw new RuntimeException("Usuario o clave inválidos.");
         }
-        this.token = new AuthToken(UUID.randomUUID(), LocalDateTime.now().plusDays(1));
+        this.token = newToken();
         return token;
+    }
+
+    public AuthToken refreshToken(UUID token) {
+        if (!this.token.validate(token) || !this.token.isValid()) {
+            throw new RuntimeException();
+        }
+        this.token = newToken();
+        return this.token;
+    }
+
+    private AuthToken newToken() {
+        return new AuthToken(UUID.randomUUID(), LocalDateTime.now().plusDays(1));
     }
 
 }
