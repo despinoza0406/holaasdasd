@@ -81,7 +81,7 @@ public class TasksRunnerApplication {
         bsmTask.setIndentityGroupName("BSM");
         bsmTask.setIndentityName("BSM Data Transacciones");
         bsmTask.setIntervalSeconds(60 * 10);
-
+/*
         BsmApplicationParser bsmApplicationParser = context.getBean(BsmApplicationParser.class);
         ParserJob bsmApplicationJob = new BsmApplicationParserJob(bsmApplicationParser);
         Task bsmApplicationTask = new BsmApplicationTaskImpl(bsmApplicationJob);
@@ -89,8 +89,8 @@ public class TasksRunnerApplication {
         bsmApplicationTask.setIndentityName("BSM Applicaciones");
         bsmApplicationTask.setIntervalSeconds(60 * 60 * 24);
         scheduler.addTask(bsmApplicationTask);
-        scheduler.addTask(bsmTask);
-        
+  */      scheduler.addTask(bsmTask);
+
         //Alm
         AlmDataParser almParser = context.getBean(AlmDataParser.class);
         ParserJob almJob = new AlmDataParserJob(almParser);
@@ -100,7 +100,7 @@ public class TasksRunnerApplication {
         almDataTask.setIntervalSeconds(60 * 60 * 24); //1 día
 
         scheduler.addTask(almDataTask);
-        
+
         //Ppm
         PpmDataParser ppmParser = context.getBean(PpmDataParser.class);
         ParserJob ppmJob = new PpmDataParserJob(ppmParser);
@@ -109,16 +109,8 @@ public class TasksRunnerApplication {
         ppmDataTask.setIndentityName("Ppm Data");
         ppmDataTask.setIntervalSeconds(60 * 60 * 24);
         
-        PpmApplicationParser ppmApplicationParser = context.getBean(PpmApplicationParser.class);
-        ParserJob ppmApplicationJob = new PpmApplicationParserJob(ppmApplicationParser);
-        ParserTask ppmApplicationTask = new PpmApplicationTaskImpl(ppmApplicationJob);
-        ppmApplicationTask.setIndentityGroupName("Ppm Provider Job");
-        ppmApplicationTask.setIndentityName("Ppm Applications");
-        ppmApplicationTask.setIntervalSeconds(60 * 60 * 24); //1 día
-        
         scheduler.addTask(ppmDataTask);
-        scheduler.addTask(ppmApplicationTask);
-        
+
         //Jira
         JiraDataParser jiraParser = context.getBean(JiraDataParser.class);
         ParserJob jiraJob = new JiraDataParserJob(jiraParser);
@@ -137,15 +129,7 @@ public class TasksRunnerApplication {
         siteScopeDataTask.setIndentityName("SiteScope Data");
         siteScopeDataTask.setIntervalSeconds(60 * 5);
 
-        SiteScopeApplicationParser siteScopeApplicationParser = context.getBean(SiteScopeApplicationParser.class);
-        ParserJob siteScopeAppJob = new SiteScopeApplicationParserJob(siteScopeApplicationParser);
-        ParserTask siteScopeAppTask = new SiteScopeApplicationTaskImpl(siteScopeAppJob);
-        siteScopeAppTask.setIndentityGroupName("SiteScope Provider Job");
-        siteScopeAppTask.setIndentityName("SiteScope Applications");
-        siteScopeAppTask.setIntervalSeconds(100);
-
         scheduler.addTask(siteScopeDataTask);
-        scheduler.addTask(siteScopeAppTask);
 
         scheduler.showMenu();
     }
