@@ -134,15 +134,8 @@ public class TasksRunnerApplication {
         jiraDataTask.setIndentityGroupName("Jira Provider Job");
         jiraDataTask.setIndentityName("Jira Data");
         jiraDataTask.setIntervalSeconds(60 * 60 * 24);
-        
-        JiraApplicationParser jiraAppParser = context.getBean(JiraApplicationParser.class);
-        ParserJob jiraAppJob = new JiraApplicationParserJob(jiraAppParser);
-        ParserTask jiraAppTask = new JiraApplicationTaskImpl(jiraAppJob);
-        jiraAppTask.setIndentityGroupName("Jira Provider Job");
-        jiraAppTask.setIndentityName("Jira Applications");
-        jiraAppTask.setIntervalSeconds(60 * 60 * 24);
+
         scheduler.addTask(jiraDataTask);
-        scheduler.addTask(jiraAppTask);
 
         //SiteScope
         SiteScopeDataParser siteScopeDataParser = context.getBean(SiteScopeDataParser.class);

@@ -64,8 +64,8 @@ public class JiraTransportImpl implements JiraTransport {
     }
 
     @Override
-    public JSONObject getAllIssuesByProject(String projectKey) {
-        this.url = String.format("/rest/api/2/search?jql=project=%s", projectKey);
+    public JSONObject getIssuesByProject(String projectKey, int startAt) {
+        this.url = String.format("/rest/api/2/search?jql=project=%s&startAt=%d&maxResults=1000", projectKey, startAt);
 
         return this.getData();
     }

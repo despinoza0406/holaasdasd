@@ -55,14 +55,23 @@ public class JiraDataParserImpl implements JiraDataParser {
         jiraTransport.setEncodedCredentials(encodedAuthString);
         String[] projectsKey = jiraTransport.getConfiguration().getProjectKey().split(",");
         for(String project : projectsKey) {
-            JSONObject response = jiraTransport.getAllIssuesByProject(project);
-            jiraModel = this.parse(response);
-            issues = jiraModel.getIssues();
+            int startAt = 0;
+            JSONObject response = jiraTransport.getIssuesByProject(project, startAt);
+            int totalIssues = response.getInt("total");
+            int maxResults = response.getInt("maxResults");
 
-            for (JiraIssueModel issue : issues) {
-                issueStorage = jiraMapperConfiguration.mapToIssueStorage(issue);
-                issueRepository.save(issueStorage);
+            do {
+                response = jiraTransport.getIssuesByProject(project, startAt);
+                jiraModel = this.parse(response);
+                issues = jiraModel.getIssues();
+
+                for (JiraIssueModel issue : issues) {
+                    issueStorage = jiraMapperConfiguration.mapToIssueStorage(issue);
+                    issueRepository.save(issueStorage);
+                }
+                startAt = startAt + maxResults;
             }
+            while (startAt < totalIssues);
         }
     }
 

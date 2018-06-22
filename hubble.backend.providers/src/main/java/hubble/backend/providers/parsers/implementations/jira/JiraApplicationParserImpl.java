@@ -39,24 +39,5 @@ public class JiraApplicationParserImpl implements JiraApplicationParser {
 
     @Override
     public void run() {
-        String jiraUser = jiraTransport.getEnvironment().getUser();
-        String jiraPassword = jiraTransport.getEnvironment().getPassword();
-        String encodedAuthString = EncoderHelper.encodeToBase64(jiraUser, jiraPassword);
-        String[] projects = jiraTransport.getConfiguration().getProjectKey().split(",");
-
-        JiraApplicationProviderModel jiraApplicationModel;
-        ApplicationStorage applicationStorage;
-
-        jiraTransport.setEncodedCredentials(encodedAuthString);
-
-        for(String project : projects) {
-            JSONObject response = jiraTransport.getAllIssuesByProject(project);
-            jiraApplicationModel = this.parse(response);
-            applicationStorage = jiraMapperConfiguration.mapToApplicationStorage(jiraApplicationModel);
-
-            if (!applicationRepository.exist(applicationStorage)) {
-                applicationRepository.save(applicationStorage);
-            }
-        }
     }
 }
