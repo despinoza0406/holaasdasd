@@ -77,7 +77,7 @@ public class AlmTransportImpl implements AlmTransport {
     }
 
     @Override
-    public JSONObject getAllDefects(Map<String, String> sessionCookies) {
+    public JSONObject getDefects(Map<String, String> sessionCookies,int startInd) {
         String path = "/rest/domains/" + environment.getDomain()
                 + "/projects/" + environment.getProject() + "/defects";
         String defectsUri = buildUri(path);
@@ -90,6 +90,8 @@ public class AlmTransportImpl implements AlmTransport {
                     .header("ALM_USER", sessionCookies.get("ALM_USER"))
                     .header("Content-Type", "application/json")
                     .header("Accept", "application/json")
+                    .queryString("page-size","2000")
+                    .queryString("start-index",startInd)
                     .asJson();
         } catch (UnirestException e) {
             logger.error(e.getMessage());
