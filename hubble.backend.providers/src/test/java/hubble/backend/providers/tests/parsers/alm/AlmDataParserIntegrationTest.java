@@ -43,7 +43,7 @@ public class AlmDataParserIntegrationTest {
         almTransport.login();
         assertTrue(almTransport.isAuthenticated());
         Map<String, String> cookies = almTransport.getSessionCookies();
-        JSONObject allDefects = almTransport.getAllDefects(cookies);
+        JSONObject allDefects = almTransport.getDefects(cookies,0);
         List<JSONObject> defects = almDataParser.parseList(allDefects);
 
         for (JSONObject defect : defects) {

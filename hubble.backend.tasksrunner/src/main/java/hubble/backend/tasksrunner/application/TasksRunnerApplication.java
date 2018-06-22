@@ -98,16 +98,8 @@ public class TasksRunnerApplication {
         almDataTask.setIndentityGroupName("Alm Provider Job");
         almDataTask.setIndentityName("Alm Data");
         almDataTask.setIntervalSeconds(60 * 60 * 24); //1 día
-        
-        AlmApplicationParser almApplicationParser = context.getBean(AlmApplicationParser.class);
-        ParserJob almApplicationJob = new AlmApplicationParserJob(almApplicationParser);
-        ParserTask almApplicationTask = new AlmApplicationTaskImpl(almApplicationJob);
-        almApplicationTask.setIndentityGroupName("Alm Provider Job");
-        almApplicationTask.setIndentityName("Alm Applications");
-        almApplicationTask.setIntervalSeconds(60 * 60 * 24);
 
         scheduler.addTask(almDataTask);
-        scheduler.addTask(almApplicationTask);
         
         //Ppm
         PpmDataParser ppmParser = context.getBean(PpmDataParser.class);
