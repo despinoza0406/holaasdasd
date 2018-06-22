@@ -1,5 +1,7 @@
 package hubble.backend.storage.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -37,4 +39,17 @@ public class TaskRunner {
         this.schedule = schedule;
     }
 
+    public TaskRunner fromJson(JsonNode jsonNode) {
+
+        this.enabled = jsonNode.get("enabled").asBoolean();
+        
+        JsonNode scheduleJson  = jsonNode.get("schedule");
+        
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.map(scheduleJson, Schedule.class);
+
+        return this;
+    }
+
 }
+
