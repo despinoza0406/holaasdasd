@@ -108,11 +108,10 @@ public class TasksRunnerApplication {
         ppmDataTask.setIndentityGroupName("Ppm Provider Job");
         ppmDataTask.setIndentityName("Ppm Data");
         ppmDataTask.setIntervalSeconds(60 * 60 * 24);
-<<<<<<< HEAD
         
         scheduler.addTask(ppmDataTask);
 
-=======
+
         /*
         PpmApplicationParser ppmApplicationParser = context.getBean(PpmApplicationParser.class);
         ParserJob ppmApplicationJob = new PpmApplicationParserJob(ppmApplicationParser);
@@ -124,7 +123,6 @@ public class TasksRunnerApplication {
         scheduler.addTask(ppmDataTask);
        //scheduler.addTask(ppmApplicationTask);
         
->>>>>>> d090add57b68b7b25a57c6661f22b381b77bd8c4
         //Jira
         JiraDataParser jiraParser = context.getBean(JiraDataParser.class);
         ParserJob jiraJob = new JiraDataParserJob(jiraParser);
