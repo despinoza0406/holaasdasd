@@ -2,7 +2,8 @@ package hubble.backend.storage;
 
 import hubble.backend.storage.configurations.StorageComponentConfiguration;
 import hubble.backend.storage.configurations.environment.StorageEnvironment;
-import static org.junit.Assert.assertTrue;
+import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,7 @@ public class TestEnvironmentConfigurationUnitTests {
 
     @Test
     public void EnvironmentConfiguration_getting_properties_for_test_env_are_expected() {
-        //Assert
-        assertTrue(storageConfiguration.getHost().equals("10.10.20.175"));
-        assertTrue(storageConfiguration.getDbname().equals("hubble-test"));
+        assertEquals("host", "localhost", storageConfiguration.getHost());
+        assertEquals("dbName", "hubble-test", storageConfiguration.getDbname());
     }
 }
