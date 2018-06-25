@@ -195,6 +195,16 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         return calculateKPI(events);
     }
 
+    @Override
+    public double calculateLastHourKPI(String applicationId){
+        List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusLastHour(applicationId,
+                "Good");
+        this.lWarningKpiThreshold = 100;
+        this.lCriticalKpiThreshold = 150;
+        this.okKpiThreshold = 5;
+        return calculateKPI(events);
+    }
+
     private double calculateKPI(List<EventStorage> events){
         long severityPointsTotal = 0;
         double a = 0;
@@ -212,7 +222,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         }
 
         if (severityPointsTotal >= this.lCriticalKpiThreshold ) {
-            return 0;
+            return 1;
         }
 
         //warning thresholds setting

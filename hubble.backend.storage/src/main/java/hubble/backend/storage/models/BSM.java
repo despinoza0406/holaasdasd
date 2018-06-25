@@ -1,10 +1,30 @@
 package hubble.backend.storage.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
  */
 public class BSM extends ProviderStorage<BSM.Environment, NoConfig> {
+
+    @Override
+    public ProviderStorage fromJson(JsonNode jsonNode) {
+        
+          JsonNode configuration = jsonNode.get("configuration");
+        this.getConfiguration().fromJson(configuration);
+
+        JsonNode enviroment = jsonNode.get("environment");
+        this.getEnvironment().fromJson(enviroment);
+
+        this.setName(jsonNode.get("name").asText());
+        this.setEnabled(jsonNode.get("enabled").asBoolean());
+
+        JsonNode taskRunner = jsonNode.get("taskRunner");
+        this.getTaskRunner().fromJson(taskRunner);
+
+        return this;
+    }
 
     public static class Environment {
 
@@ -45,6 +65,17 @@ public class BSM extends ProviderStorage<BSM.Environment, NoConfig> {
             this.password = password;
         }
 
+        public Environment fromJson(JsonNode jsonNode) {
+
+            JsonNode soapEndpoint = jsonNode.get("soap");
+            
+            this.getSoap().fromJson(soapEndpoint);
+            
+            this.username = jsonNode.get("username").asText();
+            this.password = jsonNode.get("password").asText();
+
+            return this;
+        }
     }
 
     public BSM() {

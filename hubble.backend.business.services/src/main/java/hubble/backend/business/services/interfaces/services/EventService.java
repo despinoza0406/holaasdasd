@@ -15,5 +15,9 @@ public interface EventService extends ServiceBase<Event> {
 
     double calculateLastDaySeverityKpi(String applicationId);
 
+    double calculateLastHourSeverityKpi(String applicationId);
+
     List<Integer> getDistValuesLastDay(String id);
+
+    List<Integer> getDistValuesLastHour(String id);
 }

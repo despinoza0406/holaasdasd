@@ -43,8 +43,8 @@ public class JiraTransportIntegrationTest {
         jiraTransport.logout();
 
         //Act
-        dataRetrieved = jiraTransport.getAllIssuesByProject(
-                jiraTransport.getConfiguration().getProjectKey());
+        dataRetrieved = jiraTransport.getIssuesByProject(
+                jiraTransport.getConfiguration().getProjectKey().split(",")[0],0);
 
         //Assert
         assertTrue(dataRetrieved.has("issues"));
@@ -70,8 +70,8 @@ public class JiraTransportIntegrationTest {
         jiraTransport.setEncodedCredentials(encodedAuthFailString);
 
         //Act
-        dataRetrieved = jiraTransport.getAllIssuesByProject(
-                jiraTransport.getConfiguration().getProjectKey());
+        dataRetrieved = jiraTransport.getIssuesByProject(
+                jiraTransport.getConfiguration().getProjectKey().split(",")[0],0);
 
         //Assert
         assertNull(dataRetrieved);

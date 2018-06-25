@@ -238,7 +238,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         Double performanceKPIminutes = performanceService.calculateLastHourKpiByApplication(id).getPerformanceKpi().get();
         Double issuesKPIminutes = issueService.calculateHistoryLastDayKpiByApplication(id);
         Double workItemKPIday = workItemService.calculateLastDayDeflectionDaysKpi(id);
-        Double eventKPIday = eventService.calculateLastDaySeverityKpi(id);
+        Double eventKPIday = eventService.calculateLastHourSeverityKpi(id);
 
         List<Double> kpis = new ArrayList<>();
         kpis.add(availabilityKPIminutes);
@@ -294,7 +294,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         KpiFrontend eventKpi = new KpiFrontend();
         eventKpi.setKpiName("Eventos");
         eventKpi.setKpiShortName("E");
-        eventKpi.setKpiValue(eventService.calculateLastDaySeverityKpi(id));
+        eventKpi.setKpiValue(eventService.calculateLastHourSeverityKpi(id));
         kpis.add(eventKpi);
         businessApplicationFrontend.setKpis(kpis);
     }
@@ -326,7 +326,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
                 distValuesInt = workItemService.getDistValuesLastDay(id);
                 break;
             case "Eventos":
-                distValuesInt = eventService.getDistValuesLastDay(id);
+                distValuesInt = eventService.getDistValuesLastHour(id);
                 break;
             default:
                 distValuesInt = new ArrayList<>();

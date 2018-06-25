@@ -14,6 +14,6 @@ public interface JiraTransport extends Transport<JSONObject>, Sessions {
 
     public JiraConfiguration getConfiguration();
 
-    public JSONObject getAllIssuesByProject(String project);
+    public JSONObject getIssuesByProject(String project, int startAt);
 
 }

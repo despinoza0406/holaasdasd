@@ -63,6 +63,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public double calculateLastHourSeverityKpi(String applicationId){
+        return eventKpiOperation.calculateLastHourKPI(applicationId);
+    }
+
+    @Override
     public double calculatePastDaySeverityKpi(String applicationId) {
         return eventKpiOperation.calculatePastDayKPI(applicationId);
     }
@@ -71,6 +76,17 @@ public class EventServiceImpl implements EventService {
     public List<Integer> getDistValuesLastDay(String id) {
         List<EventStorage> eventsStorage =
             eventRepository.findEventsByApplicationIdAndDifferentStatusLastDay(id, "Good");
+        List<Integer> distValuesInt = new ArrayList<>();
+        for (EventStorage eventStorage : eventsStorage){
+            distValuesInt.add((int) eventStorage.getSeverityPoints());
+        }
+        return distValuesInt;
+    }
+
+    @Override
+    public List<Integer> getDistValuesLastHour(String id) {
+        List<EventStorage> eventsStorage =
+                eventRepository.findEventsByApplicationIdAndDifferentStatusLastHour(id, "Good");
         List<Integer> distValuesInt = new ArrayList<>();
         for (EventStorage eventStorage : eventsStorage){
             distValuesInt.add((int) eventStorage.getSeverityPoints());

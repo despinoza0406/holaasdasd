@@ -63,7 +63,7 @@ public class AlmTransportIntegrationTest {
     public void alm_transport_should_retrieve_all_defects() throws Exception{
         almTransport.login();
         Map<String,String> cookies=almTransport.getSessionCookies();
-        assertNotNull(almTransport.getAllDefects(cookies));
+        assertNotNull(almTransport.getDefects(cookies,0));
         assertTrue(almTransport.isAuthenticated());     
         
         almTransport.logout();

@@ -1,10 +1,31 @@
 package hubble.backend.storage.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
  */
 public class AppPulse extends ProviderStorage<AppPulse.Environment, NoConfig> {
+
+    @Override
+    public ProviderStorage fromJson(JsonNode jsonNode) {
+
+        JsonNode configuration = jsonNode.get("configuration");
+        this.getConfiguration().fromJson(configuration);
+
+        JsonNode enviroment = jsonNode.get("environment");
+        this.getEnvironment().fromJson(enviroment);
+
+        this.setName(jsonNode.get("name").asText());
+        this.setEnabled(jsonNode.get("enabled").asBoolean());
+
+        JsonNode taskRunner = jsonNode.get("taskRunner");
+        this.getTaskRunner().fromJson(taskRunner);
+
+        return this;
+
+    }
 
     public static class Environment {
 
@@ -44,6 +65,15 @@ public class AppPulse extends ProviderStorage<AppPulse.Environment, NoConfig> {
         public void setSecret(String secret) {
             this.secret = secret;
         }
+        
+        public AppPulse.Environment fromJson(JsonNode jsonNode) {
+
+            this.url = jsonNode.get("url").asText();
+            this.client = jsonNode.get("client").asText();
+            this.secret = jsonNode.get("secret").asText();
+
+            return this;
+        }
 
     }
 
@@ -53,6 +83,5 @@ public class AppPulse extends ProviderStorage<AppPulse.Environment, NoConfig> {
     public AppPulse(boolean enabled, TaskRunner taskRunner, Environment environment) {
         super("apppulse", "AppPulse", enabled, taskRunner, environment, new NoConfig());
     }
-
 
 }

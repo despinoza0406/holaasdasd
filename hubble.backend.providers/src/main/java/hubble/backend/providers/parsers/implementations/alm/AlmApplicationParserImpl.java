@@ -47,7 +47,7 @@ public class AlmApplicationParserImpl implements AlmApplicationParser {
     public void run() {
         almTransport.login();
         Map<String, String> cookies = almTransport.getSessionCookies();
-        JSONObject allDefects = almTransport.getAllDefects(cookies);
+        JSONObject allDefects = almTransport.getDefects(cookies,1);
         List<JSONObject> defects = this.parseList(allDefects);
         for (JSONObject defect : defects) {
             ApplicationStorage application = this.convert(this.parse(defect));

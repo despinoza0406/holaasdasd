@@ -15,4 +15,6 @@ public interface EventKpiOperations extends
     public double calculateLastDayKPI(String applicationId);
 
     public double calculatePastDayKPI(String applicationId);
+
+    double calculateLastHourKPI(String applicationId);
 }

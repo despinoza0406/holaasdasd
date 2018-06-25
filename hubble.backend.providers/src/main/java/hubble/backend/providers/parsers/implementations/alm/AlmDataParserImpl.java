@@ -93,12 +93,18 @@ public class AlmDataParserImpl implements AlmDataParser {
     public void run() {
         almTransport.login();
         Map<String, String> cookies = almTransport.getSessionCookies();
-        JSONObject allDefects = almTransport.getAllDefects(cookies);
-        List<JSONObject> defects = this.parseList(allDefects);
-        for (JSONObject defect : defects) {
-            IssueStorage issue = this.convert(this.parse(defect));
-            issueRepository.save(issue);
-        }
+        int startInd = 1;
+        int cantDefects;
+        do {
+            JSONObject allDefects = almTransport.getDefects(cookies,startInd);
+            cantDefects = (allDefects.getInt("TotalResults"));
+            List<JSONObject> defects = this.parseList(allDefects);
+            for (JSONObject defect: defects) {
+                IssueStorage issue = this.convert(this.parse(defect));
+                issueRepository.save(issue);
+            }
+            startInd += defects.size();
+        }while(cantDefects >= startInd);
         almTransport.logout();
     }
 

@@ -1,5 +1,8 @@
 package hubble.backend.storage.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -7,6 +10,24 @@ import java.util.Set;
  * @author Martín Straus <martin.straus@fit.com.ar>
  */
 public class ALM extends ProviderStorage<ALM.Environment, ALM.Configuration> {
+
+    @Override
+    public ProviderStorage fromJson(JsonNode jsonNode) {
+
+        JsonNode configuration = jsonNode.get("configuration");
+        this.getConfiguration().fromJson(configuration);
+
+        JsonNode enviroment = jsonNode.get("environment");
+        this.getEnvironment().fromJson(enviroment);
+
+        this.setName(jsonNode.get("name").asText());
+        this.setEnabled(jsonNode.get("enabled").asBoolean());
+
+        JsonNode taskRunner = jsonNode.get("taskRunner");
+        this.getTaskRunner().fromJson(taskRunner);
+
+        return this;
+    }
 
     public static class Environment {
 
@@ -77,6 +98,18 @@ public class ALM extends ProviderStorage<ALM.Environment, ALM.Configuration> {
             this.project = project;
         }
 
+        public Environment fromJson(JsonNode jsonNode) {
+
+            this.host = jsonNode.get("host").asText();
+            this.port = jsonNode.get("port").asInt();
+            this.username = jsonNode.get("username").asText();
+            this.password = jsonNode.get("password").asText();
+            this.domain = jsonNode.get("domain").asText();
+            this.project = jsonNode.get("project").asText();
+
+            return this;
+        }
+
     }
 
     public static class Configuration {
@@ -109,6 +142,21 @@ public class ALM extends ProviderStorage<ALM.Environment, ALM.Configuration> {
             public void setOpenValues(Set<String> openValues) {
                 this.openValues = openValues;
             }
+
+            public Status fromJson(JsonNode jsonNode) {
+
+                this.status = jsonNode.get("status").asText();
+
+                ArrayNode openValuesArray = (ArrayNode) jsonNode.get("openValues");
+
+                if (openValuesArray != null) {
+                    for (Iterator<JsonNode> it = openValuesArray.iterator(); it.hasNext();) {
+                        this.openValues.add(it.next().asText());
+                    }
+                }
+                return this;
+            }
+
         }
 
         public static class Provider {
@@ -138,6 +186,14 @@ public class ALM extends ProviderStorage<ALM.Environment, ALM.Configuration> {
 
             public void setName(String name) {
                 this.name = name;
+            }
+
+            public Provider fromJson(JsonNode jsonNode) {
+
+                this.origin = jsonNode.get("origin").asText();
+                this.name = jsonNode.get("name").asText();
+
+                return this;
             }
 
         }
@@ -171,6 +227,17 @@ public class ALM extends ProviderStorage<ALM.Environment, ALM.Configuration> {
 
         public void setProvider(Provider provider) {
             this.provider = provider;
+        }
+
+        public Configuration fromJson(JsonNode jsonNode) {
+
+            this.businessApplicationFieldName = jsonNode.get("businessApplicationFieldName").asText();
+            this.transactionFieldName = jsonNode.get("transactionFieldName").asText();
+
+            JsonNode statusJson = jsonNode.get("status");
+            this.getStatus().fromJson(statusJson);
+
+            return this;
         }
 
     }

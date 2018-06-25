@@ -1,10 +1,31 @@
 package hubble.backend.storage.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
  */
 public class Jira extends ProviderStorage<Jira.Environment, Jira.Configuration> {
+
+    @Override
+    public ProviderStorage fromJson(JsonNode jsonNode) {
+
+        JsonNode configuration = jsonNode.get("configuration");
+        this.getConfiguration().fromJson(configuration);
+
+        JsonNode enviroment = jsonNode.get("environment");
+        this.getEnvironment().fromJson(enviroment);
+
+        this.setName(jsonNode.get("name").asText());
+        this.setEnabled(jsonNode.get("enabled").asBoolean());
+
+        JsonNode taskRunner = jsonNode.get("taskRunner");
+        this.getTaskRunner().fromJson(taskRunner);
+
+        return this;
+
+    }
 
     public static class Environment {
 
@@ -54,6 +75,15 @@ public class Jira extends ProviderStorage<Jira.Environment, Jira.Configuration> 
         public void setPassword(String password) {
             this.password = password;
         }
+        
+          public Environment fromJson(JsonNode jsonNode) {
+
+            this.host = jsonNode.get("host").asText();
+            this.port = jsonNode.get("port").asInt();
+            this.username = jsonNode.get("username").asText();
+            this.password = jsonNode.get("password").asText();
+            return this;
+        }
 
     }
 
@@ -84,6 +114,14 @@ public class Jira extends ProviderStorage<Jira.Environment, Jira.Configuration> 
 
         public void setBusinessApplicationFieldName(String businessApplicationFieldName) {
             this.businessApplicationFieldName = businessApplicationFieldName;
+        }
+
+        public Configuration fromJson(JsonNode jsonNode) {
+
+            this.businessApplicationFieldName = jsonNode.get("businessApplicationFieldName").asText();
+            this.projectKey = jsonNode.get("projectKey").asText();
+
+            return this;
         }
 
     }

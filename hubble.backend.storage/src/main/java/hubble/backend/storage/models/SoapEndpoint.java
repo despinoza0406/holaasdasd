@@ -1,5 +1,7 @@
 package hubble.backend.storage.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
  * Configuración de un endpoint SoapEndpoint.
  *
@@ -33,5 +35,14 @@ public class SoapEndpoint {
     public void setAction(String action) {
         this.action = action;
     }
+    
+      public SoapEndpoint fromJson(JsonNode jsonNode) {
+
+            this.endpoint = jsonNode.get("endpoint").asText();
+            this.action = jsonNode.get("action").asText();
+
+            return this;
+        }
+    
 
 }

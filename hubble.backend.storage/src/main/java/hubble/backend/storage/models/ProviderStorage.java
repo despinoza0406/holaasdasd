@@ -1,12 +1,12 @@
 package hubble.backend.storage.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
- * @param <E> El tipo del entorno.
- * @param <C> El tipo de la configuración.
+ * @param <T> El tipo del entorno.
  */
 @Document
 public abstract class ProviderStorage<E, C> {
@@ -29,6 +29,8 @@ public abstract class ProviderStorage<E, C> {
         this.environment = environment;
         this.configuration = configuration;
     }
+    
+    public abstract ProviderStorage fromJson(JsonNode jsonNode);
 
     public String getName() {
         return name;
@@ -70,4 +72,5 @@ public abstract class ProviderStorage<E, C> {
         this.configuration = configuration;
     }
 
+   
 }
