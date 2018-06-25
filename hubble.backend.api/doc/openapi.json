@@ -1,0 +1,173 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "Hubble",
+        "description": "Hubble's backend API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/users": {
+            "summary": "Registered users.",
+            "get": {
+                "tags": ["user"],
+                "summary": "Returns a list of users.",
+                "operationId": "users",
+                "responses": {
+                    "200": {
+                        "description": "Users returned OK.",
+                        "content": {
+                            "application/json": {
+                                "example": [
+                                    {
+                                        "email": "juan.perez@tsoftlatam.com",
+                                        "name": "Juan Pérez",
+                                        "password": "abcde12345",
+                                        "roles": ["ADMINISTRATOR", "USER"],
+                                        "applications": ["home-banking", "crm"]
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": ["user"],
+                "summary": "Creates a new user.",
+                "operationId": "createUser",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "email": "juan.perez@tsoftlatam.com",
+                                "name": "Juan Pérez",
+                                "password": "abcde12345",
+                                "roles": ["ADMINISTRATOR", "USER"],
+                                "applications": ["home-banking", "crm"]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created."
+                    }
+                }
+            }
+        },
+        "/users/{email}": {
+            "summary": "Registered user.",
+            "get": {
+                "tags": ["user"],
+                "summary": "Returns information about a user.",
+                "operationId": "user",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "Email address of the user to find.",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User found.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "email": "juan.perez@tsoftlatam.com",
+                                    "name": "Juan Pérez",
+                                    "password": "abcde12345",
+                                    "roles": ["ADMINISTRATOR", "USER"],
+                                    "applications": ["home-banking", "crm"]
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{email}/auth": {
+            "summary": "User authetication",
+            "post": {
+                "tags": ["user", "authentication"],
+                "summary": "Authenticates an existing user.",
+                "description": "Returns an expiring token. The default expiration time is 1 day after generation.",
+                "operationId": "authenticate",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "Email address of the user to find.",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "email": "juan.perez@tsoftlatam.com",
+                                "password": "abcde12345"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User authenticated.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "token": "550e8400-e29b-41d4-a716-446655440000",
+                                    "expiration": "2018-06-30T00:00:00.00-3:00"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "User or password invalid."
+                    }
+                }
+            }
+        },
+        "/users/{email}/tokens/{token}": {
+            "summary": "Refresh authetication token",
+            "post": {
+                "tags": ["user", "authentication"],
+                "summary": "Refreshes a valid authentiction token.",
+                "description": "The token must match the user, and it must not be expired. The new token expires 1 day after the expiration of the old token.",
+                "operationId": "authenticate",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "path",
+                        "description": "Email address of the user to find.",
+                        "required": true
+                    },
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "The token to refresh.",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A new token was generated.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "token": "550e8400-e29b-41d4-a716-446655440000",
+                                    "expiration": "2018-06-30T00:00:00.00-3:00"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token invalid or expired."
+                    }
+                }
+            }
+        }
+    }
+}
