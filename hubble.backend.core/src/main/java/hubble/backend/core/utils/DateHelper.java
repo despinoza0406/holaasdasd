@@ -1,6 +1,9 @@
 package hubble.backend.core.utils;
 
+import org.joda.time.DateTimeComparator;
+
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,5 +53,26 @@ public class DateHelper {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.HOUR, -hours);
         return cal.getTime();
+    }
+
+    public static Date parseDateTime(String dateString) {
+        if (dateString == null) return null;
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
+        if (dateString.contains("T")) dateString = dateString.replace('T', ' ');
+        if (dateString.contains("Z")) dateString = dateString.replace("Z", "+0000");
+        else
+            dateString = dateString.substring(0, dateString.lastIndexOf(':')) + dateString.substring(dateString.lastIndexOf(':')+1);
+        try {
+            return fmt.parse(dateString);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static boolean areSameDate(Date date1, Date date2) {
+        DateTimeComparator dateTimeComparator = DateTimeComparator.getDateOnlyInstance();
+        return dateTimeComparator.compare(date1, date2) == 0;
     }
 }

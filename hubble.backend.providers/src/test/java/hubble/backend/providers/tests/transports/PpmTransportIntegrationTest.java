@@ -34,7 +34,7 @@ public class PpmTransportIntegrationTest {
         String encodedAuthString = ppmTransport.encodeToBase64(
                 ppmTransport.getEnvironment().getUser(),
                 ppmTransport.getEnvironment().getPassword());
-        List<JSONObject> dataList = new ArrayList<JSONObject>();
+        List<JSONObject> dataList;
         dataList = ppmTransport.getAllRequestTypes(encodedAuthString);
 
         assertTrue(dataList.size() > 0);
@@ -45,7 +45,7 @@ public class PpmTransportIntegrationTest {
         String encodedAuthString = ppmTransport.encodeToBase64(
                 ppmTransport.getEnvironment().getUser(),
                 ppmTransport.getEnvironment().getPassword());
-        List<JSONObject> dataList = new ArrayList<JSONObject>();
+        List<JSONObject> dataList;
         List<String> requestIds = new ArrayList();
 
         requestIds.add("30597");
@@ -62,8 +62,7 @@ public class PpmTransportIntegrationTest {
                 ppmTransport.getEnvironment().getUser(),
                 ppmTransport.getEnvironment().getPassword());
         String requestTypeId = "30691";
-        List<JSONObject> dataList = new ArrayList<JSONObject>();
-        List<String> requestIds = new ArrayList();
+        List<JSONObject> dataList;
 
         dataList = ppmTransport.getRequests(encodedAuthString, requestTypeId);
         assertTrue(dataList.size() > 0);
@@ -75,8 +74,7 @@ public class PpmTransportIntegrationTest {
                 ppmTransport.getEnvironment().getUser(),
                 ppmTransport.getEnvironment().getPassword());
         String requestTypeId = "30597";
-        List<JSONObject> dataList = new ArrayList<JSONObject>();
-        List<String> requestIds = new ArrayList();
+        List<JSONObject> dataList;
 
         dataList = ppmTransport.getRequests(encodedAuthString, requestTypeId);
         assertTrue(dataList.size() > 0);
@@ -87,7 +85,7 @@ public class PpmTransportIntegrationTest {
         String encodedAuthString = ppmTransport.encodeToBase64(
                 ppmTransport.getEnvironment().getUser(),
                 ppmTransport.getEnvironment().getPassword());
-        JSONObject request = new JSONObject();
+        JSONObject request;
         String requestId = "34260";
 
         request = ppmTransport.getRequestDetails(encodedAuthString, requestId);
@@ -120,5 +118,28 @@ public class PpmTransportIntegrationTest {
             }
         }
         assertTrue(requests.size() > 0);
+    }
+
+    @Test
+    public void ppm_transport_should_retrieve_all_request_details_based_on_request_type() {
+        String encodedAuthString = ppmTransport.encodeToBase64(
+                ppmTransport.getEnvironment().getUser(),
+                ppmTransport.getEnvironment().getPassword());
+        List<JSONObject> requestsToBeParsed = new ArrayList();
+        List<JSONObject> detailedRequests = new ArrayList();
+        List<String> requestTypeIds = ppmTransport.getConfiguredRequestTypes(encodedAuthString);
+
+        for (String id : requestTypeIds) {
+            requestsToBeParsed.addAll(ppmTransport.getRequests(encodedAuthString, id));
+        }
+
+        for (JSONObject request : requestsToBeParsed) {
+            JSONObject reqDetails = ppmTransport.getRequestDetails(encodedAuthString, request.getString("id"));
+            if (reqDetails != null) {
+                detailedRequests.add(reqDetails);
+            }
+        }
+
+        assertTrue(detailedRequests.size() > 0);
     }
 }
