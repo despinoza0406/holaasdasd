@@ -234,7 +234,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, String id) {
-        Double availabilityKPIminutes = availabilityService.calculateLastHourKpiByApplication(id).getAvailabilityKpi().get();
+        Double availabilityKPIminutes = availabilityService.calculateHealthIndexKPILastHour(id);
         Double performanceKPIminutes = performanceService.calculateLastHourKpiByApplication(id).getPerformanceKpi().get();
         Double issuesKPIminutes = issueService.calculateHistoryLastDayKpiByApplication(id);
         Double workItemKPIday = workItemService.calculateLastDayDeflectionDaysKpi(id);
@@ -274,7 +274,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         KpiFrontend availabilityKpi = new KpiFrontend();
         availabilityKpi.setKpiName("Disponibilidad");
         availabilityKpi.setKpiShortName("D");
-        availabilityKpi.setKpiValue(availabilityService.calculateLastHourKpiByApplication(id).getAvailabilityKpi().get());
+        availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPILastHour(id));
         kpis.add(availabilityKpi);
         KpiFrontend performanceKpi = new KpiFrontend();
         performanceKpi.setKpiName("Performance");

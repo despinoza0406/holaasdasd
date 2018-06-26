@@ -23,4 +23,6 @@ public interface AvailabilityService extends
 
     public List<Integer> getDistValuesLastHour(String applicationId);
 
+    public double calculateHealthIndexKPILastHour(String applicationId);
+
 }
