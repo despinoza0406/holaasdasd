@@ -92,7 +92,7 @@ public class UsersController {
                 HttpStatus.OK
             );
         } catch (RuntimeException ex) {
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
     }
     
@@ -105,7 +105,7 @@ public class UsersController {
                 HttpStatus.OK
             );
         } catch (RuntimeException ex) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
         }
     }
 
