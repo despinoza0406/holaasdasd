@@ -56,65 +56,6 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
         BusinessApplicationProfile businessView = new BusinessApplicationProfile();
         businessView.setId(id);
-
-        //10 minuntes Availability and Performance
-//        ApplicationIndicators availabilityAvg10min = availabilityService.calculateLast10MinutesAverageByApplication(id);
-//        ApplicationIndicators performanceAvg10min = performanceService.calculateLast10MinutesAverageByApplication(id);
-//
-//        if (availabilityAvg10min == null || performanceAvg10min == null) {
-//            return businessView;
-//        }
-//
-//        businessView.setAvailabilityAverage10min(availabilityAvg10min.getAvailabilityAverageValue());
-//        businessView.setPerformanceAverage10min(performanceAvg10min.getPerformanceAverageValue());
-//        businessView.setStatusAvailability10min(availabilityAvg10min.getAvailabilityAverage().getStatus().toString());
-//        businessView.setStatusPerformance10min(performanceAvg10min.getPerformanceAverage().getStatus().toString());
-//        businessView.setMeasuresQtyAvailability10min(availabilityAvg10min.getMeasuresQtyAvailability().getQuantity());
-//        businessView.setMeasuresQtyPerformance10min(performanceAvg10min.getMeasuresQtyPerformance().getQuantity());
-//
-//        businessView.setAvailabilityCriticalValue10min(availabilityAvg10min.getAvailabilityThreshold());
-//        businessView.setPerformanceCriticalValue10min(performanceAvg10min.getCriticalThreshold());
-        //1 Hour Availability and Performance
-//        ApplicationIndicators availabilityAvg1Hour = availabilityService.calculateLastHourAverageByApplication(id);
-//        ApplicationIndicators performanceAvg1Hour = performanceService.calculateLastHourAverageByApplication(id);
-//
-//        businessView.setAvailabilityAverage1hour(availabilityAvg1Hour.getAvailabilityAverageValue());
-//        businessView.setPerformanceAverage1hour(performanceAvg1Hour.getPerformanceAverageValue());
-//        businessView.setStatusAvailability1hour(availabilityAvg1Hour.getAvailabilityAverage().getStatus().toString());
-//        businessView.setStatusPerformance1hour(performanceAvg1Hour.getPerformanceAverage().getStatus().toString());
-//        businessView.setMeasuresQtyAvailability1hour(availabilityAvg1Hour.getMeasuresQtyAvailability().getQuantity());
-//        businessView.setMeasuresQtyPerformance1hour(performanceAvg1Hour.getMeasuresQtyPerformance().getQuantity());
-//
-//        businessView.setAvailabilityCriticalValue1hour(availabilityAvg1Hour.getAvailabilityThreshold());
-//        businessView.setPerformanceCriticalValue1hour(performanceAvg1Hour.getCriticalThreshold());
-        //1 Day Availability and Performance
-//        ApplicationIndicators availabilityAvg1Day = availabilityService.calculateLastDayAverageByApplication(id);
-//        ApplicationIndicators performanceAvg1Day = performanceService.calculateLastDayAverageByApplication(id);
-//
-//        businessView.setAvailabilityAverage1day(availabilityAvg1Day.getAvailabilityAverageValue());
-//        businessView.setPerformanceAverage1day(performanceAvg1Day.getPerformanceAverageValue());
-//        businessView.setStatusAvailability1day(availabilityAvg1Day.getAvailabilityAverage().getStatus().toString());
-//        businessView.setStatusPerformance1day(performanceAvg1Day.getPerformanceAverage().getStatus().toString());
-//        businessView.setMeasuresQtyPerformance1day(performanceAvg1Day.getMeasuresQtyPerformance().getQuantity());
-//        businessView.setMeasuresQtyAvailability1day(availabilityAvg1Day.getMeasuresQtyAvailability().getQuantity());
-//
-//        businessView.setAvailabilityCriticalValue1day(availabilityAvg1Day.getAvailabilityThreshold());
-//        businessView.setPerformanceCriticalValue1day(performanceAvg1Day.getCriticalThreshold());
-        //Issues 1 Day - Total
-//        IssuesQuantity issues = issueService.calculateIssuesQuantityLastDay(id);
-//        businessView.setIssuesQtyLastDay(issues.getQuantity());
-//        businessView.setStatusIssuesQty(issues.getStatus().toString());
-//        businessView.setIssuesQtyCriticalThreshold(issues.getCriticalThreshold());
-        //WorkItems
-//        WorkItemQuantity workItems = workItemService.calculateWorkItemQuantityLastWeek(id);
-//        businessView.setWorkItems1day(workItems.getQuantity());
-//        businessView.setStatusWorkItemsQty(workItems.getStatus().toString());
-//        businessView.setWorkItemsQtyCriticalThreshold(workItems.getCriticalThreshold());
-//
-//        //Uptime
-//        businessView.setUptime10min(uptimeService.calculateLast10MinutesUptime(id).get());
-//        businessView.setUptime1hour(uptimeService.calculateLastHourUptime(id).get());
-//        businessView.setUptime1day(uptimeService.calculateLastDayUptime(id).get());
         //Availability Kpi
         businessView.setAvailabilityLast10MinKpi(availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get());
         businessView.setAvailabilityLastHourKpi(availabilityService.calculateLastHourKpiByApplication(id).getAvailabilityKpi().get());

@@ -7,6 +7,7 @@ import hubble.backend.business.services.interfaces.services.AvailabilityService;
 import hubble.backend.business.services.models.Application;
 import hubble.backend.business.services.models.Availability;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
+import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
@@ -156,6 +157,27 @@ public class AvailabilityServiceImpl implements AvailabilityService {
             totalOk = totalOk + (availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1);
         }
 
-        return (totalOk / (double) availabilityStorageList.size()) * 10d;
+        double n = totalOk / (double) availabilityStorageList.size() * 100d;
+        double criticalThreshold = 50;
+        double warningThreshold = 75;
+        double okThreshhold = 95;
+
+        if (n > okThreshhold) {
+            return 10;
+        }
+
+        if (n <= okThreshhold && n > warningThreshold) {
+            return CalculationHelper.calculateOkHealthIndex(n, okThreshhold, warningThreshold);
+        }
+
+        if (n <= warningThreshold && n > criticalThreshold) {
+            return CalculationHelper.calculateWarningHealthIndex(n, warningThreshold, criticalThreshold);
+        }
+
+        if (n <= criticalThreshold) {
+            return CalculationHelper.calculateCriticalHealthIndex(n, criticalThreshold, 1);
+        }
+
+        return 0;
     }
 }
