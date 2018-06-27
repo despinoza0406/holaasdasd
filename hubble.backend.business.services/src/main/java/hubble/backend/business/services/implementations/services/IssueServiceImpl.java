@@ -9,7 +9,10 @@ import hubble.backend.business.services.models.measures.quantities.IssuesQuantit
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
+import hubble.backend.storage.models.ApplicationStorage;
+import hubble.backend.storage.models.Defects;
 import hubble.backend.storage.models.IssueStorage;
+import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.repositories.IssueRepository;
 
 import java.util.*;
@@ -30,6 +33,10 @@ public class IssueServiceImpl implements IssueService {
     IssueOperations issueOperation;
     @Autowired
     IssuesKpiOperations issueKpiOperation;
+
+    private double lWarningKpiThreshold;
+    private double lCriticalKpiThreshold;
+    private double okKpiThreshold;
 
     @Override
     public List<Issue> getLastDay(String applicationId) {
@@ -70,16 +77,22 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public double calculateHistoryDayBeforeKpiByApplication(String applicationId) {
+    public double calculateHistoryDayBeforeKpiByApplication(ApplicationStorage application) {
+        Defects issues = application.getKpis().getDefects();
+        Threashold lastDayThreshold = issues.getDayThreashold();
+        this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
         List<IssueStorage> issuesStorage =
-                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(applicationId, DateHelper.getNDaysBefore(2), DateHelper.getYesterday());
+                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(application.getId(), DateHelper.getNDaysBefore(2), DateHelper.getYesterday());
         return calculateKPI(issuesStorage);
     }
 
     @Override
-    public double calculateHistoryLastDayKpiByApplication(String applicationId) {
+    public double calculateHistoryLastDayKpiByApplication(ApplicationStorage application) {
+        Defects issues = application.getKpis().getDefects();
+        Threashold lastDayThreshold = issues.getDayThreashold();
+        this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
         List<IssueStorage> issuesStorage =
-                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(applicationId, DateHelper.getYesterday(), DateHelper.getDateNow());
+                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(application.getId(), DateHelper.getYesterday(), DateHelper.getDateNow());
         return calculateKPI(issuesStorage);
     }
 
@@ -123,9 +136,9 @@ public class IssueServiceImpl implements IssueService {
             totalCriticity = totalCriticity + criticity;
         }
 
-        double criticalThreshold = 15;
 
-        if(totalCriticity > criticalThreshold) {
+
+        if(totalCriticity > lCriticalKpiThreshold) {
             return 0;
         }
 
@@ -133,6 +146,6 @@ public class IssueServiceImpl implements IssueService {
             return 10;
         }
 
-        return ( (totalCriticity - 1) / (criticalThreshold - 1) ) * (10-1) + 1;
+        return ( (totalCriticity - 1) / (lCriticalKpiThreshold - 1) ) * (10-1) + 1;
     }
 }

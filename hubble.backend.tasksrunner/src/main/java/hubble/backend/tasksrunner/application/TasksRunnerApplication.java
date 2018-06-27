@@ -120,7 +120,7 @@ public class TasksRunnerApplication {
         ppmApplicationTask.setIndentityName("Ppm Applications");
         ppmApplicationTask.setIntervalSeconds(60 * 60 * 24); //1 día
         */
-        scheduler.addTask(ppmDataTask);
+       // scheduler.addTask(ppmDataTask);
        //scheduler.addTask(ppmApplicationTask);
         
         //Jira

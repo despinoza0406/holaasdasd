@@ -2,6 +2,7 @@ package hubble.backend.business.services.interfaces.operations.kpis;
 
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
 import hubble.backend.business.services.models.measures.rules.EventsGroupRule;
+import hubble.backend.storage.models.ApplicationStorage;
 
 public interface EventKpiOperations extends
         KeyPerformanceIndicatorOperationsBase<EventsGroupRule>, KpiThresholdSetup {
@@ -12,9 +13,11 @@ public interface EventKpiOperations extends
 
     public EventsKpi calculateLastMonthKeyPerformanceIndicatorByApplication(String applicationId);
 
-    public double calculateLastDayKPI(String applicationId);
+    public double calculateLastDayKPI(ApplicationStorage application);
 
-    public double calculatePastDayKPI(String applicationId);
+    public double calculatePastDayKPI(ApplicationStorage application);
 
-    double calculateLastHourKPI(String applicationId);
+    public double calculatePastHourKPI(ApplicationStorage application);
+
+    public double calculateLastHourKPI(ApplicationStorage application);
 }

@@ -16,6 +16,8 @@ public interface EventOperations {
 
     List<EventStorage> findEventsByApplicationIdAndDifferentStatusLastHour(String applicationId, String status);
 
+    List<EventStorage> findEventsByApplicationIdAndDifferentStatusPastHour(String applicationId, String status);
+
     List<EventStorage> findEventsByApplicationIdBetweenDates(String applicationId, Date startDate, Date endDate);
 
     List<EventStorage> findEventsByApplicationIdAndDurationMinutes(int duration, String applicationId);

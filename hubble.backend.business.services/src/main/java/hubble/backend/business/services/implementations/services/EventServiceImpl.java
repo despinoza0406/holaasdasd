@@ -7,6 +7,7 @@ import hubble.backend.business.services.models.Event;
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.core.utils.CalendarHelper;
+import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,18 +59,23 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public double calculateLastDaySeverityKpi(String applicationId){
-        return eventKpiOperation.calculateLastDayKPI(applicationId);
+    public double calculateLastDaySeverityKpi(ApplicationStorage application){
+        return eventKpiOperation.calculateLastDayKPI(application);
     }
 
     @Override
-    public double calculateLastHourSeverityKpi(String applicationId){
-        return eventKpiOperation.calculateLastHourKPI(applicationId);
+    public double calculateLastHourSeverityKpi(ApplicationStorage application){
+        return eventKpiOperation.calculateLastHourKPI(application);
     }
 
     @Override
-    public double calculatePastDaySeverityKpi(String applicationId) {
-        return eventKpiOperation.calculatePastDayKPI(applicationId);
+    public double calculatePastDaySeverityKpi(ApplicationStorage application) {
+        return eventKpiOperation.calculatePastDayKPI(application);
+    }
+
+    @Override
+    public double calculatePastHourSeverityKpi(ApplicationStorage application) {
+        return eventKpiOperation.calculatePastHourKPI(application);
     }
 
     @Override

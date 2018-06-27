@@ -8,6 +8,9 @@ import hubble.backend.business.services.models.measures.rules.WorkItemsGroupRule
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.utils.KpiHelper;
 import hubble.backend.core.utils.Threshold;
+import hubble.backend.storage.models.ApplicationStorage;
+import hubble.backend.storage.models.Tasks;
+import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.models.WorkItemStorage;
 import hubble.backend.storage.repositories.WorkItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +31,9 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
     private double warningKpiThreshold;
     private double criticalKpiThreshold;
 
-    private long lWarningKpiThreshold;
-    private long lCriticalKpiThreshold;
-    private long okKpiThreshold;
+    private double lWarningKpiThreshold;
+    private double lCriticalKpiThreshold;
+    private double okKpiThreshold;
     private final long warningIndexThreshold = 6;
     private final long criticalIndexThreshold = 8;
 
@@ -174,22 +177,26 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
     }
 
     @Override
-    public double calculateLastDayKPI(String applicationId){
-        List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusLastDay(applicationId,
+    public double calculateLastDayKPI(ApplicationStorage application){
+        Tasks tareas = application.getKpis().getTasks();
+        Threashold lastDayThreshold = tareas.getDayThreashold();
+        List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusLastDay(application.getId(),
                 "IN_PROGRESS");
-        this.lWarningKpiThreshold = 4;
-        this.lCriticalKpiThreshold = 10;
-        this.okKpiThreshold = 0;
+        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
+        this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
+        this.okKpiThreshold = lastDayThreshold.getOk();
         return calculateKPI(workItems);
     }
 
     @Override
-    public double calculatePastDayKPI(String applicationId){
-        List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusPastDay(applicationId,
+    public double calculatePastDayKPI(ApplicationStorage application){
+        Tasks tareas = application.getKpis().getTasks();
+        Threashold lastDayThreshold = tareas.getDayThreashold();
+        List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusPastDay(application.getId(),
                 "IN_PROGRESS");
-        this.lWarningKpiThreshold = 4;
-        this.lCriticalKpiThreshold = 10;
-        this.okKpiThreshold = 0;
+        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
+        this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
+        this.okKpiThreshold = lastDayThreshold.getOk();
         return calculateKPI(workItems);
     }
 
