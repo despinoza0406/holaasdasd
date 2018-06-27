@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.JSONObject;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class PpmDataParserIntegrationTest {
         assertNotNull(ppmTransport);
     }
 
+    @Ignore
     @Test
     public void ppmDataParser_should_parse_requests() {
         String encodedAuthString = ppmTransport.encodeToBase64(
@@ -63,6 +65,7 @@ public class PpmDataParserIntegrationTest {
         assertNotNull(parsedRequests.get(0).getId());
     }
 
+    @Ignore
     @Test
     public void ppm_data_parser_when_it_runs_should_connect_get_data_and_save_it() {
         //Assign

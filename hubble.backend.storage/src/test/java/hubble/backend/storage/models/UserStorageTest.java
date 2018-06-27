@@ -74,4 +74,30 @@ public class UserStorageTest {
         return new UserStorage("a@tsoftlatam.com", "A", password.toCharArray(), Collections.EMPTY_SET, Collections.EMPTY_SET);
     }
 
+    @Test
+    public void validateTokenSucceedsIfTokenIsNotExpired() {
+        String password = "pass123456";
+        UserStorage user = user(password);
+        AuthToken token = user.authenticate(password.toCharArray());
+        assertThat("token is valid", user.validateToken(token.getToken()), is(true));
+    }
+
+    @Test
+    public void validateTokenFailsIfTokenIsExpired() {
+        String password = "pass123456";
+        UserStorage user = user(password);
+        AuthToken token = user.authenticate(password.toCharArray());
+        token.setExpiration(token.getExpiration().minusDays(2)); // Horrible, no se puede simular de otra forma.
+        assertThat("token is not valid", user.validateToken(token.getToken()), is(false));
+    }
+
+    @Test
+    public void validateTokenFailsIfTokenDifferent() {
+        String password = "pass123456";
+        UserStorage user = user(password);
+        AuthToken token = user.authenticate(password.toCharArray());
+        token.setExpiration(token.getExpiration().minusDays(2)); // Horrible, no se puede simular de otra forma.
+        assertThat("token is not valid", user.validateToken(UUID.randomUUID()), is(false));
+    }
+
 }

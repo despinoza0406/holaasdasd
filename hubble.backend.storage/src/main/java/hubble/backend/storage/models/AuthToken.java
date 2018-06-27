@@ -13,6 +13,7 @@ import java.util.UUID;
 public class AuthToken {
 
     private UUID token;
+    private String tokenString;
     private LocalDateTime expiration;
 
     public AuthToken() {
@@ -20,6 +21,7 @@ public class AuthToken {
 
     public AuthToken(UUID token, LocalDateTime expiration) {
         this.token = token;
+        this.tokenString = token.toString();
         this.expiration = expiration;
     }
 
@@ -39,6 +41,14 @@ public class AuthToken {
         this.expiration = expiration;
     }
 
+    public String getTokenString() {
+        return tokenString;
+    }
+
+    public void setTokenString(String tokenString) {
+        this.tokenString = tokenString;
+    }
+
     public ObjectNode toJson() {
         return new ObjectMapper()
             .createObjectNode()
@@ -46,12 +56,12 @@ public class AuthToken {
             .put("expiration", DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(expiration));
     }
 
-    public boolean validate(UUID token) {
+    public boolean isSameToken(UUID token) {
         return this.token.equals(token);
     }
 
-    public boolean isValid() {
-        return LocalDateTime.now().isBefore(this.expiration);
+    public boolean isExpired() {
+        return this.expiration.isBefore(LocalDateTime.now());
     }
 
 }

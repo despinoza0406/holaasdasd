@@ -12,4 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public interface UsersRepository extends MongoRepository<UserStorage, String>, UsersOperations {
 
+    
+    
 }

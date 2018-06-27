@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.Map;
 import org.json.JSONObject;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ProvidersConfiguration.class)
 public class AlmApplicationParserIntegrationTest {
@@ -36,6 +38,7 @@ public class AlmApplicationParserIntegrationTest {
         assertNotNull(almApplicationParser);
     }
 
+    @Ignore
     @Test
     public void alm_data_parser_should_retrieve_applications() {
         almTransport.login();
