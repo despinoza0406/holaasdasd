@@ -9,7 +9,10 @@ import hubble.backend.business.services.models.measures.rules.EventsGroupRule;
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.utils.KpiHelper;
 import hubble.backend.core.utils.Threshold;
+import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.EventStorage;
+import hubble.backend.storage.models.Events;
+import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,9 +32,9 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
     private double warningKpiThreshold;
     private double criticalKpiThreshold;
 
-    private long lWarningKpiThreshold;
-    private long lCriticalKpiThreshold;
-    private long okKpiThreshold;
+    private double lWarningKpiThreshold;
+    private double lCriticalKpiThreshold;
+    private double okKpiThreshold;
     private final long warningIndexThreshold = 6;
     private final long criticalIndexThreshold = 8;
 
@@ -176,32 +179,50 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
     }
 
     @Override
-    public double calculateLastDayKPI(String applicationId){
-        List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusLastDay(applicationId,
+    public double calculateLastDayKPI(ApplicationStorage application){
+        Events eventos = application.getKpis().getEvents();
+        Threashold lastDayThreshold = eventos.getDayThreashold();
+        List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusLastDay(application.getId(),
                 "Good");
-        this.lWarningKpiThreshold = 100;  //despues los busca en la base de datos
-        this.lCriticalKpiThreshold = 150;
-        this.okKpiThreshold = 5;
+        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
+        this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
+        this.okKpiThreshold = lastDayThreshold.getOk();
         return calculateKPI(events);
     }
 
     @Override
-    public double calculatePastDayKPI(String applicationId){
-        List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusPastDay(applicationId,
+    public double calculatePastDayKPI(ApplicationStorage application){
+        Events eventos = application.getKpis().getEvents();
+        Threashold lastDayThreshold = eventos.getDayThreashold();
+        List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusPastDay(application.getId(),
                 "Good");
-        this.lWarningKpiThreshold = 100;
-        this.lCriticalKpiThreshold = 150;
-        this.okKpiThreshold = 5;
+        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
+        this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
+        this.okKpiThreshold = lastDayThreshold.getOk();
         return calculateKPI(events);
     }
 
     @Override
-    public double calculateLastHourKPI(String applicationId){
-        List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusLastHour(applicationId,
+    public double calculateLastHourKPI(ApplicationStorage application){
+        Events eventos = application.getKpis().getEvents();
+        Threashold lastHourThreshold = eventos.getHourThreashold();
+        List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusLastHour(application.getId(),
                 "Good");
-        this.lWarningKpiThreshold = 100;
-        this.lCriticalKpiThreshold = 150;
-        this.okKpiThreshold = 5;
+        this.lWarningKpiThreshold = lastHourThreshold.getWarning();
+        this.lCriticalKpiThreshold = lastHourThreshold.getCritical();
+        this.okKpiThreshold = lastHourThreshold.getOk();
+        return calculateKPI(events);
+    }
+
+    @Override
+    public double calculatePastHourKPI(ApplicationStorage application){
+        Events eventos = application.getKpis().getEvents();
+        Threashold lastHourThreshold = eventos.getHourThreashold();
+        List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusPastHour(application.getId(),
+                "Good");
+        this.lWarningKpiThreshold = lastHourThreshold.getWarning();
+        this.lCriticalKpiThreshold = lastHourThreshold.getCritical();
+        this.okKpiThreshold = lastHourThreshold.getOk();
         return calculateKPI(events);
     }
 

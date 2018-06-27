@@ -5,6 +5,7 @@ import hubble.backend.business.services.interfaces.services.kpis.OperationsKeyPe
 import hubble.backend.business.services.models.Issue;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
+import hubble.backend.storage.models.ApplicationStorage;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface IssueService extends ServiceBase<Issue>,
 
     List<Integer> getDistValuesLastDay(String id);
 
-    double calculateHistoryLastDayKpiByApplication(String applicationId);
+    double calculateHistoryLastDayKpiByApplication(ApplicationStorage aplication);
 
-    double calculateHistoryDayBeforeKpiByApplication(String applicationId);
+    double calculateHistoryDayBeforeKpiByApplication(ApplicationStorage application);
 }

@@ -2,6 +2,7 @@ package hubble.backend.business.services.interfaces.services;
 
 import hubble.backend.business.services.models.Event;
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
+import hubble.backend.storage.models.ApplicationStorage;
 
 import java.util.List;
 
@@ -11,11 +12,13 @@ public interface EventService extends ServiceBase<Event> {
 
     EventsKpi calculateLastMonthKpiByApplication(String applicationId);
 
-    double calculatePastDaySeverityKpi(String applicationId);
+    double calculatePastDaySeverityKpi(ApplicationStorage application);
 
-    double calculateLastDaySeverityKpi(String applicationId);
+    double calculatePastHourSeverityKpi(ApplicationStorage application);
 
-    double calculateLastHourSeverityKpi(String applicationId);
+    double calculateLastDaySeverityKpi(ApplicationStorage application);
+
+    double calculateLastHourSeverityKpi(ApplicationStorage application);
 
     List<Integer> getDistValuesLastDay(String id);
 

@@ -4,10 +4,12 @@ import hubble.backend.business.services.configurations.mappers.MapperConfigurati
 import hubble.backend.business.services.interfaces.operations.WorkItemOperations;
 import hubble.backend.business.services.interfaces.operations.kpis.WorkItemKpiOperations;
 import hubble.backend.business.services.interfaces.services.WorkItemService;
+import hubble.backend.business.services.models.Application;
 import hubble.backend.business.services.models.WorkItem;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;
 import hubble.backend.core.utils.CalendarHelper;
+import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.WorkItemStorage;
 import hubble.backend.storage.repositories.WorkItemRepository;
 
@@ -84,13 +86,13 @@ public class WorkItemServiceImpl implements WorkItemService {
     }
 
     @Override
-    public double calculateLastDayDeflectionDaysKpi(String applicationId){
-        return workItemKpiOperation.calculateLastDayKPI(applicationId);
+    public double calculateLastDayDeflectionDaysKpi(ApplicationStorage application){
+        return workItemKpiOperation.calculateLastDayKPI(application);
     }
 
     @Override
-    public double calculatePastDayDeflectionDaysKpi(String applicationId) {
-        return workItemKpiOperation.calculatePastDayKPI(applicationId);
+    public double calculatePastDayDeflectionDaysKpi(ApplicationStorage application) {
+        return workItemKpiOperation.calculatePastDayKPI(application);
     }
 
     @Override

@@ -5,7 +5,9 @@ import hubble.backend.business.services.interfaces.operations.kpis.EventKpiOpera
 import hubble.backend.business.services.tests.StorageTestsHelper;
 import hubble.backend.business.services.tests.configurations.ServiceBaseConfigurationTest;
 import hubble.backend.storage.configurations.StorageComponentConfiguration;
+import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.EventStorage;
+import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.EventRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +32,8 @@ public class EventKpiOperationsUnitTests {
     EventKpiOperations kpiOperations;
     @Autowired
     EventRepository eventRepository;
+    @Autowired
+    ApplicationRepository applicationRepository;
     StorageTestsHelper helper = new StorageTestsHelper();
 
 
@@ -51,7 +55,7 @@ public class EventKpiOperationsUnitTests {
 
         }
 
-        assert (kpiOperations.calculateLastDayKPI("Benchmark Home Banking") == 10);
+        assert (kpiOperations.calculateLastHourKPI(applicationRepository.findApplicationById("Benchmark Home Banking")) == 10);
 
         for(EventStorage storage : storages) {
 
@@ -73,7 +77,7 @@ public class EventKpiOperationsUnitTests {
 
         }
 
-        assert (kpiOperations.calculateLastDayKPI("Benchmark Home Banking") == 0);
+        assert (kpiOperations.calculateLastHourKPI(applicationRepository.findApplicationById("Benchmark Home Banking")) == 1);
 
         for(EventStorage storage : storages) {
 
