@@ -44,7 +44,10 @@ public class PpmDataParserImpl implements PpmDataParser {
         }
 
         for (JSONObject request : requestsToBeParsed) {
-            detailedRequests.add(ppmTransport.getRequestDetails(encodedAuthString, request.getString("id")));
+            JSONObject reqDetails = ppmTransport.getRequestDetails(encodedAuthString, request.getString("id"));
+            if (reqDetails != null) {
+                detailedRequests.add(reqDetails);
+            }
         }
 
         for (JSONObject detailedRequest : detailedRequests) {
