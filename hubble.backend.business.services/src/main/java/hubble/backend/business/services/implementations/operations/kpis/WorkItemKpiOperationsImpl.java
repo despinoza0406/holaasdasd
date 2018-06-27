@@ -212,7 +212,7 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
             deflectionDaysTotal = deflectionDaysTotal + workItemStorage.getDeflectionDays();
         }
 
-        if (deflectionDaysTotal == this.okKpiThreshold) {
+        if (deflectionDaysTotal <= this.okKpiThreshold) {
             return 10;
         }
 
