@@ -57,9 +57,10 @@ public class DateHelper {
 
     public static Date parseDateTime(String dateString) {
         if (dateString == null) return null;
-        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
+        DateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (dateString.contains("T")) dateString = dateString.replace('T', ' ');
-        if (dateString.contains("Z")) dateString = dateString.replace("Z", "+0000");
+        if (dateString.contains("-0400")) dateString = dateString.replace(".000-0400", "");
+        if (dateString.contains("Z")) dateString = dateString.replace("Z", "");
         else
             dateString = dateString.substring(0, dateString.lastIndexOf(':')) + dateString.substring(dateString.lastIndexOf(':')+1);
         try {

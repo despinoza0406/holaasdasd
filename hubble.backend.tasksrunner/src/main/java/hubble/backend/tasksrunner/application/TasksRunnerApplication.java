@@ -64,14 +64,6 @@ public class TasksRunnerApplication {
         appPulseDataTask.setIndentityName("AppPulse Data");
         appPulseDataTask.setIntervalSeconds(40);
 
-        AppPulseActiveApplicationsParser appPulseApplicationParser = context.getBean(AppPulseActiveApplicationsParser.class);
-        ParserJob appPulseAppJob = new AppPulseApplicationParserJob(appPulseApplicationParser);
-        ParserTask appPulseApplicationTask = new AppPulseApplicationTaskImpl(appPulseAppJob);
-        appPulseApplicationTask.setIndentityGroupName("AppPulse Active Provider Job");
-        appPulseApplicationTask.setIndentityName("AppPulse Applications");
-        appPulseApplicationTask.setIntervalSeconds(100);
-        scheduler.addTask(appPulseApplicationTask);
-        scheduler.addTask(appPulseDataTask);
         */
         //BSM
 

@@ -189,7 +189,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, List<KpiFrontend> kpisFront) {
 
-        List<Double> kpis = new ArrayList<>();
+        List<Double> kpis;
         kpis = kpisFront.stream().map(x -> x.getKpiValue()).collect(Collectors.toList()); //me lo mapea a los valores de los kpi
 
         double healthIndex = getKPIAverage(kpis);
@@ -197,7 +197,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     public void setPastHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, ApplicationStorage application) {
-        double availabilityKPImonth = availabilityService.calculateLastMonthKpiByApplication(application.getId()).getAvailabilityKpi().get();
+        double availabilityKPImonth = availabilityService.calculateHealthIndexKPILastHour(application.getId());
         double performanceKPIday = performanceService.calculateLastMonthKpiByApplication(application.getId()).getPerformanceKpi().get();
         double issuesKPIday = issueService.calculateHistoryDayBeforeKpiByApplication(application);
         double workItemKPIday = workItemService.calculatePastDayDeflectionDaysKpi(application);
@@ -224,9 +224,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend availabilityKpi = new KpiFrontend();
             availabilityKpi.setKpiName("Disponibilidad");
             availabilityKpi.setKpiShortName("D");
-            availabilityKpi.setKpiValue(availabilityService.calculateLastHourKpiByApplication(application.getId()).getAvailabilityKpi().get());
+            availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPILastHour(application.getId()));
             kpis.add(availabilityKpi);
         }
+
         if (//kpiTypes.contains(PERFORMANCE) &&
                 backKPI.getPerformance().getEnabled()){
             KpiFrontend performanceKpi = new KpiFrontend();
