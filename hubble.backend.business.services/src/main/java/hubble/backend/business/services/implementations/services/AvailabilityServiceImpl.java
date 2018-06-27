@@ -146,4 +146,16 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         }
         return distValuesInt;
     }
+
+    @Override
+    public double calculateHealthIndexKPILastHour(String applicationId) {
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(applicationId,DateHelper.getAnHourAgo(), DateHelper.getDateNow());
+        double totalOk = 0;
+        for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
+            totalOk = totalOk + (availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1);
+        }
+
+        return (totalOk / (double) availabilityStorageList.size()) * 10d;
+    }
 }
