@@ -6,6 +6,7 @@ import hubble.backend.business.services.interfaces.operations.rules.WorkItemGrou
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.rules.WorkItemsGroupRule;
 import hubble.backend.core.enums.MonitoringFields;
+import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.KpiHelper;
 import hubble.backend.core.utils.Threshold;
 import hubble.backend.storage.models.ApplicationStorage;
@@ -202,18 +203,13 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
 
     private double calculateKPI(List<WorkItemStorage> workItems){
         double deflectionDaysTotal = 0;
-        double a = 0;
-        double b = 0;
-        double x = 0;
-        double y = 0;
-        double kpi;
 
         for(WorkItemStorage workItemStorage : workItems) {
             deflectionDaysTotal = deflectionDaysTotal + workItemStorage.getDeflectionDays();
         }
 
         if (deflectionDaysTotal <= this.okKpiThreshold) {
-            return 10;
+            return CalculationHelper.calculateOkHealthIndex(deflectionDaysTotal,okKpiThreshold,0); //lo minimo es 0
         }
 
         if (deflectionDaysTotal > this.lCriticalKpiThreshold ) {
@@ -222,22 +218,14 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
 
         //warning thresholds setting
         if (deflectionDaysTotal > this.okKpiThreshold & deflectionDaysTotal < this.lWarningKpiThreshold) {
-            a = 1;
-            b = this.lWarningKpiThreshold;
-            x = 6;
-            y = 10;
+            return CalculationHelper.calculateWarningHealthIndex(deflectionDaysTotal,lWarningKpiThreshold,okKpiThreshold);
         }
 
         //critical threshold setting
         if (deflectionDaysTotal >= this.lWarningKpiThreshold & deflectionDaysTotal <= this.lCriticalKpiThreshold) {
-            a = this.lWarningKpiThreshold;
-            b = this.lCriticalKpiThreshold;
-            x = 1;
-            y = 6;
+            return CalculationHelper.calculateCriticalHealthIndex(deflectionDaysTotal,lCriticalKpiThreshold,lWarningKpiThreshold);
         }
 
-        kpi = ((deflectionDaysTotal - a)/(b-a)) * (y-x) + x;
-
-        return kpi;
+        return 0;
     }
 }

@@ -107,27 +107,14 @@ public class MapperConfigurationUnitTests {
 
         when(applicationStorage.getApplicationId()).thenReturn("1234");
         when(applicationStorage.getApplicationName()).thenReturn("BancoRipley - HomeBanking");
-        when(applicationStorage.getAvailabilityThreshold()).thenReturn(90);
-        when(applicationStorage.getCriticalThreshold()).thenReturn(12000);
         when(applicationStorage.isActive()).thenReturn(true);
-        when(applicationStorage.getLocations()).thenReturn(null);
-        when(applicationStorage.getOkThreshold()).thenReturn(8000);
-        when(applicationStorage.getOutlierThreshold()).thenReturn(45000);
-        when(applicationStorage.getTimeZoneId()).thenReturn("1");
-        when(applicationStorage.getTransactions()).thenReturn(null);
+
 
         Application applicationDto = mapperConfiguration.mapToApplicationDto(applicationStorage);
 
         assertEquals("1234", applicationDto.getApplicationId());
         assertEquals("BancoRipley - HomeBanking", applicationDto.getApplicationName());
-        assertEquals(90, applicationDto.getAvailabilityThreshold().intValue());
-        assertEquals(12000, applicationDto.getCriticalThreshold().intValue());
         assertEquals(true, applicationDto.isActive());
-        assertEquals(null, applicationDto.getLocations());
-        assertEquals(8000, applicationDto.getOkThreshold().intValue());
-        assertEquals(45000, applicationDto.getOutlierThreshold().intValue());
-        assertEquals("1", applicationDto.getTimeZoneId());
-        assertEquals(null, applicationDto.getTransactions());
     }
 
     @Test
@@ -211,27 +198,14 @@ public class MapperConfigurationUnitTests {
 
         when(applicationStorage.getApplicationId()).thenReturn("1234");
         when(applicationStorage.getApplicationName()).thenReturn("BancoRipley - HomeBanking");
-        when(applicationStorage.getAvailabilityThreshold()).thenReturn(90);
-        when(applicationStorage.getCriticalThreshold()).thenReturn(12000);
         when(applicationStorage.isActive()).thenReturn(true);
-        when(applicationStorage.getLocations()).thenReturn(null);
-        when(applicationStorage.getOkThreshold()).thenReturn(8000);
-        when(applicationStorage.getOutlierThreshold()).thenReturn(45000);
-        when(applicationStorage.getTimeZoneId()).thenReturn("1");
-        when(applicationStorage.getTransactions()).thenReturn(null);
+
 
         ApplicationIndicators applicationAvailabilityAvg = mapperConfiguration.mapToApplicationIndicatorsDto(applicationStorage);
 
         assertEquals("1234", applicationAvailabilityAvg.getApplicationId());
         assertEquals("BancoRipley - HomeBanking", applicationAvailabilityAvg.getApplicationName());
-        assertEquals(90, applicationAvailabilityAvg.getAvailabilityThreshold().intValue());
-        assertEquals(12000, applicationAvailabilityAvg.getCriticalThreshold().intValue());
         assertEquals(true, applicationAvailabilityAvg.isActive());
-        assertEquals(null, applicationAvailabilityAvg.getLocations());
-        assertEquals(8000, applicationAvailabilityAvg.getOkThreshold().intValue());
-        assertEquals(45000, applicationAvailabilityAvg.getOutlierThreshold().intValue());
-        assertEquals("1", applicationAvailabilityAvg.getTimeZoneId());
-        assertEquals(null, applicationAvailabilityAvg.getTransactions());
     }
 
     @Test

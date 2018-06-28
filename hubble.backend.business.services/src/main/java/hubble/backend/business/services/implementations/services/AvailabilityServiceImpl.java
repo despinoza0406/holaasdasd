@@ -12,6 +12,8 @@ import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.AvailabilityStorage;
+import hubble.backend.storage.models.Availavility;
+import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.AvailabilityRepository;
 
@@ -149,18 +151,20 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public double calculateHealthIndexKPILastHour(String applicationId) {
+    public double calculateHealthIndexKPILastHour(ApplicationStorage application) {
+        Availavility dispon = application.getKpis().getAvailability();
+        Threashold lastHourThreshold = dispon.getHourThreashold();
         List<AvailabilityStorage> availabilityStorageList =
-                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(applicationId,DateHelper.getAnHourAgo(), DateHelper.getDateNow());
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(application.getId(),DateHelper.getAnHourAgo(), DateHelper.getDateNow());
         double totalOk = 0;
         for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
             totalOk = totalOk + (availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1);
         }
 
         double n = totalOk / (double) availabilityStorageList.size() * 100d;
-        double criticalThreshold = 50;
-        double warningThreshold = 75;
-        double okThreshhold = 95;
+        double criticalThreshold = lastHourThreshold.getCritical();
+        double warningThreshold = lastHourThreshold.getWarning();
+        double okThreshhold = lastHourThreshold.getOk();
 
         if (n > okThreshhold) {
             return 10;

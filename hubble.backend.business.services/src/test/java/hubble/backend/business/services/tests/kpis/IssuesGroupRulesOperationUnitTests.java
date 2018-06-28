@@ -86,15 +86,9 @@ public class IssuesGroupRulesOperationUnitTests {
         appStorage.setId("1");
         appStorage.setApplicationName("fake-app");
         appStorage.setApplicationId("Home Banking");
-        appStorage.setCriticalThreshold(1000);
-        appStorage.setOkThreshold(500);
         appStorage.setActive(true);
-        appStorage.setAvailabilityThreshold(700);
-        appStorage.setLocations(new ArrayList<>());
         appStorage.setApplicationConfigurationVersion(1);
-        appStorage.setTimeZoneId("Buenos Aires");
         appStorage.setApplicationConfigurationVersion(1);
-        appStorage.setTransactions(new ArrayList<>());
         when(applicationRepository.findApplicationById(applicationId)).thenReturn(appStorage);
         when(issueRepository.findIssuesByApplicationIdAndDurationMonths(1, applicationId)).thenReturn(issueStorageList);
 

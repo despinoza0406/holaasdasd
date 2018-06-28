@@ -136,10 +136,8 @@ public class IssueServiceImpl implements IssueService {
             totalCriticity = totalCriticity + criticity;
         }
 
-
-
         if(totalCriticity > lCriticalKpiThreshold) {
-            return 0;
+            return 1;
         }
 
         if(totalCriticity == 0) {

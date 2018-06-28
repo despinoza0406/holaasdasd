@@ -17,7 +17,6 @@ public class AppPulseMapperConfiguration {
     public AppPulseMapperConfiguration() {
         mapper = new ModelMapper();
         this.mapper.addMappings(new AvailabilityPropertyMap());
-        this.mapper.addMappings(new ApplicationPropertyMap());
     }
 
     public ModelMapper getMapper() {

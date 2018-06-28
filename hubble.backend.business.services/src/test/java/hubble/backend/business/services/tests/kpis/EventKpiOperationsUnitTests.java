@@ -9,6 +9,7 @@ import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.EventRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,17 @@ public class EventKpiOperationsUnitTests {
     EventRepository eventRepository;
     @Autowired
     ApplicationRepository applicationRepository;
+
+    ApplicationStorage applicationStorage;
     StorageTestsHelper helper = new StorageTestsHelper();
 
 
+
+    @Before
+    public void createApplicationStorage(){
+
+        applicationStorage = helper.getTestAppStorage("Benchmark Home Banking");
+    }
     @Test
     public void event_repository_should_be_instantiated(){
         assertNotNull(eventRepository);
@@ -55,7 +64,7 @@ public class EventKpiOperationsUnitTests {
 
         }
 
-        assert (kpiOperations.calculateLastHourKPI(applicationRepository.findApplicationById("Benchmark Home Banking")) == 10);
+        assert (kpiOperations.calculateLastHourKPI(applicationStorage) >= 8);
 
         for(EventStorage storage : storages) {
 
@@ -77,7 +86,7 @@ public class EventKpiOperationsUnitTests {
 
         }
 
-        assert (kpiOperations.calculateLastHourKPI(applicationRepository.findApplicationById("Benchmark Home Banking")) == 1);
+        assert (kpiOperations.calculateLastHourKPI(applicationStorage) == 1);
 
         for(EventStorage storage : storages) {
 

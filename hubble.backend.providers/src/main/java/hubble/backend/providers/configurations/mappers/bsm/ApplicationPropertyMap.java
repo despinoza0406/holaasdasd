@@ -10,11 +10,7 @@ public class ApplicationPropertyMap extends PropertyMap<BsmProviderModel, Applic
     protected void configure() {
 
         skip().setId(null);
-        skip().setOutlierThreshold(0);
-
         map().setApplicationId(source.getProfile_name());
-        map().setCriticalThreshold(source.getDredthreshold());
-        map().setOkThreshold(source.getDgreenthreshold());
         map().setApplicationName(source.getProfile_name());
         map().setActive(true);
     }
