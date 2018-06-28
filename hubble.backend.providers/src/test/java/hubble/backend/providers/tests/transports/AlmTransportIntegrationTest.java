@@ -55,23 +55,23 @@ public class AlmTransportIntegrationTest {
     }
     
     @Test
-    public void alm_transport_should_retrieve_all_defects() throws Exception{
+    public void alm_transport_should_retrieve_all_open_defects() throws Exception{
         almTransport.login();
         Map<String,String> cookies=almTransport.getSessionCookies();
-        assertNotNull(almTransport.getDefects(cookies,1));
+        assertNotNull(almTransport.getOpenDefects(cookies,1));
         assertTrue(almTransport.isAuthenticated());     
         
         almTransport.logout();
         assertFalse(almTransport.isAuthenticated());
     }
-    
+
     @Test
-    public void alm_transport_should_retrieve_just_open_defects() throws Exception{
+    public void alm_transport_should_retrieve_all_closed_today_defects() throws Exception{
         almTransport.login();
         Map<String,String> cookies=almTransport.getSessionCookies();
-        assertNotNull(almTransport.getOpenDefects(cookies));
-        assertTrue(almTransport.isAuthenticated());     
-        
+        assertNotNull(almTransport.getClosedTodayDefects(cookies,1));
+        assertTrue(almTransport.isAuthenticated());
+
         almTransport.logout();
         assertFalse(almTransport.isAuthenticated());
     }

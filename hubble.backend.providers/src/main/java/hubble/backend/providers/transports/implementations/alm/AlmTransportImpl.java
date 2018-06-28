@@ -1,5 +1,7 @@
 package hubble.backend.providers.transports.implementations.alm;
 
+import hubble.backend.core.utils.DateHelper;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.mashape.unirest.http.HttpResponse;
@@ -11,6 +13,7 @@ import hubble.backend.providers.configurations.environments.AlmProviderEnvironme
 import hubble.backend.providers.transports.interfaces.AlmTransport;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,7 +80,7 @@ public class AlmTransportImpl implements AlmTransport {
     }
 
     @Override
-    public JSONObject getDefects(Map<String, String> sessionCookies,int startInd) {
+    public JSONObject getOpenDefects(Map<String, String> sessionCookies,int startInd) {
         String path = "/rest/domains/" + environment.getDomain()
                 + "/projects/" + environment.getProject() + "/defects";
         String defectsUri = buildUri(path);
@@ -110,6 +113,58 @@ public class AlmTransportImpl implements AlmTransport {
     }
 
     @Override
+    public JSONObject getClosedTodayDefects(Map<String, String> sessionCookies, int startInd) {
+        String path = "/rest/domains/" + environment.getDomain()
+                + "/projects/" + environment.getProject() + "/defects";
+        String defectsUri = buildUri(path);
+        HttpResponse<JsonNode> data = null;
+
+        try {
+            data = Unirest.get(defectsUri)
+                    .header("QCSession", sessionCookies.get("QCSession"))
+                    .header("XSRF-TOKEN", sessionCookies.get("XSRF-TOKEN"))
+                    .header("ALM_USER", sessionCookies.get("ALM_USER"))
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .queryString("page-size","2000")
+                    .queryString("start-index",startInd)
+                    .queryString("query", "{status[Cerrado Or Rechazado Or Corregido]}")
+                    .asJson();
+        } catch (UnirestException e) {
+            logger.error(e.getMessage());
+        }
+
+        if (data == null) {
+            return null;
+        }
+
+        if (data.getBody() == null) {
+            return null;
+        }
+
+        JSONObject jsonObject = data.getBody().getObject();
+        JSONArray entities = jsonObject.getJSONArray("entities");
+
+        for (int i = 0; i < entities.length(); i++) {
+            JSONArray fields = entities.getJSONObject(i).getJSONArray("Fields");
+            for (int j = 0; j < fields.length(); j++) {
+                JSONObject field = fields.getJSONObject(j);
+                if (field.get("Name").equals("last-modified")){
+                    String modifiedDateString = field.getJSONArray("values").getJSONObject(0).getString("value");
+                    Date modifiedDate = DateHelper.parseDateTime(modifiedDateString);
+                    Date today = DateHelper.getDateNow();
+                    if (!DateHelper.areSameDate(modifiedDate, today)){
+                        entities.remove(i);
+                    }
+                    break;
+                }
+            }
+        }
+
+        return data.getBody().getObject();
+    }
+
+    @Override
     public Map<String, String> getSessionCookies() {
         String pathSession = "/rest/site-session";
         String sessionUri = buildUri(pathSession);
@@ -136,40 +191,7 @@ public class AlmTransportImpl implements AlmTransport {
         return cookiesMap;
     }
 
-    @Override
-    public JSONObject getOpenDefects(Map<String, String> sessionCookies) {
-        String query = "";
-        String statusValuesToReturn = this.parseCsvConfigurations(
-                configuration.getStatusOpenValues(),
-                " or ");
-        try {
-            query = URLEncoder.encode(
-                    String.format("{%s[%s]}",
-                            configuration.getStatusFieldName(),
-                            statusValuesToReturn),
-                    "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            logger.error(e.getMessage());
-        }
-        String path = "/rest/domains/" + environment.getDomain()
-                + "/projects/" + environment.getProject() + "/defects?query="
-                + query;
-        String defectsUri = buildUri(path);
-        HttpResponse<JsonNode> data = null;
 
-        try {
-            data = Unirest.get(defectsUri)
-                    .header("QCSession", sessionCookies.get("QCSession"))
-                    .header("XSRF-TOKEN", sessionCookies.get("XSRF-TOKEN"))
-                    .header("ALM_USER", sessionCookies.get("ALM_USER"))
-                    .header("Content-Type", "application/json")
-                    .header("Accept", "application/json")
-                    .asJson();
-        } catch (UnirestException e) {
-            logger.error(e.getMessage());
-        }
-        return data.getBody().getObject();
-    }
 
     private String buildUri(String path) {
         String uri = String.format("http://%s:%s/qcbin%s",
