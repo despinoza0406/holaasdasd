@@ -81,6 +81,8 @@ public class IssueServiceImpl implements IssueService {
         Defects issues = application.getKpis().getDefects();
         Threashold lastDayThreshold = issues.getDayThreashold();
         this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
+        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
+        this.okKpiThreshold = lastDayThreshold.getOk();
         List<IssueStorage> issuesStorage =
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(application.getId(), DateHelper.getNDaysBefore(2), DateHelper.getYesterday());
         return calculateKPI(issuesStorage);
@@ -91,6 +93,8 @@ public class IssueServiceImpl implements IssueService {
         Defects issues = application.getKpis().getDefects();
         Threashold lastDayThreshold = issues.getDayThreashold();
         this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
+        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
+        this.okKpiThreshold = lastDayThreshold.getOk();
         List<IssueStorage> issuesStorage =
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(application.getId(), DateHelper.getYesterday(), DateHelper.getDateNow());
         return calculateKPI(issuesStorage);

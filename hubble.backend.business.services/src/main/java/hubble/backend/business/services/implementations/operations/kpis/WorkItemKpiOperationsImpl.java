@@ -209,7 +209,7 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
         }
 
         if (deflectionDaysTotal <= this.okKpiThreshold) {
-            return CalculationHelper.calculateOkHealthIndex(deflectionDaysTotal,okKpiThreshold,0); //lo minimo es 0
+            return CalculationHelper.calculateOkHealthIndex(deflectionDaysTotal,0,okKpiThreshold); //lo minimo es 0
         }
 
         if (deflectionDaysTotal > this.lCriticalKpiThreshold ) {
@@ -218,12 +218,12 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
 
         //warning thresholds setting
         if (deflectionDaysTotal > this.okKpiThreshold & deflectionDaysTotal < this.lWarningKpiThreshold) {
-            return CalculationHelper.calculateWarningHealthIndex(deflectionDaysTotal,lWarningKpiThreshold,okKpiThreshold);
+            return CalculationHelper.calculateWarningHealthIndex(deflectionDaysTotal,okKpiThreshold,lWarningKpiThreshold);
         }
 
         //critical threshold setting
         if (deflectionDaysTotal >= this.lWarningKpiThreshold & deflectionDaysTotal <= this.lCriticalKpiThreshold) {
-            return CalculationHelper.calculateCriticalHealthIndex(deflectionDaysTotal,lCriticalKpiThreshold,lWarningKpiThreshold);
+            return CalculationHelper.calculateCriticalHealthIndex(deflectionDaysTotal,lWarningKpiThreshold,lCriticalKpiThreshold);
         }
 
         return 0;

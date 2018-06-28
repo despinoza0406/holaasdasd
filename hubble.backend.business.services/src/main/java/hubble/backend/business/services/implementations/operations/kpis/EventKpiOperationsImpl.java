@@ -235,7 +235,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         }
 
         if (severityPointsTotal <= this.okKpiThreshold) {
-            return CalculationHelper.calculateOkHealthIndex(severityPointsTotal,okKpiThreshold,0); //lo minimo es 0
+            return CalculationHelper.calculateOkHealthIndex(severityPointsTotal,0,okKpiThreshold); //lo minimo es 0
         }
 
         if (severityPointsTotal >= this.lCriticalKpiThreshold ) {
@@ -244,12 +244,12 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
 
         //warning thresholds setting
         if (severityPointsTotal > this.okKpiThreshold & severityPointsTotal < this.lWarningKpiThreshold) {
-            return CalculationHelper.calculateWarningHealthIndex(severityPointsTotal,lWarningKpiThreshold,okKpiThreshold);
+            return CalculationHelper.calculateWarningHealthIndex(severityPointsTotal,okKpiThreshold,lWarningKpiThreshold);
         }
 
         //critical threshold setting
         if (severityPointsTotal >= this.lWarningKpiThreshold & severityPointsTotal <= this.lCriticalKpiThreshold) {
-            return CalculationHelper.calculateCriticalHealthIndex(severityPointsTotal,lCriticalKpiThreshold,lWarningKpiThreshold);
+            return CalculationHelper.calculateCriticalHealthIndex(severityPointsTotal,lWarningKpiThreshold,lCriticalKpiThreshold);
         }
 
         return 0;
