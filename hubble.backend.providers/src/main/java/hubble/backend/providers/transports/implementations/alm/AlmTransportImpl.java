@@ -92,6 +92,7 @@ public class AlmTransportImpl implements AlmTransport {
                     .header("Accept", "application/json")
                     .queryString("page-size","2000")
                     .queryString("start-index",startInd)
+                    .queryString("query", "{status[Nuevo Or Abierto Or Reabierto]}")
                     .asJson();
         } catch (UnirestException e) {
             logger.error(e.getMessage());

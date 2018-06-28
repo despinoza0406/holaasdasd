@@ -24,11 +24,6 @@ public class AlmTransportIntegrationTest {
     }
     
     @Test
-    public void alm_environment_retrieve_correct_configuration(){
-        assertEquals("10.10.20.170", almTransport.getEnvironment().getHost());
-    }
-    
-    @Test
     public void alm_is_authenticated_query_should_return_false(){
         assertFalse(almTransport.isAuthenticated());
     }
@@ -44,13 +39,13 @@ public class AlmTransportIntegrationTest {
     @Test
     public void alm_transport_should_retrieve_session_cookie() throws Exception{
         //Assign
-        Map<String, String> cookies = new HashMap<String,String>();
+        Map<String, String> cookies;
         //Act
         almTransport.login();
         cookies = almTransport.getSessionCookies();
         
         //Asser
-        assertEquals(3, cookies.size());
+        assertTrue(3 <= cookies.size());
         assertNotNull(cookies.get("QCSession"));
         assertNotNull(cookies.get("XSRF-TOKEN"));
         assertNotNull(cookies.get("ALM_USER"));
@@ -63,7 +58,7 @@ public class AlmTransportIntegrationTest {
     public void alm_transport_should_retrieve_all_defects() throws Exception{
         almTransport.login();
         Map<String,String> cookies=almTransport.getSessionCookies();
-        assertNotNull(almTransport.getDefects(cookies,0));
+        assertNotNull(almTransport.getDefects(cookies,1));
         assertTrue(almTransport.isAuthenticated());     
         
         almTransport.logout();
