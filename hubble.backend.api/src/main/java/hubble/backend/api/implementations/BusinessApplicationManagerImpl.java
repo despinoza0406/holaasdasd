@@ -233,7 +233,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend performanceKpi = new KpiFrontend();
             performanceKpi.setKpiName("Performance");
             performanceKpi.setKpiShortName("P");
-            performanceKpi.setKpiValue(performanceService.calculateLastHourKpiByApplication(application.getId()).getPerformanceKpi().get());
+            performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPILastHour(application));
             kpis.add(performanceKpi);
         }
         if(//kpiTypes.contains(DEFECTS) &&
