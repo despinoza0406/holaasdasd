@@ -96,7 +96,7 @@ public class AlmDataParserImpl implements AlmDataParser {
         int startInd = 1;
         int cantDefects;
         do {
-            JSONObject allDefects = almTransport.getDefects(cookies,startInd);
+            JSONObject allDefects = almTransport.getOpenDefects(cookies,startInd);
             cantDefects = (allDefects.getInt("TotalResults"));
             List<JSONObject> defects = this.parseList(allDefects);
             for (JSONObject defect: defects) {
