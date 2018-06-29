@@ -66,7 +66,7 @@ public class TasksRunnerApplication {
 
         */
         //BSM
-/*
+
         BsmDataParser bsmParser = context.getBean(BsmDataParser.class);
         ParserJob bsmJob = new BsmDataParserJob(bsmParser);
         ParserTask bsmTask = new BsmDataTaskImpl(bsmJob);
@@ -103,7 +103,7 @@ public class TasksRunnerApplication {
         jiraDataTask.setIndentityName("Jira Data");
         jiraDataTask.setIntervalSeconds(60 * 60 * 24);
 
-        scheduler.addTask(jiraDataTask);*/
+        scheduler.addTask(jiraDataTask);
 
         //SiteScope
         SiteScopeDataParser siteScopeDataParser = context.getBean(SiteScopeDataParser.class);
