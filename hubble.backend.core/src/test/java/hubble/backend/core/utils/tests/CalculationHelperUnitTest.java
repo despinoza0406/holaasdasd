@@ -9,7 +9,7 @@ public class CalculationHelperUnitTest {
 
     @Test
     public void should_calculate_minInfiniteCriticalHealthIndex() {
-        double healthIndex = CalculationHelper.calculateMinInfiniteCriticalHealthIndex(9000d, 8000d);
+        double healthIndex = CalculationHelper.calculateMinInfiniteCriticalHealthIndex(9000d, 8000d, 1000d);
         assertTrue( healthIndex <= 6);
     }
 

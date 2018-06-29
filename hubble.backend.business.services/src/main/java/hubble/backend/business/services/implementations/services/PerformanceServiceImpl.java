@@ -145,7 +145,7 @@ public class PerformanceServiceImpl implements PerformanceService {
             return CalculationHelper.calculateWarningHealthIndex(averagePerformance, okThreshhold, warningThreshold);
         }
 
-        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold);
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);
     }
 
     @Override

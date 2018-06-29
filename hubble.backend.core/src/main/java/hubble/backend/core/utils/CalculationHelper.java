@@ -18,7 +18,11 @@ public class CalculationHelper {
         return ( (n - minThreshold) / (maxThreshold - minThreshold) ) * (criticalIndex - minCriticalIndex) + minCriticalIndex;
     }
 
+    public static double calculateMinInfiniteCriticalHealthIndex(double n, double maxThreshold, double escale) {
+        return  ( Math.atan((n - maxThreshold) / escale) / (n - maxThreshold) * escale) * ((criticalIndex - minCriticalIndex)) + minCriticalIndex;
+    }
+
     public static double calculateMinInfiniteCriticalHealthIndex(double n, double maxThreshold) {
-        return ( (Math.atan(n - maxThreshold)/1000d) / ((n - maxThreshold)*1000d) ) * (criticalIndex - minCriticalIndex) + minCriticalIndex;
+        return  calculateMinInfiniteCriticalHealthIndex(n, maxThreshold, 1d);
     }
 }
