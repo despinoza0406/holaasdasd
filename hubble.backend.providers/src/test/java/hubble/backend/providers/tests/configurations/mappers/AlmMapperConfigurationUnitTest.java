@@ -24,16 +24,16 @@ public class AlmMapperConfigurationUnitTest {
 
         //Act
         when(almProviderModel.getAssignee()).thenReturn("fake-assignee");
-        when(almProviderModel.getClosedDate()).thenReturn("22-09-2017 00:00:00");
+        when(almProviderModel.getClosedDate()).thenReturn("2017-09-22 00:00:00");
         when(almProviderModel.getCorrectedOnRelease()).thenReturn("R5");
         when(almProviderModel.getDescription()).thenReturn("description");
         when(almProviderModel.getDetectedBy()).thenReturn("fake-user");
         when(almProviderModel.getDetectedOnRelease()).thenReturn("R2");
         when(almProviderModel.getId()).thenReturn(12);
-        when(almProviderModel.getModifiedDate()).thenReturn("30-08-2017 10:39:02");
+        when(almProviderModel.getModifiedDate()).thenReturn("2017-08-30 10:39:02");
         when(almProviderModel.getPriority()).thenReturn("1 - High");
         when(almProviderModel.getProject()).thenReturn("fake-project");
-        when(almProviderModel.getRegisteredDate()).thenReturn("22-08-2017");
+        when(almProviderModel.getRegisteredDate()).thenReturn("2017-08-22");
         when(almProviderModel.getReproducible()).thenReturn("Y");
         when(almProviderModel.getSeverity()).thenReturn("2 - Medium");
         when(almProviderModel.getStatus()).thenReturn("Corrected");
@@ -46,6 +46,7 @@ public class AlmMapperConfigurationUnitTest {
 
         //Assert
         assertEquals("fake-assignee", issueStorage.getAssignee());
+        String hole= issueStorage.getClosedDate().toString();
         assertTrue(issueStorage.getClosedDate().toString().startsWith("Fri Sep 22 00:00:00"));
         assertEquals("R5", issueStorage.getCorrectedOnRelease());
         assertEquals("description", issueStorage.getDescription());
