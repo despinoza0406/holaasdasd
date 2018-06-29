@@ -1,5 +1,6 @@
 package hubble.backend.providers.configurations;
 
+import java.util.HashMap;
 import java.util.Set;
 
 public interface PpmConfiguration {
@@ -12,7 +13,7 @@ public interface PpmConfiguration {
 
     public String getProviderName();
 
-    public Set<Integer> getRequestTypeIds();
+    public String getRequestTypeIds();
 
-    public String getApplicationValueToIdMap();
+    public HashMap<String,String> getApplicationValueToIdMap();
 }

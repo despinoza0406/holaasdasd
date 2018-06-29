@@ -198,7 +198,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     public void setPastHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, ApplicationStorage application) {
         double availabilityKPImonth = availabilityService.calculateHealthIndexKPILastHour(application);
-        double performanceKPIday = performanceService.calculateLastMonthKpiByApplication(application.getId()).getPerformanceKpi().get();
+        double performanceKPIday = performanceService.calculateHealthIndexKPILastMonth(application);
         double issuesKPIday = issueService.calculateHistoryDayBeforeKpiByApplication(application);
         double workItemKPIday = workItemService.calculatePastDayDeflectionDaysKpi(application);
         double eventKPIday = eventService.calculatePastHourSeverityKpi(application);

@@ -1,11 +1,16 @@
 package hubble.backend.providers.configurations;
 
 import hubble.backend.storage.models.ALM;
+import hubble.backend.storage.models.ApplicationStorage;
+import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -13,6 +18,8 @@ public class AlmConfigurationMongoImpl implements AlmConfiguration {
 
     @Autowired
     ProvidersRepository providersRepository;
+    @Autowired
+    ApplicationRepository applicationRepository;
 
     @Override
     public String getApplicationFieldName() {
@@ -41,8 +48,17 @@ public class AlmConfigurationMongoImpl implements AlmConfiguration {
         return this.getConfiguration().getStatus().getOpenValues();
     }
 
-    public String getApplicationValueToIdMap() {
-        return  null;//providersRepository.alm().get;
+    public HashMap<String,String> getApplicationValueToIdMap() {
+        List<ApplicationStorage> applications = applicationRepository.findAll().stream().
+                filter((a) -> false || a.isActive()).collect(Collectors.toList());
+        HashMap<String,String> mapApplications = new HashMap<>();
+        for(ApplicationStorage application: applications){
+            String hubbleName = application.getId();
+            String almName = "";
+            mapApplications.put(hubbleName,almName);
+        }
+
+        return mapApplications;
     }
 
     private ALM.Configuration getConfiguration(){

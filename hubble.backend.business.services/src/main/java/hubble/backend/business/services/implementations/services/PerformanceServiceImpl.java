@@ -35,6 +35,10 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Autowired
     MapperConfiguration mapper;
 
+    private double criticalThreshold;
+    private double warningThreshold;
+    private double okThreshhold;
+
     @Override
     public List<Performance> getAll() {
         List<AvailabilityStorage> availabilityStorageList = availabilityRepository.findAll();
@@ -123,6 +127,33 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
+    public double calculateHealthIndexKPILastMonth(ApplicationStorage applicationStorage) {
+        Threashold lastHourThreshold = applicationStorage.getKpis().getPerformance().getMonthThreashold();
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(applicationStorage.getApplicationId(), DateHelper.getNDaysBefore(30), DateHelper.getDateNow());
+        double totalPerformance = 0;
+        for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
+            totalPerformance = totalPerformance + availabilityStorage.getResponseTime();
+        }
+
+        double averagePerformance = totalPerformance / (double) availabilityStorageList.size();
+        criticalThreshold = lastHourThreshold.getCritical();
+        warningThreshold = lastHourThreshold.getWarning();
+        okThreshhold = lastHourThreshold.getOk();
+
+        if (averagePerformance <= okThreshhold) {
+            return CalculationHelper.calculateOkHealthIndex(averagePerformance, 1, okThreshhold);
+        }
+
+        if (averagePerformance <= warningThreshold && averagePerformance > okThreshhold) {
+            return CalculationHelper.calculateWarningHealthIndex(averagePerformance, okThreshhold, warningThreshold);
+        }
+
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);
+    }
+
+
+    @Override
     public double calculateHealthIndexKPILastHour(ApplicationStorage applicationStorage) {
         Threashold lastHourThreshold = applicationStorage.getKpis().getPerformance().getHourThreashold();
         List<AvailabilityStorage> availabilityStorageList =
@@ -133,9 +164,9 @@ public class PerformanceServiceImpl implements PerformanceService {
         }
 
         double averagePerformance = totalPerformance / (double) availabilityStorageList.size();
-        double criticalThreshold = lastHourThreshold.getCritical();
-        double warningThreshold = lastHourThreshold.getWarning();
-        double okThreshhold = lastHourThreshold.getOk();
+        criticalThreshold = lastHourThreshold.getCritical();
+        warningThreshold = lastHourThreshold.getWarning();
+        okThreshhold = lastHourThreshold.getOk();
 
         if (averagePerformance <= okThreshhold) {
             return CalculationHelper.calculateOkHealthIndex(averagePerformance, 1, okThreshhold);

@@ -1,10 +1,15 @@
 package hubble.backend.providers.configurations;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Set;
+
 @Component
+@Primary
 @PropertySource("classpath:config/ppm.config.properties")
 public class PpmConfigurationImpl implements PpmConfiguration {
 
@@ -47,7 +52,12 @@ public class PpmConfigurationImpl implements PpmConfiguration {
     }
 
     @Override
-    public String getApplicationValueToIdMap() {
-        return applicationValueToIdMap;
+    public HashMap<String,String> getApplicationValueToIdMap() {
+        HashMap<String,String> appToIdMap= new HashMap<>();
+        String[] applicationsIdMap = applicationValueToIdMap.split(",");
+        for (String applicationId : applicationsIdMap) {
+            appToIdMap.put(applicationId.split(":")[1],applicationId.split(":")[0]);
+        }
+        return appToIdMap;
     }
 }

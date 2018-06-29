@@ -26,4 +26,6 @@ public interface PerformanceService extends
     List<Integer> getDistValuesLastHour(String id);
 
     public double calculateHealthIndexKPILastHour(ApplicationStorage applicationStorage);
+
+    public double calculateHealthIndexKPILastMonth(ApplicationStorage application);
 }

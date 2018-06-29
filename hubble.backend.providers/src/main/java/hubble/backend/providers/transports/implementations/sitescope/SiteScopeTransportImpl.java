@@ -16,7 +16,9 @@ import org.springframework.stereotype.Component;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class SiteScopeTransportImpl implements SiteScopeTransport {
@@ -44,12 +46,11 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
     }
 
     public List<String> getApplicationNames(){
-            String[] applicationsIdMap = configuration.getApplicationValueToIdMap().split(",");
-            String[] applicationName = null;
+            HashMap<String,String> applicationsIdMap = configuration.getApplicationValueToIdMap();
+            Set<String> keys = applicationsIdMap.keySet();
             List<String> applicationNames = new ArrayList<>();
-            for (int x = 0; x < applicationsIdMap.length; x++) {
-                applicationName = applicationsIdMap[x].split(":");
-                applicationNames.add(applicationName[0]);
+            for (String key : keys) {
+                applicationNames.add(applicationsIdMap.get(key));
             }
             return applicationNames;
 

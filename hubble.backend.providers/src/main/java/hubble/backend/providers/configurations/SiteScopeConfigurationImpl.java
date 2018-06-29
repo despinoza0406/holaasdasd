@@ -2,10 +2,14 @@ package hubble.backend.providers.configurations;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+
 @Component
+@Primary
 @PropertySource("classpath:config/sitescope.config.properties")
 public class SiteScopeConfigurationImpl implements SiteScopeConfiguration {
     @Value("${sitescope.businessApplication.fieldName}")
@@ -20,7 +24,14 @@ public class SiteScopeConfigurationImpl implements SiteScopeConfiguration {
     }
 
     @Override
-    public String getApplicationValueToIdMap() {
-        return applicationValueToIdMap;
+    public HashMap<String,String> getApplicationValueToIdMap() {
+
+        HashMap<String,String> appToIdMap= new HashMap<>();
+        String[] applicationsIdMap = applicationValueToIdMap.split(",");
+        for (String applicationId : applicationsIdMap) {
+            appToIdMap.put(applicationId.split(":")[1],applicationId.split(":")[0]);
+        }
+        return appToIdMap;
+
     }
 }

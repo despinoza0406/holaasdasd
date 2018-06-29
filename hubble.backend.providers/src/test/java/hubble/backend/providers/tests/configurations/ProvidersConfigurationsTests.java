@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.HashMap;
+import java.util.Set;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ProvidersConfiguration.class)
 public class ProvidersConfigurationsTests {
@@ -33,7 +36,7 @@ public class ProvidersConfigurationsTests {
     @Test
     public void ppmConfiguration_should_get_configurations_correctly() {
         String applicationFieldName = ppmConfiguration.getApplicationFieldName();
-        String applicationValueToIdMap = ppmConfiguration.getApplicationValueToIdMap();
+        HashMap<String,String> applicationValueToIdMap = ppmConfiguration.getApplicationValueToIdMap();
         String providerName = ppmConfiguration.getProviderName();
         String providerOrigin = ppmConfiguration.getProviderOrigin();
         String requestTypeIds = ppmConfiguration.getRequestTypeIds();
@@ -52,12 +55,12 @@ public class ProvidersConfigurationsTests {
     @Test
     public void almConfiguration_should_get_configurations_correctly() {
         String applicationFieldName = almConfiguration.getApplicationFieldName();
-        String applicationValueToIdMap = almConfiguration.getApplicationValueToIdMap();
+        HashMap<String,String> applicationValueToIdMap = almConfiguration.getApplicationValueToIdMap();
         String providerName = almConfiguration.getProviderName();
         String providerOrigin = almConfiguration.getProviderOrigin();
         String transactionFieldName = almConfiguration.getTransactionFieldName();
         String statusFieldName = almConfiguration.getStatusFieldName();
-        String statusOpenValues = almConfiguration.getStatusOpenValues();
+        Set<String> statusOpenValues = almConfiguration.getStatusOpenValues();
 
         assertNotNull(applicationFieldName);
         assertNotNull(applicationValueToIdMap);

@@ -20,9 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class SiteScopeDataParserImpl implements SiteScopeDataParser {
@@ -122,12 +120,14 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
     }
 
     private String resolveApplicationIdFromConfiguration(String applicationName) {
-        String[] applicationsIdMap = configuration.getApplicationValueToIdMap().split(",");
-        for (int x = 0; x < applicationsIdMap.length; x++) {
-            if (applicationName.equals(applicationsIdMap[x].split(":")[0])) {
-                return applicationsIdMap[x].split(":")[1];
+        HashMap<String,String> applicationsIdMap = configuration.getApplicationValueToIdMap();
+        Set<String> keySet = applicationsIdMap.keySet();
+        for (String key : keySet) {
+            if (applicationName.equals(applicationsIdMap.get(key))) {
+                return key;
             }
         }
+
         logger.warn("SiteScope field for applications and ids map not correctly"
                 + " configured in properties file for specified app name: "
                 + applicationName);
