@@ -77,20 +77,26 @@ public class InitialDataServiceImpl implements InitialDataService {
         guardarAplicacion("crm", "CRM");        
     }
     
+    
+    
     private void guardarAplicacion(String id, String nombre) {
         Threashold th = new Threashold(1d, 2, 5d);
-        applications.save(new ApplicationStorage(
-            id,
-            nombre,
-            true,
-            new KPIs(
-                new Tasks(true, th, th, th),
-                new Defects(true, th, th, th),
-                new Availavility(true, th, th, th, th),
-                new Performance(true, th, th, th, th),
-                new Events(true, th, th, th, th)
-            )
-        ));
+        applications.save(createApplicationStorage(id, nombre, th));
+    }
+
+    private static ApplicationStorage createApplicationStorage(String id, String nombre, Threashold th) {
+        return new ApplicationStorage(
+                id,
+                nombre,
+                true,
+                new KPIs(
+                        new Tasks(true, th, th, th),
+                        new Defects(true, th, th, th),
+                        new Availavility(true, th, th, th, th),
+                        new Performance(true, th, th, th, th),
+                        new Events(true, th, th, th, th)
+                )
+        );
     }
 
     private boolean exists(UserStorage adminSample) {
@@ -104,12 +110,15 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
 
     private UserStorage admin() {
+        
+         Threashold th = new Threashold(1d, 2, 5d);
+         
         return new UserStorage(
             ADMIN_EMAIL,
             "Administrator",
             "administrator".toCharArray(),
             new HashSet<>(asList(Roles.ADMINISTRATOR.name())),
-            Collections.EMPTY_SET
+            new HashSet<>(asList(createApplicationStorage("crm", "CRM", th), createApplicationStorage("mobile-banking", "Mobile Banking", th), createApplicationStorage("home-banking", "Home Banking", th)))
         );
     }
 
