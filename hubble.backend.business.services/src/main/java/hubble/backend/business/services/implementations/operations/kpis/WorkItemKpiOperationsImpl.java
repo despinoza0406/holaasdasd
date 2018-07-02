@@ -208,16 +208,16 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
             deflectionDaysTotal = deflectionDaysTotal + workItemStorage.getDeflectionDays();
         }
 
-        if (deflectionDaysTotal <= this.okKpiThreshold) {
+        if (deflectionDaysTotal < this.okKpiThreshold) {
             return CalculationHelper.calculateOkHealthIndex(deflectionDaysTotal,0,okKpiThreshold); //lo minimo es 0
         }
 
         if (deflectionDaysTotal > this.lCriticalKpiThreshold ) {
-            return 0;
+            return 1;
         }
 
         //warning thresholds setting
-        if (deflectionDaysTotal > this.okKpiThreshold & deflectionDaysTotal < this.lWarningKpiThreshold) {
+        if (deflectionDaysTotal >= this.okKpiThreshold & deflectionDaysTotal < this.lWarningKpiThreshold) {
             return CalculationHelper.calculateWarningHealthIndex(deflectionDaysTotal,okKpiThreshold,lWarningKpiThreshold);
         }
 
