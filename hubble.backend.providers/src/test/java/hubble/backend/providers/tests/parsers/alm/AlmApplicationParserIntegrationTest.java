@@ -37,23 +37,6 @@ public class AlmApplicationParserIntegrationTest {
     }
 
     @Test
-    public void alm_data_parser_should_retrieve_applications() {
-        almTransport.login();
-        assertTrue(almTransport.isAuthenticated());
-        Map<String, String> cookies = almTransport.getSessionCookies();
-        JSONObject allDefects = almTransport.getDefects(cookies,0);
-        List<JSONObject> defects = almApplicationParser.parseList(allDefects);
-
-        for (JSONObject defect : defects) {
-            assertNotNull(almApplicationParser.parse(defect).getName());
-        }
-
-        almTransport.logout();
-        assertFalse(almTransport.isAuthenticated());
-
-    }
-
-    @Test
     public void alm_data_parser_when_it_runs_should_connect_get_data_and_save_it() {
         //Assign
         applicationRepository.deleteAll();

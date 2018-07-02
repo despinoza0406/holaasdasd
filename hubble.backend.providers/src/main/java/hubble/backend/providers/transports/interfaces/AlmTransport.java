@@ -16,7 +16,7 @@ public interface AlmTransport {
 
     public Map<String, String> getSessionCookies();
 
-    public JSONObject getDefects(Map<String, String> sessionCookies,int startInd);
+    public JSONObject getOpenDefects(Map<String, String> sessionCookies, int startInd);
 
-    public JSONObject getOpenDefects(Map<String, String> sessionCookies);
+    public JSONObject getClosedTodayDefects(Map<String, String> sessionCookies, int startInd);
 }

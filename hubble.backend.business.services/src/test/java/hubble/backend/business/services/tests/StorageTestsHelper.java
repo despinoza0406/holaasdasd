@@ -225,4 +225,66 @@ public class StorageTestsHelper {
 
         return workItems;
     }
+
+    public ApplicationStorage getTestAppStorage(String appID){
+        ApplicationStorage applicationStorage = new ApplicationStorage();
+
+        Threashold threashold = new Threashold();
+        threashold.setOk(1);
+        threashold.setWarning(3);
+        threashold.setCritical(10);
+
+        KPIs kpis = new KPIs();
+
+        Events events = new Events();
+        events.setDayThreashold(threashold);
+        events.setHourThreashold(threashold);
+        events.setEnabled(true);
+        events.setWeekThreashold(threashold);
+        events.setMonthThreashold(threashold);
+
+        Availavility availavility = new Availavility();
+        availavility.setDayThreashold(threashold);
+        availavility.setEnabled(true);
+        availavility.setMonthThreashold(threashold);
+        availavility.setWeekThreashold(threashold);
+        availavility.setHourThreashold(threashold);
+
+        Performance performance = new Performance();
+        performance.setDayThreashold(threashold);
+        performance.setEnabled(true);
+        performance.setHourThreashold(threashold);
+        performance.setWeekThreashold(threashold);
+        performance.setMonthThreashold(threashold);
+
+        Defects issues = new Defects();
+        issues.setDayThreashold(threashold);
+        issues.setEnabled(true);
+        issues.setMonthThreashold(threashold);
+        issues.setWeekThreashold(threashold);
+
+        Tasks workItems = new Tasks();
+        workItems.setDayThreashold(threashold);
+        workItems.setEnabled(true);
+        workItems.setMonthThreashold(threashold);
+        workItems.setWeekThreashold(threashold);
+
+
+        kpis.setEvents(events);
+        kpis.setDefects(issues);
+        kpis.setAvailability(availavility);
+        kpis.setPerformance(performance);
+        kpis.setTasks(workItems);
+
+
+
+        applicationStorage.setApplicationId(appID);
+        applicationStorage.setActive(true);
+        applicationStorage.setApplicationConfigurationVersion(0);
+        applicationStorage.setId(appID);
+        applicationStorage.setApplicationName(appID);
+        applicationStorage.setKpis(kpis);
+
+        return applicationStorage;
+    }
 }

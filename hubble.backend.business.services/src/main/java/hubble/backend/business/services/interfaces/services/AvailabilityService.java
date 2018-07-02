@@ -5,6 +5,8 @@ import hubble.backend.business.services.interfaces.services.kpis.InstantOperatio
 import hubble.backend.business.services.interfaces.services.kpis.OperationsKeyPerformanceIndicatorServiceBase;
 import hubble.backend.business.services.models.Availability;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
+import hubble.backend.storage.models.ApplicationStorage;
+
 import java.util.List;
 
 public interface AvailabilityService extends
@@ -23,6 +25,6 @@ public interface AvailabilityService extends
 
     public List<Integer> getDistValuesLastHour(String applicationId);
 
-    public double calculateHealthIndexKPILastHour(String applicationId);
+    public double calculateHealthIndexKPILastHour(ApplicationStorage application);
 
 }

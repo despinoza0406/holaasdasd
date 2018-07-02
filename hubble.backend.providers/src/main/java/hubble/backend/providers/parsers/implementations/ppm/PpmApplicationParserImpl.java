@@ -8,7 +8,10 @@ import hubble.backend.providers.transports.interfaces.PpmTransport;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -95,10 +98,11 @@ public class PpmApplicationParserImpl implements PpmApplicationParser {
     }
 
     private String resolveApplicationIdFromConfiguration(String applicationName) {
-        String[] applicationsIdMap = configuration.getApplicationValueToIdMap().split(",");
-        for (int x = 0; x < applicationsIdMap.length; x++) {
-            if (applicationName.equals(applicationsIdMap[x].split(":")[0])) {
-                return applicationsIdMap[x].split(":")[1];
+        HashMap<String,String> applicationsIdMap = configuration.getApplicationValueToIdMap();
+        Set<String> keySet = applicationsIdMap.keySet();
+        for (String key : keySet) {
+            if (applicationName.equals(applicationsIdMap.get(key))) {
+                return key;
             }
         }
         logger.warn("Ppm field for applications and ids map not correctly"

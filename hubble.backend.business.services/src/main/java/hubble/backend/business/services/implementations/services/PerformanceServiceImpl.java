@@ -7,10 +7,12 @@ import hubble.backend.business.services.interfaces.services.PerformanceService;
 import hubble.backend.business.services.models.Application;
 import hubble.backend.business.services.models.Performance;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
+import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.AvailabilityStorage;
+import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.AvailabilityRepository;
 
@@ -32,6 +34,10 @@ public class PerformanceServiceImpl implements PerformanceService {
     PerformanceKpiOperations performanceKpiOperations;
     @Autowired
     MapperConfiguration mapper;
+
+    private double criticalThreshold;
+    private double warningThreshold;
+    private double okThreshhold;
 
     @Override
     public List<Performance> getAll() {
@@ -118,6 +124,59 @@ public class PerformanceServiceImpl implements PerformanceService {
         ApplicationIndicators appDto = new ApplicationIndicators();
         appDto.setPerformanceKpi(performanceKpiOperations.calculateLastMonthKeyPerformanceIndicatorByApplication(applicationId));
         return appDto;
+    }
+
+    @Override
+    public double calculateHealthIndexKPILastMonth(ApplicationStorage applicationStorage) {
+        Threashold lastHourThreshold = applicationStorage.getKpis().getPerformance().getMonthThreashold();
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(applicationStorage.getApplicationId(), DateHelper.getNDaysBefore(30), DateHelper.getDateNow());
+        double totalPerformance = 0;
+        for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
+            totalPerformance = totalPerformance + availabilityStorage.getResponseTime();
+        }
+
+        double averagePerformance = totalPerformance / (double) availabilityStorageList.size();
+        criticalThreshold = lastHourThreshold.getCritical();
+        warningThreshold = lastHourThreshold.getWarning();
+        okThreshhold = lastHourThreshold.getOk();
+
+        if (averagePerformance <= okThreshhold) {
+            return CalculationHelper.calculateOkHealthIndex(averagePerformance, 1, okThreshhold);
+        }
+
+        if (averagePerformance <= warningThreshold && averagePerformance > okThreshhold) {
+            return CalculationHelper.calculateWarningHealthIndex(averagePerformance, okThreshhold, warningThreshold);
+        }
+
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);
+    }
+
+
+    @Override
+    public double calculateHealthIndexKPILastHour(ApplicationStorage applicationStorage) {
+        Threashold lastHourThreshold = applicationStorage.getKpis().getPerformance().getHourThreashold();
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(applicationStorage.getApplicationId(), DateHelper.getAnHourAgo(), DateHelper.getDateNow());
+        double totalPerformance = 0;
+        for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
+            totalPerformance = totalPerformance + availabilityStorage.getResponseTime();
+        }
+
+        double averagePerformance = totalPerformance / (double) availabilityStorageList.size();
+        criticalThreshold = lastHourThreshold.getCritical();
+        warningThreshold = lastHourThreshold.getWarning();
+        okThreshhold = lastHourThreshold.getOk();
+
+        if (averagePerformance <= okThreshhold) {
+            return CalculationHelper.calculateOkHealthIndex(averagePerformance, 1, okThreshhold);
+        }
+
+        if (averagePerformance <= warningThreshold && averagePerformance > okThreshhold) {
+            return CalculationHelper.calculateWarningHealthIndex(averagePerformance, okThreshhold, warningThreshold);
+        }
+
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);
     }
 
     @Override

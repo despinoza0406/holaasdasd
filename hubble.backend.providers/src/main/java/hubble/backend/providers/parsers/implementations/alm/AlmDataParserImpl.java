@@ -7,9 +7,9 @@ import hubble.backend.providers.parsers.interfaces.alm.AlmDataParser;
 import hubble.backend.providers.transports.interfaces.AlmTransport;
 import hubble.backend.storage.models.IssueStorage;
 import hubble.backend.storage.repositories.IssueRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -96,7 +96,7 @@ public class AlmDataParserImpl implements AlmDataParser {
         int startInd = 1;
         int cantDefects;
         do {
-            JSONObject allDefects = almTransport.getDefects(cookies,startInd);
+            JSONObject allDefects = almTransport.getOpenDefects(cookies,startInd);
             cantDefects = (allDefects.getInt("TotalResults"));
             List<JSONObject> defects = this.parseList(allDefects);
             for (JSONObject defect: defects) {
@@ -129,10 +129,11 @@ public class AlmDataParserImpl implements AlmDataParser {
     }
 
     private String resolveApplicationIdFromConfiguration(String applicationName) {
-        String[] applicationsIdMap = configuration.getApplicationValueToIdMap().split(",");
-        for (String applicationsIdMap1 : applicationsIdMap) {
-            if (applicationName.equals(applicationsIdMap1.split(":")[0])) {
-                return applicationsIdMap1.split(":")[1];
+        HashMap<String,String> applicationsIdMap = configuration.getApplicationValueToIdMap();
+        Set<String> keySet = applicationsIdMap.keySet();
+        for (String key : keySet) {
+            if (applicationName.equals(applicationsIdMap.get(key))) {
+                return key;
             }
         }
 

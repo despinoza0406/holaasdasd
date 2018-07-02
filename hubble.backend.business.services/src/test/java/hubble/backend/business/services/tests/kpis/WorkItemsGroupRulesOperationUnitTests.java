@@ -75,15 +75,10 @@ public class WorkItemsGroupRulesOperationUnitTests {
         appStorage.setId("1");
         appStorage.setApplicationName("fake-app");
         appStorage.setApplicationId("Home Banking");
-        appStorage.setCriticalThreshold(1000);
-        appStorage.setOkThreshold(500);
         appStorage.setActive(true);
-        appStorage.setAvailabilityThreshold(700);
-        appStorage.setLocations(new ArrayList<>());
         appStorage.setApplicationConfigurationVersion(1);
-        appStorage.setTimeZoneId("Buenos Aires");
         appStorage.setApplicationConfigurationVersion(1);
-        appStorage.setTransactions(new ArrayList<>());
+
         when(applicationRepository.findApplicationById(applicationId)).thenReturn(appStorage);
         when(workItemRepository.findWorkItemsByApplicationIdAndDurationMonths(1, applicationId)).thenReturn(workItemsStorage);
 
@@ -101,15 +96,10 @@ public class WorkItemsGroupRulesOperationUnitTests {
         appStorage.setId("1");
         appStorage.setApplicationName("fake-app");
         appStorage.setApplicationId("Home Banking");
-        appStorage.setCriticalThreshold(1000);
-        appStorage.setOkThreshold(500);
         appStorage.setActive(true);
-        appStorage.setAvailabilityThreshold(700);
-        appStorage.setLocations(new ArrayList<>());
         appStorage.setApplicationConfigurationVersion(1);
-        appStorage.setTimeZoneId("Buenos Aires");
         appStorage.setApplicationConfigurationVersion(1);
-        appStorage.setTransactions(new ArrayList<>());
+
         when(applicationRepository.findApplicationById(applicationId)).thenReturn(appStorage);
         when(workItemRepository.findWorkItemsByApplicationIdAndDurationMinutes(CalendarHelper.ONE_WEEK, applicationId)).thenReturn(workItemsStorage);
 

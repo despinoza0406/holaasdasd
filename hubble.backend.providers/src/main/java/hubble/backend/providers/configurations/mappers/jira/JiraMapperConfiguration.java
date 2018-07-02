@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Set;
+
 @Component
 public class JiraMapperConfiguration {
     
@@ -66,10 +69,11 @@ public class JiraMapperConfiguration {
     }
 
     public String resolveApplicationId(String applicationName) {
-        String[] applicationsIdMap = jiraConfig.getValuesToIdMap().split(",");
-        for (String applicationId : applicationsIdMap) {
-            if (applicationName.equals(applicationId.split(":")[0])) {
-                return applicationId.split(":")[1];
+        HashMap<String,String> applicationsIdMap = jiraConfig.getValuesToIdMap();
+        Set<String> keySet = applicationsIdMap.keySet();
+        for (String key : keySet) {
+            if (applicationName.equals(applicationsIdMap.get(key))) {
+                return key;
             }
         }
         logger.error("Jira: could not found application id in values passed over configuration file");

@@ -14,9 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class SiteScopeApplicationParserImpl implements SiteScopeApplicationParser {
@@ -73,12 +71,14 @@ public class SiteScopeApplicationParserImpl implements SiteScopeApplicationParse
 
 
     public String resolveApplicationIdFromConfiguration(String applicationName) {
-        String[] applicationsIdMap = configuration.getApplicationValueToIdMap().split(",");
-        for (String applicationsIdMap1 : applicationsIdMap) {
-            if (applicationName.equals(applicationsIdMap1.split(":")[0])) {
-                return applicationsIdMap1.split(":")[1];
+        HashMap<String,String> applicationsIdMap = configuration.getApplicationValueToIdMap();
+        Set<String> keySet = applicationsIdMap.keySet();
+        for (String key : keySet) {
+            if (applicationName.equals(applicationsIdMap.get(key))) {
+                return key;
             }
         }
+
         logger.debug("SiteScope: field for applications and ids map not correctly configured in properties file");
         return null;
     }

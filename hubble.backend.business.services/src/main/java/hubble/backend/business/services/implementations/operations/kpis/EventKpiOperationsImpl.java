@@ -7,6 +7,7 @@ import hubble.backend.business.services.interfaces.operations.rules.EventGroupRu
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
 import hubble.backend.business.services.models.measures.rules.EventsGroupRule;
 import hubble.backend.core.enums.MonitoringFields;
+import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.KpiHelper;
 import hubble.backend.core.utils.Threshold;
 import hubble.backend.storage.models.ApplicationStorage;
@@ -228,18 +229,13 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
 
     private double calculateKPI(List<EventStorage> events){
         long severityPointsTotal = 0;
-        double a = 0;
-        double b = 0;
-        double x = 0;
-        double y = 0;
-        double kpi;
 
         for(EventStorage eventStorage : events) {
             severityPointsTotal = severityPointsTotal + eventStorage.getSeverityPoints();
         }
 
         if (severityPointsTotal <= this.okKpiThreshold) {
-            return 10;
+            return CalculationHelper.calculateOkHealthIndex(severityPointsTotal,0,okKpiThreshold); //lo minimo es 0
         }
 
         if (severityPointsTotal >= this.lCriticalKpiThreshold ) {
@@ -248,23 +244,16 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
 
         //warning thresholds setting
         if (severityPointsTotal > this.okKpiThreshold & severityPointsTotal < this.lWarningKpiThreshold) {
-            a = this.okKpiThreshold;
-            b = this.lWarningKpiThreshold;
-            x = 6;
-            y = 10;
+            return CalculationHelper.calculateWarningHealthIndex(severityPointsTotal,okKpiThreshold,lWarningKpiThreshold);
         }
 
         //critical threshold setting
         if (severityPointsTotal >= this.lWarningKpiThreshold & severityPointsTotal <= this.lCriticalKpiThreshold) {
-            a = this.lWarningKpiThreshold;
-            b = this.lCriticalKpiThreshold;
-            x = 1;
-            y = 6;
+            return CalculationHelper.calculateCriticalHealthIndex(severityPointsTotal,lWarningKpiThreshold,lCriticalKpiThreshold);
         }
 
-        kpi = ((severityPointsTotal - a)/(b-a)) * (y-x) + x;
+        return 0;
 
-        return kpi;
     }
 
 

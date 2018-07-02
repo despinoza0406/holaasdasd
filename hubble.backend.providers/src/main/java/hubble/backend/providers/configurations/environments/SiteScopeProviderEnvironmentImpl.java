@@ -2,10 +2,12 @@ package hubble.backend.providers.configurations.environments;
 
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
+@Primary
 @PropertySource("classpath:config/sitescope.properties")
 public class SiteScopeProviderEnvironmentImpl implements SiteScopeProviderEnvironment {
 

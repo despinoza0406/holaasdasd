@@ -1499,14 +1499,7 @@ public class AvailabilityHelper {
 
         applicationStorage.setApplicationId("b566958ec4ff28028672780d15edcf56");
         applicationStorage.setApplicationName("BancoRipley - HomeBanking");
-        applicationStorage.setAvailabilityThreshold(90);
-        applicationStorage.setCriticalThreshold(12000);
         applicationStorage.setActive(true);
-        applicationStorage.setLocations(null);
-        applicationStorage.setOkThreshold(8000);
-        applicationStorage.setOutlierThreshold(45000);
-        applicationStorage.setTimeZoneId("1");
-        applicationStorage.setTransactions(mockTransactionStorage());
 
         return applicationStorage;
     }

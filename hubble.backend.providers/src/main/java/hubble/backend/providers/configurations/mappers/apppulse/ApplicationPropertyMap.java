@@ -13,12 +13,8 @@ public class ApplicationPropertyMap extends PropertyMap<ApplicationData, Applica
 
 
         skip().setId(null);
-        skip().setOutlierThreshold(0);
-        map().setCriticalThreshold(source.getDefaultPerformanceCriticalThreshold());
-        map().setOkThreshold(source.getDefaultPerformanceOkThreshold());
         map().setActive(source.getApplicationIsActive());
-
-        using(statusCriticalIfLessThanConverter).map(source.getStatusCriticalIfLessThan()).setAvailabilityThreshold(0);
+        using(statusCriticalIfLessThanConverter).map(source.getStatusCriticalIfLessThan());
 
     }
 

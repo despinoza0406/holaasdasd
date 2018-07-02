@@ -1,6 +1,7 @@
 package hubble.backend.providers.configurations.environments;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
  * @author Ismael J. Tisminetzky
  */
 @Component
+@Primary
 @PropertySource("classpath:config/apppulse.properties")
 public class AppPulseProviderEnvironmentImpl implements ProviderEnvironment {
 

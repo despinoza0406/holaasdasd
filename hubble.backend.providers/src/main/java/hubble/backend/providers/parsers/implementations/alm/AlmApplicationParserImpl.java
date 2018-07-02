@@ -7,9 +7,9 @@ import hubble.backend.providers.parsers.interfaces.alm.AlmApplicationParser;
 import hubble.backend.providers.transports.interfaces.AlmTransport;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -47,7 +47,7 @@ public class AlmApplicationParserImpl implements AlmApplicationParser {
     public void run() {
         almTransport.login();
         Map<String, String> cookies = almTransport.getSessionCookies();
-        JSONObject allDefects = almTransport.getDefects(cookies,1);
+        JSONObject allDefects = almTransport.getOpenDefects(cookies,1);
         List<JSONObject> defects = this.parseList(allDefects);
         for (JSONObject defect : defects) {
             ApplicationStorage application = this.convert(this.parse(defect));
@@ -105,10 +105,11 @@ public class AlmApplicationParserImpl implements AlmApplicationParser {
     }
 
     public String resolveApplicationIdFromConfiguration(String applicationName) {
-        String[] applicationsIdMap = configuration.getApplicationValueToIdMap().split(",");
-        for (String applicationsIdMap1 : applicationsIdMap) {
-            if (applicationName.equals(applicationsIdMap1.split(":")[0])) {
-                return applicationsIdMap1.split(":")[1];
+        HashMap<String,String> applicationsIdMap = configuration.getApplicationValueToIdMap();
+        Set<String> keySet = applicationsIdMap.keySet();
+        for (String key : keySet) {
+            if (applicationName.equals(applicationsIdMap.get(key))) {
+                return key;
             }
         }
         logger.debug("ALM: field for applications and ids map not correctly configured in properties file");

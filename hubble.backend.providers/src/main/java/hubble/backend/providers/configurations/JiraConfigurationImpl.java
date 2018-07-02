@@ -1,10 +1,15 @@
 package hubble.backend.providers.configurations;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import javax.print.DocFlavor;
+import java.util.HashMap;
+
 @Component
+@Primary
 @PropertySource("classpath:config/jira.config.properties")
 public class JiraConfigurationImpl implements JiraConfiguration {
     @Value("${jira.projectKey}")
@@ -20,8 +25,13 @@ public class JiraConfigurationImpl implements JiraConfiguration {
     }
 
     @Override
-    public String getValuesToIdMap() {
-        return valuesToIdMap;
+    public HashMap<String,String> getValuesToIdMap() {
+        HashMap<String,String> appToIdMap= new HashMap<>();
+        String[] applicationsIdMap = valuesToIdMap.split(",");
+        for (String applicationId : applicationsIdMap) {
+            appToIdMap.put(applicationId.split(":")[1],applicationId.split(":")[0]);
+        }
+        return appToIdMap;
     }
     
     @Override
