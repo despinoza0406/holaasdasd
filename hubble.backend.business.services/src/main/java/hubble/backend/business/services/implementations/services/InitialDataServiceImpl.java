@@ -27,7 +27,6 @@ import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.storage.repositories.UsersRepository;
 import static java.util.Arrays.asList;
-import java.util.Collections;
 import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;

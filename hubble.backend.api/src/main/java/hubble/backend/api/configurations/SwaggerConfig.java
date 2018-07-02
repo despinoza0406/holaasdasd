@@ -19,7 +19,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select().apis(RequestHandlerSelectors.basePackage("hubble.backend.api.controllers"))
-                .paths(regex("/applications.*"))
+                .paths(regex("/*"))
                 .build();
     }
 

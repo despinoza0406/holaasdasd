@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import hubble.backend.storage.models.ProviderStorage;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @RestController
 @RequestMapping("/providers")
+@CrossOrigin
 public class ProvidersController {
 
     private final ProvidersService providersService;
@@ -41,7 +43,7 @@ public class ProvidersController {
 
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody List<ProviderStorage> consultar() {
         return this.providersService.findAll();
     }
