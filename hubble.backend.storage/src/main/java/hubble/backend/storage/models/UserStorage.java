@@ -122,7 +122,8 @@ public class UserStorage {
         ObjectNode json = mapper.createObjectNode();
         json.put("id", id)
             .put("email", email)
-            .put("name", name);
+            .put("name", name)
+            .put("enabled", enabled);
         json.set("roles", rolesToJson());
         json.set("applications", applicationsToJson());
         return json;
