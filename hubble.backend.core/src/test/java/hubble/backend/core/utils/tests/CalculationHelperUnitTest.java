@@ -18,4 +18,10 @@ public class CalculationHelperUnitTest {
         double healthIndex = CalculationHelper.calculateOkHealthIndex(3000, 1, 4000);
         assertTrue(healthIndex > 8);
     }
+
+    @Test
+    public void should_calculate_critical_disp_healthIndex() {
+        double healthIndex = CalculationHelper.calculateDispCriticalHealthIndex(42.85714d, 90d, 1d);
+        assertTrue(healthIndex > 1d && healthIndex < 2d);
+    }
 }
