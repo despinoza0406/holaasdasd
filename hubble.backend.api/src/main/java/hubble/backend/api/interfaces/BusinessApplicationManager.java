@@ -5,6 +5,8 @@ import hubble.backend.api.models.BusinessApplication;
 import hubble.backend.api.models.BusinessApplicationFrontend;
 import hubble.backend.api.models.BusinessApplicationProfile;
 import hubble.backend.business.services.models.Availability;
+import hubble.backend.storage.models.KPIs;
+
 import java.util.List;
 
 public interface BusinessApplicationManager {
@@ -26,4 +28,6 @@ public interface BusinessApplicationManager {
     public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend(boolean includeInactives);
 
     public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id);
+
+    public KPIs getKPIs(String id);
 }
