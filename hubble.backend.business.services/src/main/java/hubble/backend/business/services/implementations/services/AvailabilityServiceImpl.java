@@ -162,24 +162,21 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         }
 
         double n = totalOk / (double) availabilityStorageList.size() * 100d;
-        double criticalThreshold = lastHourThreshold.getCritical();
         double warningThreshold = lastHourThreshold.getWarning();
         double okThreshhold = lastHourThreshold.getOk();
 
-        if (n > okThreshhold) {
-            return 10;
+
+
+        if (n >= okThreshhold) {
+            return CalculationHelper.calculateDispOkHealthIndex(n, 100, okThreshhold);
         }
 
-        if (n <= okThreshhold && n > warningThreshold) {
-            return CalculationHelper.calculateOkHealthIndex(n, okThreshhold, warningThreshold);
+        if (n >= warningThreshold && n < okThreshhold) {
+            return CalculationHelper.calculateDispWarningHealthIndex(n, okThreshhold, warningThreshold);
         }
 
-        if (n <= warningThreshold && n > criticalThreshold) {
-            return CalculationHelper.calculateWarningHealthIndex(n, warningThreshold, criticalThreshold);
-        }
-
-        if (n <= criticalThreshold) {
-            return CalculationHelper.calculateCriticalHealthIndex(n, criticalThreshold, 1);
+        if (n <= warningThreshold) {
+            return CalculationHelper.calculateDispCriticalHealthIndex(n, warningThreshold, 1);
         }
 
         return 0;
