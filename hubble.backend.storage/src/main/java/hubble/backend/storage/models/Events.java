@@ -12,16 +12,19 @@ public class Events implements KPI {
     private Threashold dayThreashold;
     private Threashold weekThreashold;
     private Threashold monthThreashold;
+    private ApplicationInProvider siteScope;
 
     public Events() {
     }
 
-    public Events(boolean enabled, Threashold hourThreashold, Threashold dayThreashold, Threashold weekThreashold, Threashold monthThreashold) {
+    public Events(boolean enabled, Threashold hourThreashold, Threashold dayThreashold, Threashold weekThreashold,
+        Threashold monthThreashold, ApplicationInProvider siteScope) {
         this.enabled = enabled;
         this.hourThreashold = hourThreashold;
         this.dayThreashold = dayThreashold;
         this.weekThreashold = weekThreashold;
         this.monthThreashold = monthThreashold;
+        this.siteScope = siteScope;
     }
 
     @Override
@@ -64,6 +67,14 @@ public class Events implements KPI {
 
     public void setMonthThreashold(Threashold monthThreashold) {
         this.monthThreashold = monthThreashold;
+    }
+
+    public ApplicationInProvider getSiteScope() {
+        return siteScope;
+    }
+
+    public void setSiteScope(ApplicationInProvider siteScope) {
+        this.siteScope = siteScope;
     }
 
 }

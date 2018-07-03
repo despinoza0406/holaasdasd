@@ -11,15 +11,18 @@ public class Tasks implements KPI {
     private Threashold dayThreashold;
     private Threashold weekThreashold;
     private Threashold monthThreashold;
+    private ApplicationInProvider ppm;
 
     public Tasks() {
     }
 
-    public Tasks(boolean enabled, Threashold dayThreashold, Threashold weekThreashold, Threashold monthThreashold) {
+    public Tasks(boolean enabled, Threashold dayThreashold, Threashold weekThreashold, Threashold monthThreashold,
+        ApplicationInProvider ppm) {
         this.enabled = enabled;
         this.dayThreashold = dayThreashold;
         this.weekThreashold = weekThreashold;
         this.monthThreashold = monthThreashold;
+        this.ppm = ppm;
     }
 
     @Override
@@ -54,6 +57,14 @@ public class Tasks implements KPI {
 
     public void setMonthThreashold(Threashold monthThreashold) {
         this.monthThreashold = monthThreashold;
+    }
+
+    public ApplicationInProvider getPpm() {
+        return ppm;
+    }
+
+    public void setPpm(ApplicationInProvider ppm) {
+        this.ppm = ppm;
     }
 
 }

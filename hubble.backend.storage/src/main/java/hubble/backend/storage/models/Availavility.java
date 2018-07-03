@@ -12,16 +12,21 @@ public class Availavility implements KPI {
     private Threashold dayThreashold;
     private Threashold weekThreashold;
     private Threashold monthThreashold;
+    private ApplicationInProvider bsm;
+    private ApplicationInProvider appPulse;
 
     public Availavility() {
     }
 
-    public Availavility(boolean enabled, Threashold hourThreashold, Threashold dayThreashold, Threashold weekThreashold, Threashold monthThreashold) {
+    public Availavility(boolean enabled, Threashold hourThreashold, Threashold dayThreashold, Threashold weekThreashold,
+        Threashold monthThreashold, ApplicationInProvider bsm, ApplicationInProvider appPulse) {
         this.enabled = enabled;
         this.hourThreashold = hourThreashold;
         this.dayThreashold = dayThreashold;
         this.weekThreashold = weekThreashold;
         this.monthThreashold = monthThreashold;
+        this.bsm = bsm;
+        this.appPulse = appPulse;
     }
 
     @Override
@@ -64,6 +69,22 @@ public class Availavility implements KPI {
 
     public void setMonthThreashold(Threashold monthThreashold) {
         this.monthThreashold = monthThreashold;
+    }
+
+    public ApplicationInProvider getBsm() {
+        return bsm;
+    }
+
+    public void setBsm(ApplicationInProvider bsm) {
+        this.bsm = bsm;
+    }
+
+    public ApplicationInProvider getAppPulse() {
+        return appPulse;
+    }
+
+    public void setAppPulse(ApplicationInProvider appPulse) {
+        this.appPulse = appPulse;
     }
 
 }
