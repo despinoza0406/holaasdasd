@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.PathParam;
+
+import hubble.backend.storage.models.KPIs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -55,5 +57,10 @@ public class ApplicationsController {
         @RequestParam("page") int page,
         @RequestParam("limit") int limit) {
         return businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false));
+    }
+
+    @GetMapping(value = "/applications/{id}/kpis")
+    public KPIs getApplicationKPIs(@PathVariable("id") String appId) {
+        return businessAppMgr.getKPIs(appId);
     }
 }

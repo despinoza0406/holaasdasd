@@ -300,6 +300,12 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         return distValues;
     }
 
+    @Override
+    public KPIs getKPIs(String id) {
+        ApplicationStorage applicationStorage = applicationRepository.findApplicationById(id);
+        return applicationStorage.getKpis();
+    }
+
     private List<DistValues> convertIntegerListToDistValues(List<Integer> distValuesInt) {
         List<DistValues> distValues = new ArrayList<>();
         for (Integer distValue : distValuesInt) {
