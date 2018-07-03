@@ -45,20 +45,32 @@ public class SecurityFilter implements Filter {
         if (!isSecure(req)) {
             fc.doFilter(req, resp);
         } else {
-            try {
-                if (!isAuthenticated(req)) {
+            validateToken(req, resp, fc);
+        }
+    }
+
+    private void validateToken(HttpServletRequest req, HttpServletResponse resp, FilterChain fc) throws IOException, ServletException {
+        try {
+            UUID token = token(req);
+            Optional<UserStorage> found = users.findByAccessToken(token);
+            if (!found.isPresent()) {
+                resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            } else {
+                UserStorage user = found.get();
+                if (!user.validateToken(token)) {
                     resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 } else {
+                    req.setAttribute("authenticated-user", user);
                     fc.doFilter(req, resp);
                 }
-            } catch (IllegalArgumentException ex) {
-                resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
             }
+        } catch (IllegalArgumentException ex) {
+            resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
         }
     }
 
     private boolean isSecure(HttpServletRequest req) {
-        return !req.getMethod().equals("HEAD") 
+        return !req.getMethod().equals("HEAD")
             && !req.getMethod().equals("OPTIONS")
             && !isUserAuthentication(req.getServletPath());
     }
@@ -67,14 +79,12 @@ public class SecurityFilter implements Filter {
         return servletPath.startsWith("/users/") && servletPath.endsWith("/auth");
     }
 
-    private boolean isAuthenticated(HttpServletRequest req) {
+    private UUID token(HttpServletRequest req) {
         String tokenHeader = req.getHeader("access-token");
         if (tokenHeader == null) {
             throw new IllegalArgumentException("You must specify the \"access-token\" header.");
         }
-        UUID token = UUID.fromString(tokenHeader);
-        Optional<UserStorage> found = users.findByAccessToken(token);
-        return found.isPresent() && found.get().validateToken(token);
+        return UUID.fromString(tokenHeader);
     }
 
     @Override
