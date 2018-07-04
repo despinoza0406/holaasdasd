@@ -27,6 +27,7 @@ import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.storage.repositories.UsersRepository;
+import java.util.Arrays;
 import static java.util.Arrays.asList;
 import java.util.HashSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,27 +73,28 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
 
     private void configureApplications() {
-        guardarAplicacion("home-banking", "Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
-        guardarAplicacion("mobile-banking", "Mobile Banking", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "Mobile Banking", "Mobile Banking");
-        guardarAplicacion("crm", "CRM", "Retail banking", null, "CRM", null);
+        guardarAplicacion("home-banking", "Home Banking", "Descripción Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
+        guardarAplicacion("mobile-banking", "Mobile Banking", "Descripción Mobile Banking", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "Mobile Banking", "Mobile Banking");
+        guardarAplicacion("crm", "CRM", "Descripción CRM", "Retail banking", null, "CRM", null);
     }
 
-    private void guardarAplicacion(String id, String nombre, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
+    private void guardarAplicacion(String id, String nombre, String descripcion, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
         Threashold th = new Threashold(1d, 2, 5d);
-        applications.save(createApplicationStorage(id, nombre, th, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope));
+        applications.save(createApplicationStorage(id, nombre, descripcion, th, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope));
     }
 
-    private static ApplicationStorage createApplicationStorage(String id, String nombre, Threashold th, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
+    private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, Threashold th, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
         return new ApplicationStorage(
                 id,
                 nombre,
+                descripcion,
                 true,
                 new KPIs(
                 new Tasks(true, th, th, th, ApplicationInProvider.standard(nombreEnPPM)),
                 new Defects(true, th, th, th, ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
                 new Availavility(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
                 new Performance(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                new Events(true, th, th, th, th, ApplicationInProvider.standard(""))                )
+                new Events(true, th, th, th, th, ApplicationInProvider.standard("")))
         );
     }
 

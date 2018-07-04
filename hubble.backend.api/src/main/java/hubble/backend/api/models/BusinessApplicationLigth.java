@@ -13,8 +13,10 @@ public class BusinessApplicationLigth {
     String id;
     String applicationId;
     String applicationName;
+    private String description;
     boolean active;
     Set<KPITypes> enabledKPIs;
+    
 
     public String getId() {
         return id;
@@ -54,6 +56,14 @@ public class BusinessApplicationLigth {
 
     public void setEnabledKPIs(Set<KPITypes> enabledKPIs) {
         this.enabledKPIs = enabledKPIs;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
     
     

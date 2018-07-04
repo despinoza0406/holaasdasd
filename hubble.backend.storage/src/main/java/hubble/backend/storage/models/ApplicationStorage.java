@@ -7,19 +7,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document
 public class ApplicationStorage {
-
-    private String id;
+ private String id;
     private String applicationId;
+    private String description;
     private String applicationName;
     private boolean active;
     private int applicationConfigurationVersion;
     private KPIs kpis;
+   
 
     public ApplicationStorage() {
     }
 
-    public ApplicationStorage(String applicationId, String applicationName, boolean active, KPIs kpis) {
+    public ApplicationStorage(String applicationId, String description, String applicationName, boolean active, KPIs kpis) {
         this.id = applicationId;
+        this.description = description;
         this.applicationId = applicationId;
         this.applicationName = applicationName;
         this.active = active;
@@ -74,4 +76,13 @@ public class ApplicationStorage {
         this.kpis = kpis;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    
 }
