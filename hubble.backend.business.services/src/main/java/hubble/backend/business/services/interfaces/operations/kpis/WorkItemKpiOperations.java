@@ -16,5 +16,7 @@ public interface WorkItemKpiOperations extends
 
     public double calculateLastDayKPI(ApplicationStorage application);
 
+    public double calculateKPI(ApplicationStorage application,String periodo);
+
     public double calculatePastDayKPI(ApplicationStorage application);
 }

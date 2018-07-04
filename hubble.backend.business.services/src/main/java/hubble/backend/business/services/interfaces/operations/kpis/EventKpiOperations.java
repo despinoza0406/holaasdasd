@@ -20,4 +20,6 @@ public interface EventKpiOperations extends
     public double calculatePastHourKPI(ApplicationStorage application);
 
     public double calculateLastHourKPI(ApplicationStorage application);
+
+    public double calculateKPI(ApplicationStorage application,String periodo);
 }

@@ -23,11 +23,11 @@ public interface BusinessApplicationManager {
 
     public List<BusinessApplicationProfile> getBusinessApplicationsPageLimit(int page, int limit);
 
-    public BusinessApplicationFrontend getBusinessApplicationFrontend(String id);
+    public BusinessApplicationFrontend getBusinessApplicationFrontend(String id,String periodo);
 
-    public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend(boolean includeInactives);
+    public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend(boolean includeInactives,String periodo);
 
-    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id);
+    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id,String period);
 
     public KPIs getKPIs(String id);
 }

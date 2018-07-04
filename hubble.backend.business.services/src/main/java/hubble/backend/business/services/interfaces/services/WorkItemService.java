@@ -16,6 +16,8 @@ public interface WorkItemService extends ServiceBase<WorkItem>,
 
     public double calculateLastDayDeflectionDaysKpi(ApplicationStorage application);
 
+    public double calculateDeflectionDaysKPI(ApplicationStorage application,String periodo);
+
     public double calculatePastDayDeflectionDaysKpi(ApplicationStorage application);
 
     List<Integer> getDistValuesLastDay(String id);

@@ -29,4 +29,6 @@ public interface AvailabilityOperations {
     List<AvailabilityStorage> findAvailabilitiesByTransactionIdAndPeriod(String transactionId, Date startDate, Date endDate);
     
     List<AvailabilityStorage> findAvailabilitiesByApplicationIdAndPeriod(String applicationId, Date startDate, Date endDate);
+
+
 }

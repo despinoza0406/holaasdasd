@@ -46,7 +46,7 @@ public class EventRepositoryImpl implements EventOperations {
     }
 
     public List<EventStorage> findEventsByApplicationIdAndDifferentStatusLastHour(String applicationId, String status){
-        Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
+        Criteria applicationIdCriteria = Criteria.where("applicationId").is(applicationId);
         Criteria statusCriteria = Criteria.where("status").ne(status);
         Criteria startDateCriteria = Criteria.where("updatedDate").gte(getLastHour());
         Criteria endDateCriteria = Criteria.where("updatedDate").lte(getDateNow());
@@ -90,15 +90,30 @@ public class EventRepositoryImpl implements EventOperations {
     @Override
     public List<EventStorage> findEventsByApplicationIdBetweenDates(String applicationId, Date startDate, Date endDate) {
         Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
+
         Criteria startDateCriteria = Criteria.where("registeredDate").gte(startDate);
         Criteria endDateCriteria = Criteria.where("registeredDate").lte(endDate);
 
         List<EventStorage> workItems = mongo
-                .find(Query
-                                .query(applicationIdCriteria.andOperator(
+                .find(Query.query(applicationIdCriteria.andOperator(
                                         startDateCriteria, endDateCriteria)),
                         EventStorage.class);
         return workItems;
+    }
+
+    @Override
+    public List<EventStorage> findEventsByApplicationIdBetweenDatesAndDifferentStatus(String applicationId, Date startDate, Date endDate,String status) {
+        Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
+        Criteria statusCriteria = Criteria.where("status").ne(status);
+        Criteria startDateCriteria = Criteria.where("updatedDate").gte(startDate);
+        Criteria endDateCriteria = Criteria.where("updatedDate").lte(endDate);
+
+        List<EventStorage> events = mongo
+                .find(Query.query(applicationIdCriteria.
+                                andOperator(startDateCriteria, endDateCriteria))
+                                .addCriteria(statusCriteria),
+                        EventStorage.class);
+        return events;
     }
 
     @Override

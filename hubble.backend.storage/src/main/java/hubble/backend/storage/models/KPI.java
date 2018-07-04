@@ -10,4 +10,6 @@ public interface KPI {
 
     void setEnabled(boolean value);
 
+
+
 }

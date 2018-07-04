@@ -18,6 +18,7 @@ import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.AvailabilityRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -151,9 +152,48 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
+    public double calculateHealthIndexKPI(ApplicationStorage application,String periodo) {
+
+        Threashold threshold = application.getKpis().getAvailability().getThreashold(periodo);
+
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            periodo = "hora";
+        }
+
+        Date endDate = DateHelper.getStartDate(periodo);
+        Date startDate = DateHelper.getEndDate(periodo);
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(application.getId(),startDate,endDate);
+        double totalOk = 0;
+        for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
+            totalOk = totalOk + (availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1);
+        }
+
+        double n = totalOk / (double) availabilityStorageList.size() * 100d;
+        double warningThreshold = threshold.getWarning();
+        double okThreshhold = threshold.getOk();
+
+
+
+        if (n >= okThreshhold) {
+            return CalculationHelper.calculateDispOkHealthIndex(n, 100, okThreshhold);
+        }
+
+        if (n >= warningThreshold && n < okThreshhold) {
+            return CalculationHelper.calculateDispWarningHealthIndex(n, okThreshhold, warningThreshold);
+        }
+
+        if (n <= warningThreshold) {
+            return CalculationHelper.calculateDispCriticalHealthIndex(n, warningThreshold, 1);
+        }
+
+        return 0;
+    }
+
+    @Override
     public double calculateHealthIndexKPILastHour(ApplicationStorage application) {
         Availavility dispon = application.getKpis().getAvailability();
-        Threashold lastHourThreshold = dispon.getHourThreashold();
+        Threashold threashold = dispon.getHourThreashold();
         List<AvailabilityStorage> availabilityStorageList =
                 availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(application.getId(),DateHelper.getAnHourAgo(), DateHelper.getDateNow());
         double totalOk = 0;
@@ -162,8 +202,8 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         }
 
         double n = totalOk / (double) availabilityStorageList.size() * 100d;
-        double warningThreshold = lastHourThreshold.getWarning();
-        double okThreshhold = lastHourThreshold.getOk();
+        double warningThreshold = threashold.getWarning();
+        double okThreshhold = threashold.getOk();
 
 
 

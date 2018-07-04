@@ -17,6 +17,7 @@ import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.AvailabilityRepository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -167,6 +168,38 @@ public class PerformanceServiceImpl implements PerformanceService {
         criticalThreshold = lastHourThreshold.getCritical();
         warningThreshold = lastHourThreshold.getWarning();
         okThreshhold = lastHourThreshold.getOk();
+
+        if (averagePerformance <= okThreshhold) {
+            return CalculationHelper.calculateOkHealthIndex(averagePerformance, 1, okThreshhold);
+        }
+
+        if (averagePerformance <= warningThreshold && averagePerformance > okThreshhold) {
+            return CalculationHelper.calculateWarningHealthIndex(averagePerformance, okThreshhold, warningThreshold);
+        }
+
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);
+    }
+
+    @Override
+    public double calculateHealthIndexKPI(ApplicationStorage application, String periodo) {
+        Threashold threshold = application.getKpis().getPerformance().getThreashold(periodo);
+
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            periodo = "hora";
+        }
+
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(application.getId(),startDate,endDate);
+        double totalPerformance = 0;
+        for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
+            totalPerformance = totalPerformance + availabilityStorage.getResponseTime();
+        }
+        double averagePerformance = totalPerformance / (double) availabilityStorageList.size();
+        criticalThreshold = threshold.getCritical();
+        warningThreshold = threshold.getWarning();
+        okThreshhold = threshold.getOk();
 
         if (averagePerformance <= okThreshhold) {
             return CalculationHelper.calculateOkHealthIndex(averagePerformance, 1, okThreshhold);
