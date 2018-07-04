@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
+import static java.util.stream.Collectors.toSet;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -115,6 +116,17 @@ public class UserStorage {
     @Override
     public String toString() {
         return "UserStorage{" + "id=" + id + ", email=" + email + ", name=" + name + ", password=" + password + '}';
+    }
+    
+    public UserStorage edit(String email, String name, char[] password, Set<String> roles, Set<ApplicationStorage> applications)
+    {
+        this.email = email;
+        this.name = name;
+        changePassword(password);
+        this.roles = roles;
+        this.applications = applications;
+        
+        return this;
     }
 
     public ObjectNode toJson() {

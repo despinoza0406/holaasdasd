@@ -36,13 +36,41 @@ public class UsersServiceImpl implements UsersService {
             throw new RuntimeException(String.format("Email %s is already used", email));
         }
         UserStorage user = new UserStorage(
-            email,
-            name,
-            password,
-            roles.stream().map(Roles::name).collect(toSet()),
-            applications.stream().map(this::findApplication).collect(toSet())
+                email,
+                name,
+                password,
+                roles.stream().map(Roles::name).collect(toSet()),
+                applications.stream().map(this::findApplication).collect(toSet())
         );
         return users.save(user);
+    }
+
+    @Transactional
+    @Override
+    public void edit(String id, String email, String name, char[] password, Set<Roles> roles, Set<String> applications) {
+
+        UserStorage user = users.findByEmail(email).orElse(null);
+
+        //Si ya existe entonces verifico si es el mismo usuario a editar
+        if (user != null) {
+            
+            //Si existe con distinto ID lanzo excepción, si no ya me quedo con el usuario cargado.
+            if (!user.getId().equals(id)) {
+                throw new RuntimeException(String.format("Email %s está siendo usado por otro usuario", email));
+            }
+        } else {
+            //Si no existe el email lo busco por ID
+            user = users.findOne(id);
+            
+            //Si no existe tampoco por ID lanzo excepción
+            if (user == null) {
+                throw new RuntimeException("No existe un usuario con el ID especificado");
+            }
+        }
+
+        user.edit(email, name, password, roles.stream().map(Roles::name).collect(toSet()), applications.stream().map(this::findApplication).collect(toSet()));
+        users.save(user);
+
     }
 
     private ApplicationStorage findApplication(String id) {
@@ -69,8 +97,8 @@ public class UsersServiceImpl implements UsersService {
 
     private UserStorage user(String email, Supplier<String> error) {
         return users
-            .findByEmail(email)
-            .orElseThrow(() -> new RuntimeException(error.get()));
+                .findByEmail(email)
+                .orElseThrow(() -> new RuntimeException(error.get()));
     }
 
 }

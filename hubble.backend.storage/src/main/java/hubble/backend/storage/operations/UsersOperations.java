@@ -10,6 +10,8 @@ import java.util.Optional;
 public interface UsersOperations {
 
     boolean emailExists(String email);
-
+    
     Optional<UserStorage> findByEmail(String email);
+    
+    
 }
