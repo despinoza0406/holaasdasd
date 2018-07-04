@@ -1,5 +1,6 @@
 package hubble.backend.storage.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -25,9 +26,31 @@ public class KPIs {
         this.availability = availability;
         this.performance = performance;
         this.events = events;
+        this.enabledKPIs = new HashSet<>();
     }
 
     public Set<KPITypes> getEnabledKPIs() {
+
+        if (this.tasks.getEnabled()) {
+            enabledKPIs.add(KPITypes.TASKS);
+        }
+
+        if (this.defects.getEnabled()) {
+            enabledKPIs.add(KPITypes.DEFECTS);
+        }
+
+        if (this.availability.getEnabled()) {
+            enabledKPIs.add(KPITypes.AVAILABILITY);
+        }
+
+        if (this.performance.getEnabled()) {
+            enabledKPIs.add(KPITypes.PERFORMANCE);
+        }
+
+         if (this.events.getEnabled()) {
+            enabledKPIs.add(KPITypes.EVENTS);
+        }
+
         return enabledKPIs;
     }
 

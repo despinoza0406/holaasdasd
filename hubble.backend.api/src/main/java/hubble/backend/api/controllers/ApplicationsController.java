@@ -3,6 +3,7 @@ package hubble.backend.api.controllers;
 import hubble.backend.api.interfaces.BusinessApplicationManager;
 import hubble.backend.api.models.BusinessApplication;
 import hubble.backend.api.models.BusinessApplicationFrontend;
+import hubble.backend.api.models.BusinessApplicationLigth;
 import hubble.backend.api.models.BusinessApplicationProfile;
 import java.util.List;
 import java.util.Optional;
@@ -19,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin
 public class ApplicationsController {
 
     @Autowired
     private BusinessApplicationManager businessAppMgr;
 
     @GetMapping(value = "/applications/{applicationId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @CrossOrigin//(origins = "http://localhost:8888")
     public BusinessApplicationProfile get(HttpServletRequest req, @PathVariable String applicationId) {
 
         BusinessApplicationProfile applicationView = businessAppMgr.getBusinessApplicationView(applicationId);
@@ -34,7 +35,6 @@ public class ApplicationsController {
     }
 
     @GetMapping(value = "/applications/{id}")
-    @CrossOrigin//(origins = "http://localhost:8888")
     public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req,
                                                               @PathVariable("id") String applicationId,
                                                               @RequestParam(value = "periodo", defaultValue = "default") String timePeriod) {
@@ -53,7 +53,6 @@ public class ApplicationsController {
     }
 
     @GetMapping(value = "/applications")
-    @CrossOrigin//(origins = "http://localhost:8888")
     public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
         @RequestParam("include-inactives") Optional<Boolean> includeInactives,
         @RequestParam("page") int page,
@@ -66,4 +65,14 @@ public class ApplicationsController {
     public KPIs getApplicationKPIs(@PathVariable("id") String appId) {
         return businessAppMgr.getKPIs(appId);
     }
+    
+    @GetMapping(value = "/applications/ligth", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<BusinessApplicationLigth> getApplicationsLigth(HttpServletRequest req) {
+
+        List<BusinessApplicationLigth> businessApplicationLigth = businessAppMgr.getApplicationsLigth();
+
+        return businessApplicationLigth;
+    }
+
+    
 }
