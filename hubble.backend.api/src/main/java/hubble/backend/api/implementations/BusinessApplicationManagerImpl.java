@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import hubble.backend.core.utils.DateHelper;
 
 import static hubble.backend.storage.models.KPITypes.*;
+import static java.lang.Double.NaN;
 import static java.util.stream.Collectors.toList;
 
 import hubble.backend.storage.models.ApplicationStorage;
@@ -146,7 +147,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     @Override
-    public BusinessApplicationFrontend getBusinessApplicationFrontend(String id) {
+    public BusinessApplicationFrontend getBusinessApplicationFrontend(String id,String periodo) {
         ApplicationStorage applicationStorage = applicationRepository.findApplicationById(id);
 
         BusinessApplicationFrontend businessApplicationFrontend = new BusinessApplicationFrontend();
@@ -154,9 +155,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         businessApplicationFrontend.setId(applicationStorage.getId());
         businessApplicationFrontend.setLastUpdate(DateHelper.lastExecutionDate);
         businessApplicationFrontend.setPastUpdate(DateHelper.addDaysToDate(DateHelper.lastExecutionDate, -1));
-        setKPIs(businessApplicationFrontend, applicationStorage);
-
-
+        setKPIs(businessApplicationFrontend, applicationStorage, periodo);
         setHealthIndex(businessApplicationFrontend, businessApplicationFrontend.getKpis());
         setPastHealthIndex(businessApplicationFrontend, applicationStorage);
 
@@ -164,8 +163,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     @Override
-    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id) {
-        BusinessApplicationFrontend businessApplicationFrontend = getBusinessApplicationFrontend(id);
+    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id,String period) {
+        BusinessApplicationFrontend businessApplicationFrontend = getBusinessApplicationFrontend(id,period);
         setDistValues(businessApplicationFrontend.getKpis(), id);
         return businessApplicationFrontend;
     }
@@ -179,11 +178,11 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     @Override
-    public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend(boolean includeInactives) {
+    public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend(boolean includeInactives,String periodo) {
         return getAllApplications()
             .stream()
             .filter((a) -> includeInactives || a.isActive())
-            .map((a) -> getBusinessApplicationFrontend(a.getId()))
+            .map((a) -> getBusinessApplicationFrontend(a.getId(),periodo))
             .collect(toList());
     }
 
@@ -214,7 +213,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         businessApplicationFrontend.setHealthIndexPast(pastHealthIndex);
     }
 
-    public void setKPIs(BusinessApplicationFrontend businessApplicationFrontend, ApplicationStorage application) {
+    public void setKPIs(BusinessApplicationFrontend businessApplicationFrontend, ApplicationStorage application,String periodo) {
         KPIs backKPI = application.getKpis();
         Set<KPITypes> kpiTypes = backKPI.getEnabledKPIs();
         List<KpiFrontend> kpis = new ArrayList<>();
@@ -224,7 +223,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend availabilityKpi = new KpiFrontend();
             availabilityKpi.setKpiName("Disponibilidad");
             availabilityKpi.setKpiShortName("D");
-            availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPILastHour(application));
+            availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPI(application,periodo));
+            if(Double.isNaN(availabilityKpi.getKpiValue())) {
+                availabilityKpi.setKpiComment("No hay datos de availability");
+            }
             kpis.add(availabilityKpi);
         }
 
@@ -233,7 +235,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend performanceKpi = new KpiFrontend();
             performanceKpi.setKpiName("Performance");
             performanceKpi.setKpiShortName("P");
-            performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPILastHour(application));
+            performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
+            if(Double.isNaN(performanceKpi.getKpiValue())) {
+                performanceKpi.setKpiComment("No hay datos de performance");
+            }
             kpis.add(performanceKpi);
         }
         if(//kpiTypes.contains(DEFECTS) &&
@@ -241,7 +246,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend issuesKpi = new KpiFrontend();
             issuesKpi.setKpiName("Incidencias");
             issuesKpi.setKpiShortName("I");
-            issuesKpi.setKpiValue(issueService.calculateHistoryLastDayKpiByApplication(application));
+            issuesKpi.setKpiValue(issueService.calculateHistoryKPIByApplication(application,periodo));
+            if(Double.isNaN(issuesKpi.getKpiValue())) {
+                issuesKpi.setKpiComment("No hay datos de issues");
+            }
             kpis.add(issuesKpi);
         }
         if(//kpiTypes.contains(TASKS) &&
@@ -249,7 +257,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend workitemKpi = new KpiFrontend();
             workitemKpi.setKpiName("Tareas");
             workitemKpi.setKpiShortName("T");
-            workitemKpi.setKpiValue(workItemService.calculateLastDayDeflectionDaysKpi(application));
+            workitemKpi.setKpiValue(workItemService.calculateDeflectionDaysKPI(application,periodo));
+            if(Double.isNaN(workitemKpi.getKpiValue())){
+                workitemKpi.setKpiComment("No hay datos de tareas");
+            }
             kpis.add(workitemKpi);
         }
         if(//kpiTypes.contains(EVENTS) &&
@@ -257,7 +268,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend eventKpi = new KpiFrontend();
             eventKpi.setKpiName("Eventos");
             eventKpi.setKpiShortName("E");
-            eventKpi.setKpiValue(eventService.calculateLastHourSeverityKpi(application));
+            eventKpi.setKpiValue(eventService.calculateSeverityKPI(application,periodo));
+            if(Double.isNaN(eventKpi.getKpiValue())) {
+                eventKpi.setKpiComment("No hay datos de eventos");
+            }
             kpis.add(eventKpi);
         }
         businessApplicationFrontend.setKpis(kpis);
@@ -267,7 +281,9 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         double average = 0;
 
         for (Double kpi : kpis) {
-            average = average + kpi;
+            if(!Double.isNaN(kpi)) {
+                average = average + kpi;
+            }
         }
 
         return average / (double) kpis.size();

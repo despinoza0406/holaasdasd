@@ -20,6 +20,8 @@ public interface EventOperations {
 
     List<EventStorage> findEventsByApplicationIdBetweenDates(String applicationId, Date startDate, Date endDate);
 
+    List<EventStorage> findEventsByApplicationIdBetweenDatesAndDifferentStatus(String applicationId, Date startDate, Date endDate, String status);
+
     List<EventStorage> findEventsByApplicationIdAndDurationMinutes(int duration, String applicationId);
 
     List<EventStorage> findEventsByApplicationIdAndDurationMonths(int duration, String applicationId);

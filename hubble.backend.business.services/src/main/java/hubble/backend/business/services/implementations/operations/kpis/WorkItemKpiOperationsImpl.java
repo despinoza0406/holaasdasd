@@ -7,6 +7,7 @@ import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.rules.WorkItemsGroupRule;
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.utils.CalculationHelper;
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.core.utils.KpiHelper;
 import hubble.backend.core.utils.Threshold;
 import hubble.backend.storage.models.ApplicationStorage;
@@ -17,6 +18,7 @@ import hubble.backend.storage.repositories.WorkItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -186,6 +188,22 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
         this.lWarningKpiThreshold = lastDayThreshold.getWarning();
         this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
         this.okKpiThreshold = lastDayThreshold.getOk();
+        return calculateKPI(workItems);
+    }
+
+    @Override
+    public double calculateKPI(ApplicationStorage application,String periodo){
+        Threashold threshold = application.getKpis().getTasks().getThreashold(periodo);
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        this.lCriticalKpiThreshold = threshold.getCritical();
+        this.lWarningKpiThreshold = threshold.getWarning();
+        this.okKpiThreshold = threshold.getOk();
+        List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(application.getId(),
+                startDate,endDate,
+                "IN_PROGRESS");
+
         return calculateKPI(workItems);
     }
 

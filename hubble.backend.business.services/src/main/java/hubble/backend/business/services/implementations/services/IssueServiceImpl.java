@@ -101,6 +101,20 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
+    public double calculateHistoryKPIByApplication(ApplicationStorage application,String periodo) {
+        Threashold threshold = application.getKpis().getDefects().getThreashold(periodo);
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        this.lCriticalKpiThreshold = threshold.getCritical();
+        this.lWarningKpiThreshold = threshold.getWarning();
+        this.okKpiThreshold = threshold.getOk();
+        List<IssueStorage> issuesStorage =
+                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(application.getId(), startDate, endDate);
+        return calculateKPI(issuesStorage);
+    }
+
+    @Override
     public IssuesKpi calculateLastMonthKpiByApplication(String applicationId) {
         return issueKpiOperation.calculateLastMonthKeyPerformanceIndicatorByApplication(applicationId);
     }
