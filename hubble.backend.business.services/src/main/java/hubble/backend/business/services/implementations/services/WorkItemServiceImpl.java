@@ -91,6 +91,11 @@ public class WorkItemServiceImpl implements WorkItemService {
     }
 
     @Override
+    public double calculateDeflectionDaysKPI(ApplicationStorage application,String periodo){
+        return workItemKpiOperation.calculateKPI(application,periodo);
+    }
+
+    @Override
     public double calculatePastDayDeflectionDaysKpi(ApplicationStorage application) {
         return workItemKpiOperation.calculatePastDayKPI(application);
     }

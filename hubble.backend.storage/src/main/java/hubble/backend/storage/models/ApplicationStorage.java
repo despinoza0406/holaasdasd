@@ -1,7 +1,5 @@
 package hubble.backend.storage.models;
 
-import java.util.List;
-import java.util.Set;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**

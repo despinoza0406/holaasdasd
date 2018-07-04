@@ -69,6 +69,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public double calculateSeverityKPI(ApplicationStorage application,String periodo){
+        return eventKpiOperation.calculateKPI(application,periodo);
+    }
+
+    @Override
     public double calculatePastDaySeverityKpi(ApplicationStorage application) {
         return eventKpiOperation.calculatePastDayKPI(application);
     }

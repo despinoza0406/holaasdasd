@@ -4,6 +4,7 @@ import hubble.backend.business.services.interfaces.services.InitialDataService;
 import hubble.backend.business.services.models.Roles;
 import hubble.backend.storage.models.ALM;
 import hubble.backend.storage.models.AppPulse;
+import hubble.backend.storage.models.ApplicationInProvider;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.Availavility;
 import hubble.backend.storage.models.BSM;
@@ -71,30 +72,27 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
 
     private void configureApplications() {
-        guardarAplicacion("home-banking", "Home Banking");
-        guardarAplicacion("mobile-banking", "Mobile Banking");
-        guardarAplicacion("crm", "CRM");        
-    }
-    
-    
-    
-    private void guardarAplicacion(String id, String nombre) {
-        Threashold th = new Threashold(1d, 2, 5d);
-        applications.save(createApplicationStorage(id, nombre, th));
+        guardarAplicacion("home-banking", "Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
+        guardarAplicacion("mobile-banking", "Mobile Banking", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "Mobile Banking", "Mobile Banking");
+        guardarAplicacion("crm", "CRM", "Retail banking", null, "CRM", null);
     }
 
-    private static ApplicationStorage createApplicationStorage(String id, String nombre, Threashold th) {
+    private void guardarAplicacion(String id, String nombre, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
+        Threashold th = new Threashold(1d, 2, 5d);
+        applications.save(createApplicationStorage(id, nombre, th, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope));
+    }
+
+    private static ApplicationStorage createApplicationStorage(String id, String nombre, Threashold th, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
         return new ApplicationStorage(
                 id,
                 nombre,
                 true,
                 new KPIs(
-                        new Tasks(true, th, th, th),
-                        new Defects(true, th, th, th),
-                        new Availavility(true, th, th, th, th),
-                        new Performance(true, th, th, th, th),
-                        new Events(true, th, th, th, th)
-                )
+                new Tasks(true, th, th, th, ApplicationInProvider.standard(nombreEnPPM)),
+                new Defects(true, th, th, th, ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
+                new Availavility(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
+                new Performance(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
+                new Events(true, th, th, th, th, ApplicationInProvider.standard(""))                )
         );
     }
 
@@ -117,7 +115,7 @@ public class InitialDataServiceImpl implements InitialDataService {
             "Administrator",
             "administrator".toCharArray(),
             new HashSet<>(asList(Roles.ADMINISTRATOR.name())),
-            new HashSet<>(asList(createApplicationStorage("crm", "CRM", th), createApplicationStorage("mobile-banking", "Mobile Banking", th), createApplicationStorage("home-banking", "Home Banking", th)))
+            new HashSet<>()
         );
     }
 

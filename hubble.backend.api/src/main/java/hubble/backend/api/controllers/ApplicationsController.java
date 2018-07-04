@@ -35,9 +35,11 @@ public class ApplicationsController {
 
     @GetMapping(value = "/applications/{id}")
     @CrossOrigin//(origins = "http://localhost:8888")
-    public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req, @PathVariable("id") String applicationId) {
+    public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req,
+                                                              @PathVariable("id") String applicationId,
+                                                              @RequestParam(value = "periodo", defaultValue = "default") String timePeriod) {
 
-        BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId);
+        BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId,timePeriod);
 
         return applicationFrontend;
     }
@@ -55,8 +57,9 @@ public class ApplicationsController {
     public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
         @RequestParam("include-inactives") Optional<Boolean> includeInactives,
         @RequestParam("page") int page,
-        @RequestParam("limit") int limit) {
-        return businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false));
+        @RequestParam("limit") int limit,
+        @RequestParam(value = "periodo", defaultValue = "default") String periodo) {
+        return businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false),periodo);
     }
 
     @GetMapping(value = "/applications/{id}/kpis")

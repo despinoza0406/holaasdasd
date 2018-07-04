@@ -8,6 +8,7 @@ import hubble.backend.business.services.models.measures.kpis.EventsKpi;
 import hubble.backend.business.services.models.measures.rules.EventsGroupRule;
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.utils.CalculationHelper;
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.core.utils.KpiHelper;
 import hubble.backend.core.utils.Threshold;
 import hubble.backend.storage.models.ApplicationStorage;
@@ -18,6 +19,7 @@ import hubble.backend.storage.repositories.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -212,6 +214,25 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         this.lWarningKpiThreshold = lastHourThreshold.getWarning();
         this.lCriticalKpiThreshold = lastHourThreshold.getCritical();
         this.okKpiThreshold = lastHourThreshold.getOk();
+        return calculateKPI(events);
+    }
+
+    @Override
+    public double calculateKPI(ApplicationStorage application,String periodo){
+        Threashold threshold = application.getKpis().getEvents().getThreashold(periodo);
+
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            periodo = "hora";
+        }
+
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        this.lCriticalKpiThreshold = threshold.getCritical();
+        this.lWarningKpiThreshold = threshold.getWarning();
+        this.okKpiThreshold = threshold.getOk();
+        List<EventStorage> events = eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(application.getId()
+                ,startDate,endDate,"Good");
         return calculateKPI(events);
     }
 
