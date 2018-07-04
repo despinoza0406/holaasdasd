@@ -3,6 +3,7 @@ package hubble.backend.api.interfaces;
 import hubble.backend.api.models.ApplicationUptime;
 import hubble.backend.api.models.BusinessApplication;
 import hubble.backend.api.models.BusinessApplicationFrontend;
+import hubble.backend.api.models.BusinessApplicationLigth;
 import hubble.backend.api.models.BusinessApplicationProfile;
 import hubble.backend.business.services.models.Availability;
 import hubble.backend.storage.models.KPIs;
@@ -30,4 +31,6 @@ public interface BusinessApplicationManager {
     public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id);
 
     public KPIs getKPIs(String id);
+    
+    public List<BusinessApplicationLigth> getApplicationsLigth();
 }

@@ -50,6 +50,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     UptimeMapper uptimeMapper;
     @Autowired
     KpiAveragesService kpiAverageService;
+    @Autowired
+    ApplicationService applicationService;
 
     @Override
     public BusinessApplicationProfile getBusinessApplicationView(String id) {
@@ -216,7 +218,6 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     public void setKPIs(BusinessApplicationFrontend businessApplicationFrontend, ApplicationStorage application) {
         KPIs backKPI = application.getKpis();
-        Set<KPITypes> kpiTypes = backKPI.getEnabledKPIs();
         List<KpiFrontend> kpis = new ArrayList<>();
 
         if (//kpiTypes.contains(AVAILABILITY) &&
@@ -312,5 +313,13 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             distValues.add(new DistValues(distValue));
         }
         return distValues;
+    }
+
+    @Override
+    public List<BusinessApplicationLigth> getApplicationsLigth() {
+        
+        List<ApplicationStorage> applicationDtoList = applicationService.getAll();
+        return applicationMapper.mapToBusinessApplicationLigthList(applicationDtoList);
+        
     }
 }
