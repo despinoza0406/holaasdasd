@@ -45,20 +45,24 @@ public class ApplicationMapper {
 
     public List<BusinessApplicationLigth> mapToBusinessApplicationLigthList(List<ApplicationStorage> applications) {
 
+        
+        mapper = new ModelMapper();
+        
         if (applications == null) {
             return null;
         }
 
-        PropertyMap<ApplicationStorage, BusinessApplicationLigth> applicationMap = new PropertyMap<ApplicationStorage, BusinessApplicationLigth>() {
+        PropertyMap<ApplicationStorage, BusinessApplicationLigth> personMap = new PropertyMap<ApplicationStorage, BusinessApplicationLigth>() {
             @Override
             protected void configure() {
                 map(source.getKpis().getEnabledKPIs(), destination.getEnabledKPIs());
             }
         };
 
-        Type applicationStorageTypeList = new TypeToken<List<BusinessApplicationLigth>>() {}.getType();
+        Type applicationStorageTypeList = new TypeToken<List<BusinessApplicationLigth>>() {
+        }.getType();
         
-        mapper.addMappings(applicationMap);
+        mapper.addMappings(personMap);
         return mapper.map(applications, applicationStorageTypeList);
     }
 
