@@ -1,5 +1,9 @@
 package hubble.backend.storage.models;
 
+import hubble.backend.core.enums.Periods;
+
+import java.lang.reflect.Field;
+
 /**
  * KPI de tareas.
  *
@@ -59,12 +63,35 @@ public class Tasks implements KPI {
         this.monthThreashold = monthThreashold;
     }
 
+
     public ApplicationInProvider getPpm() {
         return ppm;
     }
 
     public void setPpm(ApplicationInProvider ppm) {
         this.ppm = ppm;
+
+    //Me da el threshold que necesito pasandole default,dia,semana o mes
+    public Threashold getThreashold (String periodo){
+        if(periodo.equals("default")){
+            return dayThreashold;
+        }
+
+        String fieldName = Periods.getDescriptionByCode(periodo);
+        Field[] fields = Tasks.class.getDeclaredFields();
+        for(Field f : fields){
+            Class t = f.getType();
+            if(f.getName().equals(fieldName) && Threashold.class.isAssignableFrom(f.getType())){
+                try{
+                    Threashold threashold = (Threashold) f.get(this);
+                    return threashold;
+                }catch (IllegalAccessException ex){
+                    ex.printStackTrace();
+                }
+            }
+
+        }
+        return null;
     }
 
 }

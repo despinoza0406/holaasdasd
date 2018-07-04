@@ -1,5 +1,9 @@
 package hubble.backend.storage.models;
 
+import hubble.backend.core.enums.Periods;
+
+import java.lang.reflect.Field;
+
 /**
  * KPI de defectos.
  *
@@ -75,6 +79,28 @@ public class Defects implements KPI {
 
     public void setJira(ApplicationInProvider jira) {
         this.jira = jira;
+
+    //Me da el threshold que necesito pasandole default,dia,semana o mes
+    public Threashold getThreashold (String periodo){
+        if(periodo.equals("default")){
+            return dayThreashold;
+        }
+
+        String fieldName = Periods.getDescriptionByCode(periodo);
+        Field[] fields = Defects.class.getDeclaredFields();
+        for(Field f : fields){
+            Class t = f.getType();
+            if(f.getName().equals(fieldName) && Threashold.class.isAssignableFrom(f.getType())){
+                try{
+                    Threashold threashold = (Threashold) f.get(this);
+                    return threashold;
+                }catch (IllegalAccessException ex){
+                    ex.printStackTrace();
+                }
+            }
+
+        }
+        return null;
     }
 
 }

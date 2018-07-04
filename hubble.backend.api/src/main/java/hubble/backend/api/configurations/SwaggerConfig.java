@@ -17,9 +17,30 @@ public class SwaggerConfig {
     @Bean
     public Docket applicationsApi() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("Applications")
                 .apiInfo(apiInfo())
                 .select().apis(RequestHandlerSelectors.basePackage("hubble.backend.api.controllers"))
-                .paths(regex("/*"))
+                .paths(regex("/applications.*"))
+                .build();
+    }
+
+    @Bean
+    public Docket usersApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("Users")
+                .apiInfo(apiInfo())
+                .select().apis(RequestHandlerSelectors.basePackage("hubble.backend.api.controllers"))
+                .paths(regex("/users.*"))
+                .build();
+    }
+
+    @Bean
+    public Docket providersApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("Providers")
+                .apiInfo(apiInfo())
+                .select().apis(RequestHandlerSelectors.basePackage("hubble.backend.api.controllers"))
+                .paths(regex("/providers.*"))
                 .build();
     }
 

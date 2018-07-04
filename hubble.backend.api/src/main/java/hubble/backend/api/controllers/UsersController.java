@@ -86,6 +86,7 @@ public class UsersController {
         );
     }
 
+    @CrossOrigin
     @PostMapping(value = "/{email}/auth", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity authenticate(@PathVariable String email, @RequestBody Auth auth) {
         try {

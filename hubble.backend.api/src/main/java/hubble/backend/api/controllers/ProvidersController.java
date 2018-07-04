@@ -44,14 +44,14 @@ public class ProvidersController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody List<ProviderStorage> consultar() {
+    public @ResponseBody List<ProviderStorage> get() {
         return this.providersService.findAll();
     }
     
 
     @RequestMapping(value = "/provider", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @JsonIgnoreProperties(ignoreUnknown=true)
-    public @ResponseBody ProviderStorage findById(@RequestParam("id") String id) {
+    public @ResponseBody ProviderStorage getById(@RequestParam("id") String id) {
         return this.providersService.findById(id);
     }
 

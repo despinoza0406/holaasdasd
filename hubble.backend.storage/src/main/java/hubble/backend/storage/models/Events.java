@@ -1,5 +1,9 @@
 package hubble.backend.storage.models;
 
+import hubble.backend.core.enums.Periods;
+
+import java.lang.reflect.Field;
+
 /**
  * KPI de eventos.
  *
@@ -69,12 +73,35 @@ public class Events implements KPI {
         this.monthThreashold = monthThreashold;
     }
 
+
     public ApplicationInProvider getSiteScope() {
         return siteScope;
     }
 
     public void setSiteScope(ApplicationInProvider siteScope) {
         this.siteScope = siteScope;
+
+    //Me da el threshold que necesito pasandole default,dia,semana o mes
+    public Threashold getThreashold (String periodo){
+        if(periodo.equals("default")){
+            return hourThreashold;
+        }
+
+        String fieldName = Periods.getDescriptionByCode(periodo);
+        Field[] fields = Events.class.getDeclaredFields();
+        for(Field f : fields){
+            Class t = f.getType();
+            if(f.getName().equals(fieldName) && Threashold.class.isAssignableFrom(f.getType())){
+                try{
+                    Threashold threashold = (Threashold) f.get(this);
+                    return threashold;
+                }catch (IllegalAccessException ex){
+                    ex.printStackTrace();
+                }
+            }
+
+        }
+        return null;
     }
 
 }

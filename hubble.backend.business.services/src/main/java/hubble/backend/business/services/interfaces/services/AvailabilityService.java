@@ -27,4 +27,6 @@ public interface AvailabilityService extends
 
     public double calculateHealthIndexKPILastHour(ApplicationStorage application);
 
+    public double calculateHealthIndexKPI(ApplicationStorage applicationStorage, String periodo);
+
 }

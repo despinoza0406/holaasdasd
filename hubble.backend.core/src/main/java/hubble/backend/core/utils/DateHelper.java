@@ -17,7 +17,26 @@ public class DateHelper {
         long diffInMillies = dateTo.getTime() - dateFrom.getTime();
         return timeUnit.convert(diffInMillies,TimeUnit.MILLISECONDS);
     }
-    
+
+    public static Date getEndDate(String periodo){
+        return getDateNow();
+    }
+
+    public static Date getStartDate(String periodo){
+        switch (periodo){
+            case "hora":
+                return getAnHourAgo();
+            case "dia":
+                return getYesterday();
+            case "semana":
+                return getNDaysBefore(7);
+            case "mes":
+                return getMonth();
+            default:
+                return getYesterday();
+        }
+    }
+
     public static Date addDaysToDate(Date date, int daysQty){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -40,6 +59,13 @@ public class DateHelper {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -n);
         return cal.getTime();
+    }
+
+    public static Date getMonth(){
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, -1);
+        Date result = cal.getTime();
+        return result;
     }
 
 
