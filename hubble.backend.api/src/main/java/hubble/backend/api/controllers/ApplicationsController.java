@@ -5,6 +5,9 @@ import hubble.backend.api.models.BusinessApplication;
 import hubble.backend.api.models.BusinessApplicationFrontend;
 import hubble.backend.api.models.BusinessApplicationLigth;
 import hubble.backend.api.models.BusinessApplicationProfile;
+import hubble.backend.business.services.implementations.services.ApplicationsServiceImpl;
+import hubble.backend.business.services.interfaces.services.ApplicationService;
+import hubble.backend.business.services.interfaces.services.ProvidersService;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
@@ -12,10 +15,13 @@ import javax.ws.rs.PathParam;
 
 import hubble.backend.storage.models.KPIs;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +31,15 @@ public class ApplicationsController {
 
     @Autowired
     private BusinessApplicationManager businessAppMgr;
+    
+     private final ApplicationService applicationService;
+
+      
+   public ApplicationsController(ApplicationService applicationService) {
+        this.applicationService = applicationService;
+    }
+
+  
 
     @GetMapping(value = "/applications/{applicationId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public BusinessApplicationProfile get(HttpServletRequest req, @PathVariable String applicationId) {
@@ -74,5 +89,19 @@ public class ApplicationsController {
         return businessApplicationLigth;
     }
 
+    
+    @PutMapping(value = "/applications/enabled", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity habilitarDeshabilitar(@RequestParam("id") String id, @RequestParam("enabled") boolean enabled) {
+
+        try {
+            
+            applicationService.enabledDisabled(id, enabled);
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (Throwable t) {
+            return new ResponseEntity(new hubble.backend.api.models.Error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error", t.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
     
 }

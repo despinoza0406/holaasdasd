@@ -19,5 +19,7 @@ public interface UsersService {
     AuthToken authenticate(String email, char[] password);
 
     AuthToken refreshToken(String email, UUID token);
+    
+    void enabledDisabled(String id, boolean enabled);
 
 }

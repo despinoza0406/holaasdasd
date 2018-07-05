@@ -53,7 +53,7 @@ public class UsersServiceImpl implements UsersService {
 
         //Si ya existe entonces verifico si es el mismo usuario a editar
         if (user != null) {
-            
+
             //Si existe con distinto ID lanzo excepción, si no ya me quedo con el usuario cargado.
             if (!user.getId().equals(id)) {
                 throw new RuntimeException(String.format("Email %s está siendo usado por otro usuario", email));
@@ -61,7 +61,7 @@ public class UsersServiceImpl implements UsersService {
         } else {
             //Si no existe el email lo busco por ID
             user = users.findOne(id);
-            
+
             //Si no existe tampoco por ID lanzo excepción
             if (user == null) {
                 throw new RuntimeException("No existe un usuario con el ID especificado");
@@ -99,6 +99,24 @@ public class UsersServiceImpl implements UsersService {
         return users
                 .findByEmail(email)
                 .orElseThrow(() -> new RuntimeException(error.get()));
+    }
+
+    @Override
+    public void enabledDisabled(String id, boolean enabled) {
+
+        try {
+            UserStorage user = users.findOne(id);
+            if (user == null) {
+                throw new RuntimeException("No existe un usuario con el ID: " + id);
+            } else {
+                user.setEnabled(enabled);
+                users.save(user);
+            }
+
+        } catch (Throwable t) {
+            throw new RuntimeException("Ocurrió un error mientras se habilitaba/deshabilitaba el usuario.  Causa: " + t.getMessage());
+        }
+
     }
 
 }

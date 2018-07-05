@@ -2,6 +2,7 @@ package hubble.backend.business.services.implementations.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import hubble.backend.business.services.interfaces.services.ProvidersService;
+import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.ProviderStorage;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import java.util.List;
@@ -60,4 +61,22 @@ public class ProvidersServiceImpl implements ProvidersService {
       return providersRepository.findOne(id);
     }
 
+    
+    @Override
+    public void enabledDisabled(String id, boolean enabled) {
+
+        try {
+            ProviderStorage provider = providersRepository.findOne(id);
+            if (provider == null) {
+                throw new RuntimeException("No existe un provider con el ID: " + id);
+            } else {
+                provider.setEnabled(enabled);
+                providersRepository.save(provider);
+            }
+
+        } catch (Throwable t) {
+            throw new RuntimeException("Ocurrió un error mientras se habilitaba/deshabilitaba el provider. Causa: " + t.getMessage());
+        }
+
+    }
 }

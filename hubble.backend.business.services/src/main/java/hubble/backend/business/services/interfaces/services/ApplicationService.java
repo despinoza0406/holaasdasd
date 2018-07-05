@@ -7,5 +7,7 @@ import java.util.List;
 public interface ApplicationService {
 
     public List<ApplicationStorage> getAll();
+    
+     void enabledDisabled(String id, boolean enabled);
 
 }

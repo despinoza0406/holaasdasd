@@ -14,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import hubble.backend.storage.models.ProviderStorage;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -44,15 +48,29 @@ public class ProvidersController {
     }
 
     @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody List<ProviderStorage> get() {
+    public @ResponseBody
+    List<ProviderStorage> get() {
         return this.providersService.findAll();
     }
-    
 
     @RequestMapping(value = "/provider", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    @JsonIgnoreProperties(ignoreUnknown=true)
-    public @ResponseBody ProviderStorage getById(@RequestParam("id") String id) {
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public @ResponseBody
+    ProviderStorage getById(@RequestParam("id") String id) {
         return this.providersService.findById(id);
     }
 
+    @PutMapping(value = "/enabled")
+    public ResponseEntity habilitarDeshabilitar(@RequestParam("id") String id, @RequestParam("enabled") boolean enabled) {
+
+        try {
+            
+            providersService.enabledDisabled(id, enabled);
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (Throwable t) {
+           return new ResponseEntity(new hubble.backend.api.models.Error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error", t.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 }

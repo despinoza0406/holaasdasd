@@ -16,4 +16,6 @@ public interface ProvidersService {
     
     ProviderStorage findById(String id);
     
+    void enabledDisabled(String id, boolean enabled);
+    
 }

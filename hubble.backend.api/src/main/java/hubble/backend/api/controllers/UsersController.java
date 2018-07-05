@@ -1,6 +1,5 @@
 package hubble.backend.api.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import hubble.backend.business.services.interfaces.services.UsersService;
@@ -9,8 +8,6 @@ import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.UsersRepository;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -142,4 +141,20 @@ public class UsersController {
         }
     }
 
+    
+    @PutMapping(value = "/enabled", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity habilitarDeshabilitar(@RequestParam("id") String id, @RequestParam("enabled") boolean enabled) {
+
+        try {
+            
+            users.enabledDisabled(id, enabled);
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (Throwable t) {
+            return errorResponse(HttpStatus.INTERNAL_SERVER_ERROR, t, "Error");
+        }
+
+    }
+    
+    
 }
