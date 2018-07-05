@@ -120,6 +120,7 @@ public class TasksRunnerApplication {
 
     public static void main(String[] args) throws Exception {
 
+
         //TODO: profile should be set as parameter.
         ConfigurableApplicationContext context = new SpringApplicationBuilder()
                 .profiles("test")

@@ -86,7 +86,7 @@ public class IssueRepositoryImpl implements IssueOperations {
         Criteria endDateCriteria = Criteria.where("timestamp").lte(dateNow);
         List<String> statuses = new ArrayList<>();
         statuses.add("Nuevo");
-        statuses.add("To Do");
+        statuses.add("Por hacer");
         Criteria status = Criteria.where("status").in(statuses);
 
         List<IssueStorage> issues = mongo

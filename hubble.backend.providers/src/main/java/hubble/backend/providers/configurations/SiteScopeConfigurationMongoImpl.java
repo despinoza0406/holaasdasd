@@ -32,7 +32,7 @@ public class SiteScopeConfigurationMongoImpl //implements SiteScopeConfiguration
                 filter((a) -> false || a.isActive()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
-            String hubbleName = application.getApplicationId();
+            String hubbleName = application.getApplicationName();
             String siteScopeName = application.getKpis().getEvents().getSiteScope().getApplicationName();
             mapApplications.put(hubbleName,siteScopeName);
         }
