@@ -64,7 +64,7 @@ public class PpmConfigurationMongoImpl implements PpmConfiguration{
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
             String hubbleName = application.getId();
-            String ppmName = "";
+            String ppmName = application.getKpis().getTasks().getPpm().getApplicationName();
             mapApplications.put(hubbleName,ppmName);
         }
 

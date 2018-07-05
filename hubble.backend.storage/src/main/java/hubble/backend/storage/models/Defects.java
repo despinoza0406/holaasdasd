@@ -79,7 +79,7 @@ public class Defects implements KPI {
 
     public void setJira(ApplicationInProvider jira) {
         this.jira = jira;
-
+    }
     //Me da el threshold que necesito pasandole default,dia,semana o mes
     public Threashold getThreashold (String periodo){
         if(periodo.equals("default")){

@@ -54,7 +54,7 @@ public class AlmConfigurationMongoImpl implements AlmConfiguration {
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
             String hubbleName = application.getId();
-            String almName = "";
+            String almName = application.getKpis().getDefects().getAlm().getApplicationName();
             mapApplications.put(hubbleName,almName);
         }
 

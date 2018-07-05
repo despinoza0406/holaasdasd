@@ -33,7 +33,7 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
             String hubbleName = application.getId();
-            String jiraName = "";
+            String jiraName = application.getKpis().getDefects().getJira().getApplicationName();
             mapApplications.put(hubbleName,jiraName);
         }
 

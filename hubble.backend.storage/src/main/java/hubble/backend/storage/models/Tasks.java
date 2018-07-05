@@ -70,7 +70,7 @@ public class Tasks implements KPI {
 
     public void setPpm(ApplicationInProvider ppm) {
         this.ppm = ppm;
-
+    }
     //Me da el threshold que necesito pasandole default,dia,semana o mes
     public Threashold getThreashold (String periodo){
         if(periodo.equals("default")){
