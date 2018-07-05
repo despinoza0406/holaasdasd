@@ -79,4 +79,22 @@ public class ProvidersServiceImpl implements ProvidersService {
         }
 
     }
+    
+     @Override
+    public void enabledDisabledTaskRunner(String id, boolean enabled) {
+
+        try {
+            ProviderStorage provider = providersRepository.findOne(id);
+            if (provider == null) {
+                throw new RuntimeException("No existe un provider con el ID: " + id);
+            } else {
+                provider.getTaskRunner().setEnabled(enabled);
+                providersRepository.save(provider);
+            }
+
+        } catch (Throwable t) {
+            throw new RuntimeException("Ocurrió un error mientras se habilitaba/deshabilitaba el provider. Causa: " + t.getMessage());
+        }
+
+    }
 }

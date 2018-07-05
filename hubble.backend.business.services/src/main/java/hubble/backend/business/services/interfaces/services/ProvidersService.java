@@ -18,4 +18,7 @@ public interface ProvidersService {
     
     void enabledDisabled(String id, boolean enabled);
     
+    void enabledDisabledTaskRunner(String id, boolean enabled);
+    
+    
 }
