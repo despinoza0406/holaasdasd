@@ -73,11 +73,8 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
 
     private void configureApplications() {
-        guardarAplicacion("home-banking", "Home Banking","aplicacion home-banking", "Home Banking", "Home Banking", "HB", "Home Banking");
         guardarAplicacion("Benchmark Home Banking", "Home Banking","aplicacion Benchmark Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
-        guardarAplicacion("mobile-banking", "Mobile Banking","aplicacion mobile-banking", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "MB", "Mobile Banking");
         guardarAplicacion("Benchmark Mobile","Mobile Banking","aplicacion Benchmark Mobile", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "MB", "Mobile Banking");
-        guardarAplicacion("crm", "CRM","Aplicacion crm", "Retail banking", "CRM", "CRM", "CRM");
         guardarAplicacion("CRM","CRM","Aplicacion CRM", "Retail banking", "CRM", "CRM","CRM");
     }
 
