@@ -5,6 +5,7 @@ import hubble.backend.storage.models.PPM;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -63,8 +64,8 @@ public class PpmConfigurationMongoImpl implements PpmConfiguration{
                                                 filter((a) -> false || a.isActive()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
-            String hubbleName = application.getId();
-            String ppmName = "";
+            String hubbleName = application.getApplicationName();
+            String ppmName = application.getKpis().getTasks().getPpm().getApplicationName();
             mapApplications.put(hubbleName,ppmName);
         }
 

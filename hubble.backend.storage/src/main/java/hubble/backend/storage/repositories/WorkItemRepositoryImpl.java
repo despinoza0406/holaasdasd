@@ -50,8 +50,8 @@ public class WorkItemRepositoryImpl implements WorkItemOperations {
     public List<WorkItemStorage> findWorkItemsByApplicationIdBetweenDatesAndStatus(String applicationId, Date startDate, Date endDate,String status) {
         Criteria applicationIdCriteria = Criteria.where("businessApplicationId").is(applicationId);
         Criteria statusCriteria = Criteria.where("status").is(status);
-        Criteria startDateCriteria = Criteria.where("registeredDate").gte(startDate);
-        Criteria endDateCriteria = Criteria.where("registeredDate").lte(endDate);
+        Criteria startDateCriteria = Criteria.where("timestamp").gte(startDate);
+        Criteria endDateCriteria = Criteria.where("timestamp").lte(endDate);
 
         List<WorkItemStorage> workItems = mongo
                 .find(Query.query(applicationIdCriteria.

@@ -160,8 +160,8 @@ public class AvailabilityServiceImpl implements AvailabilityService {
             periodo = "hora";
         }
 
-        Date endDate = DateHelper.getStartDate(periodo);
-        Date startDate = DateHelper.getEndDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+        Date startDate = DateHelper.getStartDate(periodo);
         List<AvailabilityStorage> availabilityStorageList =
                 availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(application.getId(),startDate,endDate);
         double totalOk = 0;
