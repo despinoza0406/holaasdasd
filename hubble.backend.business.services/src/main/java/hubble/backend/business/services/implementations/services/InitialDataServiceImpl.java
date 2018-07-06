@@ -73,9 +73,12 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
 
     private void configureApplications() {
-        guardarAplicacion("home-banking", "Home Banking", "Descripción Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
-        guardarAplicacion("mobile-banking", "Mobile Banking", "Descripción Mobile Banking", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "Mobile Banking", "Mobile Banking");
-        guardarAplicacion("crm", "CRM", "Descripción CRM", "Retail banking", null, "CRM", null);
+        guardarAplicacion("home-banking", "Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
+        guardarAplicacion("Benchmark Home Banking", "Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
+        guardarAplicacion("mobile-banking", "Mobile Banking", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "MB", "Mobile Banking");
+        guardarAplicacion("Benchmark Mobile","Mobile Banking", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "MB", "Mobile Banking");
+        guardarAplicacion("crm", "CRM", "Retail banking", "CRM", "CRM", "CRM");
+        guardarAplicacion("CRM","CRM", "Retail banking", "CRM", "CRM","CRM");
     }
 
     private void guardarAplicacion(String id, String nombre, String descripcion, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
@@ -200,7 +203,7 @@ public class InitialDataServiceImpl implements InitialDataService {
             true,
             EVERY_DAY_AT_9,
             new Jira.Environment("10.10.20.175", 8888, "andrevigneaux", "r3dem$0023"),
-            new Jira.Configuration("HUB", "project")
+            new Jira.Configuration("HB", "project")
         );
     }
 

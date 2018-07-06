@@ -5,6 +5,7 @@ import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -53,8 +54,8 @@ public class AlmConfigurationMongoImpl implements AlmConfiguration {
                 filter((a) -> false || a.isActive()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
-            String hubbleName = application.getId();
-            String almName = "";
+            String hubbleName = application.getApplicationName();
+            String almName = application.getKpis().getDefects().getAlm().getApplicationName();
             mapApplications.put(hubbleName,almName);
         }
 

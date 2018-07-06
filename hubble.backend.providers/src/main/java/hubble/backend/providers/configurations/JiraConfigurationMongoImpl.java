@@ -32,8 +32,8 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
                 filter((a) -> false || a.isActive()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
-            String hubbleName = application.getId();
-            String jiraName = "";
+            String hubbleName = application.getApplicationName();
+            String jiraName = application.getKpis().getDefects().getJira().getApplicationName();
             mapApplications.put(hubbleName,jiraName);
         }
 
