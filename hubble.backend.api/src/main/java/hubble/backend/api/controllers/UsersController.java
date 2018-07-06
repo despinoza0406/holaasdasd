@@ -116,7 +116,7 @@ public class UsersController {
         );
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping(value = "/{email}/auth", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity authenticate(@PathVariable String email, @RequestBody Auth auth) {
         try {
@@ -143,11 +143,11 @@ public class UsersController {
 
     
     @PutMapping(value = "/enabled", consumes = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity habilitarDeshabilitar(@RequestParam("id") String id, @RequestParam("enabled") boolean enabled) {
+    public ResponseEntity habilitarDeshabilitar(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
         try {
             
-            users.enabledDisabled(id, enabled);
+            users.enabledDisabled(enabledDisabledEntity.getId(), enabledDisabledEntity.isEnabled());
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Throwable t) {

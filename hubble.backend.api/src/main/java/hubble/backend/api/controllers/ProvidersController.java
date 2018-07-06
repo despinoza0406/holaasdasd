@@ -60,11 +60,11 @@ public class ProvidersController {
     }
 
     @PutMapping(value = "/enabled")
-    public ResponseEntity habilitarDeshabilitar(@RequestParam("id") String id, @RequestParam("enabled") boolean enabled) {
+    public ResponseEntity habilitarDeshabilitar(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
         try {
             
-            providersService.enabledDisabled(id, enabled);
+            providersService.enabledDisabled(enabledDisabledEntity.getId(), enabledDisabledEntity.isEnabled());
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Throwable t) {
@@ -73,12 +73,12 @@ public class ProvidersController {
 
     }
     
-      @PutMapping(value = "/taskRunner/enabled")
-    public ResponseEntity habilitarDeshabilitarTaskRunner(@RequestParam("id") String id, @RequestParam("enabled") boolean enabled) {
+    @PutMapping(value = "/taskRunner/enabled")
+    public ResponseEntity habilitarDeshabilitarTaskRunner(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
         try {
             
-            providersService.enabledDisabled(id, enabled);
+            providersService.enabledDisabled(enabledDisabledEntity.getId(), enabledDisabledEntity.isEnabled());
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Throwable t) {
@@ -86,4 +86,5 @@ public class ProvidersController {
         }
 
     }
+    
 }
