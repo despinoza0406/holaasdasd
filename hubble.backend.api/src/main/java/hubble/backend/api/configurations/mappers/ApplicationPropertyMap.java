@@ -21,5 +21,6 @@ public class ApplicationPropertyMap extends PropertyMap<Application, BusinessApp
         map().setDefaultPerformanceOutlierThreshold(source.getOutlierThreshold());
         map().setAvailabilityThreshold(source.getAvailabilityThreshold());
         map().setDynamicThresholdEnabled(false);
+        
     }
 }

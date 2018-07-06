@@ -13,9 +13,13 @@ import java.util.UUID;
 public interface UsersService {
 
     UserStorage create(String email, String name, char[] password, Set<Roles> roles, Set<String> applications);
+    
+    void edit(String id, String email, String name, char[] password, Set<Roles> roles, Set<String> applications);
 
     AuthToken authenticate(String email, char[] password);
 
     AuthToken refreshToken(String email, UUID token);
+    
+    void enabledDisabled(String id, boolean enabled);
 
 }
