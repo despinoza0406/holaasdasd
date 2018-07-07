@@ -42,11 +42,13 @@ public class SecurityFilter implements Filter {
     }
 
     void doFilter(HttpServletRequest req, HttpServletResponse resp, FilterChain fc) throws IOException, ServletException {
-        if (!isSecure(req)) {
+//        if (!isSecure(req)) {
+//            fc.doFilter(req, resp);
+//        } else {
+//            validateToken(req, resp, fc);
+//        }
+
             fc.doFilter(req, resp);
-        } else {
-            validateToken(req, resp, fc);
-        }
     }
 
     private void validateToken(HttpServletRequest req, HttpServletResponse resp, FilterChain fc) throws IOException, ServletException {
@@ -71,12 +73,17 @@ public class SecurityFilter implements Filter {
 
     private boolean isSecure(HttpServletRequest req) {
         return !req.getMethod().equals("HEAD")
-            && !req.getMethod().equals("OPTIONS")
-            && !isUserAuthentication(req.getServletPath());
+                && !req.getMethod().equals("OPTIONS")
+                && !isUserAuthentication(req.getServletPath())
+                && !isSwaggerDocumentation(req.getServletPath());
     }
 
     private boolean isUserAuthentication(String servletPath) {
         return servletPath.startsWith("/users/") && servletPath.endsWith("/auth");
+    }
+
+    private boolean isSwaggerDocumentation(String servletPath) {
+        return servletPath.startsWith("/swagger-ui");
     }
 
     private UUID token(HttpServletRequest req) {
