@@ -117,15 +117,14 @@ public class UserStorage {
     public String toString() {
         return "UserStorage{" + "id=" + id + ", email=" + email + ", name=" + name + ", password=" + password + '}';
     }
-    
-    public UserStorage edit(String email, String name, char[] password, Set<String> roles, Set<ApplicationStorage> applications)
-    {
+
+    public UserStorage edit(String email, String name, char[] password, Set<String> roles, Set<ApplicationStorage> applications) {
         this.email = email;
         this.name = name;
         changePassword(password);
         this.roles = roles;
         this.applications = applications;
-        
+
         return this;
     }
 
@@ -133,9 +132,9 @@ public class UserStorage {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode json = mapper.createObjectNode();
         json.put("id", id)
-            .put("email", email)
-            .put("name", name)
-            .put("enabled", enabled);
+                .put("email", email)
+                .put("name", name)
+                .put("enabled", enabled);
         json.set("roles", rolesToJson());
         json.set("applications", applicationsToJson());
         return json;
@@ -143,13 +142,17 @@ public class UserStorage {
 
     private ArrayNode rolesToJson() {
         ArrayNode array = new ObjectMapper().createArrayNode();
-        roles.forEach(array::add);
+        if (!roles.isEmpty()) {
+            roles.forEach(array::add);
+        }
         return array;
     }
 
     private ArrayNode applicationsToJson() {
         ArrayNode array = new ObjectMapper().createArrayNode();
-        applications.forEach((application) -> array.add(application.getId()));
+        if (!applications.isEmpty()) {
+            applications.forEach((application) -> array.add(application.getId()));
+        }
         return array;
     }
 
