@@ -2,6 +2,7 @@ package hubble.backend.storage.operations;
 
 import hubble.backend.storage.models.UserStorage;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  *
@@ -13,5 +14,5 @@ public interface UsersOperations {
     
     Optional<UserStorage> findByEmail(String email);
     
-    
+    Optional<UserStorage> findByAccessToken(UUID token);
 }

@@ -165,7 +165,7 @@ public class UserStorage {
     }
 
     public AuthToken refreshToken(UUID token) {
-        if (!this.token.validate(token) || !this.token.isValid()) {
+        if (!this.token.isSameToken(token) || this.token.isExpired()) {
             throw new RuntimeException();
         }
         this.token = newToken();
@@ -174,6 +174,10 @@ public class UserStorage {
 
     private AuthToken newToken() {
         return new AuthToken(UUID.randomUUID(), LocalDateTime.now().plusDays(1));
+    }
+    
+    public boolean validateToken(UUID token) {
+        return this.token.isSameToken(token) && !this.token.isExpired();
     }
 
 }

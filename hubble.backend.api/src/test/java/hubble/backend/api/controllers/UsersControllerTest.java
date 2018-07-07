@@ -28,7 +28,7 @@ import org.springframework.http.ResponseEntity;
 public class UsersControllerTest {
 
     @Test
-    public void autenticateWithNonExistentEmailReturnsFORBIDDEN() {
+    public void autenticateWithNonExistentEmailReturnsUNAUTHORIZED() {
         UsersRepository repository = Mockito.mock(UsersRepository.class);
         when(repository.findByEmail(anyString())).thenReturn(Optional.empty());
         UsersService service = Mockito.mock(UsersService.class);
@@ -37,12 +37,12 @@ public class UsersControllerTest {
         assertThat(
             "autentication",
             controller.authenticate(nonExistentEmail, new Auth()),
-            is(forbidden())
+            is(unauthorized())
         );
     }
 
     @Test
-    public void autenticateWithWrongPasswordReturnsFORBIDDEN() {
+    public void autenticateWithWrongPasswordReturnsUNAUTHORIZED() {
         UsersService service = mock(UsersService.class);
         Auth auth = new Auth("123456pepe");
         when(
@@ -52,7 +52,7 @@ public class UsersControllerTest {
         assertThat(
             "autentication",
             controller.authenticate("test@tsoftlatam.com", auth),
-            is(forbidden())
+            is(unauthorized())
         );
     }
 
@@ -89,7 +89,7 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void refreshTokenWithInvalidTokenReturnsBAD_REQUEST() {
+    public void refreshTokenWithInvalidTokenReturnsUNAUTHORIZED() {
         UsersService service = mock(UsersService.class);
         when(
             service.refreshToken(Mockito.any(String.class), Mockito.any(UUID.class))
@@ -98,22 +98,18 @@ public class UsersControllerTest {
         assertThat(
             "new token",
             controller.refreshToken("test@tsoftlatam.com", UUID.randomUUID()),
-            is(badRequest())
+            is(unauthorized())
         );
     }
 
-    private Matcher<ResponseEntity> forbidden() {
-        return hasStatus(HttpStatus.FORBIDDEN);
+    private Matcher<ResponseEntity> unauthorized() {
+        return hasStatus(HttpStatus.UNAUTHORIZED);
     }
 
     private Matcher<ResponseEntity> ok() {
         return hasStatus(HttpStatus.OK);
     }
-
-    private Matcher<ResponseEntity> badRequest() {
-        return hasStatus(HttpStatus.BAD_REQUEST);
-    }
-
+    
     private Matcher<ResponseEntity> hasStatus(HttpStatus status) {
         return new TypeSafeMatcher<ResponseEntity>() {
             @Override
