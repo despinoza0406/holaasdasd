@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @author Guelmy Díaz <guelmy.diaz.blanco@fit.com.ar>
  */
 @Service
-public class ApplicationsServiceImpl implements ApplicationService{
+public class ApplicationsServiceImpl implements ApplicationService {
 
     private final ApplicationRepository applicationRepository;
 
@@ -25,7 +25,7 @@ public class ApplicationsServiceImpl implements ApplicationService{
         return applicationRepository.findAll();
     }
 
-     @Override
+    @Override
     public void enabledDisabled(String id, boolean enabled) {
 
         try {
@@ -43,5 +43,20 @@ public class ApplicationsServiceImpl implements ApplicationService{
 
     }
 
-    
+    @Override
+    public void enabledDisabledTaskRunner(String id, boolean enabled) {
+        try {
+            ApplicationStorage app = applicationRepository.findOne(id);
+            if (app == null) {
+                throw new RuntimeException("No existe una aplicación con el ID: " + id);
+            } else {
+                app.setEnabledTaskRunner(enabled);
+                applicationRepository.save(app);
+            }
+
+        } catch (Throwable t) {
+            throw new RuntimeException("Ocurrió un error mientras se habilitaba/deshabilitaba la aplicación en el taskRunner. Causa: " + t.getMessage());
+        }
+    }
+
 }

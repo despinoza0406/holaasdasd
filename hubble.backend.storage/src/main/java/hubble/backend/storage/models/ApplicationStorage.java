@@ -7,25 +7,28 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document
 public class ApplicationStorage {
- private String id;
+    private String id;
     private String applicationId;
     private String description;
     private String applicationName;
     private boolean active;
+    private boolean enabledTaskRunner;
     private int applicationConfigurationVersion;
     private KPIs kpis;
+    
    
 
     public ApplicationStorage() {
     }
 
-    public ApplicationStorage(String applicationId, String description, String applicationName, boolean active, KPIs kpis) {
+    public ApplicationStorage(String applicationId, String description, String applicationName, boolean active, KPIs kpis, boolean enabledTaskRunner) {
         this.id = applicationId;
         this.description = description;
         this.applicationId = applicationId;
         this.applicationName = applicationName;
         this.active = active;
         this.kpis = kpis;
+        this.enabledTaskRunner = enabledTaskRunner;
     }
 
     public String getApplicationId() {
@@ -82,6 +85,14 @@ public class ApplicationStorage {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isEnabledTaskRunner() {
+        return enabledTaskRunner;
+    }
+
+    public void setEnabledTaskRunner(boolean enabledTaskRunner) {
+        this.enabledTaskRunner = enabledTaskRunner;
     }
 
     

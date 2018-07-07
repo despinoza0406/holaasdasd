@@ -14,6 +14,7 @@ public class BusinessApplicationLigth {
     String applicationId;
     String applicationName;
     private String description;
+    private boolean enabledTaskRunner;
     boolean active;
     Set<KPITypes> enabledKPIs;
     
@@ -65,6 +66,15 @@ public class BusinessApplicationLigth {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public boolean isEnabledTaskRunner() {
+        return enabledTaskRunner;
+    }
+
+    public void setEnabledTaskRunner(boolean enabledTaskRunner) {
+        this.enabledTaskRunner = enabledTaskRunner;
+    }
+    
     
     
 }

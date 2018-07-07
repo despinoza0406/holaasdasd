@@ -7,7 +7,9 @@ import java.util.List;
 public interface ApplicationService {
 
     public List<ApplicationStorage> getAll();
-    
-     void enabledDisabled(String id, boolean enabled);
+
+    void enabledDisabled(String id, boolean enabled);
+
+    void enabledDisabledTaskRunner(String id, boolean enabled);
 
 }

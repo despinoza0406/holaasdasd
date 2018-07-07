@@ -94,7 +94,8 @@ public class InitialDataServiceImpl implements InitialDataService {
                 new Defects(true, th, th, th, ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
                 new Availavility(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
                 new Performance(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                new Events(true, th, th, th, th, ApplicationInProvider.standard("")))
+                new Events(true, th, th, th, th, ApplicationInProvider.standard(""))),
+                true
         );
     }
 

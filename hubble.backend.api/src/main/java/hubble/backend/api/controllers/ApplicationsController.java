@@ -105,4 +105,18 @@ public class ApplicationsController {
 
     }
     
+    
+   @PutMapping(value = "/applications/taskRunner/enabled")
+    public ResponseEntity habilitarDeshabilitarTaskRunner(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
+
+        try {
+            
+            applicationService.enabledDisabledTaskRunner(enabledDisabledEntity.getId(), enabledDisabledEntity.isEnabled());
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (Throwable t) {
+           return new ResponseEntity(new hubble.backend.api.models.Error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error", t.getMessage()),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 }

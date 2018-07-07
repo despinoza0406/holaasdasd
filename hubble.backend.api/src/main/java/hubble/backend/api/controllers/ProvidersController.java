@@ -17,6 +17,7 @@ import hubble.backend.storage.models.ProviderStorage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -36,7 +37,7 @@ public class ProvidersController {
         this.providersService = providersService;
     }
 
-    @RequestMapping(method = RequestMethod.PUT, consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void edit(@RequestBody JsonNode jsonNode) {
         try {
             this.providersService.editProviderFromJson(jsonNode);
@@ -46,13 +47,13 @@ public class ProvidersController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     List<ProviderStorage> get() {
         return this.providersService.findAll();
     }
 
-    @RequestMapping(value = "/provider", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/provider",produces = {MediaType.APPLICATION_JSON_VALUE})
     @JsonIgnoreProperties(ignoreUnknown = true)
     public @ResponseBody
     ProviderStorage getById(@RequestParam("id") String id) {
