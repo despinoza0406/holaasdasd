@@ -2,6 +2,7 @@ package hubble.backend.api.controllers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
+import hubble.backend.api.interfaces.TokenRequired;
 import hubble.backend.business.services.interfaces.services.ProvidersService;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,6 +38,7 @@ public class ProvidersController {
         this.providersService = providersService;
     }
 
+    @TokenRequired
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void edit(@RequestBody JsonNode jsonNode) {
         try {
@@ -47,12 +49,14 @@ public class ProvidersController {
 
     }
 
+    @TokenRequired
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     List<ProviderStorage> get() {
         return this.providersService.findAll();
     }
 
+    @TokenRequired
     @GetMapping(value = "/provider",produces = {MediaType.APPLICATION_JSON_VALUE})
     @JsonIgnoreProperties(ignoreUnknown = true)
     public @ResponseBody
@@ -60,6 +64,7 @@ public class ProvidersController {
         return this.providersService.findById(id);
     }
 
+    @TokenRequired
     @PutMapping(value = "/enabled")
     public ResponseEntity habilitarDeshabilitar(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
@@ -74,6 +79,7 @@ public class ProvidersController {
 
     }
     
+    @TokenRequired
     @PutMapping(value = "/taskRunner/enabled")
     public ResponseEntity habilitarDeshabilitarTaskRunner(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 

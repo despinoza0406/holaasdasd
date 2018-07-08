@@ -2,6 +2,7 @@ package hubble.backend.api.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import hubble.backend.api.interfaces.TokenRequired;
 import hubble.backend.business.services.interfaces.services.UsersService;
 import hubble.backend.business.services.models.Roles;
 import hubble.backend.storage.models.UserStorage;
@@ -21,9 +22,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,11 +38,13 @@ public class UsersController {
         this.usersRepo = usersRepo;
     }
 
+    @TokenRequired
     @GetMapping
     public ResponseEntity get() {
         return new ResponseEntity(allUsers(), HttpStatus.OK);
     }
 
+    @TokenRequired
     @GetMapping(value = "/{email:.+}")
     public ResponseEntity get(@PathVariable String email) {
         Optional<UserStorage> found = usersRepo.findByEmail(email);
@@ -59,6 +59,7 @@ public class UsersController {
         );
     }
 
+    @TokenRequired
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity post(@RequestBody NewUser user) {
         try {
@@ -83,6 +84,7 @@ public class UsersController {
         }
     }
 
+    @TokenRequired
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity edit(@RequestBody UpdateUser updateUser) {
 
@@ -129,6 +131,7 @@ public class UsersController {
         }
     }
 
+    @TokenRequired
     @PostMapping(value = "/{email}/tokens/{token}/refresh", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity refreshToken(@PathVariable String email, @PathVariable UUID token) {
         try {
@@ -141,7 +144,7 @@ public class UsersController {
         }
     }
 
-    
+    @TokenRequired
     @PutMapping(value = "/enabled", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity habilitarDeshabilitar(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 

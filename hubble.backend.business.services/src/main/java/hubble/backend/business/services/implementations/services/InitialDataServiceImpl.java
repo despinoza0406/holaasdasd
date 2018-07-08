@@ -73,9 +73,9 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
 
     private void configureApplications() {
-        guardarAplicacion("Benchmark Home Banking", "Home Banking","aplicacion Benchmark Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
-        guardarAplicacion("Benchmark Mobile","Mobile Banking","aplicacion Benchmark Mobile", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "MB", "Mobile Banking");
-        guardarAplicacion("CRM","CRM","Aplicacion CRM", "Retail banking", "CRM", "CRM","CRM");
+        guardarAplicacion("Benchmark Home Banking", "Home Banking","Descripción de Benchmark Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
+        guardarAplicacion("Benchmark Mobile","Mobile Banking","Descripción de Benchmark Mobile", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "MB", "Mobile Banking");
+        guardarAplicacion("CRM","CRM","Descripción de CRM", "Retail banking", "CRM", "CRM","CRM");
     }
 
     private void guardarAplicacion(String id, String nombre, String descripcion, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {

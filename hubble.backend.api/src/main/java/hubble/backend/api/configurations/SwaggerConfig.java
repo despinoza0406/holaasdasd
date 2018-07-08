@@ -35,6 +35,7 @@ public class SwaggerConfig {
     public Docket usersApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("Users")
+                .globalOperationParameters(this.getParameters())
                 .apiInfo(apiInfo())
                 .select().apis(RequestHandlerSelectors.basePackage("hubble.backend.api.controllers"))
                 .paths(regex("/users.*"))
@@ -45,6 +46,7 @@ public class SwaggerConfig {
     public Docket providersApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("Providers")
+                .globalOperationParameters(this.getParameters())
                 .apiInfo(apiInfo())
                 .select().apis(RequestHandlerSelectors.basePackage("hubble.backend.api.controllers"))
                 .paths(regex("/providers.*"))
@@ -68,7 +70,7 @@ public class SwaggerConfig {
         //Adding Header
         ParameterBuilder aParameterBuilder = new ParameterBuilder();
         aParameterBuilder.name("access-token").defaultValue("tokenSwagger").modelRef(new ModelRef("string")).parameterType("header").required(true).build();
-        List<Parameter> aParameters = new ArrayList<Parameter>();
+        List<Parameter> aParameters = new ArrayList<>();
         aParameters.add(aParameterBuilder.build());
         return aParameters;
     }
