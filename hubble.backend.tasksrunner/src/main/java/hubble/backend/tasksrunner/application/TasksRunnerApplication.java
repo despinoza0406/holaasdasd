@@ -98,6 +98,7 @@ public class TasksRunnerApplication {
         siteScopeDataTask.setIntervalSeconds(60 * 5);
 
         scheduler.addTask(siteScopeDataTask);
+        scheduler.addTask(siteScopeDataTask);scheduler.addTask(siteScopeDataTask);scheduler.addTask(siteScopeDataTask);
 
         scheduler.showMenu();
     }
