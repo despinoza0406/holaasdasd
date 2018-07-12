@@ -6,8 +6,10 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
  */
-public class BSM extends ProviderStorage<BSM.Environment, NoConfig> {
+public class BSM extends ProviderStorage<BSM.Environment, BSM.Configuration> {
 
+    
+    
     @Override
     public ProviderStorage fromJson(JsonNode jsonNode) {
         
@@ -26,6 +28,34 @@ public class BSM extends ProviderStorage<BSM.Environment, NoConfig> {
         return this;
     }
 
+     public static class Configuration {
+
+        private String businessApplicationFieldName;
+
+        public Configuration() {
+        }
+
+        public Configuration(String businessApplicationFieldName) {           
+            this.businessApplicationFieldName = businessApplicationFieldName;
+        }
+
+       
+        public String getBusinessApplicationFieldName() {
+            return businessApplicationFieldName;
+        }
+
+        public void setBusinessApplicationFieldName(String businessApplicationFieldName) {
+            this.businessApplicationFieldName = businessApplicationFieldName;
+        }
+
+        public Configuration fromJson(JsonNode jsonNode) {
+
+            this.businessApplicationFieldName = jsonNode.get("businessApplicationFieldName").asText();
+            return this;
+        }
+
+    }
+     
     public static class Environment {
 
         private SoapEndpoint soap;
@@ -81,8 +111,8 @@ public class BSM extends ProviderStorage<BSM.Environment, NoConfig> {
     public BSM() {
     }
 
-    public BSM(boolean enabled, TaskRunner taskRunner, Environment environment) {
-        super("bsm", "BSM", enabled, taskRunner, environment, new NoConfig());
+    public BSM(boolean enabled, TaskRunner taskRunner, Environment environment, Configuration configuration) {
+        super("bsm", "BSM", enabled, taskRunner, environment, configuration);
     }
 
 }
