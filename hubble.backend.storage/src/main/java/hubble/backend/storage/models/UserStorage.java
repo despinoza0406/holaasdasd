@@ -119,13 +119,13 @@ public class UserStorage {
         return "UserStorage{" + "id=" + id + ", email=" + email + ", name=" + name + ", password=" + password + '}';
     }
 
-    public UserStorage edit(String email, String name, Set<String> roles, Set<ApplicationStorage> applications, Optional<char[]> password) {
+    public UserStorage edit(String email, String name, Set<String> roles, Set<ApplicationStorage> applications, Optional<String> password) {
         
         this.email = email;
         this.name = name;
 
         if (password.isPresent()) {
-            changePassword(password.get());
+            changePassword(password.get().toCharArray());
         }
 
         this.roles = roles;

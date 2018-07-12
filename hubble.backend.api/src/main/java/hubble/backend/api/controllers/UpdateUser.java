@@ -20,6 +20,9 @@ public class UpdateUser extends NewUser{
     public void setId(String id) {
         this.id = id;
     }
+
+   
+    
     
     public UpdateUser(String id, String email, String name, String password, Set<String> roles, Set<String> applications) {
        super(email, name, password, roles, applications);
@@ -27,14 +30,14 @@ public class UpdateUser extends NewUser{
        
     }
 
-    public void validateUpdate()
+    public void validateUpdate(boolean validatePass)
     {
         if (!hasId()) {
             throw new RuntimeException("Debe indicarse el id.");
         }
         
         /*Termina validando los campos comunes*/
-        this.validate();
+        this.validate(validatePass);
     }
     
      public boolean hasId() {

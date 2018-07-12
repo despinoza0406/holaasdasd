@@ -1,6 +1,7 @@
 package hubble.backend.api.controllers;
 
 import hubble.backend.business.services.models.Roles;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -66,17 +67,17 @@ public class NewUser {
         this.applications = applications;
     }
 
-    public void validate() {
+    public void validate(boolean validatePass) {
         if (!hasName()) {
             throw new RuntimeException("Debe indicarse el nombre.");
         }
         if (!hasEmail()) {
             throw new RuntimeException("Debe indicarse el correo electrónico.");
         }
-        if (!hasPassword()) {
+        if (validatePass && !hasPassword()) {
             throw new RuntimeException("Debe indicarse la contraseña.");
         }
-        if (!passwordIsValid()) {
+        if (validatePass && !passwordIsValid()) {
             throw new RuntimeException("La contraseña debe tener al menos 10 caracteres, letras, y números.");
         }
         validateRoles();

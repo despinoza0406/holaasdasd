@@ -48,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Transactional
     @Override
-    public void edit(String id, String email, String name, Set<Roles> roles, Set<String> applications, Optional<char[]> password) {
+    public void edit(String id, String email, String name, Set<Roles> roles, Set<String> applications, Optional<String> password) {
 
         UserStorage user = users.findByEmail(email).orElse(null);
 

@@ -63,7 +63,7 @@ public class UsersController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity post(@RequestBody NewUser user) {
         try {
-            user.validate();
+            user.validate(Boolean.TRUE);
         } catch (Throwable t) {
             return errorResponse(HttpStatus.BAD_REQUEST, t, "Validation error");
         }
@@ -89,7 +89,7 @@ public class UsersController {
     public ResponseEntity edit(@RequestBody UpdateUser updateUser) {
 
         try {
-            updateUser.validateUpdate();
+            updateUser.validateUpdate(updateUser.getPassword() != null);
         } catch (Throwable t) {
             return errorResponse(HttpStatus.BAD_REQUEST, t, "Validation error");
         }
@@ -101,7 +101,7 @@ public class UsersController {
                     updateUser.getName(),
                     updateUser.getRoles().stream().map(Roles::valueOf).collect(toSet()),
                     updateUser.getApplications(),
-                    Optional.of(updateUser.getPassword().toCharArray()));
+                    Optional.ofNullable(updateUser.getPassword()));
 
             return new ResponseEntity<>(HttpStatus.OK);
 
