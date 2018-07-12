@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
  */
-public class AppPulse extends ProviderStorage<AppPulse.Environment, NoConfig> {
+public class AppPulse extends ProviderStorage<AppPulse.Environment, AppPulse.Configuration> {
 
     @Override
     public ProviderStorage fromJson(JsonNode jsonNode) {
@@ -24,6 +24,34 @@ public class AppPulse extends ProviderStorage<AppPulse.Environment, NoConfig> {
         this.getTaskRunner().fromJson(taskRunner);
 
         return this;
+
+    }
+    
+     public static class Configuration {
+
+        private String businessApplicationFieldName;
+
+        public Configuration() {
+        }
+
+        public Configuration(String businessApplicationFieldName) {           
+            this.businessApplicationFieldName = businessApplicationFieldName;
+        }
+
+       
+        public String getBusinessApplicationFieldName() {
+            return businessApplicationFieldName;
+        }
+
+        public void setBusinessApplicationFieldName(String businessApplicationFieldName) {
+            this.businessApplicationFieldName = businessApplicationFieldName;
+        }
+
+        public Configuration fromJson(JsonNode jsonNode) {
+
+            this.businessApplicationFieldName = jsonNode.get("businessApplicationFieldName").asText();
+            return this;
+        }
 
     }
 
@@ -80,8 +108,8 @@ public class AppPulse extends ProviderStorage<AppPulse.Environment, NoConfig> {
     public AppPulse() {
     }
 
-    public AppPulse(boolean enabled, TaskRunner taskRunner, Environment environment) {
-        super("apppulse", "AppPulse", enabled, taskRunner, environment, new NoConfig());
+    public AppPulse(boolean enabled, TaskRunner taskRunner, Environment environment, Configuration configuration) {
+        super("apppulse", "AppPulse", enabled, taskRunner, environment, configuration);
     }
 
 }

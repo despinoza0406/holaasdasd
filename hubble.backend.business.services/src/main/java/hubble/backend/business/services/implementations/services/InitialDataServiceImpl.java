@@ -41,23 +41,23 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class InitialDataServiceImpl implements InitialDataService {
-
+    
     private static final String ADMIN_EMAIL = "admin@tsoftlatam.com";
     private static final TaskRunner EVERY_DAY_AT_9 = new TaskRunner(
-        true,
-        new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.DAYLY)
+            true,
+            new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.DAYLY)
     );
     private final UsersRepository users;
     private final ProvidersRepository providers;
     private final ApplicationRepository applications;
-
+    
     @Autowired
     public InitialDataServiceImpl(UsersRepository users, ProvidersRepository providers, ApplicationRepository applications) {
         this.users = users;
         this.providers = providers;
         this.applications = applications;
     }
-
+    
     @Transactional
     @Override
     public void createData() {
@@ -65,24 +65,24 @@ public class InitialDataServiceImpl implements InitialDataService {
         configureProviders();
         configureApplications();
     }
-
+    
     private void createAdminUser() {
         if (!exists(adminSample())) {
             users.save(admin());
         }
     }
-
+    
     private void configureApplications() {
-        guardarAplicacion("Benchmark Home Banking", "Home Banking","Descripción de Benchmark Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
-        guardarAplicacion("Benchmark Mobile","Mobile Banking","Descripción de Benchmark Mobile", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "MB", "Mobile Banking");
-        guardarAplicacion("CRM","CRM","Descripción de CRM", "Retail banking", "CRM", "CRM","CRM");
+        guardarAplicacion("Benchmark Home Banking", "Home Banking", "Descripción de Benchmark Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
+        guardarAplicacion("Benchmark Mobile", "Mobile Banking", "Descripción de Benchmark Mobile", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "MB", "Mobile Banking");
+        guardarAplicacion("CRM", "CRM", "Descripción de CRM", "Retail banking", "CRM", "CRM", "CRM");
     }
-
+    
     private void guardarAplicacion(String id, String nombre, String descripcion, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
         Threashold th = new Threashold(1d, 2, 5d);
         applications.save(createApplicationStorage(id, nombre, descripcion, th, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope));
     }
-
+    
     private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, Threashold th, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
         return new ApplicationStorage(
                 id,
@@ -90,38 +90,38 @@ public class InitialDataServiceImpl implements InitialDataService {
                 descripcion,
                 true,
                 new KPIs(
-                new Tasks(true, th, th, th, ApplicationInProvider.standard(nombreEnPPM)),
-                new Defects(true, th, th, th, ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
-                new Availavility(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                new Performance(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                new Events(true, th, th, th, th, ApplicationInProvider.standard(""))),
+                        new Tasks(true, th, th, th, ApplicationInProvider.standard(nombreEnPPM)),
+                        new Defects(true, th, th, th, ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
+                        new Availavility(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
+                        new Performance(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
+                        new Events(true, th, th, th, th, ApplicationInProvider.standard(""))),
                 true
         );
     }
-
+    
     private boolean exists(UserStorage adminSample) {
         return users.findOne(Example.of(adminSample)) != null;
     }
-
+    
     private UserStorage adminSample() {
         UserStorage sample = new UserStorage();
         sample.setEmail(ADMIN_EMAIL);
         return sample;
     }
-
+    
     private UserStorage admin() {
         
-         Threashold th = new Threashold(1d, 2, 5d);
-         
+        Threashold th = new Threashold(1d, 2, 5d);
+        
         return new UserStorage(
-            ADMIN_EMAIL,
-            "Administrator",
-            "administrator".toCharArray(),
-            new HashSet<>(asList(Roles.ADMINISTRATOR.name())),
-            new HashSet<>()
+                ADMIN_EMAIL,
+                "Administrator",
+                "administrator".toCharArray(),
+                new HashSet<>(asList(Roles.ADMINISTRATOR.name())),
+                new HashSet<>()
         );
     }
-
+    
     private void configureProviders() {
         configureALM();
         configureAppPulse();
@@ -130,108 +130,110 @@ public class InitialDataServiceImpl implements InitialDataService {
         configurePPM();
         configureSiteScope();
     }
-
+    
     private void configureALM() {
         if (providers.alm() == null) {
             providers.save(defaultALM());
         }
     }
-
+    
     private ALM defaultALM() {
         return new ALM(
-            true,
-            EVERY_DAY_AT_9,
-            new ALM.Environment("10.10.20.170", 8080, "matias.lapalma", "", "TSAR_SOFTWAREFACTORY", "HUBBLE"),
-            new ALM.Configuration(
-                "project",
-                new ALM.Configuration.Status("status", new HashSet<>(asList("Nuevo", "Abierto", "Reabierto"))),
-                "project",
-                new ALM.Configuration.Provider("Alm", "Alm Tsoft")
-            )
+                true,
+                EVERY_DAY_AT_9,
+                new ALM.Environment("10.10.20.170", 8080, "matias.lapalma", "", "TSAR_SOFTWAREFACTORY", "HUBBLE"),
+                new ALM.Configuration(
+                        "project",
+                        new ALM.Configuration.Status("status", new HashSet<>(asList("Nuevo", "Abierto", "Reabierto"))),
+                        "project",
+                        new ALM.Configuration.Provider("Alm", "Alm Tsoft")
+                )
         );
     }
-
+    
     private void configureAppPulse() {
         if (providers.appPulse() == null) {
             providers.save(defaultAppPulse());
         }
     }
-
+    
     private AppPulse defaultAppPulse() {
         return new AppPulse(
-            true,
-            EVERY_DAY_AT_9,
-            new AppPulse.Environment(
-                "https://apppulse-active.saas.hpe.com/openapi/rest/v1/949143007/",
-                "949143007#C1",
-                "d3e5ad40-4eca-48d0-9db0-a410f76b45e7"
-            )
+                true,
+                EVERY_DAY_AT_9,
+                new AppPulse.Environment(
+                        "https://apppulse-active.saas.hpe.com/openapi/rest/v1/949143007/",
+                        "949143007#C1",
+                        "d3e5ad40-4eca-48d0-9db0-a410f76b45e7"
+                ),
+                new AppPulse.Configuration("project")
         );
     }
-
+    
     private void configureBSM() {
         if (providers.bsm() == null) {
             providers.save(defaultBSM());
         }
     }
-
+    
     private BSM defaultBSM() {
         return new BSM(
-            true,
-            EVERY_DAY_AT_9,
-            new BSM.Environment(
-                new SoapEndpoint(
-                    "http://t-srvbacapplsar.tsoftglobal.com/topaz/gdeopenapi/services/GdeWsOpenAPI?wsdl",
-                    "http://t-srvbacapplsar.tsoftglobal.com/topaz/gdeopenapi/services/GdeWsOpenAPI"
+                true,
+                EVERY_DAY_AT_9,
+                new BSM.Environment(
+                        new SoapEndpoint(
+                                "http://t-srvbacapplsar.tsoftglobal.com/topaz/gdeopenapi/services/GdeWsOpenAPI?wsdl",
+                                "http://t-srvbacapplsar.tsoftglobal.com/topaz/gdeopenapi/services/GdeWsOpenAPI"
+                        ),
+                        "admin",
+                        "admin"
                 ),
-                "admin",
-                "admin"
-            )
+                new BSM.Configuration("project")
         );
     }
-
+    
     private void configureJira() {
         if (providers.jira() == null) {
             providers.save(jiraDefault());
         }
     }
-
+    
     private Jira jiraDefault() {
         return new Jira(
-            true,
-            EVERY_DAY_AT_9,
-            new Jira.Environment("10.10.20.175", 8888, "andrevigneaux", "r3dem$0023"),
-            new Jira.Configuration("HB", "project")
+                true,
+                EVERY_DAY_AT_9,
+                new Jira.Environment("10.10.20.175", 8888, "andrevigneaux", "r3dem$0023"),
+                new Jira.Configuration("HB", "project")
         );
     }
-
+    
     private void configurePPM() {
         if (providers.ppm() == null) {
             providers.save(ppmDefault());
         }
     }
-
+    
     private PPM ppmDefault() {
         return new PPM(
-            true,
-            EVERY_DAY_AT_9,
-            new PPM.Environment("demoppm.tsoftglobal.com", 8888, "admin", "ppm931"),
-            new PPM.Configuration(
-                "REQ.KNTA_PROGRAM_REFERENCE",
-                "not_defined",
-                new PPM.Configuration.Provider("Ppm", "Ppm Tsoft"),
-                new HashSet<>(asList(30219))
-            )
+                true,
+                EVERY_DAY_AT_9,
+                new PPM.Environment("demoppm.tsoftglobal.com", 8888, "admin", "ppm931"),
+                new PPM.Configuration(
+                        "REQ.KNTA_PROGRAM_REFERENCE",
+                        "not_defined",
+                        new PPM.Configuration.Provider("Ppm", "Ppm Tsoft"),
+                        new HashSet<>(asList(30219))
+                )
         );
     }
-
+    
     private void configureSiteScope() {
         if (providers.ppm() == null) {
             providers.save(siteScopeDefault());
         }
     }
-
+    
     private SiteScope siteScopeDefault() {
-        return new SiteScope(true, EVERY_DAY_AT_9);
+        return new SiteScope(true, EVERY_DAY_AT_9, new SiteScope.Environment("10.10.20.248", 8080, "root", "root"), new SiteScope.Configuration("project"));
     }
 }
