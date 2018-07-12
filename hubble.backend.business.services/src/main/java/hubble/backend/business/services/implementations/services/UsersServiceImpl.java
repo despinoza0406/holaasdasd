@@ -7,6 +7,7 @@ import hubble.backend.storage.models.AuthToken;
 import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.UsersRepository;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -47,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Transactional
     @Override
-    public void edit(String id, String email, String name, char[] password, Set<Roles> roles, Set<String> applications) {
+    public void edit(String id, String email, String name, Set<Roles> roles, Set<String> applications, Optional<char[]> password) {
 
         UserStorage user = users.findByEmail(email).orElse(null);
 
@@ -68,7 +69,7 @@ public class UsersServiceImpl implements UsersService {
             }
         }
 
-        user.edit(email, name, password, roles.stream().map(Roles::name).collect(toSet()), applications.stream().map(this::findApplication).collect(toSet()));
+        user.edit(email, name, roles.stream().map(Roles::name).collect(toSet()), applications.stream().map(this::findApplication).collect(toSet()), password);
         users.save(user);
 
     }

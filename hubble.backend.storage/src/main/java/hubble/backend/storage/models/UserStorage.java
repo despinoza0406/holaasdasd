@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import static java.util.stream.Collectors.toSet;
@@ -118,10 +119,15 @@ public class UserStorage {
         return "UserStorage{" + "id=" + id + ", email=" + email + ", name=" + name + ", password=" + password + '}';
     }
 
-    public UserStorage edit(String email, String name, char[] password, Set<String> roles, Set<ApplicationStorage> applications) {
+    public UserStorage edit(String email, String name, Set<String> roles, Set<ApplicationStorage> applications, Optional<char[]> password) {
+        
         this.email = email;
         this.name = name;
-        changePassword(password);
+
+        if (password.isPresent()) {
+            changePassword(password.get());
+        }
+
         this.roles = roles;
         this.applications = applications;
 
@@ -175,7 +181,7 @@ public class UserStorage {
     private AuthToken newToken() {
         return new AuthToken(UUID.randomUUID(), LocalDateTime.now().plusDays(1));
     }
-    
+
     public boolean validateToken(UUID token) {
         return this.token.isSameToken(token) && !this.token.isExpired();
     }

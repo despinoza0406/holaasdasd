@@ -95,14 +95,14 @@ public class UsersController {
         }
 
         try {
-            
-            users.edit(updateUser.getId(), 
-                    updateUser.getEmail(), 
-                    updateUser.getName(), 
-                    updateUser.getPassword().toCharArray(), 
+
+            users.edit(updateUser.getId(),
+                    updateUser.getEmail(),
+                    updateUser.getName(),
                     updateUser.getRoles().stream().map(Roles::valueOf).collect(toSet()),
-                    updateUser.getApplications());
-            
+                    updateUser.getApplications(),
+                    Optional.of(updateUser.getPassword().toCharArray()));
+
             return new ResponseEntity<>(HttpStatus.OK);
 
         } catch (Throwable t) {
@@ -149,7 +149,7 @@ public class UsersController {
     public ResponseEntity habilitarDeshabilitar(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
         try {
-            
+
             users.enabledDisabled(enabledDisabledEntity.getId(), enabledDisabledEntity.isEnabled());
             return new ResponseEntity<>(HttpStatus.OK);
 
@@ -158,6 +158,5 @@ public class UsersController {
         }
 
     }
-    
-    
+
 }
