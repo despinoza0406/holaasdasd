@@ -6,5 +6,6 @@ public interface JiraConfiguration {
     
     public String getProjectKey();
     public String getApplicationFieldName();
+    public boolean taskEnabled();
     public HashMap<String,String> getValuesToIdMap();
 }

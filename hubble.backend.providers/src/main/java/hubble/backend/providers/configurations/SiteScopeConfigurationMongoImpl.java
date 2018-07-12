@@ -29,7 +29,11 @@ public class SiteScopeConfigurationMongoImpl //implements SiteScopeConfiguration
     //@Override
     public HashMap<String, String> getApplicationValueToIdMap() {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
-                filter((a) -> false || a.isActive()).collect(Collectors.toList());
+                filter((a) -> a.isActive() &&
+                        a.isEnabledTaskRunner() &&
+                        a.getKpis().getEvents().getEnabled() &&
+                        a.getKpis().getEvents().getSiteScope().isEnabled() &&
+                        a.getKpis().getEvents().getSiteScope().isEnabledInTaskRunner()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
             String hubbleName = application.getApplicationName();
@@ -39,6 +43,8 @@ public class SiteScopeConfigurationMongoImpl //implements SiteScopeConfiguration
 
         return mapApplications;
     }
+
+    public boolean taskEnabled(){ return providersRepository.siteScope().isEnabled() && providersRepository.siteScope().getTaskRunner().isEnabled();}
 
     /*private SiteScope.Configuration getConfiguration(){
         return providersRepository.siteScope().getConfiguration();

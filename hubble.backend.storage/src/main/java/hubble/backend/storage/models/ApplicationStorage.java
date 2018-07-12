@@ -21,7 +21,7 @@ public class ApplicationStorage {
     public ApplicationStorage() {
     }
 
-    public ApplicationStorage(String applicationId, String description, String applicationName, boolean active, KPIs kpis, boolean enabledTaskRunner) {
+    public ApplicationStorage(String applicationId, String applicationName, String description, boolean active, KPIs kpis, boolean enabledTaskRunner) {
         this.id = applicationId;
         this.description = description;
         this.applicationId = applicationId;

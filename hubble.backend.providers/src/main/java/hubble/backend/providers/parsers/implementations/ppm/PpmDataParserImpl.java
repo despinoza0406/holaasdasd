@@ -35,27 +35,29 @@ public class PpmDataParserImpl implements PpmDataParser {
 
     @Override
     public void run() {
-        String encodedAuthString = ppmTransport.encodeToBase64(
-                ppmTransport.getEnvironment().getUser(),
-                ppmTransport.getEnvironment().getPassword());
-        List<JSONObject> requestsToBeParsed = new ArrayList();
-        List<JSONObject> detailedRequests = new ArrayList();
-        List<String> requestTypeIds = ppmTransport.getConfiguredRequestTypes(encodedAuthString);
+        if(configuration.taskEnabled()) {
+            String encodedAuthString = ppmTransport.encodeToBase64(
+                    ppmTransport.getEnvironment().getUser(),
+                    ppmTransport.getEnvironment().getPassword());
+            List<JSONObject> requestsToBeParsed = new ArrayList();
+            List<JSONObject> detailedRequests = new ArrayList();
+            List<String> requestTypeIds = ppmTransport.getConfiguredRequestTypes(encodedAuthString);
 
-        for (String id : requestTypeIds) {
-            requestsToBeParsed.addAll(ppmTransport.getRequests(encodedAuthString, id));
-        }
-
-        for (JSONObject request : requestsToBeParsed) {
-            JSONObject reqDetails = ppmTransport.getRequestDetails(encodedAuthString, request.getString("id"));
-            if (reqDetails != null) {
-                detailedRequests.add(reqDetails);
+            for (String id : requestTypeIds) {
+                requestsToBeParsed.addAll(ppmTransport.getRequests(encodedAuthString, id));
             }
-        }
 
-        for (JSONObject detailedRequest : detailedRequests) {
-            WorkItemStorage workItem = this.convert(this.parse(detailedRequest));
-            workItemRepository.save(workItem);
+            for (JSONObject request : requestsToBeParsed) {
+                JSONObject reqDetails = ppmTransport.getRequestDetails(encodedAuthString, request.getString("id"));
+                if (reqDetails != null) {
+                    detailedRequests.add(reqDetails);
+                }
+            }
+
+            for (JSONObject detailedRequest : detailedRequests) {
+                WorkItemStorage workItem = this.convert(this.parse(detailedRequest));
+                workItemRepository.save(workItem);
+            }
         }
     }
 

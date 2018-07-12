@@ -1,11 +1,14 @@
 package hubble.backend.storage.models;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Date;
 import java.util.List;
 
 /**
  * Eventos de SiteScope.
  */
+@Document
 public class EventStorage {
     private String id;
     private Date registeredDate;

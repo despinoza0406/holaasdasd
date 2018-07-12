@@ -1,5 +1,6 @@
 package hubble.backend.providers.parsers.implementations.bsm;
 
+import hubble.backend.providers.configurations.BSMConfiguration;
 import hubble.backend.providers.configurations.mappers.bsm.BsmMapperConfiguration;
 import hubble.backend.providers.models.bsm.BsmProviderModel;
 import hubble.backend.providers.parsers.interfaces.bsm.BsmDataParser;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class BsmParserDataImpl implements BsmDataParser {
 
+    @Autowired
+    private BSMConfiguration configuration;
     private BsmMapperConfiguration mapperConfifuration;
     private List<AvailabilityStorage> availabilitiesStorage;
     private AvailabilityRepository availabilityRepository;
@@ -27,28 +30,31 @@ public class BsmParserDataImpl implements BsmDataParser {
     @Autowired
     public BsmParserDataImpl(
             BsmTransport appPulseActiveTransport,
-            BsmMapperConfiguration mapperConfifuration,
+            BsmMapperConfiguration mapperConfiguration,
             AvailabilityRepository availabilityRepository) {
         this.bsmTransport = appPulseActiveTransport;
-        this.mapperConfifuration = mapperConfifuration;
+        this.mapperConfifuration = mapperConfiguration;
         this.availabilityRepository = availabilityRepository;
             }
 
     @Override
     public void run() {
 
-        SOAPBody data = bsmTransport.getData();
+        if(configuration.taskEnabled()) {
 
-        List<BsmProviderModel> transactions = parse(data);
+            SOAPBody data = bsmTransport.getData();
 
-        if (transactions == null) {
-            return;
+            List<BsmProviderModel> transactions = parse(data);
+
+            if (transactions == null) {
+                return;
+            }
+
+            this.availabilitiesStorage = new ArrayList<>();
+            this.availabilitiesStorage = mapperConfifuration.mapToAvailabilitiesStorage(transactions);
+
+            this.save(availabilitiesStorage);
         }
-
-        this.availabilitiesStorage = new ArrayList<>();
-        this.availabilitiesStorage = mapperConfifuration.mapToAvailabilitiesStorage(transactions);
-
-        this.save(availabilitiesStorage);
     }
 
     @Override

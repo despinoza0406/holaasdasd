@@ -3,6 +3,7 @@ package hubble.backend.providers.models.bsm;
 public class BsmProviderModel {
 
     private String profile_name;
+    private String applicationId;
     private String sztransactionname;
     private String szlocationname;
     private String szstatusname;
@@ -93,4 +94,11 @@ public class BsmProviderModel {
         this.dredthreshold = dredthreshold;
     }
 
+    public String getApplicationId() {
+        return applicationId;
+    }
+
+    public void setApplicationId(String applicationId) {
+        this.applicationId = applicationId;
+    }
 }

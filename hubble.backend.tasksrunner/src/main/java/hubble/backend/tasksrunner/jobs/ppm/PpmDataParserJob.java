@@ -2,6 +2,7 @@ package hubble.backend.tasksrunner.jobs.ppm;
 
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.parsers.interfaces.Parser;
+import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -10,6 +11,7 @@ import org.quartz.SchedulerContext;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class PpmDataParserJob implements ParserJob {
@@ -17,6 +19,11 @@ public class PpmDataParserJob implements ParserJob {
     private Parser parser;
     
     private final Logger logger = LoggerFactory.getLogger(PpmDataParserJob.class);
+
+    @Autowired
+    ProvidersRepository providersRepository;
+
+
 
     public PpmDataParserJob() {
         //This constructor is used by Quartz. DON'T DELETE. CANT SET DEFAULT CONSTRUCTOR.

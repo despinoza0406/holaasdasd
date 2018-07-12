@@ -3,6 +3,7 @@ package hubble.backend.tasksrunner.jobs.alm;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.providers.parsers.interfaces.alm.AlmDataParser;
+import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,12 +11,16 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerContext;
 import org.quartz.SchedulerException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class AlmDataParserJob implements ParserJob{
 
     private Parser almParser;
     private static final Logger logger = Logger.getLogger(AlmDataParserJob.class.getName());
+
+    @Autowired
+    ProvidersRepository providersRepository;
 
     public AlmDataParserJob() {
         //This constructor is used by Quartz. DON'T DELETE. CANT SET DEFAULT CONSTRUCTOR.
@@ -39,8 +44,10 @@ public class AlmDataParserJob implements ParserJob{
         almParser = taskRunnerAppContext.getBean(AlmDataParser.class);
 
         try {
-            almParser.run();
-            DateHelper.lastExecutionDate = DateHelper.getDateNow();
+
+                almParser.run();
+                DateHelper.lastExecutionDate = DateHelper.getDateNow();
+
         } catch (Exception ex) {
             logger.log(Level.SEVERE, null, ex);
         }

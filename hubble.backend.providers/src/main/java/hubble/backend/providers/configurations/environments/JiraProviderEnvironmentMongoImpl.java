@@ -1,12 +1,14 @@
 package hubble.backend.providers.configurations.environments;
 
-import hubble.backend.storage.models.PPM;
+import hubble.backend.storage.models.Jira;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PpmProviderEnviromentMongoImpl implements PpmProviderEnvironment{
+@Primary
+public class JiraProviderEnvironmentMongoImpl implements JiraProviderEnvironment{
 
     @Autowired
     ProvidersRepository providersRepository;
@@ -31,7 +33,8 @@ public class PpmProviderEnviromentMongoImpl implements PpmProviderEnvironment{
         return this.getEnviroment().getPassword();
     }
 
-    private PPM.Environment getEnviroment(){
-        return providersRepository.ppm().getEnvironment();
+    private Jira.Environment getEnviroment(){
+        return providersRepository.jira().getEnvironment();
     }
+
 }

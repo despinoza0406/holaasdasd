@@ -15,5 +15,7 @@ public interface PpmConfiguration {
 
     public String getRequestTypeIds();
 
+    public boolean taskEnabled();
+
     public HashMap<String,String> getApplicationValueToIdMap();
 }

@@ -73,17 +73,17 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
 
     private void configureApplications() {
-        guardarAplicacion("Benchmark Home Banking", "Home Banking","Descripción de Benchmark Home Banking", "Home Banking", "Home Banking", "HB", "Home Banking");
-        guardarAplicacion("Benchmark Mobile","Mobile Banking","Descripción de Benchmark Mobile", "Plan 17 Eje Ingresos Sub Eje Individuos", "Mobile", "MB", "Mobile Banking");
-        guardarAplicacion("CRM","CRM","Descripción de CRM", "Retail banking", "CRM", "CRM","CRM");
+        guardarAplicacion("Benchmark Home Banking", "Home Banking","Descripción de Benchmark Home Banking","Benchmark Home Banking", "Banca por Internet", "Home Banking", "HB", "Home Banking");
+        guardarAplicacion("Benchmark Mobile","Mobile Banking","Descripción de Benchmark Mobile","Benchmark Mobile", "Banca Presencial", "Mobile", "MB", "Mobile Banking");
+        guardarAplicacion("CRM","CRM","Descripción de CRM","CRM", "Retail banking","CRM", "CRM","CRM");
     }
 
-    private void guardarAplicacion(String id, String nombre, String descripcion, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
+    private void guardarAplicacion(String id, String nombre, String descripcion,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
         Threashold th = new Threashold(1d, 2, 5d);
-        applications.save(createApplicationStorage(id, nombre, descripcion, th, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope));
+        applications.save(createApplicationStorage(id, nombre, descripcion, th,nombreEnBSM, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope));
     }
 
-    private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, Threashold th, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
+    private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, Threashold th,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
         return new ApplicationStorage(
                 id,
                 nombre,
@@ -92,9 +92,9 @@ public class InitialDataServiceImpl implements InitialDataService {
                 new KPIs(
                 new Tasks(true, th, th, th, ApplicationInProvider.standard(nombreEnPPM)),
                 new Defects(true, th, th, th, ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
-                new Availavility(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                new Performance(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                new Events(true, th, th, th, th, ApplicationInProvider.standard(""))),
+                new Availavility(true, th, th, th, th, ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
+                new Performance(true, th, th, th, th, ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
+                new Events(true, th, th, th, th, ApplicationInProvider.standard(nombreEnSiteScope))),
                 true
         );
     }
@@ -144,6 +144,7 @@ public class InitialDataServiceImpl implements InitialDataService {
             new ALM.Environment("10.10.20.170", 8080, "matias.lapalma", "", "TSAR_SOFTWAREFACTORY", "HUBBLE"),
             new ALM.Configuration(
                 "project",
+
                 new ALM.Configuration.Status("status", new HashSet<>(asList("Nuevo", "Abierto", "Reabierto"))),
                 "project",
                 new ALM.Configuration.Provider("Alm", "Alm Tsoft")
@@ -166,6 +167,7 @@ public class InitialDataServiceImpl implements InitialDataService {
                 "949143007#C1",
                 "d3e5ad40-4eca-48d0-9db0-a410f76b45e7"
             )
+
         );
     }
 
@@ -200,7 +202,7 @@ public class InitialDataServiceImpl implements InitialDataService {
         return new Jira(
             true,
             EVERY_DAY_AT_9,
-            new Jira.Environment("10.10.20.175", 8888, "andrevigneaux", "r3dem$0023"),
+            new Jira.Environment("10.10.20.175", 8888, "tsoftlatam", "Tsoft2018"),
             new Jira.Configuration("HB", "project")
         );
     }

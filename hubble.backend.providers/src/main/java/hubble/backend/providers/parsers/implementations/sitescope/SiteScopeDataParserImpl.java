@@ -40,15 +40,17 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
 
     @Override
     public void run() {
-        List<String> groups = siteScopeTransport.getApplicationNames();
-        ApplicationStorage application;
-        List<String> groupPaths = siteScopeTransport.getPathsToGroups(groups);
-        List<JSONObject> groupsSnapshots = siteScopeTransport.getGroupsSnapshots(groupPaths);
+        if(configuration.taskEnabled()) {
+            List<String> groups = siteScopeTransport.getApplicationNames();
+            ApplicationStorage application;
+            List<String> groupPaths = siteScopeTransport.getPathsToGroups(groups);
+            List<JSONObject> groupsSnapshots = siteScopeTransport.getGroupsSnapshots(groupPaths);
 
-        for(JSONObject snapshot : groupsSnapshots){
-            EventStorage event = this.convert(this.parse(snapshot));
-            if (!eventRepository.exist(event)) {
-                eventRepository.save(event);
+            for (JSONObject snapshot : groupsSnapshots) {
+                EventStorage event = this.convert(this.parse(snapshot));
+                if (!eventRepository.exist(event)) {
+                    eventRepository.save(event);
+                }
             }
         }
     }
@@ -101,7 +103,7 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
         model.setStatus(runtime.getString("status"));
         model.setName(config.getString("name"));
         model.setDescription(config.getString(("description")));
-        model.setUpdatedDate(this.getDate(config.getString("updated_date")));
+        model.setUpdatedDate(config.getString("updated_date"));
         model.setMonitors(monitors);
         model.setBusinessApplication(config.getString("name"));
         model.setApplicationId(resolveApplicationIdFromConfiguration(model.getBusinessApplication()));

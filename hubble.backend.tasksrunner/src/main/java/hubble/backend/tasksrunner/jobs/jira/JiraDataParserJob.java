@@ -3,6 +3,7 @@ package hubble.backend.tasksrunner.jobs.jira;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.providers.parsers.interfaces.jira.JiraDataParser;
+import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,13 +11,17 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerContext;
 import org.quartz.SchedulerException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class JiraDataParserJob implements ParserJob {
     
     private Parser jiraParser;
     private static final Logger logger = Logger.getLogger(JiraDataParserJob.class.getName());
-    
+
+    @Autowired
+    ProvidersRepository providersRepository;
+
     public JiraDataParserJob() {
         //This constructor is used by Quartz
     }
@@ -49,8 +54,10 @@ public class JiraDataParserJob implements ParserJob {
         this.jiraParser = taskRunnerAppContext.getBean(JiraDataParser.class);
         
         try {
+
             jiraParser.run();
             DateHelper.lastExecutionDate = DateHelper.getDateNow();
+
         } catch(Exception e) {
             logger.log(Level.SEVERE, null, e);
         }

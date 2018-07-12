@@ -33,7 +33,12 @@ public class JiraConfigurationImpl implements JiraConfiguration {
         }
         return appToIdMap;
     }
-    
+
+    @Override
+    public boolean taskEnabled() {
+        return true;
+    }
+
     @Override
     public String getProjectKey() {
             return projectKey;

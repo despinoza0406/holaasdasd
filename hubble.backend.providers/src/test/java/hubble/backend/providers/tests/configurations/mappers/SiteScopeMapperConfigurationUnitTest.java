@@ -31,7 +31,7 @@ public class SiteScopeMapperConfigurationUnitTest {
         when(eventProviderModel.getSummary()).thenReturn("Hubble is so good");
         when(eventProviderModel.getStatus()).thenReturn("Good");
         when(eventProviderModel.getName()).thenReturn("Hubble");
-        when(eventProviderModel.getUpdatedDate()).thenReturn(new Date(999999999));
+        when(eventProviderModel.getUpdatedDate()).thenReturn(new Date(999999999).toString());
         when(eventProviderModel.getType()).thenReturn("Groovy");
         when(eventProviderModel.getDescription()).thenReturn("fake-title");
         when(eventProviderModel.getProviderName()).thenReturn("SiteScope installed on fake place");

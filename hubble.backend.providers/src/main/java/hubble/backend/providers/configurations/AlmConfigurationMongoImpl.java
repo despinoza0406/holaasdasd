@@ -62,6 +62,11 @@ public class AlmConfigurationMongoImpl implements AlmConfiguration {
         return mapApplications;
     }
 
+    @Override
+    public boolean taskEnabled() {
+        return providersRepository.alm().isEnabled() && providersRepository.alm().getTaskRunner().isEnabled();
+    }
+
     private ALM.Configuration getConfiguration(){
         return providersRepository.alm().getConfiguration();
     }

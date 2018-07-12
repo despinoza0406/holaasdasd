@@ -3,6 +3,7 @@ package hubble.backend.providers.parsers.implementations.jira;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hubble.backend.core.utils.EncoderHelper;
+import hubble.backend.providers.configurations.JiraConfiguration;
 import hubble.backend.providers.configurations.mappers.jira.JiraMapperConfiguration;
 import hubble.backend.providers.models.jira.JiraIssueModel;
 import hubble.backend.providers.models.jira.JiraIssuesProviderModel;
@@ -28,6 +29,8 @@ public class JiraDataParserImpl implements JiraDataParser {
     @Autowired
     private JiraMapperConfiguration jiraMapperConfiguration;
     @Autowired
+    private JiraConfiguration configuration;
+    @Autowired
     private IssueRepository issueRepository;
 
     private final Logger logger = LoggerFactory.getLogger(JiraDataParserImpl.class);
@@ -45,33 +48,35 @@ public class JiraDataParserImpl implements JiraDataParser {
 
     @Override
     public void run() {
-        String jiraUser = jiraTransport.getEnvironment().getUser();
-        String jiraPassword = jiraTransport.getEnvironment().getPassword();
-        String encodedAuthString = EncoderHelper.encodeToBase64(jiraUser, jiraPassword);
-        JiraIssuesProviderModel jiraModel;
-        ArrayList<JiraIssueModel> issues;
-        IssueStorage issueStorage;
+        if(configuration.taskEnabled()) {
+            String jiraUser = jiraTransport.getEnvironment().getUser();
+            String jiraPassword = jiraTransport.getEnvironment().getPassword();
+            String encodedAuthString = EncoderHelper.encodeToBase64(jiraUser, jiraPassword);
+            JiraIssuesProviderModel jiraModel;
+            ArrayList<JiraIssueModel> issues;
+            IssueStorage issueStorage;
 
-        jiraTransport.setEncodedCredentials(encodedAuthString);
-        String[] projectsKey = jiraTransport.getConfiguration().getProjectKey().split(",");
-        for(String project : projectsKey) {
-            int startAt = 0;
-            JSONObject response = jiraTransport.getIssuesByProject(project, startAt);
-            int totalIssues = response.getInt("total");
-            int maxResults = response.getInt("maxResults");
+            jiraTransport.setEncodedCredentials(encodedAuthString);
+            String[] projectsKey = jiraTransport.getConfiguration().getProjectKey().split(",");
+            for (String project : projectsKey) {
+                int startAt = 0;
+                JSONObject response = jiraTransport.getIssuesByProject(project, startAt);
+                int totalIssues = response.getInt("total");
+                int maxResults = response.getInt("maxResults");
 
-            do {
-                response = jiraTransport.getIssuesByProject(project, startAt);
-                jiraModel = this.parse(response);
-                issues = jiraModel.getIssues();
+                do {
+                    response = jiraTransport.getIssuesByProject(project, startAt);
+                    jiraModel = this.parse(response);
+                    issues = jiraModel.getIssues();
 
-                for (JiraIssueModel issue : issues) {
-                    issueStorage = jiraMapperConfiguration.mapToIssueStorage(issue);
-                    issueRepository.save(issueStorage);
+                    for (JiraIssueModel issue : issues) {
+                        issueStorage = jiraMapperConfiguration.mapToIssueStorage(issue);
+                        issueRepository.save(issueStorage);
+                    }
+                    startAt = startAt + maxResults;
                 }
-                startAt = startAt + maxResults;
+                while (startAt < totalIssues);
             }
-            while (startAt < totalIssues);
         }
     }
 
