@@ -34,4 +34,9 @@ public class SiteScopeConfigurationImpl implements SiteScopeConfiguration {
         return appToIdMap;
 
     }
+
+    @Override
+    public boolean taskEnabled() {
+        return true;
+    }
 }

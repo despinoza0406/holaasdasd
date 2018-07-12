@@ -29,7 +29,11 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
     @Override
     public HashMap<String,String> getValuesToIdMap() {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
-                filter((a) -> false || a.isActive()).collect(Collectors.toList());
+                filter((a) -> a.isActive() &&
+                        a.isEnabledTaskRunner() &&
+                        a.getKpis().getDefects().getEnabled() &&
+                        a.getKpis().getDefects().getJira().isEnabled() &&
+                        a.getKpis().getDefects().getJira().isEnabledInTaskRunner()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
             String hubbleName = application.getApplicationName();
@@ -44,6 +48,8 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
     public String getProjectKey() {
         return this.getConfiguration().getProjectKey();
     }
+
+    public boolean taskEnabled() { return providersRepository.jira().isEnabled() && providersRepository.jira().getTaskRunner().isEnabled();}
 
     private Jira.Configuration getConfiguration(){
         return providersRepository.jira().getConfiguration();

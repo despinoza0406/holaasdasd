@@ -2,6 +2,7 @@ package hubble.backend.tasksrunner.jobs.sitescope;
 
 import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.providers.parsers.interfaces.sitescope.SiteScopeDataParser;
+import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -9,6 +10,7 @@ import org.quartz.SchedulerContext;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class SiteScopeDataParserJob implements ParserJob {
@@ -16,6 +18,9 @@ public class SiteScopeDataParserJob implements ParserJob {
     private Parser parser;
 
     private final Logger logger = LoggerFactory.getLogger(SiteScopeDataParserJob.class);
+
+    @Autowired
+    ProvidersRepository providersRepository;
 
     public SiteScopeDataParserJob() {
         //This constructor is used by Quartz. DON'T DELETE. CANT SET DEFAULT CONSTRUCTOR.

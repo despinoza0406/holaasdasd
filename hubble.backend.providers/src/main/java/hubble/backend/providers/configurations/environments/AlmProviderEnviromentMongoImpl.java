@@ -4,9 +4,11 @@ package hubble.backend.providers.configurations.environments;
 import hubble.backend.storage.models.ALM;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
+@Primary
 public class AlmProviderEnviromentMongoImpl implements AlmProviderEnvironment{
 
     @Autowired

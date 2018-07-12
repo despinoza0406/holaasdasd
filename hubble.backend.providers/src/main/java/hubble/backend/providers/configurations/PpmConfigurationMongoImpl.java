@@ -61,7 +61,11 @@ public class PpmConfigurationMongoImpl implements PpmConfiguration{
     @Override
     public HashMap<String,String> getApplicationValueToIdMap() {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
-                                                filter((a) -> false || a.isActive()).collect(Collectors.toList());
+                                                filter((a) ->a.isActive() &&
+                                                        a.isEnabledTaskRunner() &&
+                                                        a.getKpis().getTasks().getEnabled() &&
+                                                        a.getKpis().getTasks().getPpm().isEnabled() &&
+                                                        a.getKpis().getTasks().getPpm().isEnabledInTaskRunner()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
             String hubbleName = application.getApplicationName();
@@ -72,6 +76,8 @@ public class PpmConfigurationMongoImpl implements PpmConfiguration{
         return mapApplications;
 
     }
+
+    public boolean taskEnabled(){ return providersRepository.ppm().isEnabled() && providersRepository.ppm().getTaskRunner().isEnabled();}
 
     private PPM.Configuration getConfiguration(){
         return providersRepository.ppm().getConfiguration();

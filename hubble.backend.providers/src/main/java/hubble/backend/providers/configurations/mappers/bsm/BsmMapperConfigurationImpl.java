@@ -1,18 +1,28 @@
 package hubble.backend.providers.configurations.mappers.bsm;
 
+import hubble.backend.providers.configurations.BSMConfiguration;
 import hubble.backend.providers.models.bsm.BsmProviderModel;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.AvailabilityStorage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import javax.xml.soap.SOAPBody;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BsmMapperConfigurationImpl implements BsmMapperConfiguration {
 
     private ModelMapper mapper;
+    @Autowired
+    private BSMConfiguration configuration;
+
+    private final Logger logger = LoggerFactory.getLogger(BsmMapperConfiguration.class);
 
     public BsmMapperConfigurationImpl() {
         mapper = new ModelMapper();
@@ -89,6 +99,7 @@ public class BsmMapperConfigurationImpl implements BsmMapperConfiguration {
             newBsmProviderModel.setDresponsetime((int) Double.parseDouble(record[7]));
             newBsmProviderModel.setDgreenthreshold((int) Double.parseDouble(record[8]));
             newBsmProviderModel.setDredthreshold((int) Double.parseDouble(record[9]));
+            newBsmProviderModel.setApplicationId(resolveApplicationIdFromConfiguration(newBsmProviderModel.getProfile_name()));
 
             transactions.add(newBsmProviderModel);
         }
@@ -118,6 +129,21 @@ public class BsmMapperConfigurationImpl implements BsmMapperConfiguration {
         }
 
         return transactions;
+    }
+
+    private String resolveApplicationIdFromConfiguration(String applicationName) {
+        HashMap<String,String> applicationsIdMap = configuration.getApplicationValueToIdMap();
+        Set<String> keySet = applicationsIdMap.keySet();
+        for (String key : keySet) {
+            if (applicationName.equals(applicationsIdMap.get(key))) {
+                return key;
+            }
+        }
+
+        logger.warn("BSM field for applications and ids map not correctly"
+                + " configured in properties file for specified app name: "
+                + applicationName);
+        return null;
     }
 
 }

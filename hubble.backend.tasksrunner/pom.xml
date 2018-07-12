@@ -126,8 +126,6 @@
                             </includes>
                         </resource>
                     </resources>
-                    <repository>spotify/foobar</repository>
-                    <tag>${project.version}</tag>
                 </configuration>
                 <executions>
                     <execution>

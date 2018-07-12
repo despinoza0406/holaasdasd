@@ -4,10 +4,12 @@ package hubble.backend.providers.configurations.environments;
 import hubble.backend.storage.models.AppPulse;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AppPulseProviderEnviromentMongoImpl implements ProviderEnvironment  {
+@Primary
+public class AppPulseProviderEnvironmentMongoImpl implements ProviderEnvironment  {
 
 
     @Autowired

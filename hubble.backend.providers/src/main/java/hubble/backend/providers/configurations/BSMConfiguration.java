@@ -2,8 +2,7 @@ package hubble.backend.providers.configurations;
 
 import java.util.HashMap;
 
-public interface SiteScopeConfiguration {
-    public String getApplicationFieldName();
+public interface BSMConfiguration {
+    public  boolean taskEnabled();
     public HashMap<String,String> getApplicationValueToIdMap();
-    public boolean taskEnabled();
 }

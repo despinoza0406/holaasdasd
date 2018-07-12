@@ -9,9 +9,8 @@ public interface AlmConfiguration {
     public String getTransactionFieldName();
     public String getProviderOrigin();
     public String getProviderName();
+    public boolean taskEnabled();
     public Set<String> getStatusOpenValues();
     public HashMap<String,String> getApplicationValueToIdMap();
 
-    class JiraConfigurationMongoImpl {
-    }
 }
