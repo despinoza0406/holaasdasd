@@ -10,7 +10,7 @@ public class SiteScopeEventProviderModel {
     private String status;
     private String name;
     private String description;
-    private String updatedDate;
+    private Date updatedDate;
     private List<Monitor> monitors;
     private String businessApplication;
     private String businessApplicationId;
@@ -72,11 +72,11 @@ public class SiteScopeEventProviderModel {
         this.providerOrigin = providerOrigin;
     }
 
-    public String getUpdatedDate() {
+    public Date getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(String updatedDate) {
+    public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
     }
 

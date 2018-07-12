@@ -103,7 +103,7 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
         model.setStatus(runtime.getString("status"));
         model.setName(config.getString("name"));
         model.setDescription(config.getString(("description")));
-        model.setUpdatedDate(config.getString("updated_date"));
+        model.setUpdatedDate(this.getDate(config.getString("updated_date")));
         model.setMonitors(monitors);
         model.setBusinessApplication(config.getString("name"));
         model.setApplicationId(resolveApplicationIdFromConfiguration(model.getBusinessApplication()));

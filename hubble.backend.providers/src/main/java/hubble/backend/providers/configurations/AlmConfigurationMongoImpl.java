@@ -51,7 +51,11 @@ public class AlmConfigurationMongoImpl implements AlmConfiguration {
 
     public HashMap<String,String> getApplicationValueToIdMap() {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
-                filter((a) -> false || a.isActive()).collect(Collectors.toList());
+                filter((a) -> a.isActive() &&
+                        a.isEnabledTaskRunner() &&
+                        a.getKpis().getDefects().getEnabled() &&
+                        a.getKpis().getDefects().getAlm().isEnabled() &&
+                        a.getKpis().getDefects().getAlm().isEnabledInTaskRunner()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
             String hubbleName = application.getApplicationName();
