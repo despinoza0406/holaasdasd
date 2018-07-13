@@ -25,6 +25,8 @@ public interface AvailabilityService extends
 
     public List<Integer> getDistValuesLastHour(String applicationId);
 
+    public List<Integer> getDistValues(String applicationId, String period);
+
     public double calculateHealthIndexKPILastHour(ApplicationStorage application);
 
     public double calculateHealthIndexKPI(ApplicationStorage applicationStorage, String periodo);

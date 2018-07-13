@@ -3,9 +3,10 @@ package hubble.backend.providers.configurations.environments;
 import hubble.backend.storage.models.SiteScope;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-/*
+import org.springframework.stereotype.Component;
+
 @Component
-public class SiteScopeProviderEnviromentMongoImpl implements SiteScopeProviderEnvironment{
+public class SiteScopeProviderEnvironmentMongoImpl implements SiteScopeProviderEnvironment{
 
     @Autowired
     ProvidersRepository providersRepository;
@@ -17,12 +18,12 @@ public class SiteScopeProviderEnviromentMongoImpl implements SiteScopeProviderEn
 
     @Override
     public String getPort() {
-        return this.getEnviroment().getPort();
+        return String.valueOf(this.getEnviroment().getPort());
     }
 
     @Override
     public String getUser() {
-        return this.getEnviroment().getUser();
+        return this.getEnviroment().getUsername();
     }
 
     @Override
@@ -30,8 +31,8 @@ public class SiteScopeProviderEnviromentMongoImpl implements SiteScopeProviderEn
         return this.getEnviroment().getPassword();
     }
 
-    private SiteScope getEnviroment(){
-        return new SiteScope();//providersRepository.siteScope().getEnvironment();
+    private SiteScope.Environment getEnviroment(){
+        return providersRepository.siteScope().getEnvironment();
     }
 
-}*/
+}

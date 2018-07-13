@@ -10,7 +10,7 @@ import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 @ServletComponentScan
-public class    HubbleBackendAPIApplication {
+public class  HubbleBackendAPIApplication {
 
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(HubbleBackendAPIApplication.class, args);

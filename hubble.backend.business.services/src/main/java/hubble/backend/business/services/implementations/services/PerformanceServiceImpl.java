@@ -236,4 +236,21 @@ public class PerformanceServiceImpl implements PerformanceService {
         }
         return distValuesInt;
     }
+
+    @Override
+    public List<Integer> getDistValues(String id, String periodo) {
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            periodo = "hora";
+        }
+
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id,startDate,endDate);
+        List<Integer> distValuesInt = new ArrayList<>();
+        for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
+            distValuesInt.add((int) availabilityStorage.getResponseTime());
+        }
+        return distValuesInt;
+    }
 }

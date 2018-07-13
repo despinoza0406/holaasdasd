@@ -17,6 +17,8 @@ public interface IssueService extends ServiceBase<Issue>,
 
     List<Integer> getDistValuesLastDay(String id);
 
+    List<Integer> getDistValues(String id,String periodo);
+
     double calculateHistoryLastDayKpiByApplication(ApplicationStorage application);
 
     double calculateHistoryKPIByApplication(ApplicationStorage application,String periodo);

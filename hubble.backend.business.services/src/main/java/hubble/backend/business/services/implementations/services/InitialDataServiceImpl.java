@@ -80,7 +80,10 @@ public class InitialDataServiceImpl implements InitialDataService {
     
     private void guardarAplicacion(String id, String nombre, String descripcion,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
         Threashold th = new Threashold(1d, 2, 5d);
-        applications.save(createApplicationStorage(id, nombre, descripcion, th,nombreEnBSM, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope));
+        ApplicationStorage application = createApplicationStorage(id, nombre, descripcion, th,nombreEnBSM, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope);
+        if(applications.exist(application)) {
+            applications.save(application);
+        }
     }
     
     private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, Threashold th,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
@@ -92,9 +95,9 @@ public class InitialDataServiceImpl implements InitialDataService {
                 new KPIs(
                         new Tasks(true, th, th, th, ApplicationInProvider.standard(nombreEnPPM)),
                         new Defects(true, th, th, th, ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
-                        new Availavility(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                        new Performance(true, th, th, th, th, ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                        new Events(true, th, th, th, th, ApplicationInProvider.standard(""))),
+                        new Availavility(true, th, th, th, th, ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
+                        new Performance(true, th, th, th, th, ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
+                        new Events(true, th, th, th, th, ApplicationInProvider.standard(nombreEnSiteScope))),
                 true
         );
     }
@@ -229,7 +232,7 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
     
     private void configureSiteScope() {
-        if (providers.ppm() == null) {
+        if (providers.siteScope() == null) {
             providers.save(siteScopeDefault());
         }
     }

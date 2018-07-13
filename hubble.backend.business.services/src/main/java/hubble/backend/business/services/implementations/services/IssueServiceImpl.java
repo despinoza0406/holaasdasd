@@ -136,6 +136,21 @@ public class IssueServiceImpl implements IssueService {
         return distValuesInt;
     }
 
+    @Override
+    public List<Integer> getDistValues(String id,String periodo) {
+
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+        List<IssueStorage> issuesStorage =
+                issueRepository.findIssuesByApplicationIdBetweenDates(id,startDate,endDate);
+        List<Integer> distValuesInt = new ArrayList<>();
+        for (IssueStorage issue : issuesStorage) {
+            float criticity = (issue.getPriority() + issue.getSeverity()) / 2;
+            distValuesInt.add(calculateCriticityForDashboardTwo(criticity));
+        }
+        return distValuesInt;
+    }
+
     private Integer calculateCriticityForDashboardTwo(float criticity){
         if(criticity >= 4){
             return 1;

@@ -167,14 +167,14 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     @Override
     public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id,String period) {
         BusinessApplicationFrontend businessApplicationFrontend = getBusinessApplicationFrontend(id,period);
-        setDistValues(businessApplicationFrontend.getKpis(), id);
+        setDistValues(businessApplicationFrontend.getKpis(), id,period);
         return businessApplicationFrontend;
     }
 
-    private void setDistValues(List<KpiFrontend> kpis, String id) {
+    private void setDistValues(List<KpiFrontend> kpis, String id,String period) {
         List<DistValues> distValues;
         for (KpiFrontend kpi : kpis) {
-            distValues = getDistValuesOf(kpi.getKpiName(), id);
+            distValues = getDistValuesOf(kpi.getKpiName(), id,period);
             kpi.setDistribution(distValues);
         }
     }
@@ -290,24 +290,24 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         return average / (double) kpis.size();
     }
 
-    private List<DistValues> getDistValuesOf(String kpiName, String id) {
+    private List<DistValues> getDistValuesOf(String kpiName, String id,String period) {
         List<DistValues> distValues;
         List<Integer> distValuesInt;
         switch (kpiName) {
             case "Disponibilidad":
-                distValuesInt = availabilityService.getDistValuesLastHour(id);
+                distValuesInt = availabilityService.getDistValues(id,period);
                 break;
             case "Performance":
-                distValuesInt = performanceService.getDistValuesLastHour(id);
+                distValuesInt = performanceService.getDistValues(id,period);
                 break;
             case "Incidencias":
-                distValuesInt = issueService.getDistValuesLastDay(id);
+                distValuesInt = issueService.getDistValues(id,period);
                 break;
             case "Tareas":
-                distValuesInt = workItemService.getDistValuesLastDay(id);
+                distValuesInt = workItemService.getDistValues(id,period);
                 break;
             case "Eventos":
-                distValuesInt = eventService.getDistValuesLastHour(id);
+                distValuesInt = eventService.getDistValues(id,period);
                 break;
             default:
                 distValuesInt = new ArrayList<>();

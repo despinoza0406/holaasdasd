@@ -7,6 +7,7 @@ import hubble.backend.business.services.models.Event;
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.core.utils.CalendarHelper;
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.repositories.EventRepository;
@@ -98,6 +99,26 @@ public class EventServiceImpl implements EventService {
     public List<Integer> getDistValuesLastHour(String id) {
         List<EventStorage> eventsStorage =
                 eventRepository.findEventsByApplicationIdAndDifferentStatusLastHour(id, "Good");
+        List<Integer> distValuesInt = new ArrayList<>();
+        for (EventStorage eventStorage : eventsStorage){
+            distValuesInt.add((int) eventStorage.getSeverityPoints());
+        }
+        return distValuesInt;
+    }
+
+    @Override
+    public List<Integer> getDistValues(String id,String periodo) {
+
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            periodo = "hora";
+        }
+
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+
+        List<EventStorage> eventsStorage =
+                eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(id,startDate,endDate, "Good");
         List<Integer> distValuesInt = new ArrayList<>();
         for (EventStorage eventStorage : eventsStorage){
             distValuesInt.add((int) eventStorage.getSeverityPoints());

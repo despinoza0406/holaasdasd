@@ -152,6 +152,25 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
+    public List<Integer> getDistValues(String applicationId,String period) {
+
+        if (period.equals("default")){ //esto se hace por como funciona el date helper
+            period = "hora";
+        }
+
+        Date endDate = DateHelper.getEndDate(period);
+        Date startDate = DateHelper.getStartDate(period);
+
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(applicationId,startDate,endDate);
+        List<Integer> distValuesInt = new ArrayList<>();
+        for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
+            distValuesInt.add(availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1);
+        }
+        return distValuesInt;
+    }
+
+    @Override
     public double calculateHealthIndexKPI(ApplicationStorage application,String periodo) {
 
         Threashold threshold = application.getKpis().getAvailability().getThreashold(periodo);
@@ -169,7 +188,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
             totalOk = totalOk + (availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1);
         }
 
-        double n = totalOk / (double) availabilityStorageList.size() * 100d;
+        double n = (totalOk * 100d) / (double) availabilityStorageList.size() ;
         double warningThreshold = threshold.getWarning();
         double okThreshhold = threshold.getOk();
 

@@ -9,6 +9,7 @@ import hubble.backend.business.services.models.WorkItem;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;
 import hubble.backend.core.utils.CalendarHelper;
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.WorkItemStorage;
 import hubble.backend.storage.repositories.WorkItemRepository;
@@ -104,6 +105,21 @@ public class WorkItemServiceImpl implements WorkItemService {
     public List<Integer> getDistValuesLastDay(String id) {
         List<WorkItemStorage> workItemsStorage =
                 workItemRepository.findWorkItemsByApplicationIdAndStatusLastDay(id, "IN_PROGRESS");
+        List<Integer> distValuesInt = new ArrayList<>();
+        for (WorkItemStorage workItemStorage : workItemsStorage){
+            distValuesInt.add((int) workItemStorage.getDeflectionDays());
+        }
+        return distValuesInt;
+    }
+
+    @Override
+    public List<Integer> getDistValues(String id,String periodo) {
+
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        List<WorkItemStorage> workItemsStorage =
+                workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(id,startDate,endDate, "IN_PROGRESS");
         List<Integer> distValuesInt = new ArrayList<>();
         for (WorkItemStorage workItemStorage : workItemsStorage){
             distValuesInt.add((int) workItemStorage.getDeflectionDays());
