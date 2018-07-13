@@ -1,8 +1,8 @@
 package hubble.backend.core.utils;
 
 public class CalculationHelper {
-    private final static double criticalIndex = 6;
-    private final static double warningIndex = 8;
+    private static double criticalIndex = 6;
+    private static double warningIndex = 8;
     private final static double minCriticalIndex = 1;
     private final static double okIndex = 10;
     private final static double dispWarningIndex = 6, dispCriticalIndex = 3;
@@ -37,5 +37,21 @@ public class CalculationHelper {
 
     public static double calculateDispCriticalHealthIndex(double n, double maxThreshold, double minThreshold) {
         return ( (n - minThreshold) / (maxThreshold - minThreshold) ) * (dispCriticalIndex - minCriticalIndex) + minCriticalIndex;
+    }
+
+    public static double getCriticalIndex() {
+        return criticalIndex;
+    }
+
+    public static double getWarningIndex() {
+        return warningIndex;
+    }
+
+    public static void setCriticalIndex(double criticalIndex) {
+        CalculationHelper.criticalIndex = criticalIndex;
+    }
+
+    public static void setWarningIndex(double warningIndex) {
+        CalculationHelper.warningIndex = warningIndex;
     }
 }
