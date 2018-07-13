@@ -101,7 +101,6 @@ public class ApplicationsController {
     public ResponseEntity habilitarDeshabilitarTaskRunner(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
         try {
-
             applicationService.enabledDisabledTaskRunner(enabledDisabledEntity.getId(), enabledDisabledEntity.isEnabled());
             return new ResponseEntity<>(HttpStatus.OK);
 
