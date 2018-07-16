@@ -27,7 +27,6 @@ public class BsmMapperConfigurationImpl implements BsmMapperConfiguration {
     public BsmMapperConfigurationImpl() {
         mapper = new ModelMapper();
         this.mapper.addMappings(new AvailabilityPropertyMap());
-        this.mapper.addMappings(new ApplicationPropertyMap());
     }
 
     @Override
