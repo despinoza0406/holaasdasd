@@ -332,9 +332,9 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     @Override
-    public List<BusinessApplicationLigth> getApplicationsLigth() {
+    public List<BusinessApplicationLigth> getApplicationsLigth(boolean includeInactives) {
         
-        List<ApplicationStorage> applicationDtoList = applicationService.getAll();
+        List<ApplicationStorage> applicationDtoList = applicationService.getAll().stream().filter((a) -> includeInactives || a.isActive()).collect(toList());
         return applicationMapper.mapToBusinessApplicationLigthList(applicationDtoList);
         
     }

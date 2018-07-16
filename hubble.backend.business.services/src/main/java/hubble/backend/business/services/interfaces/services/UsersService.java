@@ -1,5 +1,6 @@
 package hubble.backend.business.services.interfaces.services;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import hubble.backend.storage.models.AuthToken;
 import hubble.backend.business.services.models.Roles;
 import hubble.backend.storage.models.UserStorage;
@@ -22,5 +23,9 @@ public interface UsersService {
     AuthToken refreshToken(String email, UUID token);
     
     void enabledDisabled(String id, boolean enabled);
+    
+    ArrayNode allUsers(boolean includeInactives);
+    
+    
 
 }

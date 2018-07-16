@@ -32,5 +32,5 @@ public interface BusinessApplicationManager {
 
     public KPIs getKPIs(String id);
     
-    public List<BusinessApplicationLigth> getApplicationsLigth();
+    public List<BusinessApplicationLigth> getApplicationsLigth(boolean includeInactives);
 }

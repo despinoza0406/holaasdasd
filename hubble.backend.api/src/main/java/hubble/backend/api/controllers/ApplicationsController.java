@@ -74,9 +74,9 @@ public class ApplicationsController {
 
     @TokenRequired
     @GetMapping(value = "/applications/ligth", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<BusinessApplicationLigth> getApplicationsLigth(HttpServletRequest req) {
+    public List<BusinessApplicationLigth> getApplicationsLigth(HttpServletRequest req, @RequestParam("include-inactives") Optional<Boolean> includeInactives) {
 
-        List<BusinessApplicationLigth> businessApplicationLigth = businessAppMgr.getApplicationsLigth();
+        List<BusinessApplicationLigth> businessApplicationLigth = businessAppMgr.getApplicationsLigth(includeInactives.orElse(false));
 
         return businessApplicationLigth;
     }

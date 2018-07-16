@@ -12,7 +12,7 @@ public interface ProvidersService {
 
     void editProviderFromJson(JsonNode jsonNode) throws Exception;
     
-    List<ProviderStorage> findAll();
+    List<ProviderStorage> findAll(boolean includeInactives);
     
     ProviderStorage findById(String id);
     

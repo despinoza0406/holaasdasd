@@ -1,5 +1,7 @@
 package hubble.backend.business.services.implementations.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import hubble.backend.business.services.interfaces.services.UsersService;
 import hubble.backend.business.services.models.Roles;
 import hubble.backend.storage.models.ApplicationStorage;
@@ -11,6 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -118,6 +121,15 @@ public class UsersServiceImpl implements UsersService {
             throw new RuntimeException("Ocurrió un error mientras se habilitaba/deshabilitaba el usuario.  Causa: " + t.getMessage());
         }
 
+    }
+
+    @Override
+    public ArrayNode allUsers(boolean includeInactives) {
+        return new ObjectMapper().createArrayNode().addAll(
+                users.findAll().stream()
+                        .filter((u) -> includeInactives || u.isEnabled())
+                        .map(UserStorage::toJson).collect(toList())
+        );
     }
 
 }

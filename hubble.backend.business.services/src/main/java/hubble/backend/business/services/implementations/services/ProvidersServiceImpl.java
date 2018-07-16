@@ -6,6 +6,7 @@ import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.ProviderStorage;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import java.util.List;
+import static java.util.stream.Collectors.toList;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,8 +53,8 @@ public class ProvidersServiceImpl implements ProvidersService {
     }
 
     @Override
-    public List<ProviderStorage> findAll() {
-        return providersRepository.findAll();
+    public List<ProviderStorage> findAll(boolean includeInactives) {
+        return providersRepository.findAll().stream().filter((p) -> includeInactives || p.isEnabled()).collect(toList());
     }
 
     @Override

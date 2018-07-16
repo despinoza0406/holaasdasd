@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import hubble.backend.storage.models.ProviderStorage;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -52,8 +53,8 @@ public class ProvidersController {
     @TokenRequired
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
-    List<ProviderStorage> get() {
-        return this.providersService.findAll();
+    List<ProviderStorage> get(@RequestParam("include-inactives") Optional<Boolean> includeInactives) {
+        return this.providersService.findAll(includeInactives.orElse(false));
     }
 
     @TokenRequired

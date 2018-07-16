@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -40,8 +41,8 @@ public class UsersController {
 
     @TokenRequired
     @GetMapping
-    public ResponseEntity get() {
-        return new ResponseEntity(allUsers(), HttpStatus.OK);
+    public ResponseEntity get(@RequestParam("include-inactives") Optional<Boolean> includeInactives) {
+        return new ResponseEntity(users.allUsers(includeInactives.orElse(false)), HttpStatus.OK);
     }
 
     @TokenRequired
@@ -53,11 +54,6 @@ public class UsersController {
                 : new ResponseEntity(HttpStatus.NOT_FOUND);
     }
 
-    private ArrayNode allUsers() {
-        return new ObjectMapper().createArrayNode().addAll(
-                usersRepo.findAll().stream().map(UserStorage::toJson).collect(toList())
-        );
-    }
 
     @TokenRequired
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
