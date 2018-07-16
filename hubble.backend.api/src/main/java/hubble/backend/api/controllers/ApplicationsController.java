@@ -35,14 +35,6 @@ public class ApplicationsController {
         this.applicationService = applicationService;
     }
 
-    @TokenRequired
-    @GetMapping(value = "/applications/{applicationId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public BusinessApplicationProfile get(HttpServletRequest req, @PathVariable String applicationId) {
-
-        BusinessApplicationProfile applicationView = businessAppMgr.getBusinessApplicationView(applicationId);
-
-        return applicationView;
-    }
 
     @TokenRequired
     @GetMapping(value = "/applications/{id}")

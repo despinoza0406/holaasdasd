@@ -33,7 +33,7 @@ public class BSMConfigurationMongoImpl implements BSMConfiguration {
                         (a.getKpis().getAvailability().getBsm().isEnabledInTaskRunner() || a.getKpis().getPerformance().getBsm().isEnabledInTaskRunner())).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
-            String hubbleName = application.getApplicationName();
+            String hubbleName = application.getApplicationId();
             String ppmName = application.getKpis().getAvailability().getBsm().getApplicationName();
             mapApplications.put(hubbleName,ppmName);
         }
