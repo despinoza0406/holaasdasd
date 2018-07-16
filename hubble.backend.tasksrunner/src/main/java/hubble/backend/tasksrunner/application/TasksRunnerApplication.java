@@ -100,7 +100,7 @@ public class TasksRunnerApplication {
         scheduler.addTask(siteScopeDataTask);
 
 
-        scheduler.showMenu();
+        scheduler.start();
     }
 
     public static void main(String[] args) throws Exception {
