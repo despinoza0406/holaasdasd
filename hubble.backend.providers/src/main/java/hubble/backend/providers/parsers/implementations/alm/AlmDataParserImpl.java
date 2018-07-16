@@ -66,7 +66,7 @@ public class AlmDataParserImpl implements AlmDataParser {
         model.setDescription(getValue(almIssue, "description"));
         model.setDetectedOnRelease(getValue(almIssue, "detected-in-rel"));
         model.setId(Integer.valueOf(getValue(almIssue, "id")));
-        model.setModifiedDate(getValue(almIssue, "las-modified"));
+        model.setModifiedDate(getValue(almIssue, "last-modified"));
         model.setPriority(getValue(almIssue, "priority"));
         model.setProject(getValue(almIssue, "project"));
         model.setRegisteredDate(getValue(almIssue, "creation-time"));

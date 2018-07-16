@@ -27,7 +27,6 @@ public class JiraMapperConfiguration {
     public JiraMapperConfiguration() {
             this.mapper = new ModelMapper();
             this.mapper.addMappings(new IssuePropertyMap());
-            this.mapper.addMappings(new ApplicationPropertyMap());
     }
 
     public ModelMapper getMapper() {
@@ -37,12 +36,15 @@ public class JiraMapperConfiguration {
     public IssueStorage mapToIssueStorage(JiraIssueModel jiraModel) {
         if (jiraModel == null)
             return null;
-        return mapper.map(jiraModel, IssueStorage.class);
+        IssueStorage issueStorage = mapper.map(jiraModel, IssueStorage.class);
+        issueStorage.setBusinessApplicationId(resolveApplicationId(issueStorage.getBusinessApplication()));
+        return issueStorage;
     }
 
     public ApplicationStorage mapToApplicationStorage(JiraApplicationProviderModel jiraModel) {
         if (jiraModel == null)
             return null;
+
         return mapper.map(jiraModel, ApplicationStorage.class);
     }
 
