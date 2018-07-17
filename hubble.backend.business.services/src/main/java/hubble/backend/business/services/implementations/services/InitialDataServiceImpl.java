@@ -27,9 +27,13 @@ import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.storage.repositories.UsersRepository;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import static java.util.Arrays.asList;
 import java.util.HashSet;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -61,9 +65,16 @@ public class InitialDataServiceImpl implements InitialDataService {
     @Transactional
     @Override
     public void createData() {
+        dropCollections();
         createAdminUser();
         configureProviders();
         configureApplications();
+    }
+
+    private void dropCollections(){
+        users.deleteAll();
+        providers.deleteAll();
+        applications.deleteAll();
     }
     
     private void createAdminUser() {
@@ -79,25 +90,25 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
     
     private void guardarAplicacion(String id, String nombre, String descripcion,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
-        Threashold th = new Threashold(1d, 2, 5d);
-        ApplicationStorage application = createApplicationStorage(id, nombre, descripcion, th,nombreEnBSM, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope);
+        List<Threashold> threasholds = crearThreasholds();
+        ApplicationStorage application = createApplicationStorage(id, nombre, descripcion, threasholds,nombreEnBSM, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope);
         if(!applications.exist(application)) {
             applications.save(application);
         }
     }
     
-    private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, Threashold th,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
+    private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, List<Threashold> th,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
         return new ApplicationStorage(
                 id,
                 nombre,
                 descripcion,
                 true,
                 new KPIs(
-                        new Tasks(true, th, th, th, ApplicationInProvider.standard(nombreEnPPM)),
-                        new Defects(true, th, th, th, ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
-                        new Availavility(true, th, th, th, th, ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
-                        new Performance(true, th, th, th, th, ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
-                        new Events(true, th, th, th, th, ApplicationInProvider.standard(nombreEnSiteScope))),
+                        new Tasks(true, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard(nombreEnPPM)),
+                        new Defects(true, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
+                        new Availavility(true, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
+                        new Performance(true, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
+                        new Events(true, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard(nombreEnSiteScope))),
                 true
         );
     }
@@ -239,5 +250,16 @@ public class InitialDataServiceImpl implements InitialDataService {
     
     private SiteScope siteScopeDefault() {
         return new SiteScope(true, EVERY_DAY_AT_9, new SiteScope.Environment("10.10.20.248", 8080, "root", "root"), new SiteScope.Configuration("project"));
+    }
+
+    private List<Threashold> crearThreasholds(){
+            List<Threashold> threasholds = new ArrayList<>();
+            threasholds.add(new Threashold(5,100,150)); //Eventos y Tasks
+            threasholds.add(new Threashold(98,90,90)); //Disponibilidad
+            threasholds.add(new Threashold(4000,8000,8000)); //Performance
+            threasholds.add(new Threashold(0,15,15)); //Defects
+
+        return threasholds;
+
     }
 }

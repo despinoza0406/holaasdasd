@@ -26,10 +26,9 @@ public class BSMConfigurationMongoImpl implements BSMConfiguration {
     @Override
     public HashMap<String,String> getApplicationValueToIdMap() {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
-                filter((a) ->a.isActive() &&
+                filter((a) ->
                         a.isEnabledTaskRunner() &&
                         (a.getKpis().getAvailability().getEnabled() || a.getKpis().getPerformance().getEnabled()) &&
-                        (a.getKpis().getAvailability().getBsm().isEnabled() || a.getKpis().getPerformance().getBsm().isEnabled() )&&
                         (a.getKpis().getAvailability().getBsm().isEnabledInTaskRunner() || a.getKpis().getPerformance().getBsm().isEnabledInTaskRunner())).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){

@@ -8,28 +8,18 @@ package hubble.backend.storage.models;
 public class ApplicationInProvider {
 
     public static ApplicationInProvider standard(String applicationName) {
-        return new ApplicationInProvider(true, applicationName, true);
+        return new ApplicationInProvider(applicationName, true);
     }
 
-    private boolean enabled;
     private String applicationName;
     private boolean enabledInTaskRunner;
 
     public ApplicationInProvider() {
     }
 
-    public ApplicationInProvider(boolean enabled, String applicationName, boolean enabledInTaskRunner) {
-        this.enabled = enabled;
+    public ApplicationInProvider(String applicationName, boolean enabledInTaskRunner) {
         this.applicationName = applicationName;
         this.enabledInTaskRunner = enabledInTaskRunner;
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 
     public String getApplicationName() {

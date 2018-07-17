@@ -29,10 +29,9 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
     @Override
     public HashMap<String,String> getValuesToIdMap() {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
-                filter((a) -> a.isActive() &&
+                filter((a) ->
                         a.isEnabledTaskRunner() &&
                         a.getKpis().getDefects().getEnabled() &&
-                        a.getKpis().getDefects().getJira().isEnabled() &&
                         a.getKpis().getDefects().getJira().isEnabledInTaskRunner()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
