@@ -74,7 +74,7 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
     }
 
     //Esta para darme solo los que tengan project keys unicas
-    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor)
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) throws NullPointerException
     {
         Map<Object, Boolean> map = new ConcurrentHashMap<>();
         return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
