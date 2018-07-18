@@ -49,15 +49,31 @@ public class JiraDataParserImpl implements JiraDataParser {
     @Override
     public void run() {
         if(configuration.taskEnabled()) {
-            String jiraUser = jiraTransport.getEnvironment().getUser();
-            String jiraPassword = jiraTransport.getEnvironment().getPassword();
+            String jiraUser= "";
+            String jiraPassword= "";
+
+            try {
+                jiraUser = jiraTransport.getEnvironment().getUser();
+                jiraPassword = jiraTransport.getEnvironment().getPassword();
+
+            }catch (NullPointerException e){
+                logger.error("Error en environment de jira. Por favor revisar los valores suministrados");
+            }
+
             String encodedAuthString = EncoderHelper.encodeToBase64(jiraUser, jiraPassword);
             JiraIssuesProviderModel jiraModel;
             ArrayList<JiraIssueModel> issues;
             IssueStorage issueStorage;
 
             jiraTransport.setEncodedCredentials(encodedAuthString);
-            String[] projectsKey = jiraTransport.getConfiguration().getProjectKeys();
+            String[] projectsKey = new String[jiraTransport.getConfiguration().getProjectKeys().length];
+
+            try {
+                projectsKey = jiraTransport.getConfiguration().getProjectKeys();
+            }catch (NullPointerException e){
+                logger.error("Error en la configuracion de jira. Por favor revisar los valores suministrados");
+            }
+
             for (String project : projectsKey) {
                 int startAt = 0;
                 JSONObject response = jiraTransport.getIssuesByProject(project, startAt);

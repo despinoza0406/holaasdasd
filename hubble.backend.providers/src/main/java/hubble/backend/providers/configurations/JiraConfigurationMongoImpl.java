@@ -50,7 +50,7 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
     }
 
     @Override
-    public String[] getProjectKeys() {
+    public String[] getProjectKeys() throws NullPointerException {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
                 filter((a) ->
                                 a.isEnabledTaskRunner() &&
@@ -60,9 +60,9 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
         applications = applications.stream().filter(distinctByKey((a) -> a.getKpis().getDefects().getJira().getProjectKey())).collect(Collectors.toList());
         String[] projectKeys = new String[applications.size()];
         int i = 0;
-        for(ApplicationStorage applicationStorage : applications){
-           projectKeys[i] = applicationStorage.getKpis().getDefects().getJira().getProjectKey();
-           i++;
+        for (ApplicationStorage applicationStorage : applications) {
+            projectKeys[i] = applicationStorage.getKpis().getDefects().getJira().getProjectKey();
+            i++;
         }
         return projectKeys;
     }
