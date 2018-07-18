@@ -1,7 +1,9 @@
 package hubble.backend.api.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import hubble.backend.models.EnabledDisabledEntity;
+import hubble.backend.models.UpdateUser;
+import hubble.backend.models.Auth;
+import hubble.backend.models.NewUser;
 import hubble.backend.api.interfaces.TokenRequired;
 import hubble.backend.business.services.interfaces.services.UsersService;
 import hubble.backend.business.services.models.Roles;
@@ -9,7 +11,6 @@ import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.UsersRepository;
 import java.util.Optional;
 import java.util.UUID;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

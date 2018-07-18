@@ -4,13 +4,16 @@ import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.operations.ApplicationOperations;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOperation;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 import org.springframework.data.mongodb.core.query.Query;
+import static org.springframework.data.mongodb.core.query.Query.query;
 
 //TODO: Reemplazar por el storage real - será necesario usar la API getConfigurations y crear
 //las colecciones en Mongo
@@ -70,4 +73,10 @@ public class ApplicationRepositoryImpl implements ApplicationOperations {
         return applicationStorageList;
     }
 
+     @Override
+     public boolean existAppId(String applicationId){
+         return Optional.ofNullable(mongo.findOne(query(where("applicationId").is(applicationId)), ApplicationStorage.class)).isPresent();
+     }
+
+    
 }

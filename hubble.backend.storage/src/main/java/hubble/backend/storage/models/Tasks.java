@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
  */
-public class Tasks implements KPI {
+public class Tasks  {
 
     private boolean enabled;
     private Threashold dayThreashold;
@@ -29,12 +29,12 @@ public class Tasks implements KPI {
         this.ppm = ppm;
     }
 
-    @Override
+    
     public boolean getEnabled() {
         return enabled;
     }
 
-    @Override
+    
     public void setEnabled(boolean value) {
         enabled = true;
     }
