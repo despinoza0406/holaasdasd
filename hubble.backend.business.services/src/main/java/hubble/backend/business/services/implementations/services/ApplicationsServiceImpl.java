@@ -3,15 +3,7 @@ package hubble.backend.business.services.implementations.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hubble.backend.business.services.interfaces.services.ApplicationService;
-import hubble.backend.storage.models.ApplicationInProvider;
-import hubble.backend.storage.models.ApplicationStorage;
-import hubble.backend.storage.models.Availavility;
-import hubble.backend.storage.models.Defects;
-import hubble.backend.storage.models.Events;
-import hubble.backend.storage.models.KPIs;
-import hubble.backend.storage.models.Performance;
-import hubble.backend.storage.models.Tasks;
-import hubble.backend.storage.models.Threashold;
+import hubble.backend.storage.models.*;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,7 +84,7 @@ public class ApplicationsServiceImpl implements ApplicationService {
 
         return new KPIs(
                 new Tasks(true, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("")),
-                new Defects(true, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
+                new Defects(true, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(""), ApplicationInProviderJira.standard("","")),
                 new Availavility(true, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
                 new Performance(true, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
                 new Events(true, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("")));

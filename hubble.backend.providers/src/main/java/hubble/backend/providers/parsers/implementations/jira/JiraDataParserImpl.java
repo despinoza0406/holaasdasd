@@ -57,7 +57,7 @@ public class JiraDataParserImpl implements JiraDataParser {
             IssueStorage issueStorage;
 
             jiraTransport.setEncodedCredentials(encodedAuthString);
-            String[] projectsKey = jiraTransport.getConfiguration().getProjectKey().split(",");
+            String[] projectsKey = jiraTransport.getConfiguration().getProjectKeys();
             for (String project : projectsKey) {
                 int startAt = 0;
                 JSONObject response = jiraTransport.getIssuesByProject(project, startAt);

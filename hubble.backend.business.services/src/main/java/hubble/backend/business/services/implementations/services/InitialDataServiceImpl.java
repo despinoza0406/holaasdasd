@@ -2,28 +2,7 @@ package hubble.backend.business.services.implementations.services;
 
 import hubble.backend.business.services.interfaces.services.InitialDataService;
 import hubble.backend.business.services.models.Roles;
-import hubble.backend.storage.models.ALM;
-import hubble.backend.storage.models.AppPulse;
-import hubble.backend.storage.models.ApplicationInProvider;
-import hubble.backend.storage.models.ApplicationStorage;
-import hubble.backend.storage.models.Availavility;
-import hubble.backend.storage.models.BSM;
-import hubble.backend.storage.models.Days;
-import hubble.backend.storage.models.Defects;
-import hubble.backend.storage.models.Events;
-import hubble.backend.storage.models.Frecuency;
-import hubble.backend.storage.models.HourRange;
-import hubble.backend.storage.models.Jira;
-import hubble.backend.storage.models.KPIs;
-import hubble.backend.storage.models.PPM;
-import hubble.backend.storage.models.Performance;
-import hubble.backend.storage.models.Schedule;
-import hubble.backend.storage.models.SiteScope;
-import hubble.backend.storage.models.SoapEndpoint;
-import hubble.backend.storage.models.TaskRunner;
-import hubble.backend.storage.models.Tasks;
-import hubble.backend.storage.models.Threashold;
-import hubble.backend.storage.models.UserStorage;
+import hubble.backend.storage.models.*;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.storage.repositories.UsersRepository;
@@ -84,20 +63,20 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
     
     private void configureApplications() {
-        guardarAplicacion("Benchmark Home Banking", "Home Banking","Descripción de Benchmark Home Banking","Benchmark Home Banking", "Banca por Internet", "Home Banking", "HB", "Home Banking");
-        guardarAplicacion("Benchmark Mobile","Mobile Banking","Descripción de Benchmark Mobile","Benchmark Mobile", "Banca Presencial", "Mobile", "MB", "Mobile Banking");
-        guardarAplicacion("CRM","CRM","Descripción de CRM","CRM", "Retail banking","CRM", "CRM","CRM");
+        guardarAplicacion("Benchmark Home Banking", "Home Banking","Descripción de Benchmark Home Banking","Benchmark Home Banking", "Banca por Internet", "Home Banking", "HB","HB", "Home Banking");
+        guardarAplicacion("Benchmark Mobile","Mobile Banking","Descripción de Benchmark Mobile","Benchmark Mobile", "Banca Presencial", "Mobile", "Mobile Banking","MB", "Mobile Banking");
+        guardarAplicacion("CRM","CRM","Descripción de CRM","CRM", "Retail banking","CRM", "CRM","CR","CRM");
     }
     
-    private void guardarAplicacion(String id, String nombre, String descripcion,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
+    private void guardarAplicacion(String id, String nombre, String descripcion,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira,String projectKey, String nombreEnSiteScope) {
         List<Threashold> threasholds = crearThreasholds();
-        ApplicationStorage application = createApplicationStorage(id, nombre, descripcion, threasholds,nombreEnBSM, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope);
+        ApplicationStorage application = createApplicationStorage(id, nombre, descripcion, threasholds,nombreEnBSM, nombreEnPPM, nombreEnALM, nombreEnJira,projectKey, nombreEnSiteScope);
         if(!applications.exist(application)) {
             applications.save(application);
         }
     }
     
-    private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, List<Threashold> th,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
+    private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, List<Threashold> th,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira,String projectKeyEnJira, String nombreEnSiteScope) {
         return new ApplicationStorage(
                 id,
                 nombre,
@@ -105,7 +84,7 @@ public class InitialDataServiceImpl implements InitialDataService {
                 true,
                 new KPIs(
                         new Tasks(true, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard(nombreEnPPM)),
-                        new Defects(true, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
+                        new Defects(true, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(nombreEnALM), ApplicationInProviderJira.standard(nombreEnJira,projectKeyEnJira)),
                         new Availavility(true, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
                         new Performance(true, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
                         new Events(true, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard(nombreEnSiteScope))),
