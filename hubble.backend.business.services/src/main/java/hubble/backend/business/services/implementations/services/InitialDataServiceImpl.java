@@ -2,34 +2,17 @@ package hubble.backend.business.services.implementations.services;
 
 import hubble.backend.business.services.interfaces.services.InitialDataService;
 import hubble.backend.business.services.models.Roles;
-import hubble.backend.storage.models.ALM;
-import hubble.backend.storage.models.AppPulse;
-import hubble.backend.storage.models.ApplicationInProvider;
-import hubble.backend.storage.models.ApplicationStorage;
-import hubble.backend.storage.models.Availavility;
-import hubble.backend.storage.models.BSM;
-import hubble.backend.storage.models.Days;
-import hubble.backend.storage.models.Defects;
-import hubble.backend.storage.models.Events;
-import hubble.backend.storage.models.Frecuency;
-import hubble.backend.storage.models.HourRange;
-import hubble.backend.storage.models.Jira;
-import hubble.backend.storage.models.KPIs;
-import hubble.backend.storage.models.PPM;
-import hubble.backend.storage.models.Performance;
-import hubble.backend.storage.models.Schedule;
-import hubble.backend.storage.models.SiteScope;
-import hubble.backend.storage.models.SoapEndpoint;
-import hubble.backend.storage.models.TaskRunner;
-import hubble.backend.storage.models.Tasks;
-import hubble.backend.storage.models.Threashold;
-import hubble.backend.storage.models.UserStorage;
+import hubble.backend.storage.models.*;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.storage.repositories.UsersRepository;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import static java.util.Arrays.asList;
 import java.util.HashSet;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -61,9 +44,16 @@ public class InitialDataServiceImpl implements InitialDataService {
     @Transactional
     @Override
     public void createData() {
+        dropCollections();
         createAdminUser();
         configureProviders();
         configureApplications();
+    }
+
+    private void dropCollections(){
+        users.deleteAll();
+        providers.deleteAll();
+        applications.deleteAll();
     }
     
     private void createAdminUser() {
@@ -73,31 +63,31 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
     
     private void configureApplications() {
-        guardarAplicacion("Benchmark Home Banking", "Home Banking","Descripción de Benchmark Home Banking","Benchmark Home Banking", "Banca por Internet", "Home Banking", "HB", "Home Banking");
-        guardarAplicacion("Benchmark Mobile","Mobile Banking","Descripción de Benchmark Mobile","Benchmark Mobile", "Banca Presencial", "Mobile", "MB", "Mobile Banking");
-        guardarAplicacion("CRM","CRM","Descripción de CRM","CRM", "Retail banking","CRM", "CRM","CRM");
+        guardarAplicacion("Benchmark Home Banking", "Home Banking","Descripción de Benchmark Home Banking","Benchmark Home Banking", "Banca por Internet", "Home Banking", "HB","HB", "Home Banking");
+        guardarAplicacion("Benchmark Mobile","Mobile Banking","Descripción de Benchmark Mobile","Benchmark Mobile", "Banca Presencial", "Mobile", "Mobile Banking","MB", "Mobile Banking");
+        guardarAplicacion("CRM","CRM","Descripción de CRM","CRM", "Retail banking","CRM", "CRM","CR","CRM");
     }
     
-    private void guardarAplicacion(String id, String nombre, String descripcion,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
-        Threashold th = new Threashold(1d, 2, 5d);
-        ApplicationStorage application = createApplicationStorage(id, nombre, descripcion, th,nombreEnBSM, nombreEnPPM, nombreEnALM, nombreEnJira, nombreEnSiteScope);
+    private void guardarAplicacion(String id, String nombre, String descripcion,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira,String projectKey, String nombreEnSiteScope) {
+        List<Threashold> threasholds = crearThreasholds();
+        ApplicationStorage application = createApplicationStorage(id, nombre, descripcion, threasholds,nombreEnBSM, nombreEnPPM, nombreEnALM, nombreEnJira,projectKey, nombreEnSiteScope);
         if(!applications.exist(application)) {
             applications.save(application);
         }
     }
     
-    private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, Threashold th,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira, String nombreEnSiteScope) {
+    private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, List<Threashold> th,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira,String projectKeyEnJira, String nombreEnSiteScope) {
         return new ApplicationStorage(
                 id,
                 nombre,
                 descripcion,
                 true,
                 new KPIs(
-                        new Tasks(true, th, th, th, ApplicationInProvider.standard(nombreEnPPM)),
-                        new Defects(true, th, th, th, ApplicationInProvider.standard(nombreEnALM), ApplicationInProvider.standard(nombreEnJira)),
-                        new Availavility(true, th, th, th, th, ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
-                        new Performance(true, th, th, th, th, ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
-                        new Events(true, th, th, th, th, ApplicationInProvider.standard(nombreEnSiteScope))),
+                        new Tasks(true, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard(nombreEnPPM)),
+                        new Defects(true, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(nombreEnALM), ApplicationInProviderJira.standard(nombreEnJira,projectKeyEnJira)),
+                        new Availavility(true, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
+                        new Performance(true, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
+                        new Events(true, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard(nombreEnSiteScope))),
                 true
         );
     }
@@ -239,5 +229,16 @@ public class InitialDataServiceImpl implements InitialDataService {
     
     private SiteScope siteScopeDefault() {
         return new SiteScope(true, EVERY_DAY_AT_9, new SiteScope.Environment("10.10.20.248", 8080, "root", "root"), new SiteScope.Configuration("project"));
+    }
+
+    private List<Threashold> crearThreasholds(){
+            List<Threashold> threasholds = new ArrayList<>();
+            threasholds.add(new Threashold(5,100,150)); //Eventos y Tasks
+            threasholds.add(new Threashold(98,90,90)); //Disponibilidad
+            threasholds.add(new Threashold(4000,8000,8000)); //Performance
+            threasholds.add(new Threashold(0,15,15)); //Defects
+
+        return threasholds;
+
     }
 }

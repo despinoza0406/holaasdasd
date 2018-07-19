@@ -49,17 +49,36 @@ public class JiraDataParserImpl implements JiraDataParser {
     @Override
     public void run() {
         if(configuration.taskEnabled()) {
-            String jiraUser = jiraTransport.getEnvironment().getUser();
-            String jiraPassword = jiraTransport.getEnvironment().getPassword();
+            String jiraUser;
+            String jiraPassword;
+
+            try {
+                jiraUser = jiraTransport.getEnvironment().getUser();
+                jiraPassword = jiraTransport.getEnvironment().getPassword();
+
+            }catch (NullPointerException e){
+                logger.error("Error en environment de jira. Por favor revisar los valores suministrados");
+                return;
+            }
+
             String encodedAuthString = EncoderHelper.encodeToBase64(jiraUser, jiraPassword);
             JiraIssuesProviderModel jiraModel;
             ArrayList<JiraIssueModel> issues;
             IssueStorage issueStorage;
 
             jiraTransport.setEncodedCredentials(encodedAuthString);
-            String[] projectsKey = jiraTransport.getConfiguration().getProjectKey().split(",");
+            String[] projectsKey;
+
+            try {
+                projectsKey = jiraTransport.getConfiguration().getProjectKeys();
+            }catch (NullPointerException e){
+                logger.error("Error en la configuracion de jira. Por favor revisar los valores suministrados");
+                return;
+            }
+
             for (String project : projectsKey) {
                 int startAt = 0;
+
                 JSONObject response = jiraTransport.getIssuesByProject(project, startAt);
                 int totalIssues = response.getInt("total");
                 int maxResults = response.getInt("maxResults");
@@ -67,8 +86,12 @@ public class JiraDataParserImpl implements JiraDataParser {
                 do {
                     response = jiraTransport.getIssuesByProject(project, startAt);
                     jiraModel = this.parse(response);
-                    issues = jiraModel.getIssues();
-
+                    try {
+                        issues = jiraModel.getIssues();
+                    }catch (Exception e){
+                        logger.error("No se pudieron obtener los issues de jira del proyecto "+project);
+                        return;
+                    }
                     for (JiraIssueModel issue : issues) {
                         issueStorage = jiraMapperConfiguration.mapToIssueStorage(issue);
                         issueRepository.save(issueStorage);
@@ -90,10 +113,11 @@ public class JiraDataParserImpl implements JiraDataParser {
 
         ObjectMapper objMapper = new ObjectMapper();
         objMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        objMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT,true);
         JiraIssuesProviderModel jiraDataModel;
 
         try {
-            jiraDataModel = objMapper.readValue(dataStream, JiraIssuesProviderModel.class);
+            jiraDataModel = objMapper.readValue(dataStream, JiraIssuesProviderModel.class); //Falla aca y solo con crm
         } catch (IOException e) {
             logger.error(e.getMessage());
             return null;

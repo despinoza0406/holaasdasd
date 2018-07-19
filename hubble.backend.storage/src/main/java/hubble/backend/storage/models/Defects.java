@@ -16,13 +16,13 @@ public class Defects implements KPI {
     private Threashold weekThreashold;
     private Threashold monthThreashold;
     private ApplicationInProvider alm;
-    private ApplicationInProvider jira;
+    private ApplicationInProviderJira jira;
 
     public Defects() {
     }
 
     public Defects(boolean enabled, Threashold dayThreashold, Threashold weekThreashold, Threashold monthThreashold,
-        ApplicationInProvider alm, ApplicationInProvider jira) {
+        ApplicationInProvider alm, ApplicationInProviderJira jira) {
         this.enabled = enabled;
         this.dayThreashold = dayThreashold;
         this.weekThreashold = weekThreashold;
@@ -73,11 +73,11 @@ public class Defects implements KPI {
         this.alm = alm;
     }
 
-    public ApplicationInProvider getJira() {
+    public ApplicationInProviderJira getJira() {
         return jira;
     }
 
-    public void setJira(ApplicationInProvider jira) {
+    public void setJira(ApplicationInProviderJira jira) {
         this.jira = jira;
     }
         

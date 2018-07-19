@@ -142,7 +142,7 @@ public class IssueServiceImpl implements IssueService {
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
         List<IssueStorage> issuesStorage =
-                issueRepository.findIssuesByApplicationIdBetweenDates(id,startDate,endDate);
+                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(id,startDate,endDate);
         List<Integer> distValuesInt = new ArrayList<>();
         for (IssueStorage issue : issuesStorage) {
             float criticity = (issue.getPriority() + issue.getSeverity()) / 2;

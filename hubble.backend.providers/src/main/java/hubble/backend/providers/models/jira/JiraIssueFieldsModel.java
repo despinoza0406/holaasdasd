@@ -10,9 +10,9 @@ public class JiraIssueFieldsModel {
 	private long timeoriginalestimate;
 	private String description;
 	private Project project;
-	private int aggregatetimespent;
-	private String resolution;
+	private Resolution resolution;
 	private String customfield_10005;
+	private int aggregatetimespent;
 	private int aggregatetimeestimate;
 	private String resolutiondate;
 	private int workRatio;
@@ -84,11 +84,11 @@ public class JiraIssueFieldsModel {
             this.aggregatetimespent = aggregatetimespent;
         }
 
-        public String getResolution() {
+        public Resolution getResolution() {
             return resolution;
         }
 
-        public void setResolution(String resolution) {
+        public void setResolution(Resolution resolution) {
             this.resolution = resolution;
         }
 

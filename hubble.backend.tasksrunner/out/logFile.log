@@ -60,8 +60,8 @@ Caused by: org.springframework.beans.BeanInstantiationException: Failed to insta
 	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:271)
 	... 36 common frames omitted
 Caused by: java.lang.NullPointerException: null
-	at hubble.backend.providers.configurations.environments.AppPulseProviderEnvironmentMongoImpl.getEnviroment(AppPulseProviderEnvironmentMongoImpl.java:34)
-	at hubble.backend.providers.configurations.environments.AppPulseProviderEnvironmentMongoImpl.getUrl(AppPulseProviderEnvironmentMongoImpl.java:30)
+	at hubble.backend.providers.configurations.environments.AppPulseAppPulseProviderEnvironmentMongoImpl.getEnviroment(AppPulseProviderEnvironmentMongoImpl.java:34)
+	at hubble.backend.providers.configurations.environments.AppPulseAppPulseProviderEnvironmentMongoImpl.getUrl(AppPulseProviderEnvironmentMongoImpl.java:30)
 	at hubble.backend.providers.transports.implementations.apppulse.AppPulseActiveTransportImpl.<init>(AppPulseActiveTransportImpl.java:29)
 	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
 	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:62)

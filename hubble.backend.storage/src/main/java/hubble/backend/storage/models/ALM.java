@@ -114,6 +114,22 @@ public class ALM extends ProviderStorage<ALM.Environment, ALM.Configuration> {
 
     public static class Configuration {
 
+        public String getBusinessApplicationFieldName() {
+            return businessApplicationFieldName;
+        }
+
+        public void setBusinessApplicationFieldName(String businessApplicationFieldName) {
+            this.businessApplicationFieldName = businessApplicationFieldName;
+        }
+
+        public String getTransactionFieldName() {
+            return transactionFieldName;
+        }
+
+        public void setTransactionFieldName(String transactionFieldName) {
+            this.transactionFieldName = transactionFieldName;
+        }
+
         public static class Status {
 
             private String status;

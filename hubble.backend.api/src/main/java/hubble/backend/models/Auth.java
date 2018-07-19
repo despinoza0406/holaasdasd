@@ -1,4 +1,4 @@
-package hubble.backend.api.controllers;
+package hubble.backend.models;
 
 /**
  *

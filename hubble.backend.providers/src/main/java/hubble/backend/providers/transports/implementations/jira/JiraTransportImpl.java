@@ -48,6 +48,7 @@ public class JiraTransportImpl implements JiraTransport {
         data = response.getBody().getObject();
 
         if (data == null) {
+            logger.warn("No se pudieron traer datos de jira");
             return null;
         }
         return data;

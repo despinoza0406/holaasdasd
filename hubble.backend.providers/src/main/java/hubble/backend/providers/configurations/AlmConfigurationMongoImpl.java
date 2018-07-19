@@ -24,7 +24,7 @@ public class AlmConfigurationMongoImpl implements AlmConfiguration {
 
     @Override
     public String getApplicationFieldName() {
-        return providersRepository.alm().getName();
+        return providersRepository.alm().getConfiguration().getBusinessApplicationFieldName();
     }
 
     @Override
@@ -34,7 +34,7 @@ public class AlmConfigurationMongoImpl implements AlmConfiguration {
 
     @Override
     public String getTransactionFieldName() {
-        return providersRepository.alm().getName();
+        return providersRepository.alm().getConfiguration().getTransactionFieldName();
     }
 
     public String getProviderOrigin() {
@@ -51,14 +51,13 @@ public class AlmConfigurationMongoImpl implements AlmConfiguration {
 
     public HashMap<String,String> getApplicationValueToIdMap() {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
-                filter((a) -> a.isActive() &&
+                filter((a) ->
                         a.isEnabledTaskRunner() &&
                         a.getKpis().getDefects().getEnabled() &&
-                        a.getKpis().getDefects().getAlm().isEnabled() &&
                         a.getKpis().getDefects().getAlm().isEnabledInTaskRunner()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
-            String hubbleName = application.getApplicationName();
+            String hubbleName = application.getApplicationId();
             String almName = application.getKpis().getDefects().getAlm().getApplicationName();
             mapApplications.put(hubbleName,almName);
         }

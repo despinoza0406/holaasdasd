@@ -5,7 +5,7 @@ public class CalculationHelper {
     private static double warningIndex = 8;
     private final static double minCriticalIndex = 1;
     private final static double okIndex = 10;
-    private final static double dispWarningIndex = 6, dispCriticalIndex = 3;
+
 
     public static double calculateOkHealthIndex(double n, double maxThreshold, double minThreshold){
         return ( (n - minThreshold) / (maxThreshold - minThreshold) ) * (okIndex - warningIndex) + warningIndex;
@@ -28,15 +28,15 @@ public class CalculationHelper {
     }
 
     public static double calculateDispOkHealthIndex(double n, double maxThreshold, double minThreshold) {
-        return ( (n - minThreshold) / (maxThreshold - minThreshold) ) * (okIndex - dispWarningIndex) + dispWarningIndex;
+        return ( (n - minThreshold) / (maxThreshold - minThreshold) ) * (okIndex - warningIndex) + warningIndex;
     }
 
     public static double calculateDispWarningHealthIndex(double n, double maxThreshold, double minThreshold) {
-        return ( (n - minThreshold) / (maxThreshold - minThreshold) ) * (dispWarningIndex - dispCriticalIndex) + dispCriticalIndex;
+        return ( (n - minThreshold) / (maxThreshold - minThreshold) ) * (warningIndex - criticalIndex) + criticalIndex;
     }
 
     public static double calculateDispCriticalHealthIndex(double n, double maxThreshold, double minThreshold) {
-        return ( (n - minThreshold) / (maxThreshold - minThreshold) ) * (dispCriticalIndex - minCriticalIndex) + minCriticalIndex;
+        return ( (n - minThreshold) / (maxThreshold - minThreshold) ) * (criticalIndex - minCriticalIndex) + minCriticalIndex;
     }
 
     public static double getCriticalIndex() {

@@ -12,4 +12,6 @@ public interface ApplicationOperations {
     public ApplicationStorage findApplicationByTransactionId(String transactionId);
 
     boolean exist(ApplicationStorage application);
+    
+    boolean existAppId(String applicationId);
 }

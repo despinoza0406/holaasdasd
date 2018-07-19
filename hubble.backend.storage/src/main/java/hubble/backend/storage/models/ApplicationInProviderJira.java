@@ -1,25 +1,22 @@
 package hubble.backend.storage.models;
 
-/**
- * Configuración de una aplicación para ALM
- *
- * @author Martín Straus <martin.straus@fit.com.ar>
- */
-public class ApplicationInProvider {
+public class ApplicationInProviderJira {
 
-    public static ApplicationInProvider standard(String applicationName) {
-        return new ApplicationInProvider(applicationName, true);
+    public static ApplicationInProviderJira standard(String applicationName,String projectKey) {
+        return new ApplicationInProviderJira(applicationName, true,projectKey);
     }
 
     private String applicationName;
     private boolean enabledInTaskRunner;
+    private String projectKey;
 
-    public ApplicationInProvider() {
+    public ApplicationInProviderJira() {
     }
 
-    public ApplicationInProvider(String applicationName, boolean enabledInTaskRunner) {
+    public ApplicationInProviderJira(String applicationName, boolean enabledInTaskRunner, String projectKey) {
         this.applicationName = applicationName;
         this.enabledInTaskRunner = enabledInTaskRunner;
+        this.projectKey = projectKey;
     }
 
     public String getApplicationName() {
@@ -38,4 +35,11 @@ public class ApplicationInProvider {
         this.enabledInTaskRunner = enabledInTaskRunner;
     }
 
+    public String getProjectKey() {
+        return projectKey;
+    }
+
+    public void setProjectKey(String projectKey) {
+        this.projectKey = projectKey;
+    }
 }

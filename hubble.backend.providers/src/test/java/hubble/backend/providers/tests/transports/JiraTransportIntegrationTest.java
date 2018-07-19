@@ -44,7 +44,7 @@ public class JiraTransportIntegrationTest {
 
         //Act
         dataRetrieved = jiraTransport.getIssuesByProject(
-                jiraTransport.getConfiguration().getProjectKey().split(",")[0],0);
+                jiraTransport.getConfiguration().getProjectKeys()[0],0);
 
         //Assert
         assertTrue(dataRetrieved.has("issues"));
@@ -71,7 +71,7 @@ public class JiraTransportIntegrationTest {
 
         //Act
         dataRetrieved = jiraTransport.getIssuesByProject(
-                jiraTransport.getConfiguration().getProjectKey().split(",")[0],0);
+                jiraTransport.getConfiguration().getProjectKeys()[0],0);
 
         //Assert
         assertNull(dataRetrieved);

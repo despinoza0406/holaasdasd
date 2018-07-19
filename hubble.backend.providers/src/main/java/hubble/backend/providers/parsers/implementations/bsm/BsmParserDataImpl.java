@@ -29,10 +29,10 @@ public class BsmParserDataImpl implements BsmDataParser {
 
     @Autowired
     public BsmParserDataImpl(
-            BsmTransport appPulseActiveTransport,
+            BsmTransport bsmTransport,
             BsmMapperConfiguration mapperConfiguration,
             AvailabilityRepository availabilityRepository) {
-        this.bsmTransport = appPulseActiveTransport;
+        this.bsmTransport = bsmTransport;
         this.mapperConfifuration = mapperConfiguration;
         this.availabilityRepository = availabilityRepository;
             }

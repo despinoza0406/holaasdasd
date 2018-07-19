@@ -31,10 +31,9 @@ public class SiteScopeConfigurationMongoImpl implements SiteScopeConfiguration
     @Override
     public HashMap<String, String> getApplicationValueToIdMap() {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
-                filter((a) -> a.isActive() &&
+                filter((a) ->
                         a.isEnabledTaskRunner() &&
                         a.getKpis().getEvents().getEnabled() &&
-                        a.getKpis().getEvents().getSiteScope().isEnabled() &&
                         a.getKpis().getEvents().getSiteScope().isEnabledInTaskRunner()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){

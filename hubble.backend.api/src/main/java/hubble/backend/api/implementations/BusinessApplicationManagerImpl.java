@@ -218,9 +218,9 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     public void setKPIs(BusinessApplicationFrontend businessApplicationFrontend, ApplicationStorage application,String periodo) {
         KPIs backKPI = application.getKpis();
         List<KpiFrontend> kpis = new ArrayList<>();
+        Set<KPITypes> kpiTypes = application.getKpis().getEnabledKPIs();
 
-        if (//kpiTypes.contains(AVAILABILITY) &&
-                backKPI.getAvailability().getEnabled()) {
+        if (kpiTypes.contains(AVAILABILITY)) {
             KpiFrontend availabilityKpi = new KpiFrontend();
             availabilityKpi.setKpiName("Disponibilidad");
             availabilityKpi.setKpiShortName("D");
@@ -231,8 +231,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             kpis.add(availabilityKpi);
         }
 
-        if (//kpiTypes.contains(PERFORMANCE) &&
-                backKPI.getPerformance().getEnabled()){
+        if (kpiTypes.contains(PERFORMANCE)){
             KpiFrontend performanceKpi = new KpiFrontend();
             performanceKpi.setKpiName("Performance");
             performanceKpi.setKpiShortName("P");
@@ -242,8 +241,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             }
             kpis.add(performanceKpi);
         }
-        if(//kpiTypes.contains(DEFECTS) &&
-                backKPI.getDefects().getEnabled()) {
+        if(kpiTypes.contains(DEFECTS)) {
             KpiFrontend issuesKpi = new KpiFrontend();
             issuesKpi.setKpiName("Incidencias");
             issuesKpi.setKpiShortName("I");
@@ -253,8 +251,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             }
             kpis.add(issuesKpi);
         }
-        if(//kpiTypes.contains(TASKS) &&
-                backKPI.getTasks().getEnabled()) {
+        if(kpiTypes.contains(TASKS)) {
             KpiFrontend workitemKpi = new KpiFrontend();
             workitemKpi.setKpiName("Tareas");
             workitemKpi.setKpiShortName("T");
@@ -264,8 +261,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             }
             kpis.add(workitemKpi);
         }
-        if(//kpiTypes.contains(EVENTS) &&
-                backKPI.getEvents().getEnabled()) {
+        if(kpiTypes.contains(EVENTS)) {
             KpiFrontend eventKpi = new KpiFrontend();
             eventKpi.setKpiName("Eventos");
             eventKpi.setKpiShortName("E");

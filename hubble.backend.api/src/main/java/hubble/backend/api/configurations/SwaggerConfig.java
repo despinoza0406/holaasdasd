@@ -32,6 +32,17 @@ public class SwaggerConfig {
     }
 
     @Bean
+    public Docket configurationApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("Configuration")
+                .globalOperationParameters(this.getParameters())
+                .apiInfo(apiInfo())
+                .select().apis(RequestHandlerSelectors.basePackage("hubble.backend.api.controllers"))
+                .paths(regex("/configuration.*"))
+                .build();
+    }
+
+    @Bean
     public Docket usersApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("Users")

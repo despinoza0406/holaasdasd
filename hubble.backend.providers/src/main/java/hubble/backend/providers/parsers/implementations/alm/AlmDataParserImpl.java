@@ -66,21 +66,24 @@ public class AlmDataParserImpl implements AlmDataParser {
         model.setDescription(getValue(almIssue, "description"));
         model.setDetectedOnRelease(getValue(almIssue, "detected-in-rel"));
         model.setId(Integer.valueOf(getValue(almIssue, "id")));
-        model.setModifiedDate(getValue(almIssue, "las-modified"));
+        model.setModifiedDate(getValue(almIssue, "last-modified"));
         model.setPriority(getValue(almIssue, "priority"));
         model.setProject(getValue(almIssue, "project"));
         model.setRegisteredDate(getValue(almIssue, "creation-time"));
         model.setReproducible(getValue(almIssue, "reproducible"));
         model.setSeverity(getValue(almIssue, "severity"));
-        model.setStatus(getValue(almIssue, configuration.getStatusFieldName()));
         model.setTitle(getValue(almIssue, "name"));
         model.setDetectedBy(getValue(almIssue, "detected-by"));
-        model.setBusinessApplication(getValue(almIssue, configuration.getApplicationFieldName()));
-        model.setApplicationId(resolveApplicationIdFromConfiguration(model.getBusinessApplication()));
-        model.setTransaction(getValue(almIssue, configuration.getTransactionFieldName()));
-        model.setProviderName(configuration.getProviderName());
-        model.setProviderOrigin(configuration.getProviderOrigin());
-
+        try {
+            model.setStatus(getValue(almIssue, configuration.getStatusFieldName()));
+            model.setBusinessApplication(getValue(almIssue, configuration.getApplicationFieldName()));
+            model.setApplicationId(resolveApplicationIdFromConfiguration(model.getBusinessApplication()));
+            model.setTransaction(getValue(almIssue, configuration.getTransactionFieldName()));
+            model.setProviderName(configuration.getProviderName());
+            model.setProviderOrigin(configuration.getProviderOrigin());
+        }catch (NullPointerException e){
+            logger.error("Error en la configuracion de alm. Por favor revisar los valores suministrados");
+        }
         return model;
     }
 
@@ -92,12 +95,23 @@ public class AlmDataParserImpl implements AlmDataParser {
     @Override
     public void run() {
         if(configuration.taskEnabled()) {
-            almTransport.login();
+            try {
+                almTransport.login();
+            }catch (NullPointerException e){
+                logger.error("Error en environment de alm. Por favor revisar los valores suministrados");
+                return;
+            }
             Map<String, String> cookies = almTransport.getSessionCookies();
             int startInd = 1;
             int cantDefects;
             do {
-                JSONObject allDefects = almTransport.getOpenDefects(cookies, startInd);
+                JSONObject allDefects;
+                try {
+                    allDefects = almTransport.getOpenDefects(cookies, startInd);
+                }catch (NullPointerException e){
+                    logger.error("Error en environment de alm. Por favor revisar los valores suministrados");
+                    return;
+                }
                 cantDefects = (allDefects.getInt("TotalResults"));
                 List<JSONObject> defects = this.parseList(allDefects);
                 for (JSONObject defect : defects) {
@@ -131,6 +145,7 @@ public class AlmDataParserImpl implements AlmDataParser {
     }
 
     private String resolveApplicationIdFromConfiguration(String applicationName) {
+
         HashMap<String,String> applicationsIdMap = configuration.getApplicationValueToIdMap();
         Set<String> keySet = applicationsIdMap.keySet();
         for (String key : keySet) {
