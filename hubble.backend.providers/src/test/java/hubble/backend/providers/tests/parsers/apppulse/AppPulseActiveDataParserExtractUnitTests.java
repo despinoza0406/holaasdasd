@@ -1,7 +1,7 @@
 package hubble.backend.providers.tests.parsers.apppulse;
 
-import hubble.backend.providers.configurations.environments.AppPulseProviderEnvironmentMongoImpl;
-import hubble.backend.providers.configurations.environments.ProviderEnvironment;
+import hubble.backend.providers.configurations.environments.AppPulseAppPulseProviderEnvironmentMongoImpl;
+import hubble.backend.providers.configurations.environments.AppPulseProviderEnvironment;
 import hubble.backend.providers.configurations.mappers.apppulse.AppPulseMapperConfiguration;
 import hubble.backend.providers.models.apppulse.AvailabilityProviderModel;
 import hubble.backend.providers.parsers.implementations.apppulse.AppPulseActiveDataParserImpl;
@@ -20,7 +20,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 public class AppPulseActiveDataParserExtractUnitTests extends AppPulseBaseUnitTests {
 
     @Spy
-    ProviderEnvironment environment = new AppPulseProviderEnvironmentMongoImpl();
+    AppPulseProviderEnvironment environment = new AppPulseAppPulseProviderEnvironmentMongoImpl();
     @Spy
     AppPulseActiveTransportImpl appPulseActiveTransport = new AppPulseActiveTransportImpl(environment);
     @Spy

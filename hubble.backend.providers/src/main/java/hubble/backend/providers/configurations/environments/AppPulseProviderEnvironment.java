@@ -4,7 +4,7 @@ package hubble.backend.providers.configurations.environments;
  *
  * @author Ismael J. Tisminetzky
  */
-public interface ProviderEnvironment {
+public interface AppPulseProviderEnvironment {
 
     /**
      * The URL of the provider from which offers

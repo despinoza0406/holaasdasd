@@ -2,7 +2,7 @@ package hubble.backend.providers.tests.transports;
 
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import hubble.backend.providers.configurations.environments.ProviderEnvironment;
+import hubble.backend.providers.configurations.environments.AppPulseProviderEnvironment;
 import hubble.backend.providers.tests.AppPulseBaseUnitTests;
 import hubble.backend.providers.transports.implementations.apppulse.AppPulseActiveTransportImpl;
 import org.json.JSONObject;
@@ -20,14 +20,14 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @PrepareForTest(Unirest.class)
 public class AppPulseActiveTransportUnitTest extends AppPulseBaseUnitTests {
 
-    private ProviderEnvironment environment;
+    private AppPulseProviderEnvironment environment;
     private AppPulseActiveTransportImpl appPulseActiveTransport;
 
     @Test
     public void AppPulseActiveParser_when_it_runs_and_not_get_connection_should_not_be_parsed() {
 
         //Assign
-        environment = PowerMockito.mock(ProviderEnvironment.class);
+        environment = PowerMockito.mock(AppPulseProviderEnvironment.class);
         PowerMockito.doReturn("fake-url").when(environment).getUrl();
         appPulseActiveTransport = new AppPulseActiveTransportImpl(environment);
         appPulseActiveTransport.setTokenValue("fake-token");
