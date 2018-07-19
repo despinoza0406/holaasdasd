@@ -5,11 +5,13 @@ import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class AppPulseConfigurationMongoImpl implements AppPulseConfiguration {
 
     @Autowired

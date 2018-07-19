@@ -86,8 +86,12 @@ public class JiraDataParserImpl implements JiraDataParser {
                 do {
                     response = jiraTransport.getIssuesByProject(project, startAt);
                     jiraModel = this.parse(response);
-                    issues = jiraModel.getIssues();
-
+                    try {
+                        issues = jiraModel.getIssues();
+                    }catch (Exception e){
+                        logger.error("No se pudieron obtener los issues de jira del proyecto "+project);
+                        return;
+                    }
                     for (JiraIssueModel issue : issues) {
                         issueStorage = jiraMapperConfiguration.mapToIssueStorage(issue);
                         issueRepository.save(issueStorage);
@@ -109,10 +113,11 @@ public class JiraDataParserImpl implements JiraDataParser {
 
         ObjectMapper objMapper = new ObjectMapper();
         objMapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        objMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT,true);
         JiraIssuesProviderModel jiraDataModel;
 
         try {
-            jiraDataModel = objMapper.readValue(dataStream, JiraIssuesProviderModel.class);
+            jiraDataModel = objMapper.readValue(dataStream, JiraIssuesProviderModel.class); //Falla aca y solo con crm
         } catch (IOException e) {
             logger.error(e.getMessage());
             return null;
