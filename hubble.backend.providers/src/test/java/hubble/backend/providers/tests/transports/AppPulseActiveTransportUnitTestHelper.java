@@ -3,7 +3,7 @@ package hubble.backend.providers.tests.transports;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import hubble.backend.providers.configurations.environments.AppPulseProviderEnvironment;
-import hubble.backend.providers.tests.AppPulseBaseUnitTests;
+import hubble.backend.providers.tests.AppPulseBaseUnitTestsHelper;
 import hubble.backend.providers.transports.implementations.apppulse.AppPulseActiveTransportImpl;
 import org.json.JSONObject;
 import static org.junit.Assert.assertNull;
@@ -18,7 +18,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 @Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Unirest.class)
-public class AppPulseActiveTransportUnitTest extends AppPulseBaseUnitTests {
+public class AppPulseActiveTransportUnitTestHelper extends AppPulseBaseUnitTestsHelper {
 
     private AppPulseProviderEnvironment environment;
     private AppPulseActiveTransportImpl appPulseActiveTransport;
@@ -29,7 +29,7 @@ public class AppPulseActiveTransportUnitTest extends AppPulseBaseUnitTests {
         //Assign
         environment = PowerMockito.mock(AppPulseProviderEnvironment.class);
         PowerMockito.doReturn("fake-url").when(environment).getUrl();
-        appPulseActiveTransport = new AppPulseActiveTransportImpl(environment);
+        appPulseActiveTransport = new AppPulseActiveTransportImpl();
         appPulseActiveTransport.setTokenValue("fake-token");
         PowerMockito.mockStatic(Unirest.class);
         PowerMockito.when(Unirest.post(anyString())).thenCallRealMethod();

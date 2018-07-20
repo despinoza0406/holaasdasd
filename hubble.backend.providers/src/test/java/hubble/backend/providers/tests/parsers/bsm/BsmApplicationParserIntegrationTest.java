@@ -2,13 +2,13 @@ package hubble.backend.providers.tests.parsers.bsm;
 
 import hubble.backend.providers.configurations.ProvidersConfiguration;
 import hubble.backend.providers.parsers.interfaces.bsm.BsmApplicationParser;
-import hubble.backend.providers.tests.AppPulseBaseUnitTests;
+import hubble.backend.providers.tests.AppPulseBaseUnitTestsHelper;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import java.util.List;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import org.junit.Ignore;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ProvidersConfiguration.class)
-public class BsmApplicationParserIntegrationTest extends AppPulseBaseUnitTests {
+public class BsmApplicationParserIntegrationTest extends AppPulseBaseUnitTestsHelper {
 
     @Autowired
     private BsmApplicationParser bsmParser;

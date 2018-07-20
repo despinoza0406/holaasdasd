@@ -5,19 +5,21 @@ import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.providers.parsers.interfaces.alm.AlmDataParser;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.tasksrunner.jobs.ParserJob;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.SchedulerContext;
-import org.quartz.SchedulerException;
+
+
+import org.quartz.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 public class AlmDataParserJob implements ParserJob{
 
     private Parser almParser;
-    private static final Logger logger = Logger.getLogger(AlmDataParserJob.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(AlmDataParserJob.class);
 
     @Autowired
     ProvidersRepository providersRepository;
@@ -32,12 +34,29 @@ public class AlmDataParserJob implements ParserJob{
     
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
-        
+        //Esto deberia funcionar, pero no se de donde sacar el nuevo schedule/intervalo
+        Trigger newTrigger = newTrigger().withIdentity(jec.getTrigger().getKey().getName(),jec.getTrigger().getKey().getGroup())
+                .startNow()
+                .withSchedule(simpleSchedule()
+                        .withIntervalInSeconds(60 * 60 * 24) //Por ahora es asi para mantener los valores con los que se viene trabajando
+                        .repeatForever()
+                )
+                .build();
+        Trigger oldTrigger = jec.getTrigger();
+
+
+        try {
+            Scheduler scheduler = jec.getScheduler();
+            scheduler.rescheduleJob(oldTrigger.getKey(), newTrigger);
+        }catch (SchedulerException ex){
+            logger.warn("Couldn't reschedule job");
+        }
         SchedulerContext schedulerContext = null;
         try {
             schedulerContext = (SchedulerContext) jec.getScheduler().getContext();
         } catch (SchedulerException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
+
         }
 
         ConfigurableApplicationContext taskRunnerAppContext = (ConfigurableApplicationContext) schedulerContext.get("context");
@@ -49,7 +68,7 @@ public class AlmDataParserJob implements ParserJob{
                 DateHelper.lastExecutionDate = DateHelper.getDateNow();
 
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.warn(ex.getMessage());
         }
     }
     

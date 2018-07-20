@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Primary
-public class AppPulseAppPulseProviderEnvironmentMongoImpl implements AppPulseProviderEnvironment {
+public class AppPulseProviderEnvironmentMongoImpl implements AppPulseProviderEnvironment {
 
 
     @Autowired

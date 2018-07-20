@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class AppPulseBaseUnitTests {
+public class AppPulseBaseUnitTestsHelper {
 
     String pathLocation = "/fakes/apppulse/";
 

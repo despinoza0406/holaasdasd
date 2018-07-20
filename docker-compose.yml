@@ -7,8 +7,9 @@ services:
             hostname: hubble-taskrunner
             stdin_open: true
             tty: true
-            links:
-                - mongodb:mongo
+            depends_on:
+                - mongodb
+                - hubble-api
             
     mongodb:
         image: mongo:latest
@@ -25,5 +26,5 @@ services:
         ports:
             - "8080:8080"
         hostname: hubble-api
-        links:
-            - mongodb:mongo
+        depends_on:
+            - mongodb

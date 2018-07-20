@@ -1,9 +1,9 @@
 package hubble.backend.providers.tests.parsers.apppulse;
 
-import hubble.backend.providers.configurations.environments.AppPulseAppPulseProviderEnvironmentMongoImpl;
+import hubble.backend.providers.configurations.environments.AppPulseProviderEnvironmentMongoImpl;
 import hubble.backend.providers.configurations.mappers.apppulse.AppPulseMapperConfiguration;
 import hubble.backend.providers.parsers.implementations.apppulse.AppPulseActiveDataParserImpl;
-import hubble.backend.providers.tests.AppPulseBaseUnitTests;
+import hubble.backend.providers.tests.AppPulseBaseUnitTestsHelper;
 import hubble.backend.providers.transports.implementations.apppulse.AppPulseActiveTransportImpl;
 import hubble.backend.storage.models.AvailabilityStorage;
 import hubble.backend.storage.repositories.AvailabilityRepository;
@@ -23,14 +23,14 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AppPulseActiveDataParserUnitTest extends AppPulseBaseUnitTests {
+public class AppPulseActiveDataParserUnitTestHelper extends AppPulseBaseUnitTestsHelper {
 
     @Spy
-    private AppPulseAppPulseProviderEnvironmentMongoImpl environment = new AppPulseAppPulseProviderEnvironmentMongoImpl();
+    private AppPulseProviderEnvironmentMongoImpl environment = new AppPulseProviderEnvironmentMongoImpl();
     @Spy
     private AppPulseMapperConfiguration mapperConfifuration;
     @Spy
-    private AppPulseActiveTransportImpl appPulseActiveTransport = new AppPulseActiveTransportImpl(environment);
+    private AppPulseActiveTransportImpl appPulseActiveTransport = new AppPulseActiveTransportImpl();
     @Mock
     private AvailabilityRepository appPulseActiveRepository;
 
@@ -53,7 +53,7 @@ public class AppPulseActiveDataParserUnitTest extends AppPulseBaseUnitTests {
         //Assign
         doReturn("fake-token").when(appPulseActiveTransport).getToken();
         doReturn("fake-token").when(appPulseActiveTransport).getTokenValue();
-        doReturn(AppPulseBaseUnitTests.getFakeAppPulseJson()).when(appPulseActiveTransport).getData();
+        doReturn(AppPulseBaseUnitTestsHelper.getFakeAppPulseJson()).when(appPulseActiveTransport).getData();
 
         //Act
         appPulseActiveParser.run();
@@ -69,8 +69,8 @@ public class AppPulseActiveDataParserUnitTest extends AppPulseBaseUnitTests {
         //Assign
         doReturn("fake-token").when(appPulseActiveTransport).getToken();
         doReturn("fake-token").when(appPulseActiveTransport).getTokenValue();
-        doReturn(AppPulseBaseUnitTests.getFakeAppPulseJson())
-                .doReturn(AppPulseBaseUnitTests.getFakeAppPulseJson()).when(appPulseActiveTransport).getData();
+        doReturn(AppPulseBaseUnitTestsHelper.getFakeAppPulseJson())
+                .doReturn(AppPulseBaseUnitTestsHelper.getFakeAppPulseJson()).when(appPulseActiveTransport).getData();
         doReturn(true).doReturn(false).when(appPulseActiveTransport).hasMoreData();
 
         //Act
@@ -120,7 +120,7 @@ public class AppPulseActiveDataParserUnitTest extends AppPulseBaseUnitTests {
     public void ApppulseActiveParser_when_gets_data_should_save_on_mongo() {
 
         //Assign
-        List<AvailabilityStorage> appPulseRecords = this.mapperConfifuration.mapToAvailabilitiesStorage(AppPulseBaseUnitTests.getFakeAppPulseProviderModel());
+        List<AvailabilityStorage> appPulseRecords = this.mapperConfifuration.mapToAvailabilitiesStorage(AppPulseBaseUnitTestsHelper.getFakeAppPulseProviderModel());
         doReturn(appPulseRecords.get(0)).when(appPulseActiveRepository).save(any(AvailabilityStorage.class));
         doReturn(true).when(appPulseActiveRepository).exist(any());
 

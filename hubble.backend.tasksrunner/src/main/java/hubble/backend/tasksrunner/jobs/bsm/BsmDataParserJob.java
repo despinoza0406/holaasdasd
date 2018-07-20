@@ -5,19 +5,21 @@ import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.providers.parsers.interfaces.bsm.BsmDataParser;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.tasksrunner.jobs.ParserJob;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.SchedulerContext;
-import org.quartz.SchedulerException;
+
+
+import org.quartz.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 public class BsmDataParserJob implements ParserJob {
 
     private Parser bsmParser;
-    private static final Logger logger = Logger.getLogger(BsmDataParserJob.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(BsmDataParserJob.class);
 
     @Autowired
     ProvidersRepository providersRepository;
@@ -32,12 +34,30 @@ public class BsmDataParserJob implements ParserJob {
 
     @Override
     public void execute(JobExecutionContext jobContext) throws JobExecutionException {
+        //Esto deberia funcionar, pero no se de donde sacar el nuevo schedule/intervalo
+        /*Trigger newTrigger = newTrigger().withIdentity(jobContext.getTrigger().getKey().getName(),jobContext.getTrigger().getKey().getGroup())
+                .startNow()
+                .withSchedule(simpleSchedule()
+                        .withIntervalInSeconds(60 * 60 * 24) //Por ahora es asi para mantener los valores con los que se viene trabajando
+                        .repeatForever()
+                )
+                .build();
+        Trigger oldTrigger = jobContext.getTrigger();
 
+
+        try {
+            Scheduler scheduler = jobContext.getScheduler();
+            scheduler.rescheduleJob(oldTrigger.getKey(), newTrigger);
+        }catch (SchedulerException ex){
+            logger.warn("Couldn't reschedule job");
+        }
+        */
         SchedulerContext schedulerContext = null;
         try {
             schedulerContext = (SchedulerContext) jobContext.getScheduler().getContext();
         } catch (SchedulerException ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
+
         }
 
         ConfigurableApplicationContext taskRunneAppContext = (ConfigurableApplicationContext) schedulerContext.get("context");
@@ -47,7 +67,7 @@ public class BsmDataParserJob implements ParserJob {
             bsmParser.run();
             DateHelper.lastExecutionDate = DateHelper.getDateNow();
         } catch (Exception ex) {
-            logger.log(Level.SEVERE, null, ex);
+            logger.error(ex.getMessage());
         }
     }
 

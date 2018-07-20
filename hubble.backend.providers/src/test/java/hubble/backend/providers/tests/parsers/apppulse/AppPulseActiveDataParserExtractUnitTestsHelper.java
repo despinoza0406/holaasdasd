@@ -1,11 +1,11 @@
 package hubble.backend.providers.tests.parsers.apppulse;
 
-import hubble.backend.providers.configurations.environments.AppPulseAppPulseProviderEnvironmentMongoImpl;
+import hubble.backend.providers.configurations.environments.AppPulseProviderEnvironmentMongoImpl;
 import hubble.backend.providers.configurations.environments.AppPulseProviderEnvironment;
 import hubble.backend.providers.configurations.mappers.apppulse.AppPulseMapperConfiguration;
 import hubble.backend.providers.models.apppulse.AvailabilityProviderModel;
 import hubble.backend.providers.parsers.implementations.apppulse.AppPulseActiveDataParserImpl;
-import hubble.backend.providers.tests.AppPulseBaseUnitTests;
+import hubble.backend.providers.tests.AppPulseBaseUnitTestsHelper;
 import hubble.backend.providers.transports.implementations.apppulse.AppPulseActiveTransportImpl;
 import hubble.backend.storage.repositories.AvailabilityRepository;
 import java.io.InputStream;
@@ -17,12 +17,12 @@ import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AppPulseActiveDataParserExtractUnitTests extends AppPulseBaseUnitTests {
+public class AppPulseActiveDataParserExtractUnitTestsHelper extends AppPulseBaseUnitTestsHelper {
 
     @Spy
-    AppPulseProviderEnvironment environment = new AppPulseAppPulseProviderEnvironmentMongoImpl();
+    AppPulseProviderEnvironment environment = new AppPulseProviderEnvironmentMongoImpl();
     @Spy
-    AppPulseActiveTransportImpl appPulseActiveTransport = new AppPulseActiveTransportImpl(environment);
+    AppPulseActiveTransportImpl appPulseActiveTransport = new AppPulseActiveTransportImpl();
     @Spy
     AppPulseMapperConfiguration mapperConfifuration = new AppPulseMapperConfiguration();
     @Mock

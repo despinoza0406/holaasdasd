@@ -2,7 +2,7 @@ package hubble.backend.providers.tests.configurations.mappers;
 
 import hubble.backend.providers.configurations.mappers.apppulse.AppPulseMapperConfiguration;
 import hubble.backend.providers.models.apppulse.AvailabilityProviderModel;
-import hubble.backend.providers.tests.AppPulseBaseUnitTests;
+import hubble.backend.providers.tests.AppPulseBaseUnitTestsHelper;
 import hubble.backend.storage.models.AvailabilityStorage;
 import java.util.List;
 import static org.junit.Assert.*;
@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MapperConfigurationUnitTests extends AppPulseBaseUnitTests {
+public class MapperConfigurationUnitTestsHelper extends AppPulseBaseUnitTestsHelper {
 
     AppPulseMapperConfiguration mapperConfifuration = new AppPulseMapperConfiguration();
 
@@ -19,7 +19,7 @@ public class MapperConfigurationUnitTests extends AppPulseBaseUnitTests {
     public void AppPulseActiveParser_convert_apppulse_model_provider_to_storage() {
 
         //Assign
-        AvailabilityProviderModel appPulseActivity = MapperConfigurationUnitTests.getFakeAppPulseProviderModel();
+        AvailabilityProviderModel appPulseActivity = MapperConfigurationUnitTestsHelper.getFakeAppPulseProviderModel();
 
         //Act
         List<AvailabilityStorage> availabilityStorageList = mapperConfifuration.mapToAvailabilitiesStorage(appPulseActivity);
