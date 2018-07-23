@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import hubble.backend.api.models.EnabledDisabledEntity;
 import hubble.backend.api.interfaces.BusinessApplicationManager;
+import hubble.backend.api.interfaces.RolAdminRequired;
+import hubble.backend.api.interfaces.RolUserRequired;
 import hubble.backend.api.interfaces.TokenRequired;
 import hubble.backend.api.models.BusinessApplicationFrontend;
 import hubble.backend.api.models.BusinessApplicationLigth;
@@ -44,6 +46,7 @@ public class ApplicationsController {
 
     @CrossOrigin
     @TokenRequired
+    @RolUserRequired
     @GetMapping(value = "/{id}")
     public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req,
             @PathVariable("id") String applicationId,
@@ -56,6 +59,7 @@ public class ApplicationsController {
 
     @CrossOrigin
     @TokenRequired
+    @RolUserRequired
     public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
             @RequestParam("include-inactives") Optional<Boolean> includeInactives,
             @RequestParam("page") int page,
@@ -66,11 +70,18 @@ public class ApplicationsController {
 
     @CrossOrigin
     @TokenRequired
+    @RolUserRequired
     @GetMapping(value = "/{id}/kpis")
     public KPIs getApplicationKPIs(@PathVariable("id") String appId) {
         return businessAppMgr.getKPIs(appId);
     }
 
+    /** 
+     * No tiene puesto rol required pq se usa con cualquiera de los dos!
+     * @param req
+     * @param includeInactives
+     * @return 
+     */
     @CrossOrigin
     @TokenRequired
     @GetMapping(value = "/ligth", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -83,6 +94,7 @@ public class ApplicationsController {
 
     @CrossOrigin
     @TokenRequired
+    @RolAdminRequired
     @PutMapping(value = "/enabled", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity habilitarDeshabilitar(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
@@ -99,6 +111,7 @@ public class ApplicationsController {
 
     @CrossOrigin
     @TokenRequired
+    @RolAdminRequired
     @PutMapping(value = "/taskRunner/enabled")
     public ResponseEntity habilitarDeshabilitarTaskRunner(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
@@ -114,6 +127,7 @@ public class ApplicationsController {
 
     @CrossOrigin
     @TokenRequired
+    @RolAdminRequired
     @PostMapping(path = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity create(@RequestBody NewApplication app) {
 
@@ -134,6 +148,7 @@ public class ApplicationsController {
 
     @CrossOrigin
     @TokenRequired
+    @RolAdminRequired
     @GetMapping(value = "/details", produces = {MediaType.APPLICATION_JSON_VALUE})
     @JsonIgnoreProperties(ignoreUnknown = true)
     public @ResponseBody
@@ -143,6 +158,7 @@ public class ApplicationsController {
 
     @CrossOrigin
     @TokenRequired
+    @RolAdminRequired
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     @JsonIgnoreProperties(ignoreUnknown = true)
     public ResponseEntity edit(@RequestBody JsonNode jsonNode) {

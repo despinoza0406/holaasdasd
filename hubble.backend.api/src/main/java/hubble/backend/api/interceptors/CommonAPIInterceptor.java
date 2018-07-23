@@ -1,5 +1,7 @@
 package hubble.backend.api.interceptors;
 
+import hubble.backend.api.interfaces.RolAdminRequired;
+import hubble.backend.api.interfaces.RolUserRequired;
 import hubble.backend.api.interfaces.TokenRequired;
 import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.UsersRepository;
@@ -51,12 +53,15 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
                 return true;
             }
 
+            boolean requiredAdmin = handlerMethod.getMethod().getAnnotation(RolAdminRequired.class) != null;
+            boolean requiredUser = handlerMethod.getMethod().getAnnotation(RolUserRequired.class) != null;
+
             String accessToken = request.getHeader("access-token");
 
             if (StringUtils.isBlank(accessToken)) {
                 throw new RuntimeException("El access-token es requerido");
             } else {
-                validateToken(request, response);
+                validateToken(request, response, requiredAdmin, requiredUser);
             }
 
             return true;
@@ -87,29 +92,51 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
         return req.getHeader("access-token");
     }
 
-    private boolean validateToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    private boolean validateToken(HttpServletRequest request, HttpServletResponse response, boolean requiredAdmin, boolean requiredUser) throws IOException, ServletException {
         try {
 
-                UUID token = token(request);
-                Optional<UserStorage> found = users.findByAccessToken(token);
-                if (!found.isPresent()) {
+            UUID token = token(request);
+            Optional<UserStorage> found = users.findByAccessToken(token);
+            if (!found.isPresent()) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return false;
+            } else {
+                UserStorage user = found.get();
+                if (!user.validateToken(token)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     return false;
                 } else {
-                    UserStorage user = found.get();
-                    if (!user.validateToken(token)) {
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                        return false;
-                    } else {
+                    if (this.validateRol(user, requiredAdmin, requiredUser)) {
                         request.setAttribute("authenticated-user", user);
                         return true;
+                    } else {
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        return false;
                     }
                 }
-            
+            }
+
         } catch (IllegalArgumentException ex) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
             return false;
         }
+    }
+
+    private boolean validateRol(UserStorage user, boolean requiredAdmin, boolean requiredUser) {
+
+        boolean result = false;
+
+        if (!requiredAdmin && !requiredUser) {
+            result = true;
+        } else {
+            if (requiredAdmin) {
+                result = user.isAdministrator();
+            } else if (requiredUser) {
+                result = user.isUser();
+            }
+        }
+
+        return result;
     }
 
 }

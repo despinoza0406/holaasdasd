@@ -1,5 +1,6 @@
 package hubble.backend.api.controllers;
 
+import hubble.backend.api.interfaces.RolAdminRequired;
 import hubble.backend.api.models.EnabledDisabledEntity;
 import hubble.backend.api.models.UpdateUser;
 import hubble.backend.api.models.Auth;
@@ -41,11 +42,17 @@ public class UsersController {
     }
 
     @TokenRequired
+    @RolAdminRequired
     @GetMapping
     public ResponseEntity get(@RequestParam("include-inactives") Optional<Boolean> includeInactives) {
         return new ResponseEntity(users.allUsers(includeInactives.orElse(false)), HttpStatus.OK);
     }
 
+    /**
+     * No tiene puesto anotaciones del tipo rol required pq puede ser accedido por cualquier rol.
+     * @param email
+     * @return 
+     */
     @TokenRequired
     @GetMapping(value = "/{email:.+}")
     public ResponseEntity get(@PathVariable String email) {
@@ -57,6 +64,7 @@ public class UsersController {
 
 
     @TokenRequired
+    @RolAdminRequired
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity post(@RequestBody NewUser user) {
         try {
@@ -82,6 +90,7 @@ public class UsersController {
     }
 
     @TokenRequired
+    @RolAdminRequired
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity edit(@RequestBody UpdateUser updateUser) {
 
@@ -115,7 +124,12 @@ public class UsersController {
         );
     }
 
-    //@CrossOrigin
+    /**
+     * No tiene puesto anotaciones del tipo rol required pq puede ser accedido por cualquier rol.
+     * @param email
+     * @param auth
+     * @return 
+     */
     @PostMapping(value = "/{email}/auth", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity authenticate(@PathVariable String email, @RequestBody Auth auth) {
         try {
@@ -128,6 +142,13 @@ public class UsersController {
         }
     }
 
+    
+    /**
+     * No tiene puesto anotaciones del tipo rol required pq puede ser accedido por cualquier rol.
+     * @param email
+     * @param token
+     * @return 
+     */
     @TokenRequired
     @PostMapping(value = "/{email}/tokens/{token}/refresh", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity refreshToken(@PathVariable String email, @PathVariable UUID token) {
@@ -142,6 +163,7 @@ public class UsersController {
     }
 
     @TokenRequired
+    @RolAdminRequired
     @PutMapping(value = "/enabled", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity habilitarDeshabilitar(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 

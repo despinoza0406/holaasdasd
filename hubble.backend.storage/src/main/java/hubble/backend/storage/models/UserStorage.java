@@ -186,4 +186,13 @@ public class UserStorage {
         return this.token.isSameToken(token) && !this.token.isExpired();
     }
 
+    public boolean isAdministrator()
+    {
+       return roles.stream().anyMatch(r -> r.equalsIgnoreCase("ADMINISTRATOR"));
+    }
+    
+        public boolean isUser()
+    {
+       return roles.stream().anyMatch(r -> r.equalsIgnoreCase("USER"));
+    }
 }

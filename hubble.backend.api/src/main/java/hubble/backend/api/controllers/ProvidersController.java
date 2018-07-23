@@ -3,6 +3,7 @@ package hubble.backend.api.controllers;
 import hubble.backend.api.models.EnabledDisabledEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
+import hubble.backend.api.interfaces.RolAdminRequired;
 import hubble.backend.api.interfaces.TokenRequired;
 import hubble.backend.business.services.interfaces.services.ProvidersService;
 import java.util.List;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import hubble.backend.storage.models.ProviderStorage;
@@ -41,6 +41,7 @@ public class ProvidersController {
     }
 
     @TokenRequired
+    @RolAdminRequired
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     public void edit(@RequestBody JsonNode jsonNode) {
         try {
@@ -52,6 +53,7 @@ public class ProvidersController {
     }
 
     @TokenRequired
+    @RolAdminRequired
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
     public @ResponseBody
     List<ProviderStorage> get(@RequestParam("include-inactives") Optional<Boolean> includeInactives) {
@@ -59,6 +61,7 @@ public class ProvidersController {
     }
 
     @TokenRequired
+    @RolAdminRequired
     @GetMapping(value = "/provider",produces = {MediaType.APPLICATION_JSON_VALUE})
     @JsonIgnoreProperties(ignoreUnknown = true)
     public @ResponseBody
@@ -67,6 +70,7 @@ public class ProvidersController {
     }
 
     @TokenRequired
+    @RolAdminRequired
     @PutMapping(value = "/enabled")
     public ResponseEntity habilitarDeshabilitar(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
@@ -82,6 +86,7 @@ public class ProvidersController {
     }
     
     @TokenRequired
+    @RolAdminRequired
     @PutMapping(value = "/taskRunner/enabled")
     public ResponseEntity habilitarDeshabilitarTaskRunner(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
