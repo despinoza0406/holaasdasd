@@ -3,6 +3,8 @@ package hubble.backend.tasksrunner.tasks.alm;
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import hubble.backend.tasksrunner.tasks.ParserTask;
 import static org.quartz.JobBuilder.newJob;
+
+import org.quartz.CronScheduleBuilder;
 import org.quartz.JobDetail;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import org.quartz.Trigger;
@@ -30,9 +32,8 @@ public class AlmDataTaskImpl implements ParserTask {
         this.trigger = newTrigger()
                 .withIdentity(this.identityName, this.identityGroupName)
                 .startNow()
-                .withSchedule(simpleSchedule()
-                        .withIntervalInSeconds(this.interval)
-                        .repeatForever())
+                .withSchedule(CronScheduleBuilder
+                        .cronSchedule("* * 0 * * ?"))
                 .build();
         return this.trigger;
     }

@@ -2,6 +2,7 @@ package hubble.backend.tasksrunner.tasks.sitescope;
 
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import hubble.backend.tasksrunner.tasks.ParserTask;
+import org.quartz.CronScheduleBuilder;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
 
@@ -30,10 +31,8 @@ public class SiteScopeDataTaskImpl implements ParserTask {
         this.trigger = newTrigger()
                 .withIdentity(this.identityName, this.identityGroupName)
                 .startNow()
-                .withSchedule(simpleSchedule()
-                        .withIntervalInSeconds(this.interval)
-                        .repeatForever()
-                )
+                .withSchedule(CronScheduleBuilder
+                        .cronSchedule("* 0/3 * * * ?"))
                 .build();
         return this.trigger;
     }

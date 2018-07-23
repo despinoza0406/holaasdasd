@@ -56,7 +56,6 @@ public class TasksRunnerApplication {
         ParserTask bsmTask = new BsmDataTaskImpl(bsmJob);
         bsmTask.setIndentityGroupName("BSM");
         bsmTask.setIndentityName("BSM Data Transacciones");
-        bsmTask.setIntervalSeconds(60 * 10);
         scheduler.addTask(bsmTask);
 
         //Alm
@@ -65,7 +64,6 @@ public class TasksRunnerApplication {
         ParserTask almDataTask = new AlmDataTaskImpl(almJob);
         almDataTask.setIndentityGroupName("Alm Provider Job");
         almDataTask.setIndentityName("Alm Data");
-        almDataTask.setIntervalSeconds(60 * 60 * 24); //1 día
 
         scheduler.addTask(almDataTask);
 
@@ -75,7 +73,6 @@ public class TasksRunnerApplication {
         ParserTask ppmDataTask = new PpmDataTaskImpl(ppmJob);
         ppmDataTask.setIndentityGroupName("Ppm Provider Job");
         ppmDataTask.setIndentityName("Ppm Data");
-        ppmDataTask.setIntervalSeconds(60 * 60 * 24);
         
         scheduler.addTask(ppmDataTask);
 
@@ -85,7 +82,6 @@ public class TasksRunnerApplication {
         ParserTask jiraDataTask = new JiraDataTaskImpl(jiraJob);
         jiraDataTask.setIndentityGroupName("Jira Provider Job");
         jiraDataTask.setIndentityName("Jira Data");
-        jiraDataTask.setIntervalSeconds(60 * 60 * 24);
 
         scheduler.addTask(jiraDataTask);
 
@@ -95,7 +91,6 @@ public class TasksRunnerApplication {
         ParserTask siteScopeDataTask = new SiteScopeDataTaskImpl(siteScopeJob);
         siteScopeDataTask.setIndentityGroupName("SiteScope Provider Job");
         siteScopeDataTask.setIndentityName("SiteScope Data");
-        siteScopeDataTask.setIntervalSeconds(60 * 5);
 
         scheduler.addTask(siteScopeDataTask);
 
