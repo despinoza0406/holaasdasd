@@ -15,15 +15,14 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Document
 public abstract class ProviderStorage<E, C> {
 
-    @Id
     private String id;
     private String name;
     private boolean enabled;
     
     
-    @DBRef
-    @CascadeSave
-    @Field("taskRunner")
+//    @DBRef
+//    @CascadeSave
+//    @Field("taskRunner")
     private TaskRunner taskRunner;
     
     private E environment;

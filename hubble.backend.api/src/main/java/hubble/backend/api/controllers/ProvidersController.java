@@ -1,6 +1,6 @@
 package hubble.backend.api.controllers;
 
-import hubble.backend.models.EnabledDisabledEntity;
+import hubble.backend.api.models.EnabledDisabledEntity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import hubble.backend.api.interfaces.TokenRequired;

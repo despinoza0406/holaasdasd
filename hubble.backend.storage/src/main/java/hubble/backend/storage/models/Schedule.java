@@ -1,5 +1,8 @@
 package hubble.backend.storage.models;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import hubble.backend.core.enums.MonitoringFields;
+
 /**
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
@@ -46,5 +49,15 @@ public class Schedule {
     public String cronExpression() {
         return String.format("0 0 %s %s * *", hours.hours(frecuency), days.days());
     }
+    
+      public Schedule fromJson(JsonNode jsonNode) {
+
+        this.frecuency = Frecuency.valueOf(jsonNode.get("frecuency").asText());
+        this.days = Days.valueOf(jsonNode.get("days").asText());
+        this.hours = HourRange.valueOf(jsonNode.get("hours").asText());
+        
+        return this;
+    }
+
 
 }

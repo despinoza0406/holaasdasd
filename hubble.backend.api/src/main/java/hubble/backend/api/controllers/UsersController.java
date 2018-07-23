@@ -1,9 +1,9 @@
 package hubble.backend.api.controllers;
 
-import hubble.backend.models.EnabledDisabledEntity;
-import hubble.backend.models.UpdateUser;
-import hubble.backend.models.Auth;
-import hubble.backend.models.NewUser;
+import hubble.backend.api.models.EnabledDisabledEntity;
+import hubble.backend.api.models.UpdateUser;
+import hubble.backend.api.models.Auth;
+import hubble.backend.api.models.NewUser;
 import hubble.backend.api.interfaces.TokenRequired;
 import hubble.backend.business.services.interfaces.services.UsersService;
 import hubble.backend.business.services.models.Roles;

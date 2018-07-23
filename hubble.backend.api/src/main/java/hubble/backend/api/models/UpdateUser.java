@@ -1,4 +1,4 @@
-package hubble.backend.models;
+package hubble.backend.api.models;
 
 import java.util.Set;
 

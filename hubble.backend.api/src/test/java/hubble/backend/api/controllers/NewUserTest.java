@@ -1,6 +1,6 @@
 package hubble.backend.api.controllers;
 
-import hubble.backend.models.NewUser;
+import hubble.backend.api.models.NewUser;
 import static java.util.Collections.EMPTY_SET;
 import org.junit.Test;
 

@@ -2,7 +2,6 @@ package hubble.backend.storage.models;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -12,9 +11,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Document
 public class TaskRunner {
-
-    @Id
-    private String id;
+//
+//    @Id
+//    private String id;
     
     private boolean enabled;
     private Schedule schedule;
@@ -27,13 +26,6 @@ public class TaskRunner {
         this.schedule = schedule;
     }
 
-    public TaskRunner(String id, boolean enabled, Schedule schedule) {
-        this.id = id;
-        this.enabled = enabled;
-        this.schedule = schedule;
-    }
-    
-    
 
     public boolean isEnabled() {
         return enabled;
@@ -51,15 +43,6 @@ public class TaskRunner {
         this.schedule = schedule;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    
     
     public TaskRunner fromJson(JsonNode jsonNode) {
 
@@ -67,9 +50,10 @@ public class TaskRunner {
         
         JsonNode scheduleJson  = jsonNode.get("schedule");
         
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.map(scheduleJson, Schedule.class);
-
+        Schedule scheduleFromJson = this.getSchedule().fromJson(scheduleJson);
+        
+        this.setSchedule(scheduleFromJson);
+        
         return this;
     }
 

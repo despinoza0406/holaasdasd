@@ -1,6 +1,6 @@
 package hubble.backend.api.controllers;
 
-import hubble.backend.models.Auth;
+import hubble.backend.api.models.Auth;
 import hubble.backend.business.services.interfaces.services.UsersService;
 import hubble.backend.storage.models.AuthToken;
 import hubble.backend.storage.repositories.UsersRepository;

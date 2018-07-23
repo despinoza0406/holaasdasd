@@ -30,4 +30,7 @@ public enum Frecuency {
     public abstract String _9to18();
 
     public abstract String _24hs();
+    
+    
+    
 }
