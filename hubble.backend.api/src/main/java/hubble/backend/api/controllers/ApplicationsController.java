@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin
+
 @RequestMapping("/applications")
 public class ApplicationsController {
 
@@ -51,6 +51,7 @@ public class ApplicationsController {
         this.applicationService = applicationService;
     }
 
+    @CrossOrigin
     @TokenRequired
     @GetMapping(value = "/{id}")
     public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req,
@@ -62,6 +63,7 @@ public class ApplicationsController {
         return applicationFrontend;
     }
 
+    @CrossOrigin
     @TokenRequired
     public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
             @RequestParam("include-inactives") Optional<Boolean> includeInactives,
@@ -71,12 +73,14 @@ public class ApplicationsController {
         return businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false), periodo);
     }
 
+    @CrossOrigin
     @TokenRequired
     @GetMapping(value = "/{id}/kpis")
     public KPIs getApplicationKPIs(@PathVariable("id") String appId) {
         return businessAppMgr.getKPIs(appId);
     }
 
+    @CrossOrigin
     @TokenRequired
     @GetMapping(value = "/ligth", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BusinessApplicationLigth> getApplicationsLigth(HttpServletRequest req, @RequestParam("include-inactives") Optional<Boolean> includeInactives) {
@@ -86,6 +90,7 @@ public class ApplicationsController {
         return businessApplicationLigth;
     }
 
+    @CrossOrigin
     @TokenRequired
     @PutMapping(value = "/enabled", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity habilitarDeshabilitar(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
@@ -101,6 +106,7 @@ public class ApplicationsController {
 
     }
 
+    @CrossOrigin
     @TokenRequired
     @PutMapping(value = "/taskRunner/enabled")
     public ResponseEntity habilitarDeshabilitarTaskRunner(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
@@ -115,6 +121,7 @@ public class ApplicationsController {
 
     }
 
+    @CrossOrigin
     @TokenRequired
     @PostMapping(path = "/new", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity create(@RequestBody NewApplication app) {
@@ -134,6 +141,7 @@ public class ApplicationsController {
         }
     }
 
+    @CrossOrigin
     @TokenRequired
     @GetMapping(value = "/details", produces = {MediaType.APPLICATION_JSON_VALUE})
     @JsonIgnoreProperties(ignoreUnknown = true)
@@ -142,6 +150,7 @@ public class ApplicationsController {
         return this.applicationService.findById(id);
     }
 
+    @CrossOrigin
     @TokenRequired
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     @JsonIgnoreProperties(ignoreUnknown = true)

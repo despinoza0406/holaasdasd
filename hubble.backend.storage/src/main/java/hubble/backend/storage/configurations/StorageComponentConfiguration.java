@@ -2,6 +2,7 @@ package hubble.backend.storage.configurations;
 
 import com.mongodb.Mongo;
 import hubble.backend.storage.configurations.environment.StorageEnvironment;
+import hubble.backend.storage.listeners.CascadeSaveMongoEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -33,4 +34,10 @@ public class StorageComponentConfiguration {
         String dbName = storageConf.getDbname();
         return new MongoTemplate(mongo, dbName);
     }
+    
+    @Bean
+    public CascadeSaveMongoEventListener cascadingMongoEventListener() {
+        return new CascadeSaveMongoEventListener();
+    }
+
 }

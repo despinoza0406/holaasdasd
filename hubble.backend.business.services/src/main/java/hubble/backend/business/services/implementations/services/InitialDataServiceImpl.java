@@ -27,6 +27,7 @@ public class InitialDataServiceImpl implements InitialDataService {
     
     private static final String ADMIN_EMAIL = "admin@tsoftlatam.com";
     private static final TaskRunner EVERY_DAY_AT_9 = new TaskRunner(
+            "EVERY_DAY_AT_9",
             true,
             new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.DAYLY)
     );
