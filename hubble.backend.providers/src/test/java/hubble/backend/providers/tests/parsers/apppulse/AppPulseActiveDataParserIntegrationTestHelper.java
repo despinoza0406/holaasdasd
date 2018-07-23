@@ -2,7 +2,7 @@ package hubble.backend.providers.tests.parsers.apppulse;
 
 import hubble.backend.providers.configurations.ProvidersConfiguration;
 import hubble.backend.providers.parsers.interfaces.apppulse.AppPulseActiveDataParser;
-import hubble.backend.providers.tests.AppPulseBaseUnitTests;
+import hubble.backend.providers.tests.AppPulseBaseUnitTestsHelper;
 import hubble.backend.storage.models.AvailabilityStorage;
 import hubble.backend.storage.repositories.AvailabilityRepository;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = ProvidersConfiguration.class)
-public class AppPulseActiveDataParserIntegrationTest extends AppPulseBaseUnitTests {
+public class AppPulseActiveDataParserIntegrationTestHelper extends AppPulseBaseUnitTestsHelper {
 
     @Autowired
     private AppPulseActiveDataParser appPulseActiveParser;

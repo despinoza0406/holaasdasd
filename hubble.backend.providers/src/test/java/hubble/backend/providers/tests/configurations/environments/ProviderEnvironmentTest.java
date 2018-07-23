@@ -1,7 +1,8 @@
 package hubble.backend.providers.tests.configurations.environments;
 
 import hubble.backend.providers.configurations.ProvidersConfiguration;
-import hubble.backend.providers.configurations.environments.ProviderEnvironment;
+import hubble.backend.providers.configurations.environments.AppPulseProviderEnvironment;
+
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ProviderEnvironmentTest {
 
     @Autowired
-    private ProviderEnvironment environment;
+    private AppPulseProviderEnvironment environment;
 
     @Test
     public void ProviderEnvironment_should_get_url() {

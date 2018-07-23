@@ -4,7 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import hubble.backend.providers.configurations.environments.ProviderEnvironment;
+import hubble.backend.providers.configurations.environments.AppPulseProviderEnvironment;
 import hubble.backend.providers.transports.interfaces.AppPulseActiveTransport;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import org.json.JSONObject;
@@ -15,19 +15,14 @@ import org.springframework.stereotype.Component;
 public class AppPulseActiveTransportImpl implements AppPulseActiveTransport {
 
     @Autowired
-    private ProviderEnvironment environment;
+    private AppPulseProviderEnvironment environment;
 
-    private final String APP_PULSE_ACTIVE_URL;
     private String clientId;
     private String clientSecret;
     private String tokenValue = EMPTY;
     private String lastRetrievedSequenceId = "0";
     private boolean hasMoreData = false;
 
-    public AppPulseActiveTransportImpl(ProviderEnvironment environment) {
-        this.environment = environment;
-        this.APP_PULSE_ACTIVE_URL = environment.getUrl();
-    }
 
     @Override
     public String getToken() {
@@ -36,7 +31,7 @@ public class AppPulseActiveTransportImpl implements AppPulseActiveTransport {
         HttpResponse<JsonNode> jsonResponse = null;
 
         try {
-            jsonResponse = Unirest.post(APP_PULSE_ACTIVE_URL + "oauth/token")
+            jsonResponse = Unirest.post(environment.getUrl() + "oauth/token")
                     .header("Content-Type", "application/json")
                     .body(authenticationJson)
                     .asJson();
@@ -70,7 +65,7 @@ public class AppPulseActiveTransportImpl implements AppPulseActiveTransport {
 
         HttpResponse<JsonNode> appPulseActiveHttpResponse = null;
         try {
-            appPulseActiveHttpResponse = Unirest.get(APP_PULSE_ACTIVE_URL + "getData")
+            appPulseActiveHttpResponse = Unirest.get(environment.getUrl() + "getData")
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + this.getTokenValue())
                     .queryString("lastRetrievedSequenceId", this.lastRetrievedSequenceId)
@@ -140,7 +135,7 @@ public class AppPulseActiveTransportImpl implements AppPulseActiveTransport {
 
         HttpResponse<JsonNode> appPulseActiveHttpResponse = null;
         try {
-            appPulseActiveHttpResponse = Unirest.get(APP_PULSE_ACTIVE_URL + "getConfiguration")
+            appPulseActiveHttpResponse = Unirest.get(environment.getUrl() + "getConfiguration")
                     .header("Content-Type", "application/json")
                     .header("Authorization", "Bearer " + this.getTokenValue())
                     .asJson();

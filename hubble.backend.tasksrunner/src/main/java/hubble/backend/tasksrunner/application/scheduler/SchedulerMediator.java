@@ -107,11 +107,6 @@ public class SchedulerMediator implements SchedulerUserCommands, SchedulerTasksA
             throw new Exception("Identity and Group Name are empty. SchedulerMediator.addTask. Line Number:" + lineNumber);
         }
 
-        if (taskRunner.getIntervalSeconds() == 0) {
-            int lineNumber = Thread.currentThread().getStackTrace()[2].getLineNumber();
-            throw new Exception("Interval time in seconds is 0. SchedulerMediator.addTask. Line Number:" + lineNumber);
-        }
-
         try {
             this.scheduler.scheduleJob(taskRunner.getJobDetail(), taskRunner.getTrigger());
         } catch (SchedulerException ex) {

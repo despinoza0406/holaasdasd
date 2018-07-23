@@ -46,14 +46,13 @@ public class BsmParserDataImpl implements BsmDataParser {
 
             List<BsmProviderModel> transactions = parse(data);
 
-            if (transactions == null) {
-                return;
+            if (transactions != null) {
+                this.availabilitiesStorage = new ArrayList<>();
+                this.availabilitiesStorage = mapperConfifuration.mapToAvailabilitiesStorage(transactions);
+
+                this.save(availabilitiesStorage);
             }
-
-            this.availabilitiesStorage = new ArrayList<>();
-            this.availabilitiesStorage = mapperConfifuration.mapToAvailabilitiesStorage(transactions);
-
-            this.save(availabilitiesStorage);
+            
         }
     }
 

@@ -72,9 +72,7 @@ public class InitialDataServiceImpl implements InitialDataService {
     private void guardarAplicacion(String id, String nombre, String descripcion,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira,String projectKey, String nombreEnSiteScope) {
         List<Threashold> threasholds = crearThreasholds();
         ApplicationStorage application = createApplicationStorage(id, nombre, descripcion, threasholds,nombreEnBSM, nombreEnPPM, nombreEnALM, nombreEnJira,projectKey, nombreEnSiteScope);
-        if(!applications.exist(application)) {
-            applications.save(application);
-        }
+        applications.save(application);
     }
     
     private static ApplicationStorage createApplicationStorage(String id, String nombre, String descripcion, List<Threashold> th,String nombreEnBSM, String nombreEnPPM, String nombreEnALM, String nombreEnJira,String projectKeyEnJira, String nombreEnSiteScope) {
