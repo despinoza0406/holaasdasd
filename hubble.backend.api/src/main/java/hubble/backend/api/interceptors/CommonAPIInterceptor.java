@@ -12,7 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -91,9 +90,6 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
     private boolean validateToken(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try {
 
-            if (getAccessTokenFromHeader(request).equalsIgnoreCase("tokenSwagger")) {
-                return true;
-            } else {
                 UUID token = token(request);
                 Optional<UserStorage> found = users.findByAccessToken(token);
                 if (!found.isPresent()) {
@@ -109,7 +105,7 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
                         return true;
                     }
                 }
-            }
+            
         } catch (IllegalArgumentException ex) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
             return false;

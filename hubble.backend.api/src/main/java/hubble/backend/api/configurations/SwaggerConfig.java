@@ -80,7 +80,7 @@ public class SwaggerConfig {
     private List<Parameter> getParameters() {
         //Adding Header
         ParameterBuilder aParameterBuilder = new ParameterBuilder();
-        aParameterBuilder.name("access-token").modelRef(new ModelRef("string")).parameterType("header").required(true).build();
+        aParameterBuilder.name("access-token").defaultValue("access-token").modelRef(new ModelRef("string")).parameterType("header").required(true).build();
         List<Parameter> aParameters = new ArrayList<>();
         aParameters.add(aParameterBuilder.build());
         return aParameters;

@@ -45,9 +45,9 @@ public class InitialDataServiceImpl implements InitialDataService {
     @Override
     public void createData() {
         dropCollections();
-        createAdminUser();
         configureProviders();
         configureApplications();
+        createAdminUser();
     }
 
     private void dropCollections(){
@@ -108,8 +108,8 @@ public class InitialDataServiceImpl implements InitialDataService {
                 ADMIN_EMAIL,
                 "Administrator",
                 "administrator".toCharArray(),
-                new HashSet<>(asList(Roles.ADMINISTRATOR.name())),
-                new HashSet<>()
+                new HashSet<>(asList(Roles.ADMINISTRATOR.name(), Roles.USER.name())),
+                new HashSet<>(applications.findAll())
         );
     }
     
