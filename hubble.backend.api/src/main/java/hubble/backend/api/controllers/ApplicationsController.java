@@ -7,21 +7,13 @@ import hubble.backend.api.interfaces.BusinessApplicationManager;
 import hubble.backend.api.interfaces.TokenRequired;
 import hubble.backend.api.models.BusinessApplicationFrontend;
 import hubble.backend.api.models.BusinessApplicationLigth;
-import hubble.backend.api.models.BusinessApplicationProfile;
 import hubble.backend.business.services.interfaces.services.ApplicationService;
-import hubble.backend.business.services.models.Roles;
 import hubble.backend.api.models.NewApplication;
-import hubble.backend.api.models.NewUser;
 import hubble.backend.storage.models.ApplicationStorage;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import hubble.backend.storage.models.KPIs;
-import hubble.backend.storage.models.ProviderStorage;
-import hubble.backend.storage.models.UserStorage;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static java.util.stream.Collectors.toSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-
 @RequestMapping("/applications")
 public class ApplicationsController {
 
