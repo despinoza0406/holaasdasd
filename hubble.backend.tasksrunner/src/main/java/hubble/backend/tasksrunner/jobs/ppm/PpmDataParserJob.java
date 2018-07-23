@@ -49,10 +49,8 @@ public class PpmDataParserJob implements ParserJob {
         //Esto deberia funcionar, pero no se de donde sacar el nuevo schedule/intervalo
         Trigger newTrigger = newTrigger().withIdentity(jec.getTrigger().getKey().getName(),jec.getTrigger().getKey().getGroup())
                 .startNow()
-                .withSchedule(simpleSchedule()
-                        .withIntervalInSeconds(60 * 60 * 24) //Por ahora es asi para mantener los valores con los que se viene trabajando
-                        .repeatForever()
-                )
+                .withSchedule(CronScheduleBuilder
+                        .cronSchedule("* * 0 * * ?"))
                 .build();
         Trigger oldTrigger = jec.getTrigger();
 

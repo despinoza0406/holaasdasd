@@ -34,14 +34,14 @@ public class BsmDataParserJob implements ParserJob {
 
     @Override
     public void execute(JobExecutionContext jobContext) throws JobExecutionException {
-        //Esto deberia funcionar, pero no se de donde sacar el nuevo schedule/intervalo
-        /*Trigger newTrigger = newTrigger().withIdentity(jobContext.getTrigger().getKey().getName(),jobContext.getTrigger().getKey().getGroup())
+        //o que va dentro de cron schedule se va a sacar de mongo
+        Trigger newTrigger = newTrigger().withIdentity(jobContext.getTrigger().getKey().getName(),jobContext.getTrigger().getKey().getGroup())
                 .startNow()
-                .withSchedule(simpleSchedule()
-                        .withIntervalInSeconds(60 * 60 * 24) //Por ahora es asi para mantener los valores con los que se viene trabajando
-                        .repeatForever()
+                .withSchedule(CronScheduleBuilder
+                        .cronSchedule("* 0 * * * ?")
                 )
                 .build();
+        logger.info("HOLA PAOLA");
         Trigger oldTrigger = jobContext.getTrigger();
 
 
@@ -51,7 +51,7 @@ public class BsmDataParserJob implements ParserJob {
         }catch (SchedulerException ex){
             logger.warn("Couldn't reschedule job");
         }
-        */
+
         SchedulerContext schedulerContext = null;
         try {
             schedulerContext = (SchedulerContext) jobContext.getScheduler().getContext();
