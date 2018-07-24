@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import static java.util.stream.Collectors.toSet;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -195,4 +194,12 @@ public class UserStorage {
     {
        return roles.stream().anyMatch(r -> r.equalsIgnoreCase("USER"));
     }
+        
+        
+    public boolean hasAccess(String idApp)
+    {
+       return applications.stream().anyMatch(app -> app.getId().equalsIgnoreCase(idApp));
+    }
+           
+
 }

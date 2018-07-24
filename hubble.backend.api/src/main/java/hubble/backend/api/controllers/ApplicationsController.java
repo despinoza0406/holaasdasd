@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import hubble.backend.storage.models.KPIs;
+import hubble.backend.storage.models.UserStorage;
+import java.util.ArrayList;
+import static java.util.stream.Collectors.toList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -52,10 +55,22 @@ public class ApplicationsController {
             @PathVariable("id") String applicationId,
             @RequestParam(value = "periodo", defaultValue = "default") String timePeriod) {
 
-        
-        BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId, timePeriod);
+        UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
 
-        return applicationFrontend;
+        if (userAuthenticated != null && userAuthenticated.isUser()) {
+
+            if (!userAuthenticated.hasAccess(applicationId)) {
+                throw new RuntimeException("El usuario no tiene acutorizado el acceso a la aplicación solicitada");
+            }
+
+            BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId, timePeriod);
+
+            return applicationFrontend;
+
+        } else {
+            throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
+        }
+
     }
 
     @CrossOrigin
@@ -67,31 +82,72 @@ public class ApplicationsController {
             @RequestParam("page") int page,
             @RequestParam("limit") int limit,
             @RequestParam(value = "periodo", defaultValue = "default") String periodo) {
-        return businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false), periodo);
+
+        UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
+
+        if (userAuthenticated != null && userAuthenticated.isUser()) {
+
+            List<BusinessApplicationFrontend> applicationFrontends = businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false), periodo);
+
+            applicationFrontends = applicationFrontends.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
+
+            return applicationFrontends;
+
+        } else {
+            throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
+        }
+
     }
 
     @CrossOrigin
     @TokenRequired
     @RolUserRequired
     @GetMapping(value = "/{id}/kpis")
-    public KPIs getApplicationKPIs(@PathVariable("id") String appId) {
-        return businessAppMgr.getKPIs(appId);
+    public KPIs getApplicationKPIs(HttpServletRequest req, @PathVariable("id") String appId) {
+
+        UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
+
+        if (userAuthenticated != null && userAuthenticated.isUser()) {
+
+            if (!userAuthenticated.hasAccess(appId)) {
+                throw new RuntimeException("El usuario no tiene acutorizado el acceso a la aplicación solicitada");
+            }
+
+            return businessAppMgr.getKPIs(appId);
+
+        } else {
+            throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
+        }
+
     }
 
-    /** 
+    /**
      * No tiene puesto rol required pq se usa con cualquiera de los dos!
+     *
      * @param req
      * @param includeInactives
-     * @return 
+     * @return
      */
     @CrossOrigin
     @TokenRequired
     @GetMapping(value = "/ligth", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BusinessApplicationLigth> getApplicationsLigth(HttpServletRequest req, @RequestParam("include-inactives") Optional<Boolean> includeInactives) {
 
+        UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
+        
         List<BusinessApplicationLigth> businessApplicationLigth = businessAppMgr.getApplicationsLigth(includeInactives.orElse(false));
 
+        //Si el usuario es solo user, filtro por las aplicaciones q puede ver 
+        if (userAuthenticated != null && (userAuthenticated.isUser() && !userAuthenticated.isAdministrator())) {
+
+              businessApplicationLigth = businessApplicationLigth.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
+
+        } else {
+            throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
+        }
+        
         return businessApplicationLigth;
+
     }
 
     @CrossOrigin
