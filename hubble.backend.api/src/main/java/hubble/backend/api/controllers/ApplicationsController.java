@@ -142,10 +142,7 @@ public class ApplicationsController {
 
               businessApplicationLigth = businessApplicationLigth.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
 
-        } else {
-            throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
         }
-        
         return businessApplicationLigth;
 
     }
