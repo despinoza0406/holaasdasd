@@ -52,6 +52,7 @@ public class ApplicationsController {
             @PathVariable("id") String applicationId,
             @RequestParam(value = "periodo", defaultValue = "default") String timePeriod) {
 
+        
         BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId, timePeriod);
 
         return applicationFrontend;
@@ -60,6 +61,7 @@ public class ApplicationsController {
     @CrossOrigin
     @TokenRequired
     @RolUserRequired
+    @GetMapping(value = "/dashBoard")
     public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
             @RequestParam("include-inactives") Optional<Boolean> includeInactives,
             @RequestParam("page") int page,
