@@ -46,7 +46,7 @@ public class SiteScopeDataParserJob implements ParserJob {
         Trigger newTrigger = newTrigger().withIdentity(jec.getTrigger().getKey().getName(),jec.getTrigger().getKey().getGroup())
                 .startNow()
                 .withSchedule(CronScheduleBuilder
-                        .cronSchedule("0/5 * * * * ?"))
+                        .cronSchedule("* 0/5 * * * ?"))
                 .build();
         Trigger oldTrigger = jec.getTrigger();
 
