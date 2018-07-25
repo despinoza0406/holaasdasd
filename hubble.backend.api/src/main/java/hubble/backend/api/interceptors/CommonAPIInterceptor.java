@@ -42,29 +42,37 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
 
         if (object instanceof HandlerMethod) {
 
-            HandlerMethod handlerMethod = ((HandlerMethod) object);
+            try {
 
-            logger.log(Level.INFO, "Intercepting the Request in preHandle. Method: {0}",
-                    new Object[]{handlerMethod.getMethod().getName()});
+                HandlerMethod handlerMethod = ((HandlerMethod) object);
 
-            TokenRequired tokenRequiredAnnotation = handlerMethod.getMethod().getAnnotation(TokenRequired.class);
+                logger.log(Level.INFO, "Intercepting the Request in preHandle. Method: {0}",
+                        new Object[]{handlerMethod.getMethod().getName()});
 
-            if (tokenRequiredAnnotation == null) {
+                TokenRequired tokenRequiredAnnotation = handlerMethod.getMethod().getAnnotation(TokenRequired.class);
+
+                if (tokenRequiredAnnotation == null) {
+                    return true;
+                }
+
+                boolean requiredAdmin = handlerMethod.getMethod().getAnnotation(RolAdminRequired.class) != null;
+                boolean requiredUser = handlerMethod.getMethod().getAnnotation(RolUserRequired.class) != null;
+
+                String accessToken = request.getHeader("access-token");
+
+                if (StringUtils.isBlank(accessToken)) {
+                    throw new RuntimeException("El access-token es requerido");
+                } else {
+                    validateToken(request, response, requiredAdmin, requiredUser);
+                }
+
                 return true;
+
+            } catch (Exception ex) {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return false;
             }
 
-            boolean requiredAdmin = handlerMethod.getMethod().getAnnotation(RolAdminRequired.class) != null;
-            boolean requiredUser = handlerMethod.getMethod().getAnnotation(RolUserRequired.class) != null;
-
-            String accessToken = request.getHeader("access-token");
-
-            if (StringUtils.isBlank(accessToken)) {
-                throw new RuntimeException("El access-token es requerido");
-            } else {
-                validateToken(request, response, requiredAdmin, requiredUser);
-            }
-
-            return true;
         }
 
         return super.preHandle(request, response, object);
@@ -99,19 +107,19 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
             Optional<UserStorage> found = users.findByAccessToken(token);
             if (!found.isPresent()) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return false;
+                throw new RuntimeException("No existe un usuario con el token suministrado");
             } else {
                 UserStorage user = found.get();
                 if (!user.validateToken(token)) {
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    return false;
+                    throw new RuntimeException("El access-token no es válido");
                 } else {
                     if (this.validateRol(user, requiredAdmin, requiredUser)) {
                         request.setAttribute("authenticated-user", user);
                         return true;
                     } else {
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                        return false;
+                        throw new RuntimeException("No tiene el rol necesario para realizar esta acción.");
                     }
                 }
             }
