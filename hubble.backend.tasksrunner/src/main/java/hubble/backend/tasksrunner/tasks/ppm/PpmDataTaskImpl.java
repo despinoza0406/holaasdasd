@@ -32,7 +32,7 @@ public class PpmDataTaskImpl implements ParserTask {
                 .withIdentity(this.identityName, this.identityGroupName)
                 .startNow()
                 .withSchedule(CronScheduleBuilder
-                        .cronSchedule("* * 0 * * ?"))
+                        .cronSchedule("0 0 0 * * ?"))
                 .build();
         return this.trigger;
     }

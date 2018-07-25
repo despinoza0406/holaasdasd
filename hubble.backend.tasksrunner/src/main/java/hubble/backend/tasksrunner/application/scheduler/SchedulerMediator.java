@@ -51,6 +51,11 @@ public class SchedulerMediator implements SchedulerUserCommands, SchedulerTasksA
     public void start() {
         try {
             this.scheduler.start();
+            for(String name: scheduler.getJobGroupNames()){
+                for(JobKey key: scheduler.getJobKeys(GroupMatcher.jobGroupEquals(name))){
+                    scheduler.triggerJob(key);
+                }
+            }
         } catch (SchedulerException ex) {
             Logger.getLogger(SchedulerMediator.class.getName()).log(Level.SEVERE, null, ex);
         }

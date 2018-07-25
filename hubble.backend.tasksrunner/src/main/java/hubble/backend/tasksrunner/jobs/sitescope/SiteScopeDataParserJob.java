@@ -43,10 +43,9 @@ public class SiteScopeDataParserJob implements ParserJob {
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
         //Esto deberia funcionar, pero no se de donde sacar el nuevo schedule/intervalo
-        Trigger newTrigger = newTrigger().withIdentity(jec.getTrigger().getKey().getName(),jec.getTrigger().getKey().getGroup())
-                .startNow()
+        /*Trigger newTrigger = newTrigger().withIdentity(jec.getTrigger().getKey().getName(),jec.getTrigger().getKey().getGroup())
                 .withSchedule(CronScheduleBuilder
-                        .cronSchedule("* 0/5 * * * ?"))
+                        .cronSchedule("0 0/1 * * * ?"))
                 .build();
         Trigger oldTrigger = jec.getTrigger();
 
@@ -57,6 +56,7 @@ public class SiteScopeDataParserJob implements ParserJob {
         }catch (SchedulerException ex){
             logger.warn("Couldn't reschedule job");
         }
+        */
         SchedulerContext schedulerContext = null;
         try {
             schedulerContext = (SchedulerContext) jec.getScheduler().getContext();

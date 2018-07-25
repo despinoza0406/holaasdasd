@@ -30,9 +30,9 @@ public class SiteScopeDataTaskImpl implements ParserTask {
     public Trigger getTrigger() {
         this.trigger = newTrigger()
                 .withIdentity(this.identityName, this.identityGroupName)
-                .startNow()
                 .withSchedule(CronScheduleBuilder
-                        .cronSchedule("* 0/3 * * * ?"))
+                        .cronSchedule("0 0/1 * * * ?"))
+                .startNow()
                 .build();
         return this.trigger;
     }

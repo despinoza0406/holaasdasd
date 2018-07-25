@@ -41,21 +41,6 @@ public class JiraDataParserJob implements ParserJob {
 
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
-        //Esto deberia funcionar, pero no se de donde sacar el nuevo schedule/intervalo
-        Trigger newTrigger = newTrigger().withIdentity(jec.getTrigger().getKey().getName(),jec.getTrigger().getKey().getGroup())
-                .startNow()
-                .withSchedule(CronScheduleBuilder
-                        .cronSchedule("* * 0 * * ?"))
-                .build();
-        Trigger oldTrigger = jec.getTrigger();
-
-
-        try {
-            Scheduler scheduler = jec.getScheduler();
-            scheduler.rescheduleJob(oldTrigger.getKey(), newTrigger);
-        }catch (SchedulerException ex){
-            logger.warn("Couldn't reschedule job");
-        }
         SchedulerContext schedulerContext = null;
         try {
             schedulerContext = (SchedulerContext) jec.getScheduler().getContext();

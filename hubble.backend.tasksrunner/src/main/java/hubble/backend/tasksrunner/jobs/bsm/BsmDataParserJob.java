@@ -34,24 +34,6 @@ public class BsmDataParserJob implements ParserJob {
 
     @Override
     public void execute(JobExecutionContext jobContext) throws JobExecutionException {
-        //o que va dentro de cron schedule se va a sacar de mongo
-        Trigger newTrigger = newTrigger().withIdentity(jobContext.getTrigger().getKey().getName(),jobContext.getTrigger().getKey().getGroup())
-                .startNow()
-                .withSchedule(CronScheduleBuilder
-                        .cronSchedule("* 0 * * * ?")
-                )
-                .build();
-        logger.info("HOLA PAOLA");
-        Trigger oldTrigger = jobContext.getTrigger();
-
-
-        try {
-            Scheduler scheduler = jobContext.getScheduler();
-            scheduler.rescheduleJob(oldTrigger.getKey(), newTrigger);
-        }catch (SchedulerException ex){
-            logger.warn("Couldn't reschedule job");
-        }
-
         SchedulerContext schedulerContext = null;
         try {
             schedulerContext = (SchedulerContext) jobContext.getScheduler().getContext();
