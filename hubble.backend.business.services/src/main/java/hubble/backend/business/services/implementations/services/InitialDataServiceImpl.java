@@ -51,6 +51,7 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
 
     private void dropCollections(){
+        //users.deleteAll();
         providers.deleteAll();
         applications.deleteAll();
     }
