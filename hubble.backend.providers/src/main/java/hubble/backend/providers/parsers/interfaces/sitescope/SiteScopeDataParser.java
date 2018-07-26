@@ -6,7 +6,9 @@ import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.models.WorkItemStorage;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public interface SiteScopeDataParser extends Parser {
-    public SiteScopeEventProviderModel parse(JSONObject data);
-    public EventStorage convert(SiteScopeEventProviderModel siteScopeEventProviderModel);
+    public List<SiteScopeEventProviderModel> parse(JSONObject data);
+    public List<EventStorage> convert(List<SiteScopeEventProviderModel> siteScopeEventProviderModel);
 }

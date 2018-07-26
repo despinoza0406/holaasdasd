@@ -24,4 +24,16 @@ public class CalculationHelperUnitTest {
         double healthIndex = CalculationHelper.calculateDispCriticalHealthIndex(42.85714d, 90d, 1d);
         assertTrue(healthIndex > 1d && healthIndex < 2d);
     }
+
+    @Test
+    public void should_calculate_critical_performance_healthIndex() {
+        double healthIndex = CalculationHelper.calculateMinInfiniteCriticalHealthIndex(8000, 8010);
+        assertTrue(healthIndex > 1d && healthIndex < 6d);
+    }
+
+    @Test
+    public void should_calculate_critical_performance_with_escale_healthIndex() {
+        double healthIndex = CalculationHelper.calculateMinInfiniteCriticalHealthIndex(8000, 14000,1000d);
+        assertTrue(healthIndex > 1d && healthIndex < 6d);
+    }
 }

@@ -270,7 +270,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
 
 
 
-        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(severityPointsTotal,lCriticalKpiThreshold,10d);
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(severityPointsTotal,lCriticalKpiThreshold);//,10d);
 
     }
 

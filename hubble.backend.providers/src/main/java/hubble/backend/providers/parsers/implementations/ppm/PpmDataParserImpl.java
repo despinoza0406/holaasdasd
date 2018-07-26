@@ -36,13 +36,18 @@ public class PpmDataParserImpl implements PpmDataParser {
     @Override
     public void run() {
         if(configuration.taskEnabled()) {
-            String encodedAuthString = ppmTransport.encodeToBase64(
-                    ppmTransport.getEnvironment().getUser(),
-                    ppmTransport.getEnvironment().getPassword());
-            List<JSONObject> requestsToBeParsed = new ArrayList();
-            List<JSONObject> detailedRequests = new ArrayList();
-            List<String> requestTypeIds = ppmTransport.getConfiguredRequestTypes(encodedAuthString);
+            String encodedAuthString= "";
+            try {
+                encodedAuthString = ppmTransport.encodeToBase64(
+                        ppmTransport.getEnvironment().getUser(),
+                        ppmTransport.getEnvironment().getPassword());
+            }catch (NullPointerException e){
+                logger.error("Error en environment de ppm. Por favor revisar los valores suministrados");
+            }
 
+            List<String> requestTypeIds = ppmTransport.getConfiguredRequestTypes(encodedAuthString);
+            List<JSONObject> requestsToBeParsed = new ArrayList<JSONObject>();
+            List<JSONObject> detailedRequests = new ArrayList<JSONObject>();
             for (String id : requestTypeIds) {
                 requestsToBeParsed.addAll(ppmTransport.getRequests(encodedAuthString, id));
             }

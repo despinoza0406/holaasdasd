@@ -236,7 +236,7 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
             return CalculationHelper.calculateWarningHealthIndex(deflectionDaysTotal,lWarningKpiThreshold,lCriticalKpiThreshold);
         }
 
-        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(deflectionDaysTotal,lCriticalKpiThreshold,10d);
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(deflectionDaysTotal,lCriticalKpiThreshold);//,10d);
 
 
 

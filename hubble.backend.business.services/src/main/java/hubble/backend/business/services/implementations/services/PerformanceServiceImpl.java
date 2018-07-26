@@ -152,7 +152,7 @@ public class PerformanceServiceImpl implements PerformanceService {
             return CalculationHelper.calculateWarningHealthIndex(averagePerformance, warningThreshold, criticalThreshold);
         }
 
-        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold);//, 1000d);
     }
 
 
@@ -180,7 +180,7 @@ public class PerformanceServiceImpl implements PerformanceService {
             return CalculationHelper.calculateWarningHealthIndex(averagePerformance, warningThreshold, criticalThreshold);
         }
 
-        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold);//, 1000d);
     }
 
     @Override
@@ -213,7 +213,7 @@ public class PerformanceServiceImpl implements PerformanceService {
             return CalculationHelper.calculateWarningHealthIndex(averagePerformance, warningThreshold, criticalThreshold);
         }
 
-        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold);//, 1000d);
     }
 
     @Override

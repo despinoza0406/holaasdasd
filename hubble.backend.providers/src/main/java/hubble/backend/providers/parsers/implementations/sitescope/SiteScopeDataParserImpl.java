@@ -42,21 +42,22 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
     public void run() {
         if(configuration.taskEnabled()) {
             List<String> groups = siteScopeTransport.getApplicationNames();
-            ApplicationStorage application;
             List<String> groupPaths = siteScopeTransport.getPathsToGroups(groups);
             List<JSONObject> groupsSnapshots = siteScopeTransport.getGroupsSnapshots(groupPaths);
 
             for (JSONObject snapshot : groupsSnapshots) {
-                EventStorage event = this.convert(this.parse(snapshot));
-                if (!eventRepository.exist(event)) {
-                    eventRepository.save(event);
+                List<EventStorage> events = this.convert(this.parse(snapshot));
+                for(EventStorage event : events){
+                    if (!eventRepository.exist(event)) {
+                        eventRepository.save(event);
+                    }
                 }
             }
         }
     }
 
     @Override
-    public SiteScopeEventProviderModel parse(JSONObject data) {
+    public List<SiteScopeEventProviderModel> parse(JSONObject data) {
         String groupName;
         List<Monitor> monitors;
 
@@ -68,10 +69,11 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
         JSONObject siteScopeConfigSnapshot = data.getJSONObject("configuration_snapshot");
         groupName = siteScopeConfigSnapshot.getString("name");
         monitors = this.getMonitors(groupName);
-
-        SiteScopeEventProviderModel siteScopeEvent= this.mapToSiteScopeEvent(siteScopeConfigSnapshot,siteScopeRuntimeSnapshot,monitors);
-
-        return siteScopeEvent;
+        List<SiteScopeEventProviderModel> siteScopeEvents = new ArrayList<>();
+        for(Monitor monitor: monitors) {
+             siteScopeEvents.add(this.mapToSiteScopeEvent(siteScopeConfigSnapshot, siteScopeRuntimeSnapshot, monitor));
+        }
+        return siteScopeEvents;
     }
 
     private List<Monitor> getMonitors(String groupName){
@@ -92,19 +94,24 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
 
 
     @Override
-    public EventStorage convert(SiteScopeEventProviderModel siteScopeEventProviderModel) {
-        return mapper.mapToEventStorage(siteScopeEventProviderModel);
+    public List<EventStorage> convert(List<SiteScopeEventProviderModel> siteScopeEventProviderModels) {
+        List<EventStorage> events = new ArrayList<>();
+        for(SiteScopeEventProviderModel event: siteScopeEventProviderModels) {
+            events.add(mapper.mapToEventStorage(event));
+
+        }
+        return events;
     }
 
-    public SiteScopeEventProviderModel mapToSiteScopeEvent(JSONObject config, JSONObject runtime,List<Monitor> monitors){
+    public SiteScopeEventProviderModel mapToSiteScopeEvent(JSONObject config, JSONObject runtime,Monitor monitor){
         SiteScopeEventProviderModel model = new SiteScopeEventProviderModel();
 
-        model.setSummary(runtime.getString("summary"));
-        model.setStatus(runtime.getString("status"));
-        model.setName(config.getString("name"));
-        model.setDescription(config.getString(("description")));
-        model.setUpdatedDate(this.getDate(config.getString("updated_date")));
-        model.setMonitors(monitors);
+        model.setSummary(monitor.getSummary());
+        model.setStatus(monitor.getStatus());
+        model.setName(monitor.getName());
+        model.setType(monitor.getType());
+        model.setDescription(monitor.getDescription());
+        model.setUpdatedDate(this.getDate(monitor.getDate()));
         model.setBusinessApplication(config.getString("name"));
         model.setApplicationId(resolveApplicationIdFromConfiguration(model.getBusinessApplication()));
         model.setProviderName(Providers.PROVIDERS_NAME.SITE_SCOPE.toString());

@@ -182,7 +182,13 @@ public class PpmTransportImpl implements PpmTransport {
 
     @Override
     public List<String> getConfiguredRequestTypes(String encodedAuthString) {
-        String requestTypeIds = configuration.getRequestTypeIds();
+        String requestTypeIds = "";
+        try {
+            requestTypeIds = configuration.getRequestTypeIds();
+        }catch (NullPointerException e){
+            logger.error("Error en config de ppm. Por favor revisar los valores suministrados");
+        }
+
         List<String> requestTypeIdsToBeRetrieved = new ArrayList();
         List<JSONObject> rawRequestTypes;
         if (requestTypeIds.equals("*")) {
