@@ -46,13 +46,20 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
     }
 
     public List<String> getApplicationNames(){
-            HashMap<String,String> applicationsIdMap = configuration.getApplicationValueToIdMap();
-            Set<String> keys = applicationsIdMap.keySet();
-            List<String> applicationNames = new ArrayList<>();
-            for (String key : keys) {
-                applicationNames.add(applicationsIdMap.get(key));
-            }
-            return applicationNames;
+        HashMap<String,String> applicationsIdMap;
+        try {
+            applicationsIdMap = configuration.getApplicationValueToIdMap();
+        }catch (NullPointerException e){
+            logger.error("Error en configuracion de sitescope. Por favor revisar los valores suministrados");
+            return null;
+        }
+
+        Set<String> keys = applicationsIdMap.keySet();
+        List<String> applicationNames = new ArrayList<>();
+        for (String key : keys) {
+            applicationNames.add(applicationsIdMap.get(key));
+        }
+        return applicationNames;
 
     }
 
@@ -72,6 +79,9 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
                     .asJson();
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            return null;
+        } catch (NullPointerException e){
+            logger.error("Error en environment de sitescope. Por favor revisar los valores suministrados");
             return null;
         }
 

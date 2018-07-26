@@ -14,6 +14,10 @@ public class SiteScopeMonitorMapper {
 
         simpleMonitor.setSummary(runtime.getString("summary"));
         simpleMonitor.setName(config.getString("name"));
+        simpleMonitor.setStatus(runtime.getString("status"));
+        simpleMonitor.setType(config.getString("type"));
+        simpleMonitor.setDescription(runtime.getString("availability_description"));
+        simpleMonitor.setDate(config.getString("updated_date"));
 
         return simpleMonitor;
     }

@@ -11,7 +11,6 @@ public class SiteScopeEventProviderModel {
     private String name;
     private String description;
     private Date updatedDate;
-    private List<Monitor> monitors;
     private String businessApplication;
     private String businessApplicationId;
     private String type;
@@ -104,11 +103,4 @@ public class SiteScopeEventProviderModel {
         this.type = type;
     }
 
-    public List<Monitor> getMonitors() {
-        return monitors;
-    }
-
-    public void setMonitors(List<Monitor> monitors) {
-        this.monitors = monitors;
-    }
 }
