@@ -38,6 +38,14 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     @Autowired
     MapperConfiguration mapper;
 
+
+    double n = 0;
+    double inferior = 0;
+    double warningThreshold = 0;
+    double criticalThreshold = 0;
+    double superior = 0;
+
+
     @Override
     public List<Availability> getAll() {
         List<AvailabilityStorage> availabilityStorageList = availabilityRepository.findAll();
@@ -188,22 +196,24 @@ public class AvailabilityServiceImpl implements AvailabilityService {
             totalOk = totalOk + (availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1);
         }
 
-        double n = (totalOk * 100d) / (double) availabilityStorageList.size() ;
-        double warningThreshold = threshold.getWarning();
-        double okThreshhold = threshold.getOk();
+        n = (totalOk * 100d) / (double) availabilityStorageList.size() ;
+
+        inferior = threshold.getInferior();
+        warningThreshold = threshold.getWarning();
+        criticalThreshold = threshold.getCritical();
+        superior = threshold.getSuperior();
 
 
-
-        if (n >= okThreshhold) {
-            return CalculationHelper.calculateDispOkHealthIndex(n, 100, okThreshhold);
+        if (n >= warningThreshold) {
+            return CalculationHelper.calculateDispOkHealthIndex(n, inferior , warningThreshold);
         }
 
-        if (n >= warningThreshold && n < okThreshhold) {
-            return CalculationHelper.calculateDispWarningHealthIndex(n, okThreshhold, warningThreshold);
+        if (n >= warningThreshold && n < criticalThreshold) {
+            return CalculationHelper.calculateDispWarningHealthIndex(n, warningThreshold, criticalThreshold);
         }
 
-        if (n <= warningThreshold) {
-            return CalculationHelper.calculateDispCriticalHealthIndex(n, warningThreshold, 1);
+        if (n <= criticalThreshold) {
+            return CalculationHelper.calculateDispCriticalHealthIndex(n, criticalThreshold, superior);
         }
 
         return 0;
@@ -220,22 +230,22 @@ public class AvailabilityServiceImpl implements AvailabilityService {
             totalOk = totalOk + (availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1);
         }
 
-        double n = totalOk / (double) availabilityStorageList.size() * 100d;
-        double warningThreshold = threashold.getWarning();
-        double okThreshhold = threashold.getOk();
+        inferior = threashold.getInferior();
+        warningThreshold = threashold.getWarning();
+        criticalThreshold = threashold.getCritical();
+        superior = threashold.getSuperior();
 
 
-
-        if (n >= okThreshhold) {
-            return CalculationHelper.calculateDispOkHealthIndex(n, 100, okThreshhold);
+        if (n >= warningThreshold) {
+            return CalculationHelper.calculateDispOkHealthIndex(n, inferior , warningThreshold);
         }
 
-        if (n >= warningThreshold && n < okThreshhold) {
-            return CalculationHelper.calculateDispWarningHealthIndex(n, okThreshhold, warningThreshold);
+        if (n >= warningThreshold && n < criticalThreshold) {
+            return CalculationHelper.calculateDispWarningHealthIndex(n, warningThreshold, criticalThreshold);
         }
 
-        if (n <= warningThreshold) {
-            return CalculationHelper.calculateDispCriticalHealthIndex(n, warningThreshold, 1);
+        if (n <= criticalThreshold) {
+            return CalculationHelper.calculateDispCriticalHealthIndex(n, criticalThreshold, superior);
         }
 
         return 0;

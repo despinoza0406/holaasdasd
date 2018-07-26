@@ -34,11 +34,10 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
     private double warningKpiThreshold;
     private double criticalKpiThreshold;
 
+    private double superior;
+    private double inferior;
     private double lWarningKpiThreshold;
     private double lCriticalKpiThreshold;
-    private double okKpiThreshold;
-    private final long warningIndexThreshold = 6;
-    private final long criticalIndexThreshold = 8;
 
     private double warningIdxThreshold;
     private double criticalIdxThreshold;
@@ -185,9 +184,10 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
         Threashold lastDayThreshold = tareas.getDayThreashold();
         List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusLastDay(application.getId(),
                 "IN_PROGRESS");
-        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
+        this.inferior = lastDayThreshold.getInferior();
+        this.superior = lastDayThreshold.getSuperior();
         this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
-        this.okKpiThreshold = lastDayThreshold.getOk();
+        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
         return calculateKPI(workItems);
     }
 
@@ -197,9 +197,10 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
 
+        this.inferior = threshold.getInferior();
+        this.superior = threshold.getSuperior();
         this.lCriticalKpiThreshold = threshold.getCritical();
         this.lWarningKpiThreshold = threshold.getWarning();
-        this.okKpiThreshold = threshold.getOk();
         List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(application.getId(),
                 startDate,endDate,
                 "IN_PROGRESS");
@@ -213,9 +214,10 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
         Threashold lastDayThreshold = tareas.getDayThreashold();
         List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdAndStatusPastDay(application.getId(),
                 "IN_PROGRESS");
-        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
+        this.inferior = lastDayThreshold.getInferior();
+        this.superior = lastDayThreshold.getSuperior();
         this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
-        this.okKpiThreshold = lastDayThreshold.getOk();
+        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
         return calculateKPI(workItems);
     }
 
@@ -226,24 +228,17 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
             deflectionDaysTotal = deflectionDaysTotal + workItemStorage.getDeflectionDays();
         }
 
-        if (deflectionDaysTotal < this.okKpiThreshold) {
-            return CalculationHelper.calculateOkHealthIndex(deflectionDaysTotal,0,okKpiThreshold); //lo minimo es 0
+        if (deflectionDaysTotal < this.lWarningKpiThreshold) {
+            return CalculationHelper.calculateOkHealthIndex(deflectionDaysTotal,inferior,lWarningKpiThreshold); //lo minimo es 0
         }
 
-        if (deflectionDaysTotal > this.lCriticalKpiThreshold ) {
-            return 1;
+        if (deflectionDaysTotal < this.lCriticalKpiThreshold ) {
+            return CalculationHelper.calculateWarningHealthIndex(deflectionDaysTotal,lWarningKpiThreshold,lCriticalKpiThreshold);
         }
 
-        //warning thresholds setting
-        if (deflectionDaysTotal >= this.okKpiThreshold & deflectionDaysTotal < this.lWarningKpiThreshold) {
-            return CalculationHelper.calculateWarningHealthIndex(deflectionDaysTotal,okKpiThreshold,lWarningKpiThreshold);
-        }
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(deflectionDaysTotal,lCriticalKpiThreshold,10d);
 
-        //critical threshold setting
-        if (deflectionDaysTotal >= this.lWarningKpiThreshold & deflectionDaysTotal <= this.lCriticalKpiThreshold) {
-            return CalculationHelper.calculateCriticalHealthIndex(deflectionDaysTotal,lWarningKpiThreshold,lCriticalKpiThreshold);
-        }
 
-        return 0;
+
     }
 }

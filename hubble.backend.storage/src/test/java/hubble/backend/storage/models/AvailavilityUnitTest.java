@@ -17,27 +17,31 @@ public class AvailavilityUnitTest {
 
 
         Threashold hour = new Threashold();
-        hour.setOk(50);
-        hour.setWarning(2);
+        hour.setInferior(100);
+        hour.setWarning(25);
         hour.setCritical(5);
+        hour.setSuperior(0);
         availavility.setHourThreashold(hour);
 
         Threashold day = new Threashold();
-        day.setOk(40);
-        day.setWarning(2);
+        day.setInferior(100);
+        day.setWarning(30);
         day.setCritical(5);
+        day.setSuperior(0);
         availavility.setDayThreashold(day);
 
         Threashold week = new Threashold();
-        week.setOk(30);
-        week.setWarning(2);
+        week.setInferior(100);
+        week.setWarning(35);
         week.setCritical(5);
+        week.setSuperior(0);
         availavility.setWeekThreashold(week);
 
         Threashold month = new Threashold();
-        month.setOk(150);
-        month.setWarning(2);
+        month.setInferior(100);
+        month.setWarning(40);
         month.setCritical(5);
+        month.setSuperior(0);
         availavility.setMonthThreashold(month);
 
     }
@@ -49,12 +53,12 @@ public class AvailavilityUnitTest {
 
     @Test
     public void it_should_return_hour_threshold_when_default(){
-        assertEquals(50,availavility.getThreashold("default").getOk(),0);
+        assertEquals(25,availavility.getThreashold("default").getWarning(),0);
     }
 
     @Test
     public void it_should_return_week_threshold(){
-        assertEquals(30,availavility.getThreashold("semana").getOk(),0);
+        assertEquals(35,availavility.getThreashold("semana").getWarning(),0);
     }
 
 }

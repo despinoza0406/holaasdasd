@@ -36,9 +36,10 @@ public class PerformanceServiceImpl implements PerformanceService {
     @Autowired
     MapperConfiguration mapper;
 
+    private double inferior;
     private double criticalThreshold;
     private double warningThreshold;
-    private double okThreshhold;
+    private double superior;
 
     @Override
     public List<Performance> getAll() {
@@ -138,16 +139,17 @@ public class PerformanceServiceImpl implements PerformanceService {
         }
 
         double averagePerformance = totalPerformance / (double) availabilityStorageList.size();
+        inferior = lastHourThreshold.getInferior();
+        superior = lastHourThreshold.getSuperior();
         criticalThreshold = lastHourThreshold.getCritical();
         warningThreshold = lastHourThreshold.getWarning();
-        okThreshhold = lastHourThreshold.getOk();
 
-        if (averagePerformance <= okThreshhold) {
-            return CalculationHelper.calculateOkHealthIndex(averagePerformance, 1, okThreshhold);
+        if (averagePerformance <= warningThreshold) {
+            return CalculationHelper.calculateOkHealthIndex(averagePerformance, inferior, warningThreshold);
         }
 
-        if (averagePerformance <= warningThreshold && averagePerformance > okThreshhold) {
-            return CalculationHelper.calculateWarningHealthIndex(averagePerformance, okThreshhold, warningThreshold);
+        if (averagePerformance <= criticalThreshold && averagePerformance > warningThreshold) {
+            return CalculationHelper.calculateWarningHealthIndex(averagePerformance, warningThreshold, criticalThreshold);
         }
 
         return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);
@@ -165,16 +167,17 @@ public class PerformanceServiceImpl implements PerformanceService {
         }
 
         double averagePerformance = totalPerformance / (double) availabilityStorageList.size();
+        inferior = lastHourThreshold.getInferior();
+        superior = lastHourThreshold.getSuperior();
         criticalThreshold = lastHourThreshold.getCritical();
         warningThreshold = lastHourThreshold.getWarning();
-        okThreshhold = lastHourThreshold.getOk();
 
-        if (averagePerformance <= okThreshhold) {
-            return CalculationHelper.calculateOkHealthIndex(averagePerformance, 1, okThreshhold);
+        if (averagePerformance <= warningThreshold) {
+            return CalculationHelper.calculateOkHealthIndex(averagePerformance, inferior, warningThreshold);
         }
 
-        if (averagePerformance <= warningThreshold && averagePerformance > okThreshhold) {
-            return CalculationHelper.calculateWarningHealthIndex(averagePerformance, okThreshhold, warningThreshold);
+        if (averagePerformance <= criticalThreshold && averagePerformance > warningThreshold) {
+            return CalculationHelper.calculateWarningHealthIndex(averagePerformance, warningThreshold, criticalThreshold);
         }
 
         return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);
@@ -197,16 +200,17 @@ public class PerformanceServiceImpl implements PerformanceService {
             totalPerformance = totalPerformance + availabilityStorage.getResponseTime();
         }
         double averagePerformance = totalPerformance / (double) availabilityStorageList.size();
+        inferior = threshold.getInferior();
+        superior = threshold.getSuperior();
         criticalThreshold = threshold.getCritical();
         warningThreshold = threshold.getWarning();
-        okThreshhold = threshold.getOk();
 
-        if (averagePerformance <= okThreshhold) {
-            return CalculationHelper.calculateOkHealthIndex(averagePerformance, 1, okThreshhold);
+        if (averagePerformance <= warningThreshold) {
+            return CalculationHelper.calculateOkHealthIndex(averagePerformance, inferior, warningThreshold);
         }
 
-        if (averagePerformance <= warningThreshold && averagePerformance > okThreshhold) {
-            return CalculationHelper.calculateWarningHealthIndex(averagePerformance, okThreshhold, warningThreshold);
+        if (averagePerformance <= criticalThreshold && averagePerformance > warningThreshold) {
+            return CalculationHelper.calculateWarningHealthIndex(averagePerformance, warningThreshold, criticalThreshold);
         }
 
         return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(averagePerformance, criticalThreshold, 1000d);

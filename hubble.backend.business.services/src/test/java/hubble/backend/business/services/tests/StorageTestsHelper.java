@@ -230,9 +230,10 @@ public class StorageTestsHelper {
         ApplicationStorage applicationStorage = new ApplicationStorage();
 
         Threashold threashold = new Threashold();
-        threashold.setOk(1);
+        threashold.setInferior(0);
         threashold.setWarning(3);
         threashold.setCritical(10);
+        threashold.setSuperior(50);
 
         KPIs kpis = new KPIs();
 

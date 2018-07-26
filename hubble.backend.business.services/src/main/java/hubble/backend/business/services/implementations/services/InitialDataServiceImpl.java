@@ -102,7 +102,7 @@ public class InitialDataServiceImpl implements InitialDataService {
     
     private UserStorage admin() {
         
-        Threashold th = new Threashold(0,1d, 2, 5d,100);
+        Threashold th = new Threashold(0, 2, 5d,100);
         
         return new UserStorage(
                 ADMIN_EMAIL,
@@ -231,10 +231,10 @@ public class InitialDataServiceImpl implements InitialDataService {
 
     private List<Threashold> crearThreasholds(){
             List<Threashold> threasholds = new ArrayList<>();
-            threasholds.add(new Threashold(0,5,100,150,Double.POSITIVE_INFINITY)); //Eventos y Tasks
-            threasholds.add(new Threashold(100,98,90,90,0)); //Disponibilidad
-            threasholds.add(new Threashold(0,4000,8000,8000,Double.POSITIVE_INFINITY)); //Performance
-            threasholds.add(new Threashold(0,0,15,15,Double.POSITIVE_INFINITY)); //Defects
+            threasholds.add(new Threashold(0,5,100,Double.POSITIVE_INFINITY)); //Eventos y Tasks
+            threasholds.add(new Threashold(100,98,90,0)); //Disponibilidad
+            threasholds.add(new Threashold(0,4000,8000,Double.POSITIVE_INFINITY)); //Performance
+            threasholds.add(new Threashold(0,0,15,Double.POSITIVE_INFINITY)); //Defects
 
         return threasholds;
 

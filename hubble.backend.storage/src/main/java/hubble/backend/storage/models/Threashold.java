@@ -7,7 +7,6 @@ package hubble.backend.storage.models;
 public class Threashold {
 
     private double inferior;
-    private double ok;
     private double warning;
     private double critical;
     private double superior;
@@ -15,9 +14,8 @@ public class Threashold {
     public Threashold() {
     }
 
-    public Threashold(double inferior,double ok, double warning, double critical, double superior) {
+    public Threashold(double inferior, double warning, double critical, double superior) {
         this.inferior = inferior;
-        this.ok = ok;
         this.critical = critical;
         this.warning = warning;
         this.superior = superior;
@@ -26,14 +24,6 @@ public class Threashold {
     public double getInferior() { return inferior; }
 
     public void setInferior(double inferior){ this.inferior = inferior; }
-
-    public double getOk() {
-        return ok;
-    }
-
-    public void setOk(double ok) {
-        this.ok = ok;
-    }
 
     public double getCritical() {
         return critical;
@@ -58,9 +48,10 @@ public class Threashold {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 37 * hash + (int) (Double.doubleToLongBits(this.ok) ^ (Double.doubleToLongBits(this.ok) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.inferior) ^ (Double.doubleToLongBits(this.inferior) >>> 32));
         hash = 37 * hash + (int) (Double.doubleToLongBits(this.critical) ^ (Double.doubleToLongBits(this.critical) >>> 32));
         hash = 37 * hash + (int) (Double.doubleToLongBits(this.warning) ^ (Double.doubleToLongBits(this.warning) >>> 32));
+        hash = 37 * hash + (int) (Double.doubleToLongBits(this.superior) ^ (Double.doubleToLongBits(this.superior) >>> 32));
         return hash;
     }
 
@@ -76,7 +67,7 @@ public class Threashold {
             return false;
         }
         final Threashold other = (Threashold) obj;
-        if (Double.doubleToLongBits(this.ok) != Double.doubleToLongBits(other.ok)) {
+        if (Double.doubleToLongBits(this.superior) != Double.doubleToLongBits(other.superior)){
             return false;
         }
         if (Double.doubleToLongBits(this.critical) != Double.doubleToLongBits(other.critical)) {
@@ -90,7 +81,7 @@ public class Threashold {
 
     @Override
     public String toString() {
-        return "Threashold{" + "ok=" + ok + ", critical=" + critical + ", warning=" + warning + '}';
+        return "Threashold{" + ", critical=" + critical + ", warning=" + warning + '}';
     }
 
 }

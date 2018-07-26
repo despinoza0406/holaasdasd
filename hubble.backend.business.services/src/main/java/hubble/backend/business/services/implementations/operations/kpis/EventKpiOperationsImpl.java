@@ -35,11 +35,10 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
     private double warningKpiThreshold;
     private double criticalKpiThreshold;
 
+    private double inferior;
     private double lWarningKpiThreshold;
     private double lCriticalKpiThreshold;
-    private double okKpiThreshold;
-    private final long warningIndexThreshold = 6;
-    private final long criticalIndexThreshold = 8;
+    private double superior;
 
     private double warningIdxThreshold;
     private double criticalIdxThreshold;
@@ -187,9 +186,10 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         Threashold lastDayThreshold = eventos.getDayThreashold();
         List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusLastDay(application.getId(),
                 "Good");
-        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
+        this.superior = lastDayThreshold.getSuperior();
+        this.inferior = lastDayThreshold.getInferior();
         this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
-        this.okKpiThreshold = lastDayThreshold.getOk();
+        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
         return calculateKPI(events);
     }
 
@@ -199,9 +199,10 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         Threashold lastDayThreshold = eventos.getDayThreashold();
         List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusPastDay(application.getId(),
                 "Good");
-        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
+        this.superior = lastDayThreshold.getSuperior();
+        this.inferior = lastDayThreshold.getInferior();
         this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
-        this.okKpiThreshold = lastDayThreshold.getOk();
+        this.lWarningKpiThreshold = lastDayThreshold.getWarning();
         return calculateKPI(events);
     }
 
@@ -211,9 +212,10 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         Threashold lastHourThreshold = eventos.getHourThreashold();
         List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusLastHour(application.getId(),
                 "Good");
-        this.lWarningKpiThreshold = lastHourThreshold.getWarning();
+        this.superior = lastHourThreshold.getSuperior();
+        this.inferior = lastHourThreshold.getInferior();
         this.lCriticalKpiThreshold = lastHourThreshold.getCritical();
-        this.okKpiThreshold = lastHourThreshold.getOk();
+        this.lWarningKpiThreshold = lastHourThreshold.getWarning();
         return calculateKPI(events);
     }
 
@@ -228,9 +230,10 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
 
+        this.superior = threshold.getSuperior();
+        this.inferior = threshold.getInferior();
         this.lCriticalKpiThreshold = threshold.getCritical();
         this.lWarningKpiThreshold = threshold.getWarning();
-        this.okKpiThreshold = threshold.getOk();
         List<EventStorage> events = eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(application.getId()
                 ,startDate,endDate,"Good");
         return calculateKPI(events);
@@ -242,9 +245,10 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         Threashold lastHourThreshold = eventos.getHourThreashold();
         List<EventStorage> events = eventRepository.findEventsByApplicationIdAndDifferentStatusPastHour(application.getId(),
                 "Good");
-        this.lWarningKpiThreshold = lastHourThreshold.getWarning();
+        this.superior = lastHourThreshold.getSuperior();
+        this.inferior = lastHourThreshold.getInferior();
         this.lCriticalKpiThreshold = lastHourThreshold.getCritical();
-        this.okKpiThreshold = lastHourThreshold.getOk();
+        this.lWarningKpiThreshold = lastHourThreshold.getWarning();
         return calculateKPI(events);
     }
 
@@ -255,25 +259,18 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
             severityPointsTotal = severityPointsTotal + eventStorage.getSeverityPoints();
         }
 
-        if (severityPointsTotal <= this.okKpiThreshold) {
-            return CalculationHelper.calculateOkHealthIndex(severityPointsTotal,0,okKpiThreshold); //lo minimo es 0
-        }
-
-        if (severityPointsTotal >= this.lCriticalKpiThreshold ) {
-            return 1;
+        if (severityPointsTotal <= this.lWarningKpiThreshold) {
+            return CalculationHelper.calculateOkHealthIndex(severityPointsTotal,inferior,lWarningKpiThreshold); //lo minimo es 0
         }
 
         //warning thresholds setting
-        if (severityPointsTotal > this.okKpiThreshold & severityPointsTotal < this.lWarningKpiThreshold) {
-            return CalculationHelper.calculateWarningHealthIndex(severityPointsTotal,okKpiThreshold,lWarningKpiThreshold);
+        if (severityPointsTotal > this.lWarningKpiThreshold & severityPointsTotal < this.lCriticalKpiThreshold) {
+            return CalculationHelper.calculateWarningHealthIndex(severityPointsTotal,lWarningKpiThreshold,lCriticalKpiThreshold);
         }
 
-        //critical threshold setting
-        if (severityPointsTotal >= this.lWarningKpiThreshold & severityPointsTotal <= this.lCriticalKpiThreshold) {
-            return CalculationHelper.calculateCriticalHealthIndex(severityPointsTotal,lWarningKpiThreshold,lCriticalKpiThreshold);
-        }
 
-        return 0;
+
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(severityPointsTotal,lCriticalKpiThreshold,10d);
 
     }
 

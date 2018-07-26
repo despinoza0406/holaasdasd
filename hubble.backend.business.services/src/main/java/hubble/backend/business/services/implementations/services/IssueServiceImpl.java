@@ -7,6 +7,7 @@ import hubble.backend.business.services.interfaces.services.IssueService;
 import hubble.backend.business.services.models.Issue;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
+import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
@@ -34,9 +35,10 @@ public class IssueServiceImpl implements IssueService {
     @Autowired
     IssuesKpiOperations issueKpiOperation;
 
+    private double superior;
+    private double inferior;
     private double lWarningKpiThreshold;
     private double lCriticalKpiThreshold;
-    private double okKpiThreshold;
 
     @Override
     public List<Issue> getLastDay(String applicationId) {
@@ -80,9 +82,11 @@ public class IssueServiceImpl implements IssueService {
     public double calculateHistoryDayBeforeKpiByApplication(ApplicationStorage application) {
         Defects issues = application.getKpis().getDefects();
         Threashold lastDayThreshold = issues.getDayThreashold();
+
+        this.superior = lastDayThreshold.getSuperior();
+        this.inferior = lastDayThreshold.getInferior();
         this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
         this.lWarningKpiThreshold = lastDayThreshold.getWarning();
-        this.okKpiThreshold = lastDayThreshold.getOk();
         List<IssueStorage> issuesStorage =
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(application.getId(), DateHelper.getNDaysBefore(2), DateHelper.getYesterday());
         return calculateKPI(issuesStorage);
@@ -92,9 +96,10 @@ public class IssueServiceImpl implements IssueService {
     public double calculateHistoryLastDayKpiByApplication(ApplicationStorage application) {
         Defects issues = application.getKpis().getDefects();
         Threashold lastDayThreshold = issues.getDayThreashold();
+        this.superior = lastDayThreshold.getSuperior();
+        this.inferior = lastDayThreshold.getInferior();
         this.lCriticalKpiThreshold = lastDayThreshold.getCritical();
         this.lWarningKpiThreshold = lastDayThreshold.getWarning();
-        this.okKpiThreshold = lastDayThreshold.getOk();
         List<IssueStorage> issuesStorage =
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(application.getId(), DateHelper.getYesterday(), DateHelper.getDateNow());
         return calculateKPI(issuesStorage);
@@ -106,9 +111,10 @@ public class IssueServiceImpl implements IssueService {
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
 
+        this.superior = threshold.getSuperior();
+        this.inferior = threshold.getInferior();
         this.lCriticalKpiThreshold = threshold.getCritical();
         this.lWarningKpiThreshold = threshold.getWarning();
-        this.okKpiThreshold = threshold.getOk();
         List<IssueStorage> issuesStorage =
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(application.getId(), startDate, endDate);
         return calculateKPI(issuesStorage);
@@ -169,14 +175,15 @@ public class IssueServiceImpl implements IssueService {
             totalCriticity = totalCriticity + criticity;
         }
 
-        if(totalCriticity > lCriticalKpiThreshold) {
-            return 1;
+        if(totalCriticity <= lWarningKpiThreshold){
+           return CalculationHelper.calculateOkHealthIndex(totalCriticity,inferior,lWarningKpiThreshold);
         }
 
-        if(totalCriticity == 0) {
-            return 10;
+        if(totalCriticity <= lCriticalKpiThreshold && totalCriticity > lWarningKpiThreshold){
+            return CalculationHelper.calculateWarningHealthIndex(totalCriticity,lWarningKpiThreshold,lCriticalKpiThreshold);
         }
 
-        return ( (totalCriticity - 1) / (lCriticalKpiThreshold - 1) ) * (10-1) + 1;
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(totalCriticity,lCriticalKpiThreshold,10);
+
     }
 }

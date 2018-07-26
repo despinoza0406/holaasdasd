@@ -216,7 +216,6 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     public void setKPIs(BusinessApplicationFrontend businessApplicationFrontend, ApplicationStorage application,String periodo) {
-        KPIs backKPI = application.getKpis();
         List<KpiFrontend> kpis = new ArrayList<>();
         Set<KPITypes> kpiTypes = application.getKpis().getEnabledKPIs();
 
