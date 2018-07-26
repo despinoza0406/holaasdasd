@@ -77,6 +77,11 @@ public class ApplicationRepositoryImpl implements ApplicationOperations {
      public boolean existAppId(String applicationId){
          return Optional.ofNullable(mongo.findOne(query(where("applicationId").is(applicationId)), ApplicationStorage.class)).isPresent();
      }
+     
+     @Override
+     public boolean existAppName(String name){
+         return Optional.ofNullable(mongo.findOne(query(where("applicationName").is(name)), ApplicationStorage.class)).isPresent();
+     }
 
     
 }

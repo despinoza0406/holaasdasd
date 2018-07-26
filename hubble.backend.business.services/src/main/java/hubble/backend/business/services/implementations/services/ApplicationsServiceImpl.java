@@ -64,8 +64,8 @@ public class ApplicationsServiceImpl implements ApplicationService {
     @Override
     public ApplicationStorage create(String applicationId, String name, String description) {
 
-        if (applicationRepository.existAppId(applicationId)) {
-            throw new RuntimeException(String.format("ApplicationId %s is already used", applicationId));
+        if (applicationRepository.existAppName(name)) {
+            throw new RuntimeException(String.format("Ya existe una apliacación con el nombre %s", name));
         }
 
         //Se crea una app solo con los datos ingresados por panatalla y el resto con valores x defecto.
@@ -83,11 +83,11 @@ public class ApplicationsServiceImpl implements ApplicationService {
         List<Threashold> th = crearThreasholdsDefaults();
 
         return new KPIs(
-                new Tasks(true, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("")),
-                new Defects(true, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(""), ApplicationInProviderJira.standard("","")),
-                new Availavility(true, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                new Performance(true, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                new Events(true, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("")));
+                new Tasks(false, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("")),
+                new Defects(false, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(""), ApplicationInProviderJira.standard("","")),
+                new Availavility(false, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
+                new Performance(false, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
+                new Events(false, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("")));
     }
 
     private List<Threashold> crearThreasholdsDefaults() {

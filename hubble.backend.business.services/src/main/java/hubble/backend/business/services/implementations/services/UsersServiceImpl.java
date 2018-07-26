@@ -37,7 +37,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public UserStorage create(String email, String name, char[] password, Set<Roles> roles, Set<String> applications) {
         if (users.emailExists(email)) {
-            throw new RuntimeException(String.format("Email %s is already used", email));
+            throw new RuntimeException(String.format("El email %s está siendo usado por otro usuario", email));
         }
         UserStorage user = new UserStorage(
                 email,
@@ -60,7 +60,7 @@ public class UsersServiceImpl implements UsersService {
 
             //Si existe con distinto ID lanzo excepción, si no ya me quedo con el usuario cargado.
             if (!user.getId().equals(id)) {
-                throw new RuntimeException(String.format("Email %s está siendo usado por otro usuario", email));
+                throw new RuntimeException(String.format("El email %s está siendo usado por otro usuario", email));
             }
         } else {
             //Si no existe el email lo busco por ID
