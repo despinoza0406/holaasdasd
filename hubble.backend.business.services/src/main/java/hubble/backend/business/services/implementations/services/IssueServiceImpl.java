@@ -183,7 +183,7 @@ public class IssueServiceImpl implements IssueService {
             return CalculationHelper.calculateWarningHealthIndex(totalCriticity,lWarningKpiThreshold,lCriticalKpiThreshold);
         }
 
-        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(totalCriticity,lCriticalKpiThreshold,10);
+        return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(totalCriticity,lCriticalKpiThreshold);//,10);
 
     }
 }
