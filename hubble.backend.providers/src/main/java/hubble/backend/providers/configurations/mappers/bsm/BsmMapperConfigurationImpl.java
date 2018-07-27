@@ -78,6 +78,7 @@ public class BsmMapperConfigurationImpl implements BsmMapperConfiguration {
     @Override
     public List<BsmProviderModel> mapDataToBsmProviderModel(SOAPBody data) {
         if (data == null) {
+            logger.warn("La data que se trajo de BSM esta vacia");
             return null;
         }
 

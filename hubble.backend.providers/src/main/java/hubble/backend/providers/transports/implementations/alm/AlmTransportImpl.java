@@ -102,10 +102,12 @@ public class AlmTransportImpl implements AlmTransport {
         }
 
         if (data == null) {
+            logger.warn("No se trajo data de ALM");
             return null;
         }
 
         if (data.getBody() == null) {
+            logger.warn("La data que se trajo de ALM no tiene nada");
             return null;
         }
 

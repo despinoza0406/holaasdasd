@@ -8,6 +8,8 @@ import hubble.backend.providers.configurations.environments.AppPulseProviderEnvi
 import hubble.backend.providers.transports.interfaces.AppPulseActiveTransport;
 import static org.apache.commons.lang.StringUtils.EMPTY;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +25,7 @@ public class AppPulseActiveTransportImpl implements AppPulseActiveTransport {
     private String lastRetrievedSequenceId = "0";
     private boolean hasMoreData = false;
 
+    private final Logger logger = LoggerFactory.getLogger(AppPulseActiveTransportImpl.class);
 
     @Override
     public String getToken() {
@@ -36,11 +39,11 @@ public class AppPulseActiveTransportImpl implements AppPulseActiveTransport {
                     .body(authenticationJson)
                     .asJson();
         } catch (UnirestException ex) {
-            //TODO: Log here
-            ex.printStackTrace(System.out);
+            logger.error(ex.getMessage());
         }
 
         if (jsonResponse == null || jsonResponse.getBody() == null) {
+            logger.warn("No se pudo traer data de AppPulse");
             return EMPTY;
         }
 

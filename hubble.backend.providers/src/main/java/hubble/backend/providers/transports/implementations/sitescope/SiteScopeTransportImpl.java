@@ -88,8 +88,12 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
         try {
             for(String groupPath: groupPaths ) {
                 jsonObject = data.getBody().getObject().getJSONObject(groupPath);
-                if(!jsonObject.has("error_code"))
-                dataList.add(jsonObject);
+                if(!jsonObject.has("error_code")){
+                    dataList.add(jsonObject);
+                }else{
+                    logger.error("No se pudo obtener el snapshot del grupo con el path "+groupPath);
+                }
+
             }
         } catch (Exception e) {
             logger.warn("There was a problem", e);
@@ -121,8 +125,11 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
         try {
             for(String groupPath: paths ) {
                 jsonObject = data.getBody().getObject().getJSONObject(groupPath);
-                if(!jsonObject.has("error_code"))
+                if(!jsonObject.has("error_code")){
                     dataList.add(jsonObject);
+                }else{
+                    logger.error("No se pudo obtener el snapshot del monitor con el path "+groupPath);
+                }
             }
         } catch (Exception e) {
             logger.warn("There was a problem", e);

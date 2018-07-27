@@ -60,6 +60,7 @@ public class BsmParserDataImpl implements BsmDataParser {
     public List<BsmProviderModel> parse(SOAPBody data) {
 
         if (data == null) {
+            logger.warn("No se obtuvo data de BSM");
             return null;
         }
 

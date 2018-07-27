@@ -38,6 +38,7 @@ public class JiraDataParserImpl implements JiraDataParser {
     @Override
     public JiraIssuesProviderModel parse(JSONObject data) {
         if (data == null) {
+            logger.warn("No se trajo data de jira");
             return null;
         }
 
