@@ -46,8 +46,13 @@ public class Schedule {
         this.hours = hours;
     }
 
+   /**
+    * se le pasa solo un parámetro en el lugar correspondiente a hora - minuto porq el método ya devuelve ambos valores
+    * @return 
+    */
+    
     public String cronExpression() {
-        return String.format("0 0 %s %s * *", hours.hours(frecuency), days.days());
+        return String.format("0 %s %s * *", hours.hours(frecuency), days.days());
     }
     
       public Schedule fromJson(JsonNode jsonNode) {

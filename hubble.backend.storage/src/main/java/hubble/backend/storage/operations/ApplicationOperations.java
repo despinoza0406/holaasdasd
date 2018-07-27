@@ -14,4 +14,6 @@ public interface ApplicationOperations {
     boolean exist(ApplicationStorage application);
     
     boolean existAppId(String applicationId);
+    
+    boolean existAppName(String name);
 }
