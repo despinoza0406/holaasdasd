@@ -1,6 +1,14 @@
 package hubble.backend.storage.configurations;
 
-import com.mongodb.Mongo;
+import com.mongodb.*;
+import org.bson.Document;
+import com.mongodb.client.ChangeStreamIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Aggregates;
+import static com.mongodb.client.model.Filters.*;
+import static java.util.Arrays.asList;
+
+import com.mongodb.client.model.changestream.ChangeStreamDocument;
 import hubble.backend.storage.configurations.environment.StorageEnvironment;
 import hubble.backend.storage.listeners.CascadeSaveMongoEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +19,8 @@ import org.springframework.data.mongodb.core.MongoFactoryBean;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+
+import java.util.List;
 
 //TODO: Agregar credenciales para Mongo.
 @Configuration
@@ -28,6 +38,8 @@ public class StorageComponentConfiguration {
         mongo.setHost(host);
         return mongo;
     }
+
+
 
     @Bean
     public MongoOperations mongoTemplate(Mongo mongo) {

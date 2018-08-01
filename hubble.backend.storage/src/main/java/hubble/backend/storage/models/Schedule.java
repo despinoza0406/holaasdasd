@@ -52,7 +52,7 @@ public class Schedule {
     */
     
     public String cronExpression() {
-        return String.format("0 %s %s * *", hours.hours(frecuency), days.days());
+        return String.format("0 %s %s * ?", hours.hours(frecuency), days.days());
     }
     
       public Schedule fromJson(JsonNode jsonNode) {
