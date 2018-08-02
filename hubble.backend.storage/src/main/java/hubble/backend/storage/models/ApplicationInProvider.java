@@ -1,5 +1,7 @@
 package hubble.backend.storage.models;
 
+import org.springframework.data.annotation.Transient;
+
 /**
  * Configuración de una aplicación para ALM
  *
@@ -10,7 +12,10 @@ public class ApplicationInProvider {
     public static ApplicationInProvider standard(String applicationName) {
         return new ApplicationInProvider(applicationName, true);
     }
-
+    
+    @Transient
+    private boolean activeProvider;
+    
     private String applicationName;
     private boolean enabledInTaskRunner;
 
@@ -37,5 +42,15 @@ public class ApplicationInProvider {
     public void setEnabledInTaskRunner(boolean enabledInTaskRunner) {
         this.enabledInTaskRunner = enabledInTaskRunner;
     }
+
+    public boolean isActiveProvider() {
+        return activeProvider;
+    }
+
+    public void setActiveProvider(boolean activeProvider) {
+        this.activeProvider = activeProvider;
+    }
+    
+    
 
 }

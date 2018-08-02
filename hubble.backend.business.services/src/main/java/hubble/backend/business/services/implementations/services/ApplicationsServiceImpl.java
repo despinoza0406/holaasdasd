@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hubble.backend.business.services.interfaces.services.ApplicationService;
 import hubble.backend.storage.models.*;
 import hubble.backend.storage.repositories.ApplicationRepository;
+import hubble.backend.storage.repositories.ProvidersRepository;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,11 @@ import org.springframework.stereotype.Service;
 public class ApplicationsServiceImpl implements ApplicationService {
 
     private final ApplicationRepository applicationRepository;
+    private final ProvidersRepository providersRepository;
 
-    public ApplicationsServiceImpl(ApplicationRepository applicationRepository) {
+    public ApplicationsServiceImpl(ApplicationRepository applicationRepository, ProvidersRepository providersRepository) {
         this.applicationRepository = applicationRepository;
+        this.providersRepository = providersRepository;
     }
 
     @Override
@@ -76,7 +79,23 @@ public class ApplicationsServiceImpl implements ApplicationService {
 
     @Override
     public ApplicationStorage findById(String id) {
-        return applicationRepository.findOne(id);
+        
+        ApplicationStorage applicationStorage = applicationRepository.findOne(id);
+
+        applicationStorage.getKpis().getTasks().getPpm().setActiveProvider(providersRepository.ppm().isEnabled());
+
+        applicationStorage.getKpis().getDefects().getAlm().setActiveProvider(providersRepository.alm().isEnabled());
+        applicationStorage.getKpis().getDefects().getJira().setActiveProvider(providersRepository.jira().isEnabled());
+
+        applicationStorage.getKpis().getAvailability().getAppPulse().setActiveProvider(providersRepository.appPulse().isEnabled());
+        applicationStorage.getKpis().getAvailability().getBsm().setActiveProvider(providersRepository.bsm().isEnabled());
+
+        applicationStorage.getKpis().getPerformance().getAppPulse().setActiveProvider(providersRepository.appPulse().isEnabled());
+        applicationStorage.getKpis().getPerformance().getBsm().setActiveProvider(providersRepository.bsm().isEnabled());
+
+        applicationStorage.getKpis().getEvents().getSiteScope().setActiveProvider(providersRepository.siteScope().isEnabled());
+
+        return applicationStorage;
     }
 
     private KPIs getKPIsDefault() {
@@ -84,7 +103,7 @@ public class ApplicationsServiceImpl implements ApplicationService {
 
         return new KPIs(
                 new Tasks(false, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("")),
-                new Defects(false, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(""), ApplicationInProviderJira.standard("","")),
+                new Defects(false, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(""), ApplicationInProviderJira.standard("", "")),
                 new Availavility(false, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
                 new Performance(false, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
                 new Events(false, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("")));
@@ -92,10 +111,10 @@ public class ApplicationsServiceImpl implements ApplicationService {
 
     private List<Threashold> crearThreasholdsDefaults() {
         List<Threashold> threasholds = new ArrayList<>();
-        threasholds.add(new Threashold(0, 0, 0,0)); //Eventos y Tasks
-        threasholds.add(new Threashold(0, 0, 0,0)); //Disponibilidad
-        threasholds.add(new Threashold(0, 0, 0,0)); //Performance
-        threasholds.add(new Threashold(0,0, 0,0)); //Defects
+        threasholds.add(new Threashold(0, 0, 0, 0)); //Eventos y Tasks
+        threasholds.add(new Threashold(0, 0, 0, 0)); //Disponibilidad
+        threasholds.add(new Threashold(0, 0, 0, 0)); //Performance
+        threasholds.add(new Threashold(0, 0, 0, 0)); //Defects
 
         return threasholds;
 
