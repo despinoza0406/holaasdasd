@@ -27,4 +27,6 @@ public interface EventService extends ServiceBase<Event> {
     List<Integer> getDistValuesLastHour(String id);
 
     List<Integer> getDistValues(String id,String periodo);
+
+    String calculatePeriod(String periodo);
 }

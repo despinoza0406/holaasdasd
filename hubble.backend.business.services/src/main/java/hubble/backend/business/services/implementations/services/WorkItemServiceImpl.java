@@ -126,4 +126,12 @@ public class WorkItemServiceImpl implements WorkItemService {
         }
         return distValuesInt;
     }
+
+    public String calculatePeriod(String periodo){
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            return "dia";
+        }else {
+            return periodo;
+        }
+    }
 }

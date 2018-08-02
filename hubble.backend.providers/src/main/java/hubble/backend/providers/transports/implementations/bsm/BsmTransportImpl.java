@@ -29,12 +29,9 @@ public class BsmTransportImpl implements BsmTransport {
 
     SOAPMessage message = null;
     String query = EMPTY;
-    Logger logger;
-    LoggingOutputStream logging;
+    private final Logger logger = LoggerFactory.getLogger(BsmTransportImpl.class);
 
     public BsmTransportImpl() {
-        logger = LoggerFactory.getLogger(BsmTransportImpl.class);
-        logging = new LoggingOutputStream(logger, LoggingOutputStream.LogLevel.INFO);
     }
 
     @Override
@@ -95,7 +92,7 @@ public class BsmTransportImpl implements BsmTransport {
 
             this.message = soapMessage;
         } catch (SOAPException ex) {
-            logger.error(ex.toString());
+            logger.error(ex.getMessage());
         }
 
         return this.message;
@@ -140,6 +137,7 @@ public class BsmTransportImpl implements BsmTransport {
     public SOAPBody call() {
 
         if (this.message == null) {
+            logger.error("The message is null");
             return null;
         }
 

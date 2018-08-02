@@ -23,4 +23,6 @@ public interface WorkItemService extends ServiceBase<WorkItem>,
     List<Integer> getDistValuesLastDay(String id);
 
     List<Integer> getDistValues(String id,String periodo);
+
+    String calculatePeriod(String periodo);
 }

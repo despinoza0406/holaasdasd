@@ -109,9 +109,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<Integer> getDistValues(String id,String periodo) {
 
-        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
-            periodo = "hora";
-        }
+        periodo = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
@@ -124,5 +122,13 @@ public class EventServiceImpl implements EventService {
             distValuesInt.add((int) eventStorage.getSeverityPoints());
         }
         return distValuesInt;
+    }
+
+    public String calculatePeriod(String periodo){
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            return "hora";
+        }else {
+            return periodo;
+        }
     }
 }

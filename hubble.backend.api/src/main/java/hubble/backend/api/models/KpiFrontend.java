@@ -7,6 +7,7 @@ public class KpiFrontend {
     private String kpiShortName;
     private double kpiValue;
     private String kpiComment;
+    private String kpiPeriod;
     private List<DistValues> distribution;
 
     public KpiFrontend() {
@@ -50,5 +51,13 @@ public class KpiFrontend {
 
     public void setDistribution(List<DistValues> distribution) {
         this.distribution = distribution;
+    }
+
+    public String getKpiPeriod() {
+        return kpiPeriod;
+    }
+
+    public void setKpiPeriod(String kpiPeriod) {
+        this.kpiPeriod = kpiPeriod;
     }
 }

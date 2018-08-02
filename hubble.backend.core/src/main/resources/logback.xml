@@ -16,14 +16,32 @@
             <pattern>%d{dd/MM/yyyy HH:mm:ss.SSS,America/Argentina/Buenos_Aires} [%thread] %-5level %logger{36} - %msg %n</pattern>
         </encoder>
     </appender>
+    <appender name="TASK-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>../out/task/Task_Runner.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>../out/taskRunner.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{dd/MM/yyyy HH:mm:ss.SSS,America/Argentina/Buenos_Aires} [%thread] %-5level %logger{36} - %msg %n</pattern>
+        </encoder>
+    </appender>
     <logger name="hubble.backend.business.services" level="info"/>
-    <logger name="hubble.backend.storage" level="info"/>
+    <logger name="hubble.backend.storage" level="info">
+        <appender-ref ref="TASK-FILE" />
+    </logger>
     <logger name="hubble.backend.core" level="info"/>
-    <logger name="hubble.backend.providers" level="info"/>
-    <logger name="hubble.backend.tasksrunner" level="info"/>
+    <logger name="hubble.backend.providers" level="info">
+        <appender-ref ref="TASK-FILE" />
+    </logger>
+    <logger name="hubble.backend.tasksrunner" level="info">
+        <appender-ref ref="TASK-FILE" />
+    </logger>
     <logger name="hubble.frontend.business" level="info"/>
     <logger name="hubble.frontend.web" level="info"/>
     <root level="info">
+        <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

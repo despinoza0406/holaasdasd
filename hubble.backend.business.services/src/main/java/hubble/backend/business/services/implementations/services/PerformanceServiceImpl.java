@@ -187,9 +187,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     public double calculateHealthIndexKPI(ApplicationStorage application, String periodo) {
         Threashold threshold = application.getKpis().getPerformance().getThreashold(periodo);
 
-        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
-            periodo = "hora";
-        }
+        periodo = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
@@ -243,9 +241,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 
     @Override
     public List<Integer> getDistValues(String id, String periodo) {
-        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
-            periodo = "hora";
-        }
+        periodo = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
@@ -256,5 +252,13 @@ public class PerformanceServiceImpl implements PerformanceService {
             distValuesInt.add((int) availabilityStorage.getResponseTime());
         }
         return distValuesInt;
+    }
+
+    public String calculatePeriod(String periodo){
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            return "hora";
+        }else {
+            return periodo;
+        }
     }
 }
