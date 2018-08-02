@@ -32,4 +32,6 @@ public interface PerformanceService extends
     public double calculateHealthIndexKPI(ApplicationStorage applicationStorage,String periodo);
 
     public double calculateHealthIndexKPILastMonth(ApplicationStorage application);
+
+    public String calculatePeriod(String periodo);
 }

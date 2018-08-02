@@ -24,4 +24,6 @@ public interface IssueService extends ServiceBase<Issue>,
     double calculateHistoryKPIByApplication(ApplicationStorage application,String periodo);
 
     double calculateHistoryDayBeforeKpiByApplication(ApplicationStorage application);
+
+    String calculatePeriod(String periodo);
 }

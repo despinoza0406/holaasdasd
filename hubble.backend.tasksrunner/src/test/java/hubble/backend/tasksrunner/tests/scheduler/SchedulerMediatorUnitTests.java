@@ -2,12 +2,18 @@ package hubble.backend.tasksrunner.tests.scheduler;
 
 import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.providers.parsers.interfaces.apppulse.AppPulseActiveDataParser;
+import hubble.backend.providers.parsers.interfaces.sitescope.SiteScopeDataParser;
+import hubble.backend.storage.models.Frecuency;
+import hubble.backend.storage.models.ProviderStorage;
+import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.tasksrunner.application.scheduler.SchedulerMediator;
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import hubble.backend.tasksrunner.jobs.apppulse.AppPulseDataParserJob;
+import hubble.backend.tasksrunner.jobs.sitescope.SiteScopeDataParserJob;
 import hubble.backend.tasksrunner.tasks.ParserTask;
 import hubble.backend.tasksrunner.tasks.Task;
 import hubble.backend.tasksrunner.tasks.apppulse.AppPulseDataTaskImpl;
+import hubble.backend.tasksrunner.tasks.sitescope.SiteScopeDataTaskImpl;
 import hubble.backend.tasksrunner.tests.configurations.TasksRunnerTestConfiguration;
 import org.junit.Rule;
 import org.junit.Test;
@@ -19,14 +25,19 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.quartz.JobKey;
 import org.quartz.SchedulerException;
+import org.quartz.Trigger;
 import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.impl.matchers.GroupMatcher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import static org.springframework.util.Assert.isTrue;
 
 @ActiveProfiles("test")
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TasksRunnerTestConfiguration.class)
 public class SchedulerMediatorUnitTests {
 
@@ -34,6 +45,9 @@ public class SchedulerMediatorUnitTests {
     public final ExpectedException exception = ExpectedException.none();
     static boolean isCalledAppPulseParser = false;
     static int totalExectutedAppPulseParser = 0;
+
+    @Autowired
+    ProvidersRepository providersRepository;
 
     public SchedulerMediatorUnitTests() {
 
@@ -135,7 +149,7 @@ public class SchedulerMediatorUnitTests {
     }
 
     @Test()
-    public void ScheduleMediator_should_throw_exception_if_task_doesnt_have_interval() throws SchedulerException, Exception {
+    public void ScheduleMediator_should_not_throw_exception_if_task_doesnt_have_interval() throws SchedulerException, Exception {
 
         //Assign
         ConfigurableApplicationContext ctx = mock(ConfigurableApplicationContext.class);
@@ -188,6 +202,41 @@ public class SchedulerMediatorUnitTests {
 
         //Assert
         isTrue(totalExectutedAppPulseParser > 0);
+    }
+
+    @Test
+    public void SchedulerMediator_should_reschedule_provider() throws Exception{
+
+        ConfigurableApplicationContext ctx = mock(ConfigurableApplicationContext.class);
+        SchedulerMediator schedule = new SchedulerMediator(ctx);
+        Parser siteScopeParserFake = spy(SiteScopeDataParser.class);
+        ParserJob siteScopeJob = new SiteScopeDataParserJob(siteScopeParserFake);
+        ParserTask siteScopeTask = new SiteScopeDataTaskImpl(siteScopeJob);
+
+        ProviderStorage providerStorage = providersRepository.siteScope();
+
+        siteScopeTask.setIndentityGroupName("Site Scope Data Job");
+        siteScopeTask.setIndentityName(providerStorage.getId());
+        schedule.addTask(siteScopeTask);
+        Frecuency frecuency = Frecuency.EVERY_30_MINUTES;
+        providerStorage.getTaskRunner().getSchedule().setFrecuency(frecuency);
+        Trigger oldTrigger = null;
+        for(JobKey key : schedule.scheduler.getJobKeys((GroupMatcher.jobGroupEquals(schedule.scheduler.getJobGroupNames().get(0))))){
+            oldTrigger = schedule.scheduler.getTriggersOfJob(key).get(0);
+        }
+
+        schedule.reschedule("siteScope");
+
+        Trigger newTrigger = null;
+        for(JobKey key : schedule.scheduler.getJobKeys((GroupMatcher.jobGroupEquals(schedule.scheduler.getJobGroupNames().get(0))))){
+             newTrigger = schedule.scheduler.getTriggersOfJob(key).get(0);
+        }
+
+        newTrigger.compareTo(oldTrigger);
+
+
+
+
     }
 
 }

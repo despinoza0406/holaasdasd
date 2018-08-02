@@ -5,6 +5,7 @@ import hubble.backend.providers.parsers.interfaces.bsm.BsmDataParser;
 import hubble.backend.providers.parsers.interfaces.jira.JiraDataParser;
 import hubble.backend.providers.parsers.interfaces.ppm.PpmDataParser;
 import hubble.backend.providers.parsers.interfaces.sitescope.SiteScopeDataParser;
+import hubble.backend.storage.repositories.ProvidersRepository;
 import hubble.backend.tasksrunner.application.scheduler.SchedulerMediator;
 import hubble.backend.tasksrunner.configurations.TasksRunnerConfiguration;
 import hubble.backend.tasksrunner.jobs.ParserJob;
@@ -13,6 +14,7 @@ import hubble.backend.tasksrunner.jobs.bsm.BsmDataParserJob;
 import hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob;
 import hubble.backend.tasksrunner.jobs.ppm.PpmDataParserJob;
 import hubble.backend.tasksrunner.jobs.sitescope.SiteScopeDataParserJob;
+import hubble.backend.tasksrunner.listeners.MongoListener;
 import hubble.backend.tasksrunner.tasks.ParserTask;
 import hubble.backend.tasksrunner.tasks.alm.AlmDataTaskImpl;
 import hubble.backend.tasksrunner.tasks.bsm.BsmDataTaskImpl;
@@ -20,6 +22,7 @@ import hubble.backend.tasksrunner.tasks.jira.JiraDataTaskImpl;
 import hubble.backend.tasksrunner.tasks.ppm.PpmDataTaskImpl;
 import hubble.backend.tasksrunner.tasks.sitescope.SiteScopeDataTaskImpl;
 import org.quartz.SchedulerException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
@@ -32,12 +35,17 @@ import org.springframework.context.annotation.Profile;
 @SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
 public class TasksRunnerApplication {
 
+    @Autowired
     SchedulerMediator scheduler;
+    @Autowired
+    ProvidersRepository providersRepository;
     ConfigurableApplicationContext context;
+    @Autowired
+    MongoListener mongoListener;
 
     public void run(ConfigurableApplicationContext context) throws SchedulerException, Exception {
 
-        scheduler = new SchedulerMediator(context);
+        scheduler.startContext(context);
 /*
         //AppPulse
         /*
@@ -45,8 +53,7 @@ public class TasksRunnerApplication {
         ParserJob appPulseJob = new AppPulseDataParserJob(appPulseparser);
         ParserTask appPulseDataTask = new AppPulseDataTaskImpl(appPulseJob);
         appPulseDataTask.setIndentityGroupName("AppPulse Active Provider Job");
-        appPulseDataTask.setIndentityName("AppPulse Data");
-        appPulseDataTask.setIntervalSeconds(40);
+        appPulseDataTask.setIndentityName(providersRepository.appPulse().getId());
 
         */
         //BSM
@@ -55,7 +62,7 @@ public class TasksRunnerApplication {
         ParserJob bsmJob = new BsmDataParserJob(bsmParser);
         ParserTask bsmTask = new BsmDataTaskImpl(bsmJob);
         bsmTask.setIndentityGroupName("BSM");
-        bsmTask.setIndentityName("BSM Data Transacciones");
+        bsmTask.setIndentityName(providersRepository.bsm().getId());
         scheduler.addTask(bsmTask);
 
         //Alm
@@ -63,7 +70,7 @@ public class TasksRunnerApplication {
         ParserJob almJob = new AlmDataParserJob(almParser);
         ParserTask almDataTask = new AlmDataTaskImpl(almJob);
         almDataTask.setIndentityGroupName("Alm Provider Job");
-        almDataTask.setIndentityName("Alm Data");
+        almDataTask.setIndentityName(providersRepository.alm().getId());
 
         scheduler.addTask(almDataTask);
 
@@ -72,7 +79,7 @@ public class TasksRunnerApplication {
         ParserJob ppmJob = new PpmDataParserJob(ppmParser);
         ParserTask ppmDataTask = new PpmDataTaskImpl(ppmJob);
         ppmDataTask.setIndentityGroupName("Ppm Provider Job");
-        ppmDataTask.setIndentityName("Ppm Data");
+        ppmDataTask.setIndentityName(providersRepository.ppm().getId());
         
         scheduler.addTask(ppmDataTask);
 
@@ -81,7 +88,7 @@ public class TasksRunnerApplication {
         ParserJob jiraJob = new JiraDataParserJob(jiraParser);
         ParserTask jiraDataTask = new JiraDataTaskImpl(jiraJob);
         jiraDataTask.setIndentityGroupName("Jira Provider Job");
-        jiraDataTask.setIndentityName("Jira Data");
+        jiraDataTask.setIndentityName(providersRepository.jira().getId());
 
         scheduler.addTask(jiraDataTask);
 
@@ -90,12 +97,13 @@ public class TasksRunnerApplication {
         ParserJob siteScopeJob = new SiteScopeDataParserJob(siteScopeDataParser);
         ParserTask siteScopeDataTask = new SiteScopeDataTaskImpl(siteScopeJob);
         siteScopeDataTask.setIndentityGroupName("SiteScope Provider Job");
-        siteScopeDataTask.setIndentityName("SiteScope Data");
+        siteScopeDataTask.setIndentityName(providersRepository.siteScope().getId());
 
         scheduler.addTask(siteScopeDataTask);
 
 
         scheduler.start();
+        mongoListener.start();
     }
 
     public static void main(String[] args) throws Exception {

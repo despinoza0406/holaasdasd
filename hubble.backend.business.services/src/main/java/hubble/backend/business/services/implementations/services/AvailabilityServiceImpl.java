@@ -162,9 +162,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     @Override
     public List<Integer> getDistValues(String applicationId,String period) {
 
-        if (period.equals("default")){ //esto se hace por como funciona el date helper
-            period = "hora";
-        }
+        period = this.calculatePeriod(period);
 
         Date endDate = DateHelper.getEndDate(period);
         Date startDate = DateHelper.getStartDate(period);
@@ -183,9 +181,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
 
         Threashold threshold = application.getKpis().getAvailability().getThreashold(periodo);
 
-        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
-            periodo = "hora";
-        }
+        periodo = this.calculatePeriod(periodo);
 
         Date endDate = DateHelper.getEndDate(periodo);
         Date startDate = DateHelper.getStartDate(periodo);
@@ -249,5 +245,13 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         }
 
         return 0;
+    }
+
+    public String calculatePeriod(String periodo){
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            return "hora";
+        }else {
+            return periodo;
+        }
     }
 }

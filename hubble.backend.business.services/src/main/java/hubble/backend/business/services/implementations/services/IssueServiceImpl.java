@@ -108,6 +108,9 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public double calculateHistoryKPIByApplication(ApplicationStorage application,String periodo) {
         Threashold threshold = application.getKpis().getDefects().getThreashold(periodo);
+
+        periodo = this.calculatePeriod(periodo);
+
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
 
@@ -144,6 +147,8 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public List<Integer> getDistValues(String id,String periodo) {
+
+        periodo = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
@@ -185,5 +190,13 @@ public class IssueServiceImpl implements IssueService {
 
         return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(totalCriticity,lCriticalKpiThreshold);//,10);
 
+    }
+
+    public String calculatePeriod(String periodo){
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            return "dia";
+        }else {
+            return periodo;
+        }
     }
 }

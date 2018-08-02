@@ -224,6 +224,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             availabilityKpi.setKpiName("Disponibilidad");
             availabilityKpi.setKpiShortName("D");
             availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPI(application,periodo));
+            availabilityKpi.setKpiPeriod(availabilityService.calculatePeriod(periodo));
             if(Double.isNaN(availabilityKpi.getKpiValue())) {
                 availabilityKpi.setKpiComment("No hay datos de availability");
             }
@@ -235,6 +236,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             performanceKpi.setKpiName("Performance");
             performanceKpi.setKpiShortName("P");
             performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
+            performanceKpi.setKpiPeriod(performanceService.calculatePeriod(periodo));
             if(Double.isNaN(performanceKpi.getKpiValue())) {
                 performanceKpi.setKpiComment("No hay datos de performance");
             }
@@ -245,6 +247,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             issuesKpi.setKpiName("Incidencias");
             issuesKpi.setKpiShortName("I");
             issuesKpi.setKpiValue(issueService.calculateHistoryKPIByApplication(application,periodo));
+            issuesKpi.setKpiPeriod(issueService.calculatePeriod(periodo));
             if(Double.isNaN(issuesKpi.getKpiValue())) {
                 issuesKpi.setKpiComment("No hay datos de issues");
             }
@@ -255,6 +258,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             workitemKpi.setKpiName("Tareas");
             workitemKpi.setKpiShortName("T");
             workitemKpi.setKpiValue(workItemService.calculateDeflectionDaysKPI(application,periodo));
+            workitemKpi.setKpiPeriod(workItemService.calculatePeriod(periodo));
             if(Double.isNaN(workitemKpi.getKpiValue())){
                 workitemKpi.setKpiComment("No hay datos de tareas");
             }
@@ -265,6 +269,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             eventKpi.setKpiName("Eventos");
             eventKpi.setKpiShortName("E");
             eventKpi.setKpiValue(eventService.calculateSeverityKPI(application,periodo));
+            eventKpi.setKpiPeriod(eventService.calculatePeriod(periodo));
             if(Double.isNaN(eventKpi.getKpiValue())) {
                 eventKpi.setKpiComment("No hay datos de eventos");
             }
