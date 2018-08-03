@@ -15,7 +15,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.DAYLY).cronExpression(),
-            is("0 0 9 * * *")
+            is("0 0 9 * * ?")
         );
     }
 
@@ -24,7 +24,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.HOURLY).cronExpression(),
-            is("0 0 9-18 * * *")
+            is("0 0 9-18 * * ?")
         );
     }
 
@@ -33,7 +33,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.EVERY_DAY, HourRange._24hs, Frecuency.DAYLY).cronExpression(),
-            is("0 0 0 * * *")
+            is("0 0 0 * * ?")
         );
     }
 
@@ -42,7 +42,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.EVERY_DAY, HourRange._24hs, Frecuency.HOURLY).cronExpression(),
-            is("0 0 * * * *")
+            is("0 0 * * * ?")
         );
     }
 
@@ -51,7 +51,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.MONDAY_TO_FRIDAY, HourRange._9_to_18, Frecuency.DAYLY).cronExpression(),
-            is("0 0 9 MON-FRI * *")
+            is("0 0 9 MON-FRI * ?")
         );
     }
 
@@ -60,7 +60,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.MONDAY_TO_FRIDAY, HourRange._9_to_18, Frecuency.HOURLY).cronExpression(),
-            is("0 0 9-18 MON-FRI * *")
+            is("0 0 9-18 MON-FRI * ?")
         );
     }
 
@@ -69,7 +69,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.MONDAY_TO_FRIDAY, HourRange._24hs, Frecuency.DAYLY).cronExpression(),
-            is("0 0 0 MON-FRI * *")
+            is("0 0 0 MON-FRI * ?")
         );
     }
 
@@ -78,7 +78,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.MONDAY_TO_FRIDAY, HourRange._24hs, Frecuency.HOURLY).cronExpression(),
-            is("0 0 * MON-FRI * *")
+            is("0 0 * MON-FRI * ?")
         );
     }
     
@@ -87,7 +87,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.EVERY_30_MINUTES).cronExpression(),
-            is("0 0/30 9-18 * * *")
+            is("0 0/30 9-18 * * ?")
         );
     }
     
@@ -96,7 +96,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.EVERY_DAY, HourRange._24hs, Frecuency.EVERY_30_MINUTES).cronExpression(),
-            is("0 0/30 * * * *")
+            is("0 0/30 * * * ?")
         );
     }
     
@@ -106,7 +106,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.MONDAY_TO_FRIDAY, HourRange._9_to_18, Frecuency.EVERY_30_MINUTES).cronExpression(),
-            is("0 0/30 9-18 MON-FRI * *")
+            is("0 0/30 9-18 MON-FRI * ?")
         );
     }
     
@@ -115,7 +115,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.MONDAY_TO_FRIDAY, HourRange._24hs, Frecuency.EVERY_30_MINUTES).cronExpression(),
-            is("0 0/30 * MON-FRI * *")
+            is("0 0/30 * MON-FRI * ?")
         );
     }
     
@@ -125,7 +125,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.EVERY_15_MINUTES).cronExpression(),
-            is("0 0/15 9-18 * * *")
+            is("0 0/15 9-18 * * ?")
         );
     }
     
@@ -134,7 +134,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.EVERY_DAY, HourRange._24hs, Frecuency.EVERY_15_MINUTES).cronExpression(),
-            is("0 0/15 * * * *")
+            is("0 0/15 * * * ?")
         );
     }
     
@@ -144,7 +144,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.MONDAY_TO_FRIDAY, HourRange._9_to_18, Frecuency.EVERY_15_MINUTES).cronExpression(),
-            is("0 0/15 9-18 MON-FRI * *")
+            is("0 0/15 9-18 MON-FRI * ?")
         );
     }
     
@@ -153,7 +153,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.MONDAY_TO_FRIDAY, HourRange._24hs, Frecuency.EVERY_15_MINUTES).cronExpression(),
-            is("0 0/15 * MON-FRI * *")
+            is("0 0/15 * MON-FRI * ?")
         );
     }
     
@@ -162,7 +162,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.EVERY_5_MINUTES).cronExpression(),
-            is("0 0/5 9-18 * * *")
+            is("0 0/5 9-18 * * ?")
         );
     }
     
@@ -171,7 +171,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.EVERY_DAY, HourRange._24hs, Frecuency.EVERY_5_MINUTES).cronExpression(),
-            is("0 0/5 * * * *")
+            is("0 0/5 * * * ?")
         );
     }
     
@@ -181,7 +181,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.MONDAY_TO_FRIDAY, HourRange._9_to_18, Frecuency.EVERY_5_MINUTES).cronExpression(),
-            is("0 0/5 9-18 MON-FRI * *")
+            is("0 0/5 9-18 MON-FRI * ?")
         );
     }
     
@@ -190,7 +190,7 @@ public class ScheduleTest {
         assertThat(
             "cron expression",
             new Schedule(Days.MONDAY_TO_FRIDAY, HourRange._24hs, Frecuency.EVERY_5_MINUTES).cronExpression(),
-            is("0 0/5 * MON-FRI * *")
+            is("0 0/5 * MON-FRI * ?")
         );
     }
 }

@@ -22,7 +22,7 @@ public class CalculationHelperUnitTest {
     @Test
     public void should_calculate_critical_disp_healthIndex() {
         double healthIndex = CalculationHelper.calculateDispCriticalHealthIndex(42.85714d, 90d, 1d);
-        assertTrue(healthIndex > 1d && healthIndex < 2d);
+        assertTrue(healthIndex > 1d && healthIndex < 6d);
     }
 
     @Test
