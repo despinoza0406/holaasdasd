@@ -1,6 +1,7 @@
 package hubble.backend.business.services.interfaces.services;
 
 import hubble.backend.business.services.interfaces.services.kpis.WorkItemsOperationsKeyPerformanceIndicatorServiceBase;
+import hubble.backend.business.services.models.DistValues;
 import hubble.backend.business.services.models.WorkItem;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;
 import hubble.backend.storage.models.ApplicationStorage;
@@ -22,7 +23,7 @@ public interface WorkItemService extends ServiceBase<WorkItem>,
 
     List<Integer> getDistValuesLastDay(String id);
 
-    List<Integer> getDistValues(String id,String periodo);
+    List<DistValues> getDistValues(String id, String periodo);
 
     String calculatePeriod(String periodo);
 }

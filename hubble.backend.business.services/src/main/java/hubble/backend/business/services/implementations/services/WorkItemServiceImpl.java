@@ -5,6 +5,8 @@ import hubble.backend.business.services.interfaces.operations.WorkItemOperations
 import hubble.backend.business.services.interfaces.operations.kpis.WorkItemKpiOperations;
 import hubble.backend.business.services.interfaces.services.WorkItemService;
 import hubble.backend.business.services.models.Application;
+import hubble.backend.business.services.models.DistValues;
+import hubble.backend.business.services.models.DistributionValues;
 import hubble.backend.business.services.models.WorkItem;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;
@@ -113,8 +115,8 @@ public class WorkItemServiceImpl implements WorkItemService {
     }
 
     @Override
-    public List<Integer> getDistValues(String id,String periodo) {
-
+    public List<DistValues> getDistValues(String id, String periodo) {
+        List<DistValues> distValues = new ArrayList<>();
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
 
@@ -124,7 +126,10 @@ public class WorkItemServiceImpl implements WorkItemService {
         for (WorkItemStorage workItemStorage : workItemsStorage){
             distValuesInt.add((int) workItemStorage.getDeflectionDays());
         }
-        return distValuesInt;
+        for (Integer distValueInt: distValuesInt){
+            distValues.add(new DistributionValues(distValueInt));
+        }
+        return distValues;
     }
 
     public String calculatePeriod(String periodo){

@@ -4,7 +4,7 @@ public class KpiHelper {
 
     public static class Availability {
 
-        //Availability
+        //availability
         public static final int WARNING_AVALABILITY_KPI_DEFAULT = 8;
         public static final int CRITICAL_AVALABILITY_KPI_DEFAULT = 4;
 
@@ -12,7 +12,7 @@ public class KpiHelper {
 
     public static class Performance {
 
-        //Availability
+        //availability
         public static final int WARNING_PERFORMANCE_KPI_DEFAULT = 8;
         public static final int CRITICAL_PERFORMANCE_KPI_DEFAULT = 4;
 

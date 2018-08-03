@@ -5,6 +5,8 @@ import hubble.backend.business.services.interfaces.operations.averages.Performan
 import hubble.backend.business.services.interfaces.operations.kpis.PerformanceKpiOperations;
 import hubble.backend.business.services.interfaces.services.PerformanceService;
 import hubble.backend.business.services.models.Application;
+import hubble.backend.business.services.models.DistValues;
+import hubble.backend.business.services.models.DistributionValues;
 import hubble.backend.business.services.models.Performance;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
 import hubble.backend.core.utils.CalculationHelper;
@@ -240,7 +242,8 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public List<Integer> getDistValues(String id, String periodo) {
+    public List<DistValues> getDistValues(String id, String periodo) {
+        List<DistValues> distValues = new ArrayList<>();
         periodo = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodo);
@@ -251,7 +254,10 @@ public class PerformanceServiceImpl implements PerformanceService {
         for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
             distValuesInt.add((int) availabilityStorage.getResponseTime());
         }
-        return distValuesInt;
+        for (Integer distValueInt: distValuesInt){
+            distValues.add(new DistributionValues(distValueInt));
+        }
+        return distValues;
     }
 
     public String calculatePeriod(String periodo){

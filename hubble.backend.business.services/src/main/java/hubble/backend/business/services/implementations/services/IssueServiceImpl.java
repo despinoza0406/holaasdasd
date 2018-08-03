@@ -4,6 +4,8 @@ import hubble.backend.business.services.configurations.mappers.MapperConfigurati
 import hubble.backend.business.services.interfaces.operations.averages.IssueOperations;
 import hubble.backend.business.services.interfaces.operations.kpis.IssuesKpiOperations;
 import hubble.backend.business.services.interfaces.services.IssueService;
+import hubble.backend.business.services.models.DistValues;
+import hubble.backend.business.services.models.DistributionValues;
 import hubble.backend.business.services.models.Issue;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
@@ -146,8 +148,8 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public List<Integer> getDistValues(String id,String periodo) {
-
+    public List<DistValues> getDistValues(String id, String periodo) {
+        List<DistValues> distValues = new ArrayList<>();
         periodo = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodo);
@@ -159,7 +161,10 @@ public class IssueServiceImpl implements IssueService {
             float criticity = (issue.getPriority() + issue.getSeverity()) / 2;
             distValuesInt.add(calculateCriticityForDashboardTwo(criticity));
         }
-        return distValuesInt;
+        for (Integer distValueInt : distValuesInt){
+            distValues.add(new DistributionValues(distValueInt));
+        }
+        return distValues;
     }
 
     private Integer calculateCriticityForDashboardTwo(float criticity){

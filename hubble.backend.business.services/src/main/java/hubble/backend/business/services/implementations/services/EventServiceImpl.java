@@ -3,6 +3,8 @@ package hubble.backend.business.services.implementations.services;
 import hubble.backend.business.services.configurations.mappers.MapperConfiguration;
 import hubble.backend.business.services.interfaces.operations.kpis.EventKpiOperations;
 import hubble.backend.business.services.interfaces.services.EventService;
+import hubble.backend.business.services.models.DistValues;
+import hubble.backend.business.services.models.DistributionValues;
 import hubble.backend.business.services.models.Event;
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
@@ -107,8 +109,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Integer> getDistValues(String id,String periodo) {
-
+    public List<DistValues> getDistValues(String id, String periodo) {
+        List<DistValues> distValues = new ArrayList<>();
         periodo = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodo);
@@ -121,7 +123,10 @@ public class EventServiceImpl implements EventService {
         for (EventStorage eventStorage : eventsStorage){
             distValuesInt.add((int) eventStorage.getSeverityPoints());
         }
-        return distValuesInt;
+        for (Integer distValueInt : distValuesInt){
+            distValues.add(new DistributionValues(distValueInt));
+        }
+        return distValues;
     }
 
     public String calculatePeriod(String periodo){

@@ -14,7 +14,7 @@ import hubble.backend.business.services.models.measures.rules.PerformanceGroupRu
 
 /**
  * ApplicationAvg is an Application with its average value for Performance,
- * Availability, quantity of measures of Performance and Availability. The class
+ * availability, quantity of measures of Performance and availability. The class
  * holds differente business calculation on different periods for example: 10
  * minutes, 1 hours, 24 hours, 1 month.
  *
