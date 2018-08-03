@@ -1,10 +1,15 @@
 package hubble.backend.storage.models;
 
+import org.springframework.data.annotation.Transient;
+
 public class ApplicationInProviderJira {
 
-    public static ApplicationInProviderJira standard(String applicationName,String projectKey) {
-        return new ApplicationInProviderJira(applicationName, true,projectKey);
+    public static ApplicationInProviderJira standard(String applicationName, String projectKey) {
+        return new ApplicationInProviderJira(applicationName, true, projectKey);
     }
+
+    @Transient
+    private boolean activeProvider;
 
     private String applicationName;
     private boolean enabledInTaskRunner;
@@ -42,4 +47,14 @@ public class ApplicationInProviderJira {
     public void setProjectKey(String projectKey) {
         this.projectKey = projectKey;
     }
+
+    public boolean isActiveProvider() {
+        return activeProvider;
+    }
+
+    public void setActiveProvider(boolean activeProvider) {
+        this.activeProvider = activeProvider;
+    }
+    
+    
 }
