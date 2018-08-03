@@ -85,17 +85,17 @@ public class ApplicationsController {
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
 
+        List<BusinessApplicationFrontend> applicationFrontends = businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false), periodo);
+
         if (userAuthenticated != null && userAuthenticated.isUser()) {
 
-            List<BusinessApplicationFrontend> applicationFrontends = businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false), periodo);
-
             applicationFrontends = applicationFrontends.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
-
-            return applicationFrontends;
 
         } else {
             throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
         }
+
+        return applicationFrontends;
 
     }
 
@@ -134,13 +134,13 @@ public class ApplicationsController {
     public List<BusinessApplicationLigth> getApplicationsLigth(HttpServletRequest req, @RequestParam("include-inactives") Optional<Boolean> includeInactives) {
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
-        
+
         List<BusinessApplicationLigth> businessApplicationLigth = businessAppMgr.getApplicationsLigth(includeInactives.orElse(false));
 
         //Si el usuario es solo user, filtro por las aplicaciones q puede ver 
-        if (userAuthenticated != null && (userAuthenticated.isUser() && !userAuthenticated.isAdministrator())) {
+        if (userAuthenticated != null && (userAuthenticated.isUser())) {
 
-              businessApplicationLigth = businessApplicationLigth.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
+            businessApplicationLigth = businessApplicationLigth.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
 
         }
         return businessApplicationLigth;
