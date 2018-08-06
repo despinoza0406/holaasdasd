@@ -102,11 +102,11 @@ public class ApplicationsServiceImpl implements ApplicationService {
         List<Threashold> th = crearThreasholdsDefaults();
 
         return new KPIs(
-                new Tasks(false, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("")),
-                new Defects(false, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(""), ApplicationInProviderJira.standard("", "")),
-                new Availavility(false, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                new Performance(false, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard(""), ApplicationInProvider.standard("")),
-                new Events(false, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("")));
+                new Tasks(false, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("", Boolean.FALSE)),
+                new Defects(false, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard("", Boolean.FALSE), ApplicationInProviderJira.standard("", "", Boolean.FALSE)),
+                new Availavility(false, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard("", Boolean.FALSE), ApplicationInProvider.standard("", Boolean.FALSE)),
+                new Performance(false, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard("", Boolean.FALSE), ApplicationInProvider.standard("", Boolean.FALSE)),
+                new Events(false, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("", Boolean.FALSE)));
     }
 
     private List<Threashold> crearThreasholdsDefaults() {
