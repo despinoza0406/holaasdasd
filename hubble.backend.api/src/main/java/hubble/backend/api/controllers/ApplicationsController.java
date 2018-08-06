@@ -87,6 +87,7 @@ public class ApplicationsController {
 
         List<BusinessApplicationFrontend> applicationFrontends = businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false), periodo);
 
+        //Filtro por las aplicaciones q puede ver el usuario autenticado!
         if (userAuthenticated != null && userAuthenticated.isUser()) {
 
             applicationFrontends = applicationFrontends.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
@@ -129,7 +130,25 @@ public class ApplicationsController {
      * @return
      */
     @CrossOrigin
+    @RolAdminRequired
     @TokenRequired
+    @GetMapping(value = "/ligthAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<BusinessApplicationLigth> getApplicationsLigthAdmin(HttpServletRequest req, @RequestParam("include-inactives") Optional<Boolean> includeInactives) {
+
+        return businessAppMgr.getApplicationsLigth(includeInactives.orElse(false));
+
+    }
+
+    /**
+     * No tiene puesto rol required pq se usa con cualquiera de los dos!
+     *
+     * @param req
+     * @param includeInactives
+     * @return
+     */
+    @CrossOrigin
+    @TokenRequired
+    @RolUserRequired
     @GetMapping(value = "/ligth", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BusinessApplicationLigth> getApplicationsLigth(HttpServletRequest req, @RequestParam("include-inactives") Optional<Boolean> includeInactives) {
 
@@ -137,7 +156,7 @@ public class ApplicationsController {
 
         List<BusinessApplicationLigth> businessApplicationLigth = businessAppMgr.getApplicationsLigth(includeInactives.orElse(false));
 
-        //Si el usuario es solo user, filtro por las aplicaciones q puede ver 
+        //Filtro por las aplicaciones q puede ver el usuario autenticado!
         if (userAuthenticated != null && (userAuthenticated.isUser())) {
 
             businessApplicationLigth = businessApplicationLigth.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
