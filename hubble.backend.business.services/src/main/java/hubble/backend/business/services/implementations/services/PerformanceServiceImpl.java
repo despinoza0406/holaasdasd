@@ -5,10 +5,12 @@ import hubble.backend.business.services.interfaces.operations.averages.Performan
 import hubble.backend.business.services.interfaces.operations.kpis.PerformanceKpiOperations;
 import hubble.backend.business.services.interfaces.services.PerformanceService;
 import hubble.backend.business.services.models.Application;
-import hubble.backend.business.services.models.DistValues;
-import hubble.backend.business.services.models.DistributionValues;
+import hubble.backend.business.services.models.distValues.DistValues;
+import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.Performance;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
+import hubble.backend.business.services.models.distValues.performance.DistributionPerformanceGroup;
+import hubble.backend.business.services.models.distValues.performance.DistributionPerformanceUnit;
 import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
@@ -18,9 +20,14 @@ import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.AvailabilityRepository;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +44,8 @@ public class PerformanceServiceImpl implements PerformanceService {
     PerformanceKpiOperations performanceKpiOperations;
     @Autowired
     MapperConfiguration mapper;
+
+    DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     private double inferior;
     private double criticalThreshold;
@@ -243,19 +252,166 @@ public class PerformanceServiceImpl implements PerformanceService {
 
     @Override
     public List<DistValues> getDistValues(String id, String periodo) {
-        List<DistValues> distValues = new ArrayList<>();
-        periodo = this.calculatePeriod(periodo);
+        List<DistValues> distValues;
+        String performancePeriod = this.calculatePeriod(periodo);
 
+
+        if(performancePeriod.equals("hora")) {
+            distValues = this.getUnitDistValues(id,performancePeriod);
+        }else{
+            distValues = this.getGroupDistValues(id,performancePeriod);
+        }
+
+        return distValues;
+    }
+
+    private List<DistValues> getUnitDistValues(String id, String periodo){
+        List<DistValues> distValues = new ArrayList<>();
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
+        ApplicationStorage application = applicationRepository.findApplicationById(id);
+        Threashold threshold = application.getKpis().getPerformance().getHourThreashold();
+
+        inferior = threshold.getInferior();
+        superior = threshold.getSuperior();
+        criticalThreshold = threshold.getCritical();
+        warningThreshold = threshold.getWarning();
+
         List<AvailabilityStorage> availabilityStorageList =
-                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id,startDate,endDate);
-        List<Integer> distValuesInt = new ArrayList<>();
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id,startDate,endDate)
+                .stream().filter(performance -> !performance.getAvailabilityStatus().equals("Failed"))
+                .collect(Collectors.toList());
+
         for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
-            distValuesInt.add((int) availabilityStorage.getResponseTime());
+            String status = "Critical";
+
+            if (availabilityStorage.getResponseTime() <= warningThreshold) {
+                status = "OK";
+            }
+
+            if (availabilityStorage.getResponseTime() <= criticalThreshold && availabilityStorage.getResponseTime() > warningThreshold) {
+                status = "Warning";
+            }
+
+            distValues.add(new DistributionPerformanceUnit(
+                    (int) availabilityStorage.getResponseTime(), //Podria dar overflow porque un long tiene mas valores que un int
+                    status,
+                    availabilityStorage.getTransactionName(),
+                    dateFormat.format(availabilityStorage.getTimeStamp()))
+            );
         }
-        for (Integer distValueInt: distValuesInt){
-            distValues.add(new DistributionValues(distValueInt));
+
+        return distValues;
+    }
+
+    private List<DistValues> getGroupDistValues(String id, String periodo){
+        List<DistValues> distValues = new ArrayList<>();
+        Date endDate = DateHelper.getEndDate(periodo);
+        Date startDate = DateHelper.getStartDate(periodo);
+        List<Date> startDates = new ArrayList<>();
+        List<Date> endDates = new ArrayList<>();
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id,startDate,endDate)
+                        .stream().filter(performance -> !performance.getAvailabilityStatus().equals("Failed"))
+                        .collect(Collectors.toList());
+
+        ApplicationStorage  applicationStorage = applicationRepository.findApplicationById(id);
+        Threashold threshold;
+        switch (periodo){
+            case "dia":
+                threshold = applicationStorage.getKpis().getPerformance().getHourThreashold();
+                for(int i=0; i<24; i++){
+                    startDates.add(DateUtils.addHours(startDate,i));
+                    endDates.add(DateUtils.addHours(startDate,i+1));
+                }
+                break;
+            case "semana":
+                threshold = applicationStorage.getKpis().getPerformance().getDayThreashold();
+                for(int i=0; i<7; i++){
+                    startDates.add(DateUtils.addDays(startDate,i));
+                    endDates.add(DateUtils.addDays(startDate,i+1));
+                }
+                break;
+            case "mes":
+                threshold = applicationStorage.getKpis().getPerformance().getWeekThreashold();
+                Date aux = startDate;
+                while (aux.before(endDate)){
+                    startDates.add(aux);
+                    if(DateUtils.addWeeks(aux,1).after(endDate)){
+                        endDates.add(endDate);
+                    }else {
+                        endDates.add(DateUtils.addWeeks(aux, 1));
+                    }
+                    aux = DateUtils.addWeeks(aux,1);
+                }
+                break;
+            default:
+                threshold = applicationStorage.getKpis().getPerformance().getHourThreashold();
+                for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
+                    String status = "Critical";
+
+                    if (availabilityStorage.getResponseTime() <= warningThreshold) {
+                        status = "OK";
+                    }
+
+                    if (availabilityStorage.getResponseTime() <= criticalThreshold && availabilityStorage.getResponseTime() > warningThreshold) {
+                        status = "Warning";
+                    }
+
+                    distValues.add(new DistributionPerformanceUnit(
+                            (int) availabilityStorage.getResponseTime(), //Podria dar overflow porque un long tiene mas valores que un int
+                            status,
+                            availabilityStorage.getTransactionName(),
+                            dateFormat.format(availabilityStorage.getTimeStamp()))
+                    );
+                }
+                return distValues;
+        }
+        distValues = this.getDistValuesByPeriod(availabilityStorageList,threshold,startDates,endDates);
+        return distValues;
+    }
+
+    private List<DistValues> getDistValuesByPeriod(List<AvailabilityStorage> availabilityStorageList,Threashold threshold,List<Date> startDates, List<Date> endDates){
+        List<DistValues> distValues = new ArrayList<>();
+        inferior = threshold.getInferior();
+        warningThreshold = threshold.getWarning();
+        criticalThreshold = threshold.getCritical();
+        superior = threshold.getSuperior();
+
+
+        List<String> transactions = availabilityStorageList.stream().
+                map(availabilityStorage -> availabilityStorage.getTransactionName()).
+                distinct().collect(Collectors.toList());
+        for (String transaction : transactions){
+            for(int j = 0; j<startDates.size(); j++){
+                final int index = j;
+                List<AvailabilityStorage> transactionAvailability = availabilityStorageList.stream().filter(
+                        availabilityStorage -> availabilityStorage.getTransactionName().equals(transaction) &&
+                                availabilityStorage.getTimeStamp().compareTo(startDates.get(index)) >= 0 &&
+                                availabilityStorage.getTimeStamp().compareTo(endDates.get(index)) <= 0).
+                        collect(Collectors.toList());
+                if(transactionAvailability.size()>0) {
+
+                    int value = transactionAvailability.stream().mapToInt(availabilityStorage ->
+                            (int)availabilityStorage.getResponseTime()).
+                            sum() / transactionAvailability.size();
+                    String status = "Critical";
+                    if (value >= warningThreshold) {
+                        status = "OK";
+                    }
+                    if (value <= warningThreshold && value > criticalThreshold) {
+                        status = "Warning";
+                    }
+
+                    String date = dateFormat.format(startDates.get(j)) + " - " + dateFormat.format(endDates.get(j));
+                    distValues.add(new DistributionPerformanceGroup(
+                            value,
+                            status,
+                            transaction,
+                            date
+                    ));
+                }
+            }
         }
         return distValues;
     }

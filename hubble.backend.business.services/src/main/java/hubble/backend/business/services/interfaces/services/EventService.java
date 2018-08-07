@@ -1,6 +1,6 @@
 package hubble.backend.business.services.interfaces.services;
 
-import hubble.backend.business.services.models.DistValues;
+import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.Event;
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
 import hubble.backend.storage.models.ApplicationStorage;

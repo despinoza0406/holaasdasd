@@ -233,7 +233,7 @@ public class InitialDataServiceImpl implements InitialDataService {
             List<Threashold> threasholds = new ArrayList<>();
             threasholds.add(new Threashold(0,5,100,Double.POSITIVE_INFINITY)); //Eventos y Tasks
             threasholds.add(new Threashold(100,98,90,0)); //Disponibilidad
-            threasholds.add(new Threashold(0,4000,8000,Double.POSITIVE_INFINITY)); //Performance
+            threasholds.add(new Threashold(0,4000,8000,Double.POSITIVE_INFINITY)); //performance
             threasholds.add(new Threashold(0,0,15,Double.POSITIVE_INFINITY)); //Defects
 
         return threasholds;

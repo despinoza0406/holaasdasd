@@ -4,9 +4,8 @@ import hubble.backend.business.services.configurations.mappers.MapperConfigurati
 import hubble.backend.business.services.interfaces.operations.WorkItemOperations;
 import hubble.backend.business.services.interfaces.operations.kpis.WorkItemKpiOperations;
 import hubble.backend.business.services.interfaces.services.WorkItemService;
-import hubble.backend.business.services.models.Application;
-import hubble.backend.business.services.models.DistValues;
-import hubble.backend.business.services.models.DistributionValues;
+import hubble.backend.business.services.models.distValues.DistValues;
+import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.WorkItem;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;

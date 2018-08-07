@@ -1,6 +1,6 @@
-package hubble.backend.business.services.models;
+package hubble.backend.business.services.models.distValues;
 
-public class DistributionValues implements DistValues{
+public class DistributionValues extends DistValues {
     private int distValue;
 
     public DistributionValues() {

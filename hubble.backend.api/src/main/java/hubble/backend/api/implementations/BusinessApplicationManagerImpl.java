@@ -8,8 +8,8 @@ import hubble.backend.business.services.interfaces.services.*;
 import hubble.backend.business.services.interfaces.services.kpis.KpiAveragesService;
 import hubble.backend.business.services.models.Application;
 import hubble.backend.business.services.models.Availability;
-import hubble.backend.business.services.models.DistValues;
-import hubble.backend.business.services.models.DistributionValues;
+import hubble.backend.business.services.models.distValues.DistValues;
+import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.measures.Uptime;
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.utils.CalendarHelper;
@@ -66,7 +66,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         businessView.setAvailabilityLastDayKpi(availabilityService.calculateLastDayKpiByApplication(id).getAvailabilityKpi().get());
         businessView.setAvailabilityLastMonthKpi(availabilityService.calculateLastMonthKpiByApplication(id).getAvailabilityKpi().get());
 
-        //Performance Kpi
+        //performance Kpi
         businessView.setPerformanceLast10MinKpi(performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get());
         businessView.setPerformanceLastHourKpi(performanceService.calculateLastHourKpiByApplication(id).getPerformanceKpi().get());
         businessView.setPerformanceLastDayKpi(performanceService.calculateLastDayKpiByApplication(id).getPerformanceKpi().get());
@@ -234,7 +234,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
         if (kpiTypes.contains(PERFORMANCE)){
             KpiFrontend performanceKpi = new KpiFrontend();
-            performanceKpi.setKpiName("Performance");
+            performanceKpi.setKpiName("performance");
             performanceKpi.setKpiShortName("P");
             performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
             performanceKpi.setKpiPeriod(performanceService.calculatePeriod(periodo));
@@ -298,7 +298,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             case "Disponibilidad":
                 distValues = availabilityService.getDistValues(id,period);
                 break;
-            case "Performance":
+            case "performance":
                 distValues = performanceService.getDistValues(id,period);
                 break;
             case "Incidencias":

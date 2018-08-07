@@ -5,9 +5,10 @@ import hubble.backend.business.services.interfaces.operations.averages.Availabil
 import hubble.backend.business.services.interfaces.operations.kpis.AvailabilityKpiOperations;
 import hubble.backend.business.services.interfaces.services.AvailabilityService;
 import hubble.backend.business.services.models.*;
-import hubble.backend.business.services.models.availability.DistributionAvailabilityGroup;
-import hubble.backend.business.services.models.availability.DistributionAvailabilityUnit;
+import hubble.backend.business.services.models.distValues.availability.DistributionAvailabilityGroup;
+import hubble.backend.business.services.models.distValues.availability.DistributionAvailabilityUnit;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
+import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
@@ -285,7 +286,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                     if (value >= warningThreshold) {
                         status = "OK";
                     }
-                    if (n <= warningThreshold && n > criticalThreshold) {
+                    if (value <= warningThreshold && value > criticalThreshold) {
                         status = "Warning";
                     }
 

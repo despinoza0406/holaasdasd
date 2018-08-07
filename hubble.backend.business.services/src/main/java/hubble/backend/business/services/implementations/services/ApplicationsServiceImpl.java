@@ -113,7 +113,7 @@ public class ApplicationsServiceImpl implements ApplicationService {
         List<Threashold> threasholds = new ArrayList<>();
         threasholds.add(new Threashold(0, 0, 0, 0)); //Eventos y Tasks
         threasholds.add(new Threashold(0, 0, 0, 0)); //Disponibilidad
-        threasholds.add(new Threashold(0, 0, 0, 0)); //Performance
+        threasholds.add(new Threashold(0, 0, 0, 0)); //performance
         threasholds.add(new Threashold(0, 0, 0, 0)); //Defects
 
         return threasholds;
