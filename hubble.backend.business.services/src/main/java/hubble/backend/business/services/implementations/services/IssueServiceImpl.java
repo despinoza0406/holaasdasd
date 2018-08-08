@@ -161,13 +161,13 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public List<DistValues> getDistValues(String id, String periodo) {
         List<DistValues> distValues;
-        String availabilityperiod = this.calculatePeriod(periodo);
+        String period = this.calculatePeriod(periodo);
 
 
-        if(availabilityperiod.equals("dia")) {
-            distValues = this.getUnitDistValues(id,availabilityperiod);
+        if(period.equals("dia")) {
+            distValues = this.getUnitDistValues(id,period);
         }else{
-            distValues = this.getGroupDistValues(id,availabilityperiod);
+            distValues = this.getGroupDistValues(id,period);
         }
 
 

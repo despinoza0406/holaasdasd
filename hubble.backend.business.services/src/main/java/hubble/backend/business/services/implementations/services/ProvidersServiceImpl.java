@@ -1,12 +1,16 @@
 package hubble.backend.business.services.implementations.services;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import hubble.backend.business.services.interfaces.services.ProvidersService;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.ProviderStorage;
 import hubble.backend.storage.repositories.ProvidersRepository;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,14 +23,17 @@ public class ProvidersServiceImpl implements ProvidersService {
 
     private final ProvidersRepository providersRepository;
 
+    @Autowired
+    RescheduleServiceImpl rescheduleService;
+
     public ProvidersServiceImpl(ProvidersRepository providersRepository) {
         this.providersRepository = providersRepository;
     }
 
+
     @Transactional
     @Override
     public void editProviderFromJson(JsonNode jsonNode) throws Exception{
-
         ProviderStorage providerStorage = null;
 
         try {
@@ -42,6 +49,8 @@ public class ProvidersServiceImpl implements ProvidersService {
             if (providerStorage != null) {
                 providerStorage = providerStorage.fromJson(jsonNode);
                 providersRepository.save(providerStorage);
+                rescheduleService.reschedule(providerStorage.getId());
+
             } else {
                 throw new RuntimeException("No existe un provider con el ID: " + jsonNode.get("id").asText());
             }

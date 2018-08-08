@@ -7,16 +7,24 @@ import hubble.backend.business.services.interfaces.services.WorkItemService;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.WorkItem;
+import hubble.backend.business.services.models.distValues.tasks.DistributionTasksGroup;
+import hubble.backend.business.services.models.distValues.tasks.DistributionTasksUnit;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
+import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.models.WorkItemStorage;
+import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.WorkItemRepository;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +46,10 @@ public class WorkItemServiceImpl implements WorkItemService {
     WorkItemOperations workItemOperation;
     @Autowired
     WorkItemKpiOperations workItemKpiOperation;
+    @Autowired
+    ApplicationRepository applicationRepository;
+
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     @Override
     public List<WorkItem> getLastDay(String applicationId) {
@@ -116,20 +128,133 @@ public class WorkItemServiceImpl implements WorkItemService {
     @Override
     public List<DistValues> getDistValues(String id, String periodo) {
         List<DistValues> distValues = new ArrayList<>();
+        String period = this.calculatePeriod(periodo);
+
+        if(period.equals("dia")){
+            distValues = this.getUnitDistValues(id,period);
+        }else {
+            distValues = this.getGroupDistValues(id,period);
+        }
+        return distValues;
+
+    }
+
+    private List<DistValues> getUnitDistValues(String id, String periodo){
+        List<DistValues> distValues = new ArrayList<>();
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
 
+        ApplicationStorage application = applicationRepository.findApplicationById(id);
+        Threashold threshold = application.getKpis().getPerformance().getHourThreashold();
+
+        double inferior = threshold.getInferior();
+        double superior = threshold.getSuperior();
+        double criticalThreshold = threshold.getCritical();
+        double warningThreshold = threshold.getWarning();
+
         List<WorkItemStorage> workItemsStorage =
                 workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(id,startDate,endDate, "IN_PROGRESS");
-        List<Integer> distValuesInt = new ArrayList<>();
         for (WorkItemStorage workItemStorage : workItemsStorage){
-            distValuesInt.add((int) workItemStorage.getDeflectionDays());
+            String status = "Critical";
+            if (workItemStorage.getDeflectionDays() <= warningThreshold){
+                status = "OK";
+            }
+            if (workItemStorage.getDeflectionDays() > warningThreshold && workItemStorage.getDeflectionDays() <= criticalThreshold){
+                status = "Warning";
+            }
+            distValues.add(new DistributionTasksUnit(
+                    (int)workItemStorage.getDeflectionDays()
+                    ,status
+                    ,workItemStorage.getTitle()
+                    ,workItemStorage.getStatus()
+                    ,workItemStorage.getDueDate() == null ? "No due date" : dateFormat.format(workItemStorage.getDueDate())));
         }
-        for (Integer distValueInt: distValuesInt){
-            distValues.add(new DistributionValues(distValueInt));
-        }
+
         return distValues;
     }
+
+    private List<DistValues> getGroupDistValues(String id, String periodo){
+        List<DistValues> distValues = new ArrayList<>();
+        Date endDate = DateHelper.getEndDate(periodo);
+        Date startDate = DateHelper.getStartDate(periodo);
+        List<Date> startDates = new ArrayList<>();
+        List<Date> endDates = new ArrayList<>();
+        List<WorkItemStorage> workItemsStorage =
+                workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(id,startDate,endDate, "IN_PROGRESS");
+
+        ApplicationStorage  applicationStorage = applicationRepository.findApplicationById(id);
+        Threashold threshold;
+        switch (periodo){
+            case "semana":
+                threshold = applicationStorage.getKpis().getPerformance().getDayThreashold();
+                for(int i=0; i<7; i++){
+                    startDates.add(DateUtils.addDays(startDate,i));
+                    endDates.add(DateUtils.addDays(startDate,i+1));
+                }
+                break;
+            case "mes":
+                threshold = applicationStorage.getKpis().getPerformance().getWeekThreashold();
+                Date aux = startDate;
+                while (aux.before(endDate)){
+                    startDates.add(aux);
+                    if(DateUtils.addWeeks(aux,1).after(endDate)){
+                        endDates.add(endDate);
+                    }else {
+                        endDates.add(DateUtils.addWeeks(aux, 1));
+                    }
+                    aux = DateUtils.addWeeks(aux,1);
+                }
+                break;
+            default:
+                threshold = applicationStorage.getKpis().getPerformance().getDayThreashold();
+                distValues = this.getUnitDistValues(id, periodo);
+                return distValues;
+        }
+        distValues = this.getDistValuesByPeriod(workItemsStorage,threshold,startDates,endDates);
+        return distValues;
+    }
+
+
+    private List<DistValues> getDistValuesByPeriod(List<WorkItemStorage> workItemList,Threashold threshold,List<Date> startDates, List<Date> endDates){
+        List<DistValues> distValues = new ArrayList<>();
+        double inferior = threshold.getInferior();
+        double lWarningKpiThreshold = threshold.getWarning();
+        double lCriticalKpiThreshold = threshold.getCritical();
+        double superior = threshold.getSuperior();
+
+
+        for(int j = 0; j<startDates.size(); j++){
+            final int index = j;
+            List<WorkItemStorage> workItemStorageList = workItemList.stream().filter(
+                    workItemStorage ->
+                            workItemStorage.getTimestamp().compareTo(startDates.get(index)) >= 0 &&
+                                    workItemStorage.getTimestamp().compareTo(endDates.get(index)) <= 0).
+                    collect(Collectors.toList());
+            if(workItemStorageList.size()>0) {
+                double value = workItemStorageList.stream().mapToDouble(workItemStorage ->
+                        workItemStorage.getDeflectionDays()).
+                        sum();
+                String status = "Critical";
+                if (value <= lWarningKpiThreshold) {
+                    status = "OK";
+                }
+                if (value <= lCriticalKpiThreshold && value > lWarningKpiThreshold) {
+                    status = "Warning";
+                }
+
+                String date = dateFormat.format(startDates.get(j)) + " - " + dateFormat.format(endDates.get(j));
+
+                distValues.add(new DistributionTasksGroup(
+                        (int) value,
+                        status,
+                        date
+                ));
+            }
+        }
+
+        return distValues;
+    }
+
 
     public String calculatePeriod(String periodo){
         if (periodo.equals("default")){ //esto se hace por como funciona el date helper

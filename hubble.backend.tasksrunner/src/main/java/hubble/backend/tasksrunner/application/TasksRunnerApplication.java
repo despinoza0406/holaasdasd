@@ -14,7 +14,6 @@ import hubble.backend.tasksrunner.jobs.bsm.BsmDataParserJob;
 import hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob;
 import hubble.backend.tasksrunner.jobs.ppm.PpmDataParserJob;
 import hubble.backend.tasksrunner.jobs.sitescope.SiteScopeDataParserJob;
-import hubble.backend.tasksrunner.listeners.MongoListener;
 import hubble.backend.tasksrunner.tasks.ParserTask;
 import hubble.backend.tasksrunner.tasks.alm.AlmDataTaskImpl;
 import hubble.backend.tasksrunner.tasks.bsm.BsmDataTaskImpl;
@@ -40,8 +39,6 @@ public class TasksRunnerApplication {
     @Autowired
     ProvidersRepository providersRepository;
     ConfigurableApplicationContext context;
-    @Autowired
-    MongoListener mongoListener;
 
     public void run(ConfigurableApplicationContext context) throws SchedulerException, Exception {
 
@@ -103,7 +100,6 @@ public class TasksRunnerApplication {
 
 
         scheduler.start();
-        mongoListener.start();
     }
 
     public static void main(String[] args) throws Exception {

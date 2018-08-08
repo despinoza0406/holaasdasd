@@ -19,6 +19,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Mockito.*;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -48,6 +50,8 @@ public class SchedulerMediatorUnitTests {
 
     @Autowired
     ProvidersRepository providersRepository;
+    @Autowired
+    SchedulerMediator schedule;
 
     public SchedulerMediatorUnitTests() {
 
@@ -208,7 +212,7 @@ public class SchedulerMediatorUnitTests {
     public void SchedulerMediator_should_reschedule_provider() throws Exception{
 
         ConfigurableApplicationContext ctx = mock(ConfigurableApplicationContext.class);
-        SchedulerMediator schedule = new SchedulerMediator(ctx);
+        schedule.startContext(ctx);
         Parser siteScopeParserFake = spy(SiteScopeDataParser.class);
         ParserJob siteScopeJob = new SiteScopeDataParserJob(siteScopeParserFake);
         ParserTask siteScopeTask = new SiteScopeDataTaskImpl(siteScopeJob);
@@ -218,7 +222,12 @@ public class SchedulerMediatorUnitTests {
         siteScopeTask.setIndentityGroupName("Site Scope Data Job");
         siteScopeTask.setIndentityName(providerStorage.getId());
         schedule.addTask(siteScopeTask);
-        Frecuency frecuency = Frecuency.EVERY_30_MINUTES;
+        Frecuency frecuency = null;
+        if(providerStorage.getTaskRunner().getSchedule().getFrecuency() == Frecuency.EVERY_30_MINUTES){
+            frecuency = Frecuency.HOURLY;
+        }else {
+            frecuency = Frecuency.EVERY_30_MINUTES;
+        }
         providerStorage.getTaskRunner().getSchedule().setFrecuency(frecuency);
         Trigger oldTrigger = null;
         for(JobKey key : schedule.scheduler.getJobKeys((GroupMatcher.jobGroupEquals(schedule.scheduler.getJobGroupNames().get(0))))){
@@ -227,12 +236,13 @@ public class SchedulerMediatorUnitTests {
 
         schedule.reschedule("siteScope");
 
+
         Trigger newTrigger = null;
         for(JobKey key : schedule.scheduler.getJobKeys((GroupMatcher.jobGroupEquals(schedule.scheduler.getJobGroupNames().get(0))))){
              newTrigger = schedule.scheduler.getTriggersOfJob(key).get(0);
         }
 
-        newTrigger.compareTo(oldTrigger);
+        assertNotEquals(newTrigger.getNextFireTime(),oldTrigger.getNextFireTime());
 
 
 
