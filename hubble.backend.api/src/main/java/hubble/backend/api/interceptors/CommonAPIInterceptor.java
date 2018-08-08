@@ -69,6 +69,11 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
                 return true;
 
             } catch (Exception ex) {
+                response.setHeader("Access-Control-Allow-Origin", "*");
+                response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, OPTIONS");
+                response.setHeader("Access-Control-Max-Age", "3600");
+                response.setHeader("Access-Control-Allow-Headers", "access-token");
+                response.addHeader("Access-Control-Expose-Headers", "access-token");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "TokenInvalido");
                 return false;
             }
