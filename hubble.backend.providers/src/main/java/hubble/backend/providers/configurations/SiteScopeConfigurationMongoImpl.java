@@ -33,7 +33,7 @@ public class SiteScopeConfigurationMongoImpl implements SiteScopeConfiguration
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
                 filter((a) ->
                         a.isEnabledTaskRunner() &&
-                        a.getKpis().getEvents().getEnabled() &&
+                        a.getKpis().getEvents().isEnabled()&&
                         a.getKpis().getEvents().getSiteScope().isEnabledInTaskRunner()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){

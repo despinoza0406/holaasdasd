@@ -37,7 +37,7 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
                 filter((a) ->
                         a.isEnabledTaskRunner() &&
-                        a.getKpis().getDefects().getEnabled() &&
+                        a.getKpis().getDefects().isEnabled()&&
                         a.getKpis().getDefects().getJira().isEnabledInTaskRunner()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
@@ -54,7 +54,7 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
                 filter((a) ->
                                 a.isEnabledTaskRunner() &&
-                                a.getKpis().getDefects().getEnabled() &&
+                                a.getKpis().getDefects().isEnabled()&&
                                 a.getKpis().getDefects().getJira().isEnabledInTaskRunner()).collect(Collectors.toList())
                                 ;
         applications = applications.stream().filter(distinctByKey((a) -> a.getKpis().getDefects().getJira().getProjectKey())).collect(Collectors.toList());

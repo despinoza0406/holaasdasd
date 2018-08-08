@@ -63,7 +63,7 @@ public class PpmConfigurationMongoImpl implements PpmConfiguration{
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
                                                 filter((a) ->
                                                         a.isEnabledTaskRunner() &&
-                                                        a.getKpis().getTasks().getEnabled() &&
+                                                        a.getKpis().getTasks().isEnabled()&&
                                                         a.getKpis().getTasks().getPpm().isEnabledInTaskRunner()).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){

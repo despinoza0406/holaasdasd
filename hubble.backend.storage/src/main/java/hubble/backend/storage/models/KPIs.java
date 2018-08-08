@@ -31,23 +31,23 @@ public class KPIs {
 
     public Set<KPITypes> getEnabledKPIs() {
 
-        if (this.tasks.getEnabled()) {
+        if (this.tasks.isEnabled()) {
             enabledKPIs.add(KPITypes.TASKS);
         }
 
-        if (this.defects.getEnabled()) {
+        if (this.defects.isEnabled()) {
             enabledKPIs.add(KPITypes.DEFECTS);
         }
 
-        if (this.availability.getEnabled()) {
+        if (this.availability.isEnabled()) {
             enabledKPIs.add(KPITypes.AVAILABILITY);
         }
 
-        if (this.performance.getEnabled()) {
+        if (this.performance.isEnabled()) {
             enabledKPIs.add(KPITypes.PERFORMANCE);
         }
 
-         if (this.events.getEnabled()) {
+         if (this.events.isEnabled()) {
             enabledKPIs.add(KPITypes.EVENTS);
         }
 

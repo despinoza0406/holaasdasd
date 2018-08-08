@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
  */
-public class Events implements KPI {
+public class Events{
 
     private boolean enabled;
     private Threashold hourThreashold;
@@ -31,15 +31,14 @@ public class Events implements KPI {
         this.siteScope = siteScope;
     }
 
-    @Override
-    public boolean getEnabled() {
+    public boolean isEnabled() {
         return enabled;
     }
 
-    @Override
-    public void setEnabled(boolean value) {
-        enabled = true;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
+
 
     public Threashold getHourThreashold() {
         return hourThreashold;

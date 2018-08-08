@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
  *
  * @author Martín Straus <martin.straus@fit.com.ar>
  */
-public class Availavility implements KPI {
+public class Availavility{
 
     private boolean enabled;
     private Threashold hourThreashold;
@@ -33,16 +33,15 @@ public class Availavility implements KPI {
         this.appPulse = appPulse;
     }
 
-    @Override
-    public boolean getEnabled() {
+    public boolean isEnabled() {
         return enabled;
     }
 
-    @Override
-    public void setEnabled(boolean value) {
-        enabled = true;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
+   
     public Threashold getHourThreashold() {
         return hourThreashold;
     }

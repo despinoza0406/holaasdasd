@@ -26,7 +26,7 @@ public class AppPulseConfigurationMongoImpl implements AppPulseConfiguration {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
                 filter((a) ->
                         a.isEnabledTaskRunner() &&
-                                (a.getKpis().getAvailability().getEnabled() || a.getKpis().getPerformance().getEnabled()) &&
+                                (a.getKpis().getAvailability().isEnabled()|| a.getKpis().getPerformance().isEnabled()) &&
                                 (a.getKpis().getAvailability().getAppPulse().isEnabledInTaskRunner() || a.getKpis().getPerformance().getAppPulse().isEnabledInTaskRunner())).collect(Collectors.toList());
         HashMap<String,String> mapApplications = new HashMap<>();
         for(ApplicationStorage application: applications){
