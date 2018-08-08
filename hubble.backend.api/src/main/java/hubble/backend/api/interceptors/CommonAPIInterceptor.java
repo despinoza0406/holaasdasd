@@ -69,7 +69,7 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
                 return true;
 
             } catch (Exception ex) {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "TokenInvalido");
                 return false;
             }
 
