@@ -109,7 +109,7 @@ public class AppPulse extends ProviderStorage<AppPulse.Environment, AppPulse.Con
     }
 
     public AppPulse(boolean enabled, TaskRunner taskRunner, Environment environment, Configuration configuration) {
-        super("apppulse", "AppPulse", enabled, taskRunner, environment, configuration);
+        super("apppulse", "AppPulse", enabled, taskRunner, environment, configuration,0,Double.POSITIVE_INFINITY);
     }
 
 }

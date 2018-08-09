@@ -130,7 +130,7 @@ public class Jira extends ProviderStorage<Jira.Environment, Jira.Configuration> 
     }
 
     public Jira(boolean enabled, TaskRunner taskRunner, Environment environment, Configuration configuration) {
-        super("jira", "Jira", enabled, taskRunner, environment, configuration);
+        super("jira", "Jira", enabled, taskRunner, environment, configuration,0,Double.POSITIVE_INFINITY);
     }
 
 }

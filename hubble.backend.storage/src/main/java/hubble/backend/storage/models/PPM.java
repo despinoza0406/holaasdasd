@@ -204,7 +204,7 @@ public class PPM extends ProviderStorage<PPM.Environment, PPM.Configuration> {
     }
 
     public PPM(boolean enabled, TaskRunner taskRunner, Environment environment, Configuration configuration) {
-        super("ppm", "PPM", enabled, taskRunner, environment, configuration);
+        super("ppm", "PPM", enabled, taskRunner, environment, configuration,0,Double.POSITIVE_INFINITY);
     }
 
 }
