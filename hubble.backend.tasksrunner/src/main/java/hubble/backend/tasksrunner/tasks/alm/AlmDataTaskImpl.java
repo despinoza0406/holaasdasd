@@ -18,6 +18,7 @@ public class AlmDataTaskImpl implements ParserTask {
     JobDetail job;
     Trigger trigger;
     int interval = 0;
+    String cronExpression = "";
 
     public AlmDataTaskImpl() {
     }
@@ -33,7 +34,7 @@ public class AlmDataTaskImpl implements ParserTask {
                 .withIdentity(this.identityName, this.identityGroupName)
                 .startNow()
                 .withSchedule(CronScheduleBuilder
-                        .cronSchedule("0 0 0 * * ?"))
+                        .cronSchedule(this.cronExpression))
                 .build();
         return this.trigger;
     }
@@ -55,6 +56,12 @@ public class AlmDataTaskImpl implements ParserTask {
     public void setIntervalSeconds(int seconds) {
         this.interval = seconds;
     }
+
+    @Override
+    public void setCronExpression(String cronExpression) { this.cronExpression = cronExpression; }
+
+    @Override
+    public String getCronExpression(){ return cronExpression; }
 
     @Override
     public void setTrigger(Trigger trigger) {

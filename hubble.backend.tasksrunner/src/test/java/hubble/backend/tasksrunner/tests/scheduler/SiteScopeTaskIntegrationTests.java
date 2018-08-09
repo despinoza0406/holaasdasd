@@ -6,7 +6,6 @@ import hubble.backend.tasksrunner.application.scheduler.SchedulerMediator;
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import hubble.backend.tasksrunner.jobs.sitescope.SiteScopeDataParserJob;
 import hubble.backend.tasksrunner.tasks.Task;
-import hubble.backend.tasksrunner.tasks.sitescope.SiteScopeApplicationTaskImpl;
 import hubble.backend.tasksrunner.tasks.sitescope.SiteScopeDataTaskImpl;
 import hubble.backend.tasksrunner.tests.configurations.TasksRunnerTestConfiguration;
 import org.junit.Test;

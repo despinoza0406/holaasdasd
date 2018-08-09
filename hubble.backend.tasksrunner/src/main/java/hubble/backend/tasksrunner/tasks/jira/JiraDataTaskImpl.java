@@ -19,6 +19,7 @@ public class JiraDataTaskImpl implements ParserTask {
     private JobDetail job;
     private Trigger trigger;
     private int interval;
+    private String cronExpression;
     
     public JiraDataTaskImpl() { 
     }
@@ -43,7 +44,7 @@ public class JiraDataTaskImpl implements ParserTask {
                 .withIdentity(this.identityName, this.identityGroupName)
                 .startNow()
                 .withSchedule(CronScheduleBuilder
-                        .cronSchedule("0 0 0 * * ?"))
+                        .cronSchedule(cronExpression))
                 .build();
         return this.trigger;
     }
@@ -65,6 +66,12 @@ public class JiraDataTaskImpl implements ParserTask {
     public void setIntervalSeconds(int seconds) {
         this.interval = seconds;
     }
+
+    @Override
+    public void setCronExpression(String cronExpression) { this.cronExpression = cronExpression; }
+
+    @Override
+    public String getCronExpression() { return cronExpression; }
 
     @Override
     public void setTrigger(Trigger trigger) {

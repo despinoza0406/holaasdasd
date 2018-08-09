@@ -60,6 +60,8 @@ public class TasksRunnerApplication {
         ParserTask bsmTask = new BsmDataTaskImpl(bsmJob);
         bsmTask.setIndentityGroupName("BSM");
         bsmTask.setIndentityName(providersRepository.bsm().getId());
+        bsmTask.setCronExpression(providersRepository.bsm().getTaskRunner().getSchedule().cronExpression());
+
         scheduler.addTask(bsmTask);
 
         //Alm
@@ -68,6 +70,7 @@ public class TasksRunnerApplication {
         ParserTask almDataTask = new AlmDataTaskImpl(almJob);
         almDataTask.setIndentityGroupName("Alm Provider Job");
         almDataTask.setIndentityName(providersRepository.alm().getId());
+        almDataTask.setCronExpression(providersRepository.alm().getTaskRunner().getSchedule().cronExpression());
 
         scheduler.addTask(almDataTask);
 
@@ -77,6 +80,7 @@ public class TasksRunnerApplication {
         ParserTask ppmDataTask = new PpmDataTaskImpl(ppmJob);
         ppmDataTask.setIndentityGroupName("Ppm Provider Job");
         ppmDataTask.setIndentityName(providersRepository.ppm().getId());
+        ppmDataTask.setCronExpression(providersRepository.ppm().getTaskRunner().getSchedule().cronExpression());
         
         scheduler.addTask(ppmDataTask);
 
@@ -86,6 +90,7 @@ public class TasksRunnerApplication {
         ParserTask jiraDataTask = new JiraDataTaskImpl(jiraJob);
         jiraDataTask.setIndentityGroupName("Jira Provider Job");
         jiraDataTask.setIndentityName(providersRepository.jira().getId());
+        jiraDataTask.setCronExpression(providersRepository.jira().getTaskRunner().getSchedule().cronExpression());
 
         scheduler.addTask(jiraDataTask);
 
@@ -95,6 +100,7 @@ public class TasksRunnerApplication {
         ParserTask siteScopeDataTask = new SiteScopeDataTaskImpl(siteScopeJob);
         siteScopeDataTask.setIndentityGroupName("SiteScope Provider Job");
         siteScopeDataTask.setIndentityName(providersRepository.siteScope().getId());
+        siteScopeDataTask.setCronExpression(providersRepository.siteScope().getTaskRunner().getSchedule().cronExpression());
 
         scheduler.addTask(siteScopeDataTask);
 

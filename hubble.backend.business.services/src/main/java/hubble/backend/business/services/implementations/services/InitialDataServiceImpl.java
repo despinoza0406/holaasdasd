@@ -30,6 +30,14 @@ public class InitialDataServiceImpl implements InitialDataService {
             true,
             new Schedule(Days.EVERY_DAY, HourRange._9_to_18, Frecuency.DAYLY)
     );
+    private static final TaskRunner EVERY_FIVE_MINUTES = new TaskRunner(
+            true,
+            new Schedule(Days.EVERY_DAY, HourRange._24hs, Frecuency.EVERY_5_MINUTES)
+    );
+    private static final TaskRunner EVERY_HOUR = new TaskRunner(
+            true,
+            new Schedule(Days.EVERY_DAY, HourRange._24hs, Frecuency.HOURLY)
+    );
     private final UsersRepository users;
     private final ProvidersRepository providers;
     private final ApplicationRepository applications;
@@ -171,7 +179,7 @@ public class InitialDataServiceImpl implements InitialDataService {
     private BSM defaultBSM() {
         return new BSM(
                 true,
-                EVERY_DAY_AT_9,
+                EVERY_HOUR,
                 new BSM.Environment(
                         new SoapEndpoint(
                                 "http://t-srvbacapplsar.tsoftglobal.com/topaz/gdeopenapi/services/GdeWsOpenAPI?wsdl",
@@ -226,7 +234,12 @@ public class InitialDataServiceImpl implements InitialDataService {
     }
     
     private SiteScope siteScopeDefault() {
-        return new SiteScope(true, EVERY_DAY_AT_9, new SiteScope.Environment("10.10.20.248", 8080, "root", "root"), new SiteScope.Configuration("project"));
+        return new SiteScope(
+                true,
+                EVERY_FIVE_MINUTES,
+                new SiteScope.Environment("10.10.20.248", 8080, "root", "root"),
+                new SiteScope.Configuration("project")
+        );
     }
 
     private List<Threashold> crearThreasholds(){
