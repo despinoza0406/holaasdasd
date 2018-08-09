@@ -264,7 +264,7 @@ public class ALM extends ProviderStorage<ALM.Environment, ALM.Configuration> {
     }
 
     public ALM(boolean enabled, TaskRunner taskRunner, Environment environment, Configuration configuration) {
-        super("alm", "ALM", enabled, taskRunner, environment, configuration,0,Double.POSITIVE_INFINITY);
+        super("alm", "ALM", enabled, taskRunner, environment, configuration);
     }
 
 }

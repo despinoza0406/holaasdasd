@@ -18,6 +18,8 @@ public class Availavility implements KPI {
     private Threashold monthThreashold;
     private ApplicationInProvider bsm;
     private ApplicationInProvider appPulse;
+    private double limiteInferior = 100;
+    private double limiteSuperior = 0;
 
     public Availavility() {
     }
@@ -115,4 +117,19 @@ public class Availavility implements KPI {
 
     }
 
+    public double getLimiteInferior() {
+        return limiteInferior;
+    }
+
+    public void setLimiteInferior(double limiteInferior) {
+        this.limiteInferior = limiteInferior;
+    }
+
+    public double getLimiteSuperior() {
+        return limiteSuperior;
+    }
+
+    public void setLimiteSuperior(double limiteSuperior) {
+        this.limiteSuperior = limiteSuperior;
+    }
 }

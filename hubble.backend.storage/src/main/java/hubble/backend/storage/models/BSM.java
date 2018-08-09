@@ -112,7 +112,7 @@ public class BSM extends ProviderStorage<BSM.Environment, BSM.Configuration> {
     }
 
     public BSM(boolean enabled, TaskRunner taskRunner, Environment environment, Configuration configuration) {
-        super("bsm", "BSM", enabled, taskRunner, environment, configuration,100,0);
+        super("bsm", "BSM", enabled, taskRunner, environment, configuration);
     }
 
 }

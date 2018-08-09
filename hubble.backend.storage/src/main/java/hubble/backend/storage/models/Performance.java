@@ -18,6 +18,8 @@ public class Performance implements KPI {
     private Threashold monthThreashold;
     private ApplicationInProvider bsm;
     private ApplicationInProvider appPulse;
+    private double limiteInferior = 0;
+    private double limiteSuperior = Double.POSITIVE_INFINITY;
 
     public Performance() {
     }
@@ -114,4 +116,19 @@ public class Performance implements KPI {
         return null;
     }
 
+    public double getLimiteInferior() {
+        return limiteInferior;
+    }
+
+    public void setLimiteInferior(double limiteInferior) {
+        this.limiteInferior = limiteInferior;
+    }
+
+    public double getLimiteSuperior() {
+        return limiteSuperior;
+    }
+
+    public void setLimiteSuperior(double limiteSuperior) {
+        this.limiteSuperior = limiteSuperior;
+    }
 }

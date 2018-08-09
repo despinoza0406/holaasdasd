@@ -28,21 +28,18 @@ public abstract class ProviderStorage<E, C> {
     private E environment;
     private C configuration;
 
-    private double limiteSuperior;
-    private double limiteInferior;
 
     public ProviderStorage() {
     }
 
-    protected ProviderStorage(String id, String name, boolean enabled, TaskRunner taskRunner, E environment, C configuration, double limiteInferior, double limiteSuperior) {
+    protected ProviderStorage(String id, String name, boolean enabled, TaskRunner taskRunner, E environment, C configuration) {
         this.id = id;
         this.name = name;
         this.enabled = enabled;
         this.taskRunner = taskRunner;
         this.environment = environment;
         this.configuration = configuration;
-        this.limiteInferior = limiteInferior;
-        this.limiteSuperior = limiteSuperior;
+
     }
     
     public abstract ProviderStorage fromJson(JsonNode jsonNode);
@@ -95,20 +92,4 @@ public abstract class ProviderStorage<E, C> {
         this.configuration = configuration;
     }
 
-
-    public double getLimiteSuperior() {
-        return limiteSuperior;
-    }
-
-    public void setLimiteSuperior(double limiteSuperior) {
-        this.limiteSuperior = limiteSuperior;
-    }
-
-    public double getLimiteInferior() {
-        return limiteInferior;
-    }
-
-    public void setLimiteInferior(double limiteInferior) {
-        this.limiteInferior = limiteInferior;
-    }
 }

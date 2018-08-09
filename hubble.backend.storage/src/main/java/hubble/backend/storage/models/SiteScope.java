@@ -12,7 +12,7 @@ public class SiteScope extends ProviderStorage<SiteScope.Environment, SiteScope.
     }
 
     public SiteScope(boolean enabled, TaskRunner taskRunner, Environment environment, Configuration configuration) {
-        super("sitescope", "SiteScope", enabled, taskRunner, environment, configuration,0,Double.POSITIVE_INFINITY);
+        super("sitescope", "SiteScope", enabled, taskRunner, environment, configuration);
     }
     
     public static class Environment {

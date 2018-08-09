@@ -17,6 +17,8 @@ public class Events implements KPI {
     private Threashold weekThreashold;
     private Threashold monthThreashold;
     private ApplicationInProvider siteScope;
+    private double limiteInferior = 0;
+    private double limiteSuperior = Double.POSITIVE_INFINITY;
 
     public Events() {
     }
@@ -105,4 +107,19 @@ public class Events implements KPI {
         return null;
     }
 
+    public double getLimiteInferior() {
+        return limiteInferior;
+    }
+
+    public void setLimiteInferior(double limiteInferior) {
+        this.limiteInferior = limiteInferior;
+    }
+
+    public double getLimiteSuperior() {
+        return limiteSuperior;
+    }
+
+    public void setLimiteSuperior(double limiteSuperior) {
+        this.limiteSuperior = limiteSuperior;
+    }
 }
