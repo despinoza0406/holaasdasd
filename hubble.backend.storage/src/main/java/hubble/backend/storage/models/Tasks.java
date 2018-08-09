@@ -16,6 +16,8 @@ public class Tasks  {
     private Threashold weekThreashold;
     private Threashold monthThreashold;
     private ApplicationInProvider ppm;
+    private final double limiteInferior = 0;
+    private final double limiteSuperior = Double.POSITIVE_INFINITY;
 
     public Tasks() {
     }
@@ -91,6 +93,14 @@ public class Tasks  {
 
         }
         return null;
+    }
+
+    public double getLimiteInferior() {
+        return limiteInferior;
+    }
+
+    public double getLimiteSuperior() {
+        return limiteSuperior;
     }
 
 }

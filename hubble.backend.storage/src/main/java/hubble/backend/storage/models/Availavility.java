@@ -18,6 +18,8 @@ public class Availavility{
     private Threashold monthThreashold;
     private ApplicationInProvider bsm;
     private ApplicationInProvider appPulse;
+    private final double limiteInferior = 100;
+    private final double limiteSuperior = 0;
 
     public Availavility() {
     }
@@ -113,5 +115,14 @@ public class Availavility{
         return null;
 
     }
+
+    public double getLimiteInferior() {
+        return limiteInferior;
+    }
+
+    public double getLimiteSuperior() {
+        return limiteSuperior;
+    }
+
 
 }

@@ -17,6 +17,8 @@ public class Defects {
     private Threashold monthThreashold;
     private ApplicationInProvider alm;
     private ApplicationInProviderJira jira;
+    private final double limiteInferior = 0;
+    private final double limiteSuperior = Double.POSITIVE_INFINITY;
 
     public Defects() {
     }
@@ -100,6 +102,15 @@ public class Defects {
 
         }
         return null;
+    }
+
+    public double getLimiteInferior() {
+        return limiteInferior;
+    }
+
+
+    public double getLimiteSuperior() {
+        return limiteSuperior;
     }
 
 }

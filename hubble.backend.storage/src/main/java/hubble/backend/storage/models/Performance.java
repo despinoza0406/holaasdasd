@@ -18,6 +18,8 @@ public class Performance{
     private Threashold monthThreashold;
     private ApplicationInProvider bsm;
     private ApplicationInProvider appPulse;
+    private final double limiteInferior = 0;
+    private final double limiteSuperior = Double.POSITIVE_INFINITY;
 
     public Performance() {
     }
@@ -112,6 +114,15 @@ public class Performance{
 
         }
         return null;
+    }
+
+    public double getLimiteInferior() {
+        return limiteInferior;
+    }
+
+
+    public double getLimiteSuperior() {
+        return limiteSuperior;
     }
 
 }

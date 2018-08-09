@@ -28,6 +28,7 @@ public abstract class ProviderStorage<E, C> {
     private E environment;
     private C configuration;
 
+
     public ProviderStorage() {
     }
 
@@ -38,6 +39,7 @@ public abstract class ProviderStorage<E, C> {
         this.taskRunner = taskRunner;
         this.environment = environment;
         this.configuration = configuration;
+
     }
     
     public abstract ProviderStorage fromJson(JsonNode jsonNode);
@@ -90,5 +92,4 @@ public abstract class ProviderStorage<E, C> {
         this.configuration = configuration;
     }
 
-   
 }

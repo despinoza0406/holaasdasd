@@ -17,6 +17,8 @@ public class Events{
     private Threashold weekThreashold;
     private Threashold monthThreashold;
     private ApplicationInProvider siteScope;
+    private final double limiteInferior = 0;
+    private final double limiteSuperior = Double.POSITIVE_INFINITY;
 
     public Events() {
     }
@@ -102,6 +104,15 @@ public class Events{
 
         }
         return null;
+    }
+
+    public double getLimiteInferior() {
+        return limiteInferior;
+    }
+
+
+    public double getLimiteSuperior() {
+        return limiteSuperior;
     }
 
 }
