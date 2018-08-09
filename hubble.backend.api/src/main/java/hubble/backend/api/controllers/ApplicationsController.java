@@ -85,17 +85,18 @@ public class ApplicationsController {
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
 
+        List<BusinessApplicationFrontend> applicationFrontends = businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false), periodo);
+
+        //Filtro por las aplicaciones q puede ver el usuario autenticado!
         if (userAuthenticated != null && userAuthenticated.isUser()) {
 
-            List<BusinessApplicationFrontend> applicationFrontends = businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false), periodo);
-
             applicationFrontends = applicationFrontends.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
-
-            return applicationFrontends;
 
         } else {
             throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
         }
+
+        return applicationFrontends;
 
     }
 
@@ -129,18 +130,36 @@ public class ApplicationsController {
      * @return
      */
     @CrossOrigin
+    @RolAdminRequired
     @TokenRequired
+    @GetMapping(value = "/ligthAdmin", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<BusinessApplicationLigth> getApplicationsLigthAdmin(HttpServletRequest req, @RequestParam("include-inactives") Optional<Boolean> includeInactives) {
+
+        return businessAppMgr.getApplicationsLigth(includeInactives.orElse(false));
+
+    }
+
+    /**
+     * No tiene puesto rol required pq se usa con cualquiera de los dos!
+     *
+     * @param req
+     * @param includeInactives
+     * @return
+     */
+    @CrossOrigin
+    @TokenRequired
+    @RolUserRequired
     @GetMapping(value = "/ligth", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<BusinessApplicationLigth> getApplicationsLigth(HttpServletRequest req, @RequestParam("include-inactives") Optional<Boolean> includeInactives) {
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
-        
+
         List<BusinessApplicationLigth> businessApplicationLigth = businessAppMgr.getApplicationsLigth(includeInactives.orElse(false));
 
-        //Si el usuario es solo user, filtro por las aplicaciones q puede ver 
-        if (userAuthenticated != null && (userAuthenticated.isUser() && !userAuthenticated.isAdministrator())) {
+        //Filtro por las aplicaciones q puede ver el usuario autenticado!
+        if (userAuthenticated != null && (userAuthenticated.isUser())) {
 
-              businessApplicationLigth = businessApplicationLigth.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
+            businessApplicationLigth = businessApplicationLigth.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
 
         }
         return businessApplicationLigth;

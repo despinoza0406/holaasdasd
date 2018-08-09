@@ -4,8 +4,8 @@ import org.springframework.data.annotation.Transient;
 
 public class ApplicationInProviderJira {
 
-    public static ApplicationInProviderJira standard(String applicationName, String projectKey) {
-        return new ApplicationInProviderJira(applicationName, true, projectKey);
+    public static ApplicationInProviderJira standard(String applicationName, String projectKey, boolean enabledInTaskRunner) {
+        return new ApplicationInProviderJira(applicationName, enabledInTaskRunner, projectKey);
     }
 
     @Transient

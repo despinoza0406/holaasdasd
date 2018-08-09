@@ -9,8 +9,8 @@ import org.springframework.data.annotation.Transient;
  */
 public class ApplicationInProvider {
 
-    public static ApplicationInProvider standard(String applicationName) {
-        return new ApplicationInProvider(applicationName, true);
+    public static ApplicationInProvider standard(String applicationName, boolean enabledInTaskRunner) {
+        return new ApplicationInProvider(applicationName, enabledInTaskRunner);
     }
     
     @Transient

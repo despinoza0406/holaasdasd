@@ -81,11 +81,11 @@ public class InitialDataServiceImpl implements InitialDataService {
                 descripcion,
                 true,
                 new KPIs(
-                        new Tasks(true, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard(nombreEnPPM)),
-                        new Defects(true, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(nombreEnALM), ApplicationInProviderJira.standard(nombreEnJira,projectKeyEnJira)),
-                        new Availavility(true, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
-                        new Performance(true, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard(nombreEnBSM), ApplicationInProvider.standard("")),
-                        new Events(true, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard(nombreEnSiteScope))),
+                        new Tasks(true, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard(nombreEnPPM, Boolean.TRUE)),
+                        new Defects(true, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard(nombreEnALM, Boolean.TRUE), ApplicationInProviderJira.standard(nombreEnJira,projectKeyEnJira, Boolean.TRUE)),
+                        new Availavility(true, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard(nombreEnBSM, Boolean.TRUE), ApplicationInProvider.standard("", Boolean.TRUE)),
+                        new Performance(true, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard(nombreEnBSM, Boolean.TRUE), ApplicationInProvider.standard("", Boolean.TRUE)),
+                        new Events(true, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard(nombreEnSiteScope, Boolean.TRUE))),
                 true
         );
     }
