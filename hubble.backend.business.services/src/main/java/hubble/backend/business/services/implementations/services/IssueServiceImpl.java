@@ -213,22 +213,15 @@ public class IssueServiceImpl implements IssueService {
         ApplicationStorage  applicationStorage = applicationRepository.findApplicationById(id);
         Threashold threshold;
         switch (periodo){
-            case "dia": //no deberia pasar nunca, deberia ir a la unit por muestra
-                threshold = applicationStorage.getKpis().getAvailability().getHourThreashold();
-                for(int i=0; i<24; i++){
-                    startDates.add(DateUtils.addHours(startDate,i));
-                    endDates.add(DateUtils.addHours(startDate,i+1));
-                }
-                break;
             case "semana":
-                threshold = applicationStorage.getKpis().getAvailability().getDayThreashold();
+                threshold = applicationStorage.getKpis().getDefects().getDayThreashold();
                 for(int i=0; i<7; i++){
                     startDates.add(DateUtils.addDays(startDate,i));
                     endDates.add(DateUtils.addDays(startDate,i+1));
                 }
                 break;
             case "mes":
-                threshold = applicationStorage.getKpis().getAvailability().getWeekThreashold();
+                threshold = applicationStorage.getKpis().getDefects().getWeekThreashold();
                 Date aux = startDate;
                 while (aux.before(endDate)){
                     startDates.add(aux);

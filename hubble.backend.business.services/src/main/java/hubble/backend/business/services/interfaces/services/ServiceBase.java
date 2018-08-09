@@ -1,5 +1,7 @@
 package hubble.backend.business.services.interfaces.services;
 
+import hubble.backend.business.services.models.distValues.DistValues;
+
 import java.util.List;
 
 /* The ServiceBase brings basic functionality to any service that could be
@@ -9,7 +11,9 @@ import java.util.List;
  */
 public interface ServiceBase<T> {
 
-    public List<T> getLastDay(String applicationId);
+    List<T> getLastDay(String applicationId);
 
-    public List<T> getLastMonth(String applicationId);
+    List<T> getLastMonth(String applicationId);
+
+    List<DistValues> getDistValues(String id, String periodo);
 }

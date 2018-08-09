@@ -49,7 +49,7 @@ public class WorkItemServiceImpl implements WorkItemService {
     @Autowired
     ApplicationRepository applicationRepository;
 
-    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     @Override
     public List<WorkItem> getLastDay(String applicationId) {
@@ -145,7 +145,7 @@ public class WorkItemServiceImpl implements WorkItemService {
         Date endDate = DateHelper.getEndDate(periodo);
 
         ApplicationStorage application = applicationRepository.findApplicationById(id);
-        Threashold threshold = application.getKpis().getPerformance().getHourThreashold();
+        Threashold threshold = application.getKpis().getTasks().getDayThreashold();
 
         double inferior = threshold.getInferior();
         double superior = threshold.getSuperior();
@@ -186,14 +186,14 @@ public class WorkItemServiceImpl implements WorkItemService {
         Threashold threshold;
         switch (periodo){
             case "semana":
-                threshold = applicationStorage.getKpis().getPerformance().getDayThreashold();
+                threshold = applicationStorage.getKpis().getTasks().getDayThreashold();
                 for(int i=0; i<7; i++){
                     startDates.add(DateUtils.addDays(startDate,i));
                     endDates.add(DateUtils.addDays(startDate,i+1));
                 }
                 break;
             case "mes":
-                threshold = applicationStorage.getKpis().getPerformance().getWeekThreashold();
+                threshold = applicationStorage.getKpis().getTasks().getWeekThreashold();
                 Date aux = startDate;
                 while (aux.before(endDate)){
                     startDates.add(aux);
@@ -206,7 +206,7 @@ public class WorkItemServiceImpl implements WorkItemService {
                 }
                 break;
             default:
-                threshold = applicationStorage.getKpis().getPerformance().getDayThreashold();
+                threshold = applicationStorage.getKpis().getTasks().getDayThreashold();
                 distValues = this.getUnitDistValues(id, periodo);
                 return distValues;
         }
