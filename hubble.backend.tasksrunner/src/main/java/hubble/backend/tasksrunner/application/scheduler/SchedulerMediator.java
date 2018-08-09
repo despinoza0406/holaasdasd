@@ -11,7 +11,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang.StringUtils.EMPTY;
@@ -79,12 +78,12 @@ public class SchedulerMediator implements SchedulerUserCommands, SchedulerTasksA
     public void start() {
         try {
             this.scheduler.start();
-
+            /*
             for(String name: scheduler.getJobGroupNames()){
                 for(JobKey key: scheduler.getJobKeys(GroupMatcher.jobGroupEquals(name))){
                     scheduler.triggerJob(key);
                 }
-            }
+            }*/
         } catch (SchedulerException ex) {
             logger.error(ex.getMessage());
         }
