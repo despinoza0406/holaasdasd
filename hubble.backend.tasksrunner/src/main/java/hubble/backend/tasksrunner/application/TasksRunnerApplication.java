@@ -40,8 +40,6 @@ public class TasksRunnerApplication {
     @Autowired
     ProvidersRepository providersRepository;
     ConfigurableApplicationContext context;
-    @Autowired
-    MongoListener mongoListener;
 
     public void run(ConfigurableApplicationContext context) throws SchedulerException, Exception {
 
@@ -103,7 +101,6 @@ public class TasksRunnerApplication {
 
 
         scheduler.start();
-        mongoListener.start();
     }
 
     public static void main(String[] args) throws Exception {
