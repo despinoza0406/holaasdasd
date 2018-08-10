@@ -1,5 +1,6 @@
 package hubble.backend.providers.tests.configurations.mappers;
 
+import hubble.backend.providers.configurations.ProvidersConfiguration;
 import hubble.backend.providers.configurations.mappers.jira.JiraMapperConfiguration;
 import hubble.backend.providers.models.jira.IssueStatus;
 import hubble.backend.providers.models.jira.JiraIssueFieldsModel;
@@ -19,11 +20,16 @@ import org.junit.runner.RunWith;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = ProvidersConfiguration.class)
 public class JiraMapperConfigurationUnitTest {
-    
-   JiraMapperConfiguration jiraMapper = new JiraMapperConfiguration();
+
+   @Autowired
+   JiraMapperConfiguration jiraMapper;
     
    @Test
    public void jira_mapper_should_map_issue_to_issue_storage() {

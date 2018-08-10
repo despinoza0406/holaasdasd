@@ -31,12 +31,13 @@ public class ProvidersRepositoryTest {
 
     @Test
     public void almRetrivesObjectOfCorrectType() {
-        try {
-            providers.save(alm());
-            assertThat("ALM returned by ProvidersRepository", providers.alm(), is(not(nullValue())));
-        } finally {
-            providers.delete("alm");
-        }
+            if(!providers.exists("alm")) {
+                providers.save(alm());
+                assertThat("ALM returned by ProvidersRepository", providers.alm(), is(not(nullValue())));
+                providers.delete("alm");
+            }
+
+
     }
 
     private ALM alm() {

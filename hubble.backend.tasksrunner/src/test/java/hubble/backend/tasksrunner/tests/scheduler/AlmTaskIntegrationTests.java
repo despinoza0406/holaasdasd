@@ -1,10 +1,8 @@
 package hubble.backend.tasksrunner.tests.scheduler;
 
-import hubble.backend.providers.parsers.interfaces.alm.AlmApplicationParser;
 import hubble.backend.providers.parsers.interfaces.alm.AlmDataParser;
 import hubble.backend.tasksrunner.application.scheduler.SchedulerMediator;
 import hubble.backend.tasksrunner.jobs.ParserJob;
-import hubble.backend.tasksrunner.jobs.alm.AlmApplicationParserJob;
 import hubble.backend.tasksrunner.jobs.alm.AlmDataParserJob;
 import hubble.backend.tasksrunner.tasks.Task;
 import hubble.backend.tasksrunner.tasks.alm.AlmDataTaskImpl;

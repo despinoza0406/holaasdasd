@@ -3,7 +3,6 @@ package hubble.backend.tasksrunner.tests.scheduler;
 import hubble.backend.providers.parsers.interfaces.apppulse.*;
 import hubble.backend.tasksrunner.application.scheduler.SchedulerMediator;
 import hubble.backend.tasksrunner.jobs.ParserJob;
-import hubble.backend.tasksrunner.jobs.apppulse.AppPulseApplicationParserJob;
 import hubble.backend.tasksrunner.jobs.apppulse.AppPulseDataParserJob;
 import hubble.backend.tasksrunner.tasks.Task;
 import hubble.backend.tasksrunner.tasks.apppulse.AppPulseDataTaskImpl;
