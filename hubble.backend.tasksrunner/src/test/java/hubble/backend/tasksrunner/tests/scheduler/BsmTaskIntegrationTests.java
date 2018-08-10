@@ -7,7 +7,7 @@ import hubble.backend.tasksrunner.jobs.ParserJob;
 import hubble.backend.tasksrunner.jobs.bsm.BsmApplicationParserJob;
 import hubble.backend.tasksrunner.jobs.bsm.BsmDataParserJob;
 import hubble.backend.tasksrunner.tasks.Task;
-import hubble.backend.tasksrunner.tasks.bsm.BsmApplicationTaskImpl;
+import hubble.backend.tasksrunner.tasks.bsm.BsmDataTaskImpl;
 import hubble.backend.tasksrunner.tests.configurations.TasksRunnerTestConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +36,7 @@ public class BsmTaskIntegrationTests {
         SchedulerMediator schedule = new SchedulerMediator((ConfigurableApplicationContext) appContext);
 
         ParserJob bsmJob = new BsmDataParserJob(bsmParser);
-        Task bsmTask = new BsmApplicationTaskImpl(bsmJob);
+        Task bsmTask = new BsmDataTaskImpl(bsmJob);
         bsmTask.setIndentityGroupName("BSM Job");
         bsmTask.setIndentityName("BSM");
         bsmTask.setIntervalSeconds(1);
@@ -49,23 +49,5 @@ public class BsmTaskIntegrationTests {
         schedule.shutdown();
     }
 
-    @Test
-    public void SchedulerMediator_should_schedule_bsm_applications_job() throws SchedulerException, Exception {
-
-        //Assign
-        BsmApplicationParser bsmApplicationParser = appContext.getBean(BsmApplicationParser.class);
-        SchedulerMediator schedule = new SchedulerMediator((ConfigurableApplicationContext) appContext);
-        ParserJob bsmApplicationJob = new BsmApplicationParserJob(bsmApplicationParser);
-        Task bsmApplicationTask = new BsmApplicationTaskImpl(bsmApplicationJob);
-        bsmApplicationTask.setIndentityGroupName("BSM Job");
-        bsmApplicationTask.setIndentityName("BSM Application");
-        bsmApplicationTask.setIntervalSeconds(1);
-        schedule.addTask(bsmApplicationTask);
-        //Act
-        schedule.start();
-        Thread.sleep(20000);
-        //Assert
-        schedule.shutdown();
-    }
 
 }

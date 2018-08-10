@@ -7,7 +7,6 @@ import hubble.backend.tasksrunner.jobs.ParserJob;
 import hubble.backend.tasksrunner.jobs.ppm.PpmApplicationParserJob;
 import hubble.backend.tasksrunner.jobs.ppm.PpmDataParserJob;
 import hubble.backend.tasksrunner.tasks.Task;
-import hubble.backend.tasksrunner.tasks.ppm.PpmApplicationTaskImpl;
 import hubble.backend.tasksrunner.tasks.ppm.PpmDataTaskImpl;
 import hubble.backend.tasksrunner.tests.configurations.TasksRunnerTestConfiguration;
 import org.junit.Ignore;
@@ -52,25 +51,5 @@ public class PpmTaskIntegrationTests {
         schedule.shutdown();
     }
 
-    @Test
-    public void SchedulerMediator_should_schedule_ppm_application_job() throws SchedulerException, Exception {
-
-        //Assign
-        PpmApplicationParser ppmParser = appContext.getBean(PpmApplicationParser.class);
-        SchedulerMediator schedule = new SchedulerMediator((ConfigurableApplicationContext) appContext);
-
-        ParserJob ppmApplicationJob = new PpmApplicationParserJob(ppmParser);
-        Task ppmApplicationTask = new PpmApplicationTaskImpl(ppmApplicationJob);
-        ppmApplicationTask.setIndentityGroupName("Ppm Provider Job");
-        ppmApplicationTask.setIndentityName("Ppm Application");
-        ppmApplicationTask.setIntervalSeconds(1);
-        schedule.addTask(ppmApplicationTask);
-        //Act
-        schedule.start();
-        Thread.sleep(4000);
-
-        //Assert
-        schedule.shutdown();
-    }
 
 }

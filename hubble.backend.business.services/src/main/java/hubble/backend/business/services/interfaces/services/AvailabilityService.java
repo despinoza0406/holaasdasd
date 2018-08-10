@@ -4,6 +4,7 @@ import hubble.backend.business.services.interfaces.services.averages.OperationsA
 import hubble.backend.business.services.interfaces.services.kpis.InstantOperationsKeyPerformanceIndicatorServiceBase;
 import hubble.backend.business.services.interfaces.services.kpis.OperationsKeyPerformanceIndicatorServiceBase;
 import hubble.backend.business.services.models.Availability;
+import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
 import hubble.backend.storage.models.ApplicationStorage;
 
@@ -15,22 +16,24 @@ public interface AvailabilityService extends
         InstantOperationsKeyPerformanceIndicatorServiceBase<ApplicationIndicators>,
         ApplicationServiceBase<Availability> {
 
-    public List<Availability> getAll();
+    List<Availability> getAll();
 
-    public Availability get(String id);
+    Availability get(String id);
 
-    public List<Availability> getLast10Minutes(String applicationId);
+    List<Availability> getLast10Minutes(String applicationId);
 
-    public List<Availability> getLastHour(String applicationId);
+    List<Availability> getLastHour(String applicationId);
 
-    public List<Integer> getDistValuesLastHour(String applicationId);
+    List<Integer> getDistValuesLastHour(String applicationId);
 
-    public List<Integer> getDistValues(String applicationId, String period);
+    List<DistValues> getDistValues(String applicationId, String period);
 
-    public double calculateHealthIndexKPILastHour(ApplicationStorage application);
+    double calculateHealthIndexKPILastHour(ApplicationStorage application);
 
-    public double calculateHealthIndexKPI(ApplicationStorage applicationStorage, String periodo);
+    double calculateHealthIndexKPI(ApplicationStorage applicationStorage, String periodo);
 
-    public String calculatePeriod(String periodo);
+    String calculatePeriod(String periodo);
+
+
 
 }

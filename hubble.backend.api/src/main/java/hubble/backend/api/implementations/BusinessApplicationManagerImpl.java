@@ -8,6 +8,8 @@ import hubble.backend.business.services.interfaces.services.*;
 import hubble.backend.business.services.interfaces.services.kpis.KpiAveragesService;
 import hubble.backend.business.services.models.Application;
 import hubble.backend.business.services.models.Availability;
+import hubble.backend.business.services.models.distValues.DistValues;
+import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.measures.Uptime;
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.utils.CalendarHelper;
@@ -18,7 +20,6 @@ import java.util.stream.Collectors;
 import hubble.backend.core.utils.DateHelper;
 
 import static hubble.backend.storage.models.KPITypes.*;
-import static java.lang.Double.NaN;
 import static java.util.stream.Collectors.toList;
 
 import hubble.backend.storage.models.ApplicationStorage;
@@ -59,13 +60,13 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
         BusinessApplicationProfile businessView = new BusinessApplicationProfile();
         businessView.setId(id);
-        //Availability Kpi
+        //availability Kpi
         businessView.setAvailabilityLast10MinKpi(availabilityService.calculateLast10MinutesKpiByApplication(id).getAvailabilityKpi().get());
         businessView.setAvailabilityLastHourKpi(availabilityService.calculateLastHourKpiByApplication(id).getAvailabilityKpi().get());
         businessView.setAvailabilityLastDayKpi(availabilityService.calculateLastDayKpiByApplication(id).getAvailabilityKpi().get());
         businessView.setAvailabilityLastMonthKpi(availabilityService.calculateLastMonthKpiByApplication(id).getAvailabilityKpi().get());
 
-        //Performance Kpi
+        //performance Kpi
         businessView.setPerformanceLast10MinKpi(performanceService.calculateLast10MinutesKpiByApplication(id).getPerformanceKpi().get());
         businessView.setPerformanceLastHourKpi(performanceService.calculateLastHourKpiByApplication(id).getPerformanceKpi().get());
         businessView.setPerformanceLastDayKpi(performanceService.calculateLastDayKpiByApplication(id).getPerformanceKpi().get());
@@ -233,7 +234,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
         if (kpiTypes.contains(PERFORMANCE)){
             KpiFrontend performanceKpi = new KpiFrontend();
-            performanceKpi.setKpiName("Performance");
+            performanceKpi.setKpiName("performance");
             performanceKpi.setKpiShortName("P");
             performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
             performanceKpi.setKpiPeriod(performanceService.calculatePeriod(periodo));
@@ -290,30 +291,29 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         return average / (double) kpis.size();
     }
 
-    private List<DistValues> getDistValuesOf(String kpiName, String id,String period) {
+    private List<DistValues> getDistValuesOf(String kpiName, String id, String period) {
         List<DistValues> distValues;
-        List<Integer> distValuesInt;
+
         switch (kpiName) {
             case "Disponibilidad":
-                distValuesInt = availabilityService.getDistValues(id,period);
+                distValues = availabilityService.getDistValues(id,period);
                 break;
-            case "Performance":
-                distValuesInt = performanceService.getDistValues(id,period);
+            case "performance":
+                distValues = performanceService.getDistValues(id,period);
                 break;
             case "Incidencias":
-                distValuesInt = issueService.getDistValues(id,period);
+                distValues = issueService.getDistValues(id,period);
                 break;
             case "Tareas":
-                distValuesInt = workItemService.getDistValues(id,period);
+                distValues = workItemService.getDistValues(id,period);
                 break;
             case "Eventos":
-                distValuesInt = eventService.getDistValues(id,period);
+                distValues = eventService.getDistValues(id,period);
                 break;
             default:
-                distValuesInt = new ArrayList<>();
+                distValues = new ArrayList<>();
                 break;
         }
-        distValues = convertIntegerListToDistValues(distValuesInt);
         return distValues;
     }
 
@@ -326,7 +326,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     private List<DistValues> convertIntegerListToDistValues(List<Integer> distValuesInt) {
         List<DistValues> distValues = new ArrayList<>();
         for (Integer distValue : distValuesInt) {
-            distValues.add(new DistValues(distValue));
+            distValues.add(new DistributionValues(distValue));
         }
         return distValues;
     }

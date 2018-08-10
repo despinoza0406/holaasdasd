@@ -7,7 +7,6 @@ import hubble.backend.tasksrunner.jobs.ParserJob;
 import hubble.backend.tasksrunner.jobs.jira.JiraApplicationParserJob;
 import hubble.backend.tasksrunner.jobs.jira.JiraDataParserJob;
 import hubble.backend.tasksrunner.tasks.Task;
-import hubble.backend.tasksrunner.tasks.jira.JiraApplicationTaskImpl;
 import hubble.backend.tasksrunner.tasks.jira.JiraDataTaskImpl;
 import hubble.backend.tasksrunner.tests.configurations.TasksRunnerTestConfiguration;
 import org.junit.Test;
@@ -51,25 +50,5 @@ public class JiraTaskIntegrationTests {
         schedule.shutdown();
     }
 
-    @Test
-    public void SchedulerMediator_should_schedule_jira_applications_job() throws SchedulerException, Exception {
-
-        //Assign
-        JiraApplicationParser jiraParser = appContext.getBean(JiraApplicationParser.class);
-        SchedulerMediator schedule = new SchedulerMediator((ConfigurableApplicationContext) appContext);
-
-        ParserJob jiraApplicationJob = new JiraApplicationParserJob(jiraParser);
-        Task jiraApplicationTask = new JiraApplicationTaskImpl(jiraApplicationJob);
-        jiraApplicationTask.setIndentityGroupName("Alm Provider Job");
-        jiraApplicationTask.setIndentityName("Alm Applications");
-        jiraApplicationTask.setIntervalSeconds(1);
-        schedule.addTask(jiraApplicationTask);
-        //Act
-        schedule.start();
-        Thread.sleep(4000);
-
-        //Assert
-        schedule.shutdown();
-    }
 
 }

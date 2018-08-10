@@ -2,11 +2,11 @@ package hubble.backend.core.utils;
 
 public class Threshold {
 
-    //Performance
+    //performance
     public static final int WARNING_PERFORMANCE_DEFAULT = 8000;
     public static final int CRITICAL_PERFORMANCE_DEFAULT = 12000;
 
-    //Availability
+    //availability
     public static final int CRITICAL_AVAILABILITY_DEFAULT = 50;
     public static final int WARNING_AVAILABILITY_DEFAULT = 70;
     public static final int TOP_AVAILABILITY_PERCENTAGE = 100;

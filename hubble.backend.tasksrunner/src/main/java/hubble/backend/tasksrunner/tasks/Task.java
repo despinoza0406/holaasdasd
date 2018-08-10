@@ -17,6 +17,10 @@ public interface Task {
 
     public void setJobDetail(JobDetail jobDetail);
 
+    public void setCronExpression(String cronExpression);
+
+    public String getCronExpression();
+
     public String getIndentityName();
 
     public void setIndentityName(String name);

@@ -6,7 +6,6 @@ import hubble.backend.tasksrunner.jobs.ParserJob;
 import hubble.backend.tasksrunner.jobs.apppulse.AppPulseApplicationParserJob;
 import hubble.backend.tasksrunner.jobs.apppulse.AppPulseDataParserJob;
 import hubble.backend.tasksrunner.tasks.Task;
-import hubble.backend.tasksrunner.tasks.apppulse.AppPulseApplicationTaskImpl;
 import hubble.backend.tasksrunner.tasks.apppulse.AppPulseDataTaskImpl;
 import hubble.backend.tasksrunner.tests.configurations.TasksRunnerTestConfiguration;
 import org.junit.Ignore;
@@ -43,28 +42,6 @@ public class AppPulseTaskIntegrationTests {
         appPulseTask.setIndentityName("AppPulse");
         appPulseTask.setIntervalSeconds(1);
         schedule.addTask(appPulseTask);
-        //Act
-        schedule.start();
-        Thread.sleep(4000);
-
-        //Assert
-        schedule.shutdown();
-    }
-
-    @Test
-    public void SchedulerMediator_should_schedule_apppulse_applications_job() throws SchedulerException, Exception {
-
-        //Assign
-        AppPulseActiveApplicationsParser appPulseApplicationParser = appContext.getBean(AppPulseActiveApplicationsParser.class);
-        SchedulerMediator schedule = new SchedulerMediator((ConfigurableApplicationContext) appContext);
-
-        ParserJob appPulseApplicationJob = new AppPulseApplicationParserJob(appPulseApplicationParser);
-        Task appPulseApplicationTask = new AppPulseApplicationTaskImpl(appPulseApplicationJob);
-        appPulseApplicationTask.setIndentityGroupName("AppPulse Active Provider Job");
-        appPulseApplicationTask.setIndentityName("AppPulse Application");
-        appPulseApplicationTask.setIntervalSeconds(1);
-        schedule.addTask(appPulseApplicationTask);
-
         //Act
         schedule.start();
         Thread.sleep(4000);

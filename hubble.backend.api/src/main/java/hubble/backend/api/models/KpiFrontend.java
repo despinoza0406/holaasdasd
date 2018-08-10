@@ -1,5 +1,7 @@
 package hubble.backend.api.models;
 
+import hubble.backend.business.services.models.distValues.DistValues;
+
 import java.util.List;
 
 public class KpiFrontend {

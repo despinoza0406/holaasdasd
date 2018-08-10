@@ -17,6 +17,7 @@ public class SiteScopeDataTaskImpl implements ParserTask {
     JobDetail job;
     Trigger trigger;
     int interval = 0;
+    String cronExpression = "";
 
     public SiteScopeDataTaskImpl() {
 
@@ -31,7 +32,7 @@ public class SiteScopeDataTaskImpl implements ParserTask {
         this.trigger = newTrigger()
                 .withIdentity(this.identityName, this.identityGroupName)
                 .withSchedule(CronScheduleBuilder
-                        .cronSchedule("0 0/5 * * * ?"))
+                        .cronSchedule(cronExpression))
                 .startNow()
                 .build();
         return this.trigger;
@@ -54,6 +55,12 @@ public class SiteScopeDataTaskImpl implements ParserTask {
     public void setIntervalSeconds(int seconds) {
         this.interval = seconds;
     }
+
+    @Override
+    public void setCronExpression(String cronExpression) { this.cronExpression = cronExpression; }
+
+    @Override
+    public String getCronExpression() { return this.cronExpression; }
 
     @Override
     public void setTrigger(Trigger trigger) {

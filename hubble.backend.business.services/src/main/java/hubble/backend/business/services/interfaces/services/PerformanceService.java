@@ -3,6 +3,7 @@ package hubble.backend.business.services.interfaces.services;
 import hubble.backend.business.services.interfaces.services.averages.OperationsAverageCalculationServiceBase;
 import hubble.backend.business.services.interfaces.services.kpis.InstantOperationsKeyPerformanceIndicatorServiceBase;
 import hubble.backend.business.services.interfaces.services.kpis.OperationsKeyPerformanceIndicatorServiceBase;
+import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.Performance;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
 import hubble.backend.storage.models.ApplicationStorage;
@@ -25,7 +26,7 @@ public interface PerformanceService extends
 
     List<Integer> getDistValuesLastHour(String id);
 
-    List<Integer> getDistValues(String id,String periodo);
+    List<DistValues> getDistValues(String id, String periodo);
 
     public double calculateHealthIndexKPILastHour(ApplicationStorage applicationStorage);
 

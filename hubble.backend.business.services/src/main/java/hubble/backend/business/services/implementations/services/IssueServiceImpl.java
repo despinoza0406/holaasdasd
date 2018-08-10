@@ -4,7 +4,11 @@ import hubble.backend.business.services.configurations.mappers.MapperConfigurati
 import hubble.backend.business.services.interfaces.operations.averages.IssueOperations;
 import hubble.backend.business.services.interfaces.operations.kpis.IssuesKpiOperations;
 import hubble.backend.business.services.interfaces.services.IssueService;
+import hubble.backend.business.services.models.distValues.DistValues;
+import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.Issue;
+import hubble.backend.business.services.models.distValues.issues.DistributionIssuesGroup;
+import hubble.backend.business.services.models.distValues.issues.DistributionIssuesUnit;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
 import hubble.backend.core.utils.CalculationHelper;
@@ -14,10 +18,15 @@ import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.Defects;
 import hubble.backend.storage.models.IssueStorage;
 import hubble.backend.storage.models.Threashold;
+import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.IssueRepository;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -34,11 +43,15 @@ public class IssueServiceImpl implements IssueService {
     IssueOperations issueOperation;
     @Autowired
     IssuesKpiOperations issueKpiOperation;
+    @Autowired
+    ApplicationRepository applicationRepository;
 
     private double superior;
     private double inferior;
     private double lWarningKpiThreshold;
     private double lCriticalKpiThreshold;
+
+    private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     @Override
     public List<Issue> getLastDay(String applicationId) {
@@ -146,20 +159,142 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public List<Integer> getDistValues(String id,String periodo) {
+    public List<DistValues> getDistValues(String id, String periodo) {
+        List<DistValues> distValues;
+        String period = this.calculatePeriod(periodo);
 
+
+        if(period.equals("dia")) {
+            distValues = this.getUnitDistValues(id,period);
+        }else{
+            distValues = this.getGroupDistValues(id,period);
+        }
+
+
+        return distValues;
+    }
+
+    private List<DistValues> getUnitDistValues(String id, String periodo){
+        List<DistValues> distValues = new ArrayList<>();
         periodo = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
         List<IssueStorage> issuesStorage =
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(id,startDate,endDate);
-        List<Integer> distValuesInt = new ArrayList<>();
         for (IssueStorage issue : issuesStorage) {
-            float criticity = (issue.getPriority() + issue.getSeverity()) / 2;
-            distValuesInt.add(calculateCriticityForDashboardTwo(criticity));
+            String status = "Critical";
+            float criticity = issue.getPriority() + issue.getSeverity() / 2;
+            int criticityDashTwo = this.calculateCriticityForDashboardTwo(criticity);
+            if(criticityDashTwo == 2){
+                status = "Warning";
+            }
+            if(criticityDashTwo == 3){
+                status = "OK";
+            }
+            distValues.add(new DistributionIssuesUnit(
+                    criticity,
+                    status,
+                    issue.getDescription(),
+                    dateFormat.format(issue.getRegisteredDate())
+            ));
         }
-        return distValuesInt;
+        return distValues;
+    }
+
+    private List<DistValues> getGroupDistValues(String id, String periodo){
+        List<DistValues> distValues = new ArrayList<>();
+        Date endDate = DateHelper.getEndDate(periodo);
+        Date startDate = DateHelper.getStartDate(periodo);
+        List<Date> startDates = new ArrayList<>();
+        List<Date> endDates = new ArrayList<>();
+        List<IssueStorage> issuesStorage =
+                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(id,startDate,endDate);
+        ApplicationStorage  applicationStorage = applicationRepository.findApplicationById(id);
+        Threashold threshold;
+        switch (periodo){
+            case "semana":
+                threshold = applicationStorage.getKpis().getDefects().getDayThreashold();
+                for(int i=0; i<7; i++){
+                    startDates.add(DateUtils.addDays(startDate,i));
+                    endDates.add(DateUtils.addDays(startDate,i+1));
+                }
+                break;
+            case "mes":
+                threshold = applicationStorage.getKpis().getDefects().getWeekThreashold();
+                Date aux = startDate;
+                while (aux.before(endDate)){
+                    startDates.add(aux);
+                    if(DateUtils.addWeeks(aux,1).after(endDate)){
+                        endDates.add(endDate);
+                    }else {
+                        endDates.add(DateUtils.addWeeks(aux, 1));
+                    }
+                    aux = DateUtils.addWeeks(aux,1);
+                }
+                break;
+            default:
+                for (IssueStorage issue : issuesStorage) {
+                    String status = "Critical";
+                    float criticity = issue.getPriority() + issue.getSeverity() / 2;
+                    int criticityDashTwo = this.calculateCriticityForDashboardTwo(criticity);
+                    if(criticityDashTwo == 2){
+                        status = "Warning";
+                    }
+                    if(criticityDashTwo == 3){
+                        status = "OK";
+                    }
+                    distValues.add(new DistributionIssuesUnit(
+                            criticity,
+                            status,
+                            issue.getDescription(),
+                            dateFormat.format(issue.getRegisteredDate())
+                    ));
+                }
+                return distValues;
+        }
+        distValues = this.getDistValuesByPeriod(issuesStorage,threshold,startDates,endDates);
+        return distValues;
+    }
+
+    private List<DistValues> getDistValuesByPeriod(List<IssueStorage> issuesList,Threashold threshold,List<Date> startDates, List<Date> endDates){
+        List<DistValues> distValues = new ArrayList<>();
+        inferior = threshold.getInferior();
+        lWarningKpiThreshold = threshold.getWarning();
+        lCriticalKpiThreshold = threshold.getCritical();
+        superior = threshold.getSuperior();
+
+
+        for(int j = 0; j<startDates.size(); j++){
+            final int index = j;
+            List<IssueStorage> issueStorageList = issuesList.stream().filter(
+                    issueStorage ->
+                            issueStorage.getTimestamp().compareTo(startDates.get(index)) >= 0 &&
+                            issueStorage.getTimestamp().compareTo(endDates.get(index)) <= 0).
+                    collect(Collectors.toList());
+            if(issueStorageList.size()>0) {
+                double value = issueStorageList.stream().mapToDouble(issue ->
+                        issue.getPriority() + issue.getSeverity() / 2).
+                        sum();
+                String status = "Critical";
+                if (value <= lWarningKpiThreshold) {
+                    status = "OK";
+                }
+                if (value <= lCriticalKpiThreshold && value > lWarningKpiThreshold) {
+                    status = "Warning";
+                }
+
+                String date = dateFormat.format(startDates.get(j)) + " - " + dateFormat.format(endDates.get(j));
+
+                distValues.add(new DistributionIssuesGroup(
+                        value,
+                        status,
+                        date
+                ));
+            }
+        }
+
+        return distValues;
     }
 
     private Integer calculateCriticityForDashboardTwo(float criticity){
