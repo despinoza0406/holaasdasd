@@ -190,7 +190,7 @@ public class UserStorage {
        return roles.stream().anyMatch(r -> r.equalsIgnoreCase("ADMINISTRATOR"));
     }
     
-        public boolean isUser()
+    public boolean isUser()
     {
        return roles.stream().anyMatch(r -> r.equalsIgnoreCase("USER"));
     }
