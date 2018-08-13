@@ -1,11 +1,14 @@
 package hubble.backend.providers.parsers.implementations.ppm;
 
+import hubble.backend.core.enums.Results;
 import hubble.backend.providers.configurations.PpmConfiguration;
+import hubble.backend.providers.configurations.factories.TaskRunnerExecutionFactory;
 import hubble.backend.providers.configurations.mappers.ppm.PpmMapperConfiguration;
 import hubble.backend.providers.models.ppm.PpmProgramIssueProviderModel;
 import hubble.backend.providers.parsers.interfaces.ppm.PpmDataParser;
 import hubble.backend.providers.transports.interfaces.PpmTransport;
 import hubble.backend.storage.models.WorkItemStorage;
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import hubble.backend.storage.repositories.WorkItemRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +33,10 @@ public class PpmDataParserImpl implements PpmDataParser {
     PpmMapperConfiguration mapper;
     @Autowired
     WorkItemRepository workItemRepository;
+    @Autowired
+    private TaskRunnerExecutionFactory executionFactory;
+    @Autowired
+    private TaskRunnerRepository taskRunnerRepository;
 
     private final Logger logger = LoggerFactory.getLogger(PpmDataParserImpl.class);
 
@@ -48,21 +55,32 @@ public class PpmDataParserImpl implements PpmDataParser {
             List<String> requestTypeIds = ppmTransport.getConfiguredRequestTypes(encodedAuthString);
             List<JSONObject> requestsToBeParsed = new ArrayList<JSONObject>();
             List<JSONObject> detailedRequests = new ArrayList<JSONObject>();
-            for (String id : requestTypeIds) {
-                requestsToBeParsed.addAll(ppmTransport.getRequests(encodedAuthString, id));
-            }
-
-            for (JSONObject request : requestsToBeParsed) {
-                JSONObject reqDetails = ppmTransport.getRequestDetails(encodedAuthString, request.getString("id"));
-                if (reqDetails != null) {
-                    detailedRequests.add(reqDetails);
+            try {
+                for (String id : requestTypeIds) {
+                    requestsToBeParsed.addAll(ppmTransport.getRequests(encodedAuthString, id));
                 }
+
+                for (JSONObject request : requestsToBeParsed) {
+                    JSONObject reqDetails = ppmTransport.getRequestDetails(encodedAuthString, request.getString("id"));
+                    if (reqDetails != null) {
+                        detailedRequests.add(reqDetails);
+                    }
+                }
+            }catch (NullPointerException ex){
+                logger.error(ex.getMessage());
+                ppmTransport.setResult(Results.RESULTS.FAILURE);
+            }
+            if(ppmTransport.getResult().equals(Results.RESULTS.SUCCESS) && detailedRequests.size() == 0) {
+                ppmTransport.setResult(Results.RESULTS.NO_DATA);
             }
 
             for (JSONObject detailedRequest : detailedRequests) {
                 WorkItemStorage workItem = this.convert(this.parse(detailedRequest));
                 workItemRepository.save(workItem);
             }
+
+            taskRunnerRepository.save(executionFactory.createExecution("ppm",ppmTransport.getResult(),ppmTransport.getError()));
+
         }
     }
 

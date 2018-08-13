@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.configurations.PpmConfiguration;
 import hubble.backend.providers.configurations.environments.PpmProviderEnvironment;
@@ -29,6 +30,9 @@ public class PpmTransportImpl implements PpmTransport {
     PpmConfiguration configuration;
 
     private final Logger logger = LoggerFactory.getLogger(PpmTransportImpl.class);
+
+    private Results.RESULTS result = Results.RESULTS.SUCCESS;
+    private String error = null;
 
     @Override
     public PpmProviderEnvironment getEnvironment() {
@@ -63,7 +67,9 @@ public class PpmTransportImpl implements PpmTransport {
                     .header("Authorization", "Basic " + encodedAuthString)
                     .asJson();
         } catch (UnirestException e) {
+            result = Results.RESULTS.FAILURE;
             logger.error(e.getMessage());
+            error = e.getMessage();
             return null;
         }
 
@@ -103,7 +109,9 @@ public class PpmTransportImpl implements PpmTransport {
                     .header("Authorization", "Basic " + encodedAuthString)
                     .asJson();
         } catch (UnirestException e) {
+            result = Results.RESULTS.FAILURE;
             logger.error(e.getMessage());
+            error = e.getMessage();
             return null;
         }
         jsonArray = data.getBody().getObject().getJSONObject("ns2:requestTypes").getJSONArray("requestType");
@@ -128,7 +136,9 @@ public class PpmTransportImpl implements PpmTransport {
                     .header("Authorization", "Basic " + encodedAuthString)
                     .asJson();
         } catch (UnirestException e) {
+            result = Results.RESULTS.FAILURE;
             logger.error(e.getMessage());
+            error = e.getMessage();
             return null;
         }
         jsonArray = data.getBody().getObject().getJSONObject("ns2:requestTypes").getJSONArray("requestType");
@@ -155,7 +165,9 @@ public class PpmTransportImpl implements PpmTransport {
                     .header("Authorization", "Basic " + encodedAuthString)
                     .asJson();
         } catch (UnirestException e) {
+            result = Results.RESULTS.FAILURE;
             logger.error(e.getMessage());
+            error = e.getMessage();
             return null;
         }
 
@@ -212,5 +224,17 @@ public class PpmTransportImpl implements PpmTransport {
                 path);
 
         return uri;
+    }
+
+    public Results.RESULTS getResult() {
+        return result;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setResult(Results.RESULTS result){
+        this.result = result;
     }
 }

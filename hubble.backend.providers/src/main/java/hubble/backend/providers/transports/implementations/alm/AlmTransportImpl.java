@@ -1,5 +1,6 @@
 package hubble.backend.providers.transports.implementations.alm;
 
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.DateHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,6 +37,9 @@ public class AlmTransportImpl implements AlmTransport {
         this.environment = environment;
     }
 
+    private Results.RESULTS result = Results.RESULTS.SUCCESS;
+    private String error = null;
+
     @Override
     public AlmProviderEnvironment getEnvironment() {
         return environment;
@@ -51,6 +55,8 @@ public class AlmTransportImpl implements AlmTransport {
                     environment.getPassword()).asString();
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
         }
     }
 
@@ -62,6 +68,8 @@ public class AlmTransportImpl implements AlmTransport {
             Unirest.get(Url).asString();
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
         }
     }
 
@@ -75,6 +83,8 @@ public class AlmTransportImpl implements AlmTransport {
             status = Unirest.get(isAuthenticatedUrl).asString().getStatus();
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
         }
         return status == 200;
     }
@@ -99,15 +109,21 @@ public class AlmTransportImpl implements AlmTransport {
                     .asJson();
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
         }
 
         if (data == null) {
             logger.warn("No se trajo data de ALM");
+            result = Results.RESULTS.NO_DATA;
+            error = "No se trajo data de ALM";
             return null;
         }
 
         if (data.getBody() == null) {
             logger.warn("La data que se trajo de ALM no tiene nada");
+            result = Results.RESULTS.NO_DATA;
+            error = "La data que se trajo de ALM no tiene nada";
             return null;
         }
 
@@ -134,13 +150,19 @@ public class AlmTransportImpl implements AlmTransport {
                     .asJson();
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
         }
 
         if (data == null) {
+            result = Results.RESULTS.NO_DATA;
+            error = "No se trajo data de ALM";
             return null;
         }
 
         if (data.getBody() == null) {
+            result = Results.RESULTS.NO_DATA;
+            error = "La data que se trajo de ALM no tiene nada";
             return null;
         }
 
@@ -177,6 +199,8 @@ public class AlmTransportImpl implements AlmTransport {
             data = Unirest.post(sessionUri).asJson();
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
             return null;
         }
 
@@ -216,4 +240,13 @@ public class AlmTransportImpl implements AlmTransport {
         return valueToReturn.toString();
     }
 
+    public Results.RESULTS getResult() {
+        return result;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setResult(Results.RESULTS result){ this.result = result; }
 }

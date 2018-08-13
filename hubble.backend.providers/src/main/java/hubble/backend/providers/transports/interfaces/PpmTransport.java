@@ -1,5 +1,6 @@
 package hubble.backend.providers.transports.interfaces;
 
+import hubble.backend.core.enums.Results;
 import hubble.backend.providers.configurations.environments.PpmProviderEnvironment;
 import java.util.List;
 import org.json.JSONObject;
@@ -21,5 +22,11 @@ public interface PpmTransport {
     public JSONObject getRequestDetails(String encodedAuthString, String requestId);
 
     public List<String> getConfiguredRequestTypes(String encodedAuthString);
+
+    public String getError();
+
+    public Results.RESULTS getResult();
+
+    public void setResult(Results.RESULTS result);
 
 }

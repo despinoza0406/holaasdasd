@@ -160,6 +160,7 @@ public class BsmTransportImpl implements BsmTransport {
             return soapResponse.getSOAPBody();
         } catch (SOAPException ex) {
             logger.debug(ex.toString());
+            result = ex.getMessage();
         }
 
         return null;

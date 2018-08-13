@@ -1,6 +1,8 @@
 package hubble.backend.providers.parsers.implementations.alm;
 
+import hubble.backend.core.enums.Results;
 import hubble.backend.providers.configurations.AlmConfiguration;
+import hubble.backend.providers.configurations.factories.TaskRunnerExecutionFactory;
 import hubble.backend.providers.configurations.mappers.alm.AlmMapperConfiguration;
 import hubble.backend.providers.models.alm.AlmDefectProviderModel;
 import hubble.backend.providers.parsers.interfaces.alm.AlmDataParser;
@@ -11,6 +13,8 @@ import hubble.backend.storage.repositories.IssueRepository;
 import java.util.*;
 
 import static org.apache.commons.lang.StringUtils.EMPTY;
+
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -29,6 +33,10 @@ public class AlmDataParserImpl implements AlmDataParser {
     private AlmTransport almTransport;
     @Autowired
     private AlmMapperConfiguration mapperConfiguration;
+    @Autowired
+    private TaskRunnerExecutionFactory executionFactory;
+    @Autowired
+    private TaskRunnerRepository taskRunnerRepository;
 
     private final Logger logger = LoggerFactory.getLogger(AlmDataParserImpl.class);
 
@@ -82,6 +90,7 @@ public class AlmDataParserImpl implements AlmDataParser {
             model.setProviderName(configuration.getProviderName());
             model.setProviderOrigin(configuration.getProviderOrigin());
         }catch (NullPointerException e){
+            almTransport.setResult(Results.RESULTS.FAILURE);
             logger.error("Error en la configuracion de alm. Por favor revisar los valores suministrados");
         }
         return model;
@@ -98,6 +107,7 @@ public class AlmDataParserImpl implements AlmDataParser {
             try {
                 almTransport.login();
             }catch (NullPointerException e){
+                taskRunnerRepository.save(executionFactory.createExecution("alm", Results.RESULTS.FAILURE,almTransport.getError()));
                 logger.error("Error en environment de alm. Por favor revisar los valores suministrados");
                 return;
             }
@@ -109,6 +119,7 @@ public class AlmDataParserImpl implements AlmDataParser {
                 try {
                     allDefects = almTransport.getOpenDefects(cookies, startInd);
                 }catch (NullPointerException e){
+                    taskRunnerRepository.save(executionFactory.createExecution("alm", Results.RESULTS.FAILURE,almTransport.getError()));
                     logger.error("Error en environment de alm. Por favor revisar los valores suministrados");
                     return;
                 }
@@ -121,6 +132,7 @@ public class AlmDataParserImpl implements AlmDataParser {
                 startInd += defects.size();
             } while (cantDefects >= startInd);
             almTransport.logout();
+            taskRunnerRepository.save(executionFactory.createExecution("alm",almTransport.getResult(),almTransport.getError()));
         }
     }
 

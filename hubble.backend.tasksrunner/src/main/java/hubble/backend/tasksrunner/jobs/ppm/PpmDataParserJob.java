@@ -1,8 +1,11 @@
 package hubble.backend.tasksrunner.jobs.ppm;
 
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.DateHelper;
+import hubble.backend.providers.configurations.factories.TaskRunnerExecutionFactory;
 import hubble.backend.providers.parsers.interfaces.Parser;
 import hubble.backend.storage.repositories.ProvidersRepository;
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import hubble.backend.tasksrunner.jobs.ParserJob;
 import org.quartz.*;
 import hubble.backend.providers.parsers.interfaces.ppm.PpmDataParser;
@@ -62,6 +65,7 @@ public class PpmDataParserJob implements ParserJob {
             DateHelper.lastExecutionDate = DateHelper.getDateNow();
         } catch (Exception ex) {
             logger.error(ex.getMessage());
+
         }
     }
     
