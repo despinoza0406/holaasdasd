@@ -9,6 +9,8 @@ public interface BsmTransport extends Transport<SOAPBody> {
 
     public void setQuery(String query);
 
+    public String getResult();
+
     public SOAPMessage getMessage();
 
     public SOAPMessage createMessage(String query);

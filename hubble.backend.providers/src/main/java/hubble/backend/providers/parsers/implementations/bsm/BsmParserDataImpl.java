@@ -1,15 +1,20 @@
 package hubble.backend.providers.parsers.implementations.bsm;
 
+import hubble.backend.core.enums.Results;
 import hubble.backend.providers.configurations.BSMConfiguration;
+import hubble.backend.providers.configurations.factories.TaskRunnerExecutionFactory;
 import hubble.backend.providers.configurations.mappers.bsm.BsmMapperConfiguration;
 import hubble.backend.providers.models.bsm.BsmProviderModel;
 import hubble.backend.providers.parsers.interfaces.bsm.BsmDataParser;
 import hubble.backend.providers.transports.interfaces.BsmTransport;
 import hubble.backend.storage.models.AvailabilityStorage;
+import hubble.backend.storage.models.TaskRunnerExecution;
 import hubble.backend.storage.repositories.AvailabilityRepository;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.soap.SOAPBody;
+
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +25,15 @@ public class BsmParserDataImpl implements BsmDataParser {
 
     @Autowired
     private BSMConfiguration configuration;
+    @Autowired
+    private TaskRunnerExecutionFactory executionFactory;
+    @Autowired
+    private TaskRunnerRepository taskRunnerRepository;
     private BsmMapperConfiguration mapperConfifuration;
     private List<AvailabilityStorage> availabilitiesStorage;
     private AvailabilityRepository availabilityRepository;
     private BsmTransport bsmTransport;
+
 
     private final Logger logger = LoggerFactory.getLogger(BsmParserDataImpl.class);
 
@@ -52,7 +62,15 @@ public class BsmParserDataImpl implements BsmDataParser {
 
                 this.save(availabilitiesStorage);
             }
-            
+            Results.RESULTS  result;
+            if(bsmTransport.getResult().equals("ok")){
+                logger.info("BSM task ok");
+                result = Results.RESULTS.SUCCESS;
+            }else {
+                logger.info("BSM task fail");
+                result = Results.RESULTS.FAILURE;
+            }
+            taskRunnerRepository.save(executionFactory.createExecution("bsm",result,bsmTransport.getResult()));
         }
     }
 
@@ -81,4 +99,5 @@ public class BsmParserDataImpl implements BsmDataParser {
             }
         });
     }
+
 }

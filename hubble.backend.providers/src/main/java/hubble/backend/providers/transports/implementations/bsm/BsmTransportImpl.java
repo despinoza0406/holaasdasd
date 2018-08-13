@@ -1,7 +1,6 @@
 package hubble.backend.providers.transports.implementations.bsm;
 
 import hubble.backend.core.utils.CalendarHelper;
-import hubble.backend.core.utils.LoggingOutputStream;
 import hubble.backend.providers.configurations.environments.BsmProviderEnvironment;
 import hubble.backend.providers.transports.interfaces.BsmTransport;
 import java.util.Calendar;
@@ -30,6 +29,7 @@ public class BsmTransportImpl implements BsmTransport {
     SOAPMessage message = null;
     String query = EMPTY;
     private final Logger logger = LoggerFactory.getLogger(BsmTransportImpl.class);
+    private String result = "ok";
 
     public BsmTransportImpl() {
     }
@@ -92,6 +92,7 @@ public class BsmTransportImpl implements BsmTransport {
 
             this.message = soapMessage;
         } catch (SOAPException ex) {
+            result = ex.getMessage();
             logger.error(ex.getMessage());
         }
 
@@ -152,6 +153,7 @@ public class BsmTransportImpl implements BsmTransport {
 
             if (soapResponse == null) {
                 logger.error("There is no response from BSM: {}", bsmProviderEnvironment.getSoapEndpointUrl());
+                result = "There is no response from BSM: " + bsmProviderEnvironment.getSoapEndpointUrl();
                 return null;
             }
 
@@ -163,4 +165,7 @@ public class BsmTransportImpl implements BsmTransport {
         return null;
     }
 
+    public String getResult() {
+        return result;
+    }
 }
