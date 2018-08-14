@@ -193,7 +193,7 @@ public class IssueServiceImpl implements IssueService {
                 status = "OK";
             }
             distValues.add(new DistributionIssuesUnit(
-                    criticity,
+                    criticityDashTwo,
                     status,
                     issue.getDescription(),
                     dateFormat.format(issue.getRegisteredDate())
