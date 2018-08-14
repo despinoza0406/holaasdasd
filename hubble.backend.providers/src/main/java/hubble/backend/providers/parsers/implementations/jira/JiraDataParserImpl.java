@@ -2,8 +2,10 @@ package hubble.backend.providers.parsers.implementations.jira;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.EncoderHelper;
 import hubble.backend.providers.configurations.JiraConfiguration;
+import hubble.backend.providers.configurations.factories.TaskRunnerExecutionFactory;
 import hubble.backend.providers.configurations.mappers.jira.JiraMapperConfiguration;
 import hubble.backend.providers.models.jira.JiraIssueModel;
 import hubble.backend.providers.models.jira.JiraIssuesProviderModel;
@@ -15,6 +17,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +36,10 @@ public class JiraDataParserImpl implements JiraDataParser {
     private JiraConfiguration configuration;
     @Autowired
     private IssueRepository issueRepository;
+    @Autowired
+    private TaskRunnerExecutionFactory executionFactory;
+    @Autowired
+    private TaskRunnerRepository taskRunnerRepository;
 
     private final Logger logger = LoggerFactory.getLogger(JiraDataParserImpl.class);
 
@@ -59,6 +67,7 @@ public class JiraDataParserImpl implements JiraDataParser {
 
             }catch (NullPointerException e){
                 logger.error("Error en environment de jira. Por favor revisar los valores suministrados");
+                taskRunnerRepository.save(executionFactory.createExecution("jira", Results.RESULTS.FAILURE,e.getMessage()));
                 return;
             }
 
@@ -74,16 +83,25 @@ public class JiraDataParserImpl implements JiraDataParser {
                 projectsKey = jiraTransport.getConfiguration().getProjectKeys();
             }catch (NullPointerException e){
                 logger.error("Error en la configuracion de jira. Por favor revisar los valores suministrados");
+                taskRunnerRepository.save(executionFactory.createExecution("jira", Results.RESULTS.FAILURE,e.getMessage()));
                 return;
             }
 
             for (String project : projectsKey) {
+                JSONObject response;
                 int startAt = 0;
-
-                JSONObject response = jiraTransport.getIssuesByProject(project, startAt);
-                int totalIssues = response.getInt("total");
-                int maxResults = response.getInt("maxResults");
-
+                int totalIssues = 0;
+                int maxResults = 0;
+                try {
+                    response = jiraTransport.getIssuesByProject(project, startAt);
+                    totalIssues = response.getInt("total");
+                    maxResults = response.getInt("maxResults");
+                }catch (NullPointerException e){
+                    logger.error("No se obtuvo respuesta del proyecto " + project);
+                    jiraTransport.setResult(Results.RESULTS.FAILURE);
+                    jiraTransport.setError("No se obtuvo respuesta del proyecto " + project);
+                    break;
+                }
                 do {
                     response = jiraTransport.getIssuesByProject(project, startAt);
                     jiraModel = this.parse(response);
@@ -91,7 +109,9 @@ public class JiraDataParserImpl implements JiraDataParser {
                         issues = jiraModel.getIssues();
                     }catch (Exception e){
                         logger.error("No se pudieron obtener los issues de jira del proyecto "+project);
-                        return;
+                        jiraTransport.setResult(Results.RESULTS.FAILURE);
+                        jiraTransport.setError("No se pudieron obtener los issues de jira del proyecto " + project);
+                        break;
                     }
                     for (JiraIssueModel issue : issues) {
                         issueStorage = jiraMapperConfiguration.mapToIssueStorage(issue);
@@ -100,7 +120,9 @@ public class JiraDataParserImpl implements JiraDataParser {
                     startAt = startAt + maxResults;
                 }
                 while (startAt < totalIssues);
+
             }
+            taskRunnerRepository.save(executionFactory.createExecution("jira",jiraTransport.getResult(),jiraTransport.getError()));
         }
     }
 

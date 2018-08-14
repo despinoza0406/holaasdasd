@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import hubble.backend.core.enums.Results;
 import hubble.backend.providers.configurations.JiraConfiguration;
 import hubble.backend.providers.configurations.environments.JiraProviderEnvironment;
 import hubble.backend.providers.transports.interfaces.JiraTransport;
@@ -24,6 +25,8 @@ public class JiraTransportImpl implements JiraTransport {
 
     private String url;
     protected String encodedCredentials;
+    private Results.RESULTS result = Results.RESULTS.SUCCESS;
+    private String error = null;
 
     private final Logger logger = LoggerFactory.getLogger(JiraTransportImpl.class);
 
@@ -42,6 +45,8 @@ public class JiraTransportImpl implements JiraTransport {
 
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
             return null;
         }
 
@@ -49,6 +54,8 @@ public class JiraTransportImpl implements JiraTransport {
 
         if (data == null) {
             logger.warn("No se pudieron traer datos de jira");
+            result = Results.RESULTS.NO_DATA;
+            error = "No se tiene data";
             return null;
         }
         return data;
@@ -92,6 +99,8 @@ public class JiraTransportImpl implements JiraTransport {
 
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
         }
     }
 
@@ -103,5 +112,21 @@ public class JiraTransportImpl implements JiraTransport {
     @Override
     public void setEncodedCredentials(String encodedCredentials) {
         this.encodedCredentials = encodedCredentials;
+    }
+
+    public Results.RESULTS getResult() {
+        return result;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setResult(Results.RESULTS result) {
+        this.result = result;
+    }
+
+    public void setError(String error){
+        this.error = error;
     }
 }

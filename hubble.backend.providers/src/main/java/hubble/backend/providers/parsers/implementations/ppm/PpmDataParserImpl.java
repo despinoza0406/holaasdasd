@@ -50,6 +50,8 @@ public class PpmDataParserImpl implements PpmDataParser {
                         ppmTransport.getEnvironment().getPassword());
             }catch (NullPointerException e){
                 logger.error("Error en environment de ppm. Por favor revisar los valores suministrados");
+                taskRunnerRepository.save(executionFactory.createExecution("ppm", Results.RESULTS.FAILURE,e.getMessage()));
+                return;
             }
 
             List<String> requestTypeIds = ppmTransport.getConfiguredRequestTypes(encodedAuthString);

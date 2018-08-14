@@ -16,4 +16,5 @@ public class  HubbleBackendAPIApplication {
         ApplicationContext ctx = SpringApplication.run(HubbleBackendAPIApplication.class, args);
         ctx.getBean(InitialDataService.class).createData();
     }
+
 }
