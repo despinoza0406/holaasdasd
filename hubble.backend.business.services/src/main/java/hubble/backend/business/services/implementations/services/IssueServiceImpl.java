@@ -183,7 +183,7 @@ public class IssueServiceImpl implements IssueService {
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(id,startDate,endDate);
         for (IssueStorage issue : issuesStorage) {
             String status = "Critical";
-            float criticity = issue.getPriority() + issue.getSeverity() / 2;
+            float criticity = (issue.getPriority() + issue.getSeverity()) / 2;
             int criticityDashTwo = this.calculateCriticityForDashboardTwo(criticity);
             if(criticityDashTwo == 2){
                 status = "Warning";
@@ -273,7 +273,7 @@ public class IssueServiceImpl implements IssueService {
                     collect(Collectors.toList());
             if(issueStorageList.size()>0) {
                 double value = issueStorageList.stream().mapToDouble(issue ->
-                        issue.getPriority() + issue.getSeverity() / 2).
+                        (issue.getPriority() + issue.getSeverity()) / 2).
                         sum();
                 String status = "Critical";
                 if (value <= lWarningKpiThreshold) {

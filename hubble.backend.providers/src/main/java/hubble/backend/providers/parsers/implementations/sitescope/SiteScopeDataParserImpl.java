@@ -2,6 +2,7 @@ package hubble.backend.providers.parsers.implementations.sitescope;
 
 import hubble.backend.core.enums.Providers;
 import hubble.backend.providers.configurations.SiteScopeConfiguration;
+import hubble.backend.providers.configurations.factories.TaskRunnerExecutionFactory;
 import hubble.backend.providers.configurations.mappers.sitescope.SiteScopeMapperConfiguration;
 import hubble.backend.providers.configurations.mappers.sitescope.SiteScopeMonitorMapper;
 import hubble.backend.providers.models.sitescope.SiteScopeEventProviderModel;
@@ -11,6 +12,7 @@ import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.EventStorage;
 import hubble.backend.storage.models.Monitor;
 import hubble.backend.storage.repositories.EventRepository;
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -35,6 +37,11 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
     EventRepository eventRepository;
     @Autowired
     SiteScopeMonitorMapper monitorMapper;
+    @Autowired
+    private TaskRunnerExecutionFactory executionFactory;
+    @Autowired
+    private TaskRunnerRepository taskRunnerRepository;
+
 
     private final Logger logger = LoggerFactory.getLogger(SiteScopeDataParserImpl.class);
 
@@ -42,8 +49,23 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
     public void run() {
         if(configuration.taskEnabled()) {
             List<String> groups = siteScopeTransport.getApplicationNames();
+            if (groups == null){
+                this.saveTaskExecution();
+                return;
+            }
             List<String> groupPaths = siteScopeTransport.getPathsToGroups(groups);
+
+            if (groupPaths == null){
+                this.saveTaskExecution();
+                return;
+            }
+
             List<JSONObject> groupsSnapshots = siteScopeTransport.getGroupsSnapshots(groupPaths);
+
+            if (groupsSnapshots == null){
+                this.saveTaskExecution();
+                return;
+            }
 
             for (JSONObject snapshot : groupsSnapshots) {
                 List<EventStorage> events = this.convert(this.parse(snapshot));
@@ -53,6 +75,7 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
                     }
                 }
             }
+            this.saveTaskExecution();
         }
     }
 
@@ -62,6 +85,7 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
         List<Monitor> monitors;
 
         if (data == null) {
+            this.saveTaskExecution();
             return null;
         }
 
@@ -141,6 +165,11 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
                 + " configured in properties file for specified app name: "
                 + applicationName);
         return null;
+    }
+
+    private void saveTaskExecution(){
+        taskRunnerRepository.save(executionFactory.createExecution("sitescope",siteScopeTransport.getResult(),siteScopeTransport.getError()));
+
     }
 
 

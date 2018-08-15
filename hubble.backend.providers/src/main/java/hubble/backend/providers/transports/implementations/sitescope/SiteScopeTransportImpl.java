@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import hubble.backend.core.enums.Results;
 import hubble.backend.providers.configurations.SiteScopeConfiguration;
 import hubble.backend.providers.configurations.environments.SiteScopeProviderEnvironment;
 import hubble.backend.providers.parsers.implementations.sitescope.SiteScopePathParser;
@@ -32,6 +33,9 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
     @Autowired
     SiteScopePathParser siteScopePathParser;
 
+    private Results.RESULTS result = Results.RESULTS.SUCCESS;
+    private String error = null;
+
     private final Logger logger = LoggerFactory.getLogger(SiteScopeTransportImpl.class);
 
 
@@ -51,6 +55,8 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
             applicationsIdMap = configuration.getApplicationValueToIdMap();
         }catch (NullPointerException e){
             logger.error("Error en configuracion de sitescope. Por favor revisar los valores suministrados");
+            result = Results.RESULTS.FAILURE;
+            error = "Error en configuracion de sitescope. Por favor revisar los valores suministrados";
             return null;
         }
 
@@ -79,9 +85,13 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
                     .asJson();
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
             return null;
         } catch (NullPointerException e){
             logger.error("Error en environment de sitescope. Por favor revisar los valores suministrados");
+            result = Results.RESULTS.FAILURE;
+            error = "Error en environment de sitescope. Por favor revisar los valores suministrados";
             return null;
         }
 
@@ -91,12 +101,20 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
                 if(!jsonObject.has("error_code")){
                     dataList.add(jsonObject);
                 }else{
-                    logger.error("No se pudo obtener el snapshot del grupo con el path "+groupPath);
+                    logger.error("No se pudo obtener el snapshot del grupo con el path " + groupPath);
                 }
 
             }
         } catch (Exception e) {
             logger.warn("There was a problem", e);
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
+            return  null;
+        }
+
+        if (dataList.size() == 0){
+            result = Results.RESULTS.NO_DATA;
+            error = "No se trajo data de SiteScope";
         }
 
         return dataList;
@@ -144,12 +162,14 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
         JSONObject jsonObject = null;
 
         data = this.getFullConfig();
-
-        jsonObject = data.getBody().getObject().getJSONObject("snapshot_groupSnapshotChildren");
-        for (String group : groups) {
-            pathsToGroups.add (siteScopePathParser.generateJsonGroupPathArgumentFromJson(jsonObject, group ,""));
+        try {
+            jsonObject = data.getBody().getObject().getJSONObject("snapshot_groupSnapshotChildren");
+            for (String group : groups) {
+                pathsToGroups.add(siteScopePathParser.generateJsonGroupPathArgumentFromJson(jsonObject, group, ""));
+            }
+        }catch (NullPointerException e){
+            return null;
         }
-
         return pathsToGroups;
     }
 
@@ -159,6 +179,10 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
         JSONObject jsonObject = null;
 
         data = this.getFullConfig();
+
+        if (data == null){
+            return null;
+        }
 
         jsonObject = data.getBody().getObject().getJSONObject("snapshot_groupSnapshotChildren");
 
@@ -179,6 +203,8 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
             return data;
         } catch (UnirestException e) {
             logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
             return null;
         }
     }
@@ -191,5 +217,21 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
                 path);
 
         return uri;
+    }
+
+    public Results.RESULTS getResult() {
+        return result;
+    }
+
+    public void setResult(Results.RESULTS result) {
+        this.result = result;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }
