@@ -159,7 +159,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         businessApplicationFrontend.setLastUpdate(DateHelper.lastExecutionDate);
         businessApplicationFrontend.setPastUpdate(DateHelper.addDaysToDate(DateHelper.lastExecutionDate, -1));
         setKPIs(businessApplicationFrontend, applicationStorage, periodo);
-        setHealthIndex(businessApplicationFrontend, businessApplicationFrontend.getKpis());
+        setHealthIndex(businessApplicationFrontend, businessApplicationFrontend.getKpis(),periodo);
         setPastHealthIndex(businessApplicationFrontend, applicationStorage);
 
         return businessApplicationFrontend;
@@ -189,7 +189,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             .collect(toList());
     }
 
-    public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, List<KpiFrontend> kpisFront) {
+    public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, List<KpiFrontend> kpisFront,String periodo) {
 
         List<Double> kpis;
         kpis = kpisFront.stream().map(x -> x.getKpiValue()).collect(Collectors.toList()); //me lo mapea a los valores de los kpi
@@ -234,7 +234,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
         if (kpiTypes.contains(PERFORMANCE)){
             KpiFrontend performanceKpi = new KpiFrontend();
-            performanceKpi.setKpiName("performance");
+            performanceKpi.setKpiName("Performance");
             performanceKpi.setKpiShortName("P");
             performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
             performanceKpi.setKpiPeriod(performanceService.calculatePeriod(periodo));

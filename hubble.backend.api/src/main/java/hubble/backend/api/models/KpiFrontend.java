@@ -1,6 +1,8 @@
 package hubble.backend.api.models;
 
 import hubble.backend.business.services.models.distValues.DistValues;
+import hubble.backend.core.enums.Results;
+import hubble.backend.storage.models.TaskRunnerExecution;
 
 import java.util.List;
 
@@ -10,6 +12,8 @@ public class KpiFrontend {
     private double kpiValue;
     private String kpiComment;
     private String kpiPeriod;
+    private Results.RESULTS kpiResult;
+    private List<TaskRunnerExecution> kpiTaskRunners;
     private List<DistValues> distribution;
 
     public KpiFrontend() {
@@ -61,5 +65,21 @@ public class KpiFrontend {
 
     public void setKpiPeriod(String kpiPeriod) {
         this.kpiPeriod = kpiPeriod;
+    }
+
+    public Results.RESULTS getKpiResult() {
+        return kpiResult;
+    }
+
+    public void setKpiResult(Results.RESULTS kpiResult) {
+        this.kpiResult = kpiResult;
+    }
+
+    public List<TaskRunnerExecution> getKpiTaskRunners() {
+        return kpiTaskRunners;
+    }
+
+    public void setKpiTaskRunners(List<TaskRunnerExecution> kpiTaskRunners) {
+        this.kpiTaskRunners = kpiTaskRunners;
     }
 }

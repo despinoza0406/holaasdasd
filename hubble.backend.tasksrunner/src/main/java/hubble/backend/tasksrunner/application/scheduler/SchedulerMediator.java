@@ -152,6 +152,27 @@ public class SchedulerMediator implements SchedulerUserCommands, SchedulerTasksA
         menu.execute();
     }
 
+    public void execute(String provider){
+        ProviderStorage storage = null;
+
+        try {
+            for (String groupName : scheduler.getJobGroupNames()) {
+
+                for (JobKey jobKey : scheduler.getJobKeys(GroupMatcher.jobGroupEquals(groupName))) {
+
+                    String jobName = jobKey.getName();
+
+                    if(jobName.equalsIgnoreCase(provider)) {
+                        scheduler.triggerJob(jobKey);
+                    }
+                }
+
+            }
+        }catch (SchedulerException e){
+            logger.error(e.getMessage());
+        }
+    }
+
     public void reschedule(String provider) {
 
         ProviderStorage storage = null;
