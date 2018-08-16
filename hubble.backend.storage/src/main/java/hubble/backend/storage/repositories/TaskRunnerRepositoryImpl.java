@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import java.util.Date;
 import java.util.List;
 
 public class TaskRunnerRepositoryImpl implements TaskRunnerOperations {
@@ -25,6 +26,20 @@ public class TaskRunnerRepositoryImpl implements TaskRunnerOperations {
                         TaskRunnerExecution.class);
 
         return !executions.isEmpty();
+
+    }
+
+    public List<TaskRunnerExecution> findExecutionsByProviderIdAndPeriod(String id, Date startDate, Date endDate){
+
+        Criteria isSameId = Criteria.where("provider").is(id);
+        Criteria startDateCriteria = Criteria.where("timestamp").gte(startDate);
+        Criteria endDateCriteria = Criteria.where("timestamp").lte(endDate);
+
+        List<TaskRunnerExecution> executions = mongo
+                .find(Query
+                        .query(isSameId.andOperator(startDateCriteria,endDateCriteria))
+                ,TaskRunnerExecution.class);
+        return executions;
 
     }
 

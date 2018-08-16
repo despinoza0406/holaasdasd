@@ -6,7 +6,9 @@ import hubble.backend.business.services.interfaces.services.kpis.OperationsKeyPe
 import hubble.backend.business.services.models.Availability;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
+import hubble.backend.core.enums.Results;
 import hubble.backend.storage.models.ApplicationStorage;
+import hubble.backend.storage.models.TaskRunnerExecution;
 
 import java.util.List;
 
@@ -33,6 +35,10 @@ public interface AvailabilityService extends
     double calculateHealthIndexKPI(ApplicationStorage applicationStorage, String periodo);
 
     String calculatePeriod(String periodo);
+
+    Results.RESULTS calculateKpiResult(String periodo);
+
+    List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo);
 
 
 

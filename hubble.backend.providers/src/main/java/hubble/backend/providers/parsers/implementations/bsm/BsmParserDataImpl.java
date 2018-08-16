@@ -64,10 +64,8 @@ public class BsmParserDataImpl implements BsmDataParser {
             }
             Results.RESULTS  result;
             if(bsmTransport.getResult().equals("ok")){
-                logger.info("BSM task ok");
                 result = Results.RESULTS.SUCCESS;
             }else {
-                logger.info("BSM task fail");
                 result = Results.RESULTS.FAILURE;
             }
             taskRunnerRepository.save(executionFactory.createExecution("bsm",result,bsmTransport.getResult()));

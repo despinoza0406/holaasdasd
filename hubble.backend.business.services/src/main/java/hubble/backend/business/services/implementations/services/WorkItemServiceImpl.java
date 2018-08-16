@@ -11,12 +11,15 @@ import hubble.backend.business.services.models.distValues.tasks.DistributionTask
 import hubble.backend.business.services.models.distValues.tasks.DistributionTasksUnit;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
+import hubble.backend.storage.models.TaskRunnerExecution;
 import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.models.WorkItemStorage;
 import hubble.backend.storage.repositories.ApplicationRepository;
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import hubble.backend.storage.repositories.WorkItemRepository;
 
 import java.text.DateFormat;
@@ -41,13 +44,16 @@ public class WorkItemServiceImpl implements WorkItemService {
     @Autowired
     WorkItemRepository workItemRepository;
     @Autowired
+    ApplicationRepository applicationRepository;
+    @Autowired
+    TaskRunnerRepository taskRunnerRepository;
+    @Autowired
     MapperConfiguration mapper;
     @Autowired
     WorkItemOperations workItemOperation;
     @Autowired
     WorkItemKpiOperations workItemKpiOperation;
-    @Autowired
-    ApplicationRepository applicationRepository;
+
 
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
@@ -230,7 +236,7 @@ public class WorkItemServiceImpl implements WorkItemService {
                             workItemStorage.getTimestamp().compareTo(startDates.get(index)) >= 0 &&
                                     workItemStorage.getTimestamp().compareTo(endDates.get(index)) <= 0).
                     collect(Collectors.toList());
-            if(workItemStorageList.size()>0) {
+            if(!workItemStorageList.isEmpty()) {
                 double value = workItemStorageList.stream().mapToDouble(workItemStorage ->
                         workItemStorage.getDeflectionDays()).
                         sum();
@@ -255,6 +261,14 @@ public class WorkItemServiceImpl implements WorkItemService {
         return distValues;
     }
 
+    @Override
+    public Results.RESULTS calculateKpiResult(String periodo){
+        return workItemKpiOperation.calculateKpiResult(periodo);
+    }
+    @Override
+    public List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo){
+        return workItemKpiOperation.getTaskRunnerExecutions(periodo);
+    }
 
     public String calculatePeriod(String periodo){
         if (periodo.equals("default")){ //esto se hace por como funciona el date helper

@@ -6,14 +6,13 @@ import hubble.backend.business.services.interfaces.operations.rules.WorkItemGrou
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.rules.WorkItemsGroupRule;
 import hubble.backend.core.enums.MonitoringFields;
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.core.utils.KpiHelper;
 import hubble.backend.core.utils.Threshold;
-import hubble.backend.storage.models.ApplicationStorage;
-import hubble.backend.storage.models.Tasks;
-import hubble.backend.storage.models.Threashold;
-import hubble.backend.storage.models.WorkItemStorage;
+import hubble.backend.storage.models.*;
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import hubble.backend.storage.repositories.WorkItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,6 +29,8 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
     WorkItemGroupRuleOperations workItemsRulesOperation;
     @Autowired
     WorkItemRepository workItemRepository;
+    @Autowired
+    TaskRunnerRepository taskRunnerRepository;
 
     private double warningKpiThreshold;
     private double criticalKpiThreshold;
@@ -205,6 +206,10 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
                 startDate,endDate,
                 "IN_PROGRESS");
 
+        if(workItems.isEmpty() && !this.calculateKpiResult(periodo).equals(Results.RESULTS.FAILURE)){
+            return 10;
+        }
+
         return calculateKPI(workItems);
     }
 
@@ -238,7 +243,47 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
 
         return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(deflectionDaysTotal,lCriticalKpiThreshold);//,10d);
 
-
-
     }
+
+
+    @Override
+    public Results.RESULTS calculateKpiResult(String periodo){
+        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(periodo);
+
+        if (containsAFailure(taskExecutions)){
+            return Results.RESULTS.FAILURE;
+        }
+        if(containsNoData(taskExecutions)){
+            return Results.RESULTS.NO_DATA;
+        }
+        return Results.RESULTS.SUCCESS;
+    }
+
+    public boolean containsAFailure(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.FAILURE));
+    }
+
+    public boolean containsNoData(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.NO_DATA));
+    }
+
+    @Override
+    public List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo){
+        String periodoTaskRunner = this.calculatePeriod(periodo);
+
+        Date startDate = DateHelper.getStartDate(periodoTaskRunner);
+        Date endDate = DateHelper.getEndDate(periodoTaskRunner);
+
+        List<TaskRunnerExecution> taskExecutions = taskRunnerRepository.findExecutionsByProviderIdAndPeriod("ppm",startDate,endDate);
+        return taskExecutions;
+    }
+
+    public String calculatePeriod(String periodo){
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            return "dia";
+        }else {
+            return periodo;
+        }
+    }
+
 }

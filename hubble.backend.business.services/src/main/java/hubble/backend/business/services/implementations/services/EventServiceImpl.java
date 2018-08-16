@@ -9,13 +9,16 @@ import hubble.backend.business.services.models.Event;
 import hubble.backend.business.services.models.distValues.events.DistributionEventsGroup;
 import hubble.backend.business.services.models.distValues.events.DistributionEventsUnit;
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.EventStorage;
+import hubble.backend.storage.models.TaskRunnerExecution;
 import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.EventRepository;
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,12 +34,15 @@ public class EventServiceImpl implements EventService {
     @Autowired
     EventRepository eventRepository;
     @Autowired
+    ApplicationRepository applicationRepository;
+    @Autowired
+    TaskRunnerRepository taskRunnerRepository;
+    @Autowired
     MapperConfiguration mapper;
     @Autowired
     EventKpiOperations eventKpiOperation;
 
-    @Autowired
-    ApplicationRepository applicationRepository;
+
 
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
@@ -231,7 +237,7 @@ public class EventServiceImpl implements EventService {
                                 eventStorage.getUpdatedDate().compareTo(startDates.get(index)) >= 0 &&
                                 eventStorage.getUpdatedDate().compareTo(endDates.get(index)) <= 0).
                         collect(Collectors.toList());
-                if(monitorEvents.size()>0) {
+                if(!monitorEvents.isEmpty()) {
 
                     int value = monitorEvents.stream().mapToInt(eventStorage ->
                             eventStorage.getSeverityPoints()).
@@ -255,6 +261,16 @@ public class EventServiceImpl implements EventService {
             }
         }
         return distValues;
+    }
+
+    @Override
+    public Results.RESULTS calculateKpiResult(String periodo){
+        return eventKpiOperation.calculateKpiResult(periodo);
+    }
+
+    @Override
+    public List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo){
+        return eventKpiOperation.getTaskRunnerExecutions(periodo);
     }
 
     public String calculatePeriod(String periodo){

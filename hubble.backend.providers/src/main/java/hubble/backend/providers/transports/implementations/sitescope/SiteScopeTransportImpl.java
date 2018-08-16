@@ -112,7 +112,7 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
             return  null;
         }
 
-        if (dataList.size() == 0){
+        if (dataList.isEmpty()){
             result = Results.RESULTS.NO_DATA;
             error = "No se trajo data de SiteScope";
         }

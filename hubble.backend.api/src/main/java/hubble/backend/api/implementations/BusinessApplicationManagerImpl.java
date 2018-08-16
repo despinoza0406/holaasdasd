@@ -12,6 +12,7 @@ import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.measures.Uptime;
 import hubble.backend.core.enums.MonitoringFields;
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalendarHelper;
 
 import java.util.*;
@@ -159,7 +160,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         businessApplicationFrontend.setLastUpdate(DateHelper.lastExecutionDate);
         businessApplicationFrontend.setPastUpdate(DateHelper.addDaysToDate(DateHelper.lastExecutionDate, -1));
         setKPIs(businessApplicationFrontend, applicationStorage, periodo);
-        setHealthIndex(businessApplicationFrontend, businessApplicationFrontend.getKpis(),periodo);
+        setHealthIndex(businessApplicationFrontend, businessApplicationFrontend.getKpis());
         setPastHealthIndex(businessApplicationFrontend, applicationStorage);
 
         return businessApplicationFrontend;
@@ -189,10 +190,11 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             .collect(toList());
     }
 
-    public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, List<KpiFrontend> kpisFront,String periodo) {
+    public void setHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, List<KpiFrontend> kpisFront) {
 
         List<Double> kpis;
-        kpis = kpisFront.stream().map(x -> x.getKpiValue()).collect(Collectors.toList()); //me lo mapea a los valores de los kpi
+        kpis = kpisFront.stream().filter(x -> !x.getKpiResult().equals(Results.RESULTS.FAILURE))
+                .map(x -> x.getKpiValue()).collect(Collectors.toList()); //me lo mapea a los valores de los kpi
 
         double healthIndex = getKPIAverage(kpis);
         businessApplicationFrontend.setHealthIndex(healthIndex);
@@ -226,6 +228,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             availabilityKpi.setKpiShortName("D");
             availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPI(application,periodo));
             availabilityKpi.setKpiPeriod(availabilityService.calculatePeriod(periodo));
+            availabilityKpi.setKpiResult(availabilityService.calculateKpiResult(periodo));
+            availabilityKpi.setKpiTaskRunners(availabilityService.getTaskRunnerExecutions(periodo));
             if(Double.isNaN(availabilityKpi.getKpiValue())) {
                 availabilityKpi.setKpiComment("No hay datos de availability");
             }
@@ -238,6 +242,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             performanceKpi.setKpiShortName("P");
             performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
             performanceKpi.setKpiPeriod(performanceService.calculatePeriod(periodo));
+            performanceKpi.setKpiResult(performanceService.calculateKpiResult(periodo));
+            performanceKpi.setKpiTaskRunners(performanceService.getTaskRunnerExecutions(periodo));
             if(Double.isNaN(performanceKpi.getKpiValue())) {
                 performanceKpi.setKpiComment("No hay datos de performance");
             }
@@ -249,6 +255,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             issuesKpi.setKpiShortName("I");
             issuesKpi.setKpiValue(issueService.calculateHistoryKPIByApplication(application,periodo));
             issuesKpi.setKpiPeriod(issueService.calculatePeriod(periodo));
+            issuesKpi.setKpiResult(issueService.calculateKpiResult(periodo));
+            issuesKpi.setKpiTaskRunners(issueService.getTaskRunnerExecutions(periodo));
             if(Double.isNaN(issuesKpi.getKpiValue())) {
                 issuesKpi.setKpiComment("No hay datos de issues");
             }
@@ -260,6 +268,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             workitemKpi.setKpiShortName("T");
             workitemKpi.setKpiValue(workItemService.calculateDeflectionDaysKPI(application,periodo));
             workitemKpi.setKpiPeriod(workItemService.calculatePeriod(periodo));
+            workitemKpi.setKpiResult(workItemService.calculateKpiResult(periodo));
+            workitemKpi.setKpiTaskRunners(workItemService.getTaskRunnerExecutions(periodo));
             if(Double.isNaN(workitemKpi.getKpiValue())){
                 workitemKpi.setKpiComment("No hay datos de tareas");
             }
@@ -271,6 +281,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             eventKpi.setKpiShortName("E");
             eventKpi.setKpiValue(eventService.calculateSeverityKPI(application,periodo));
             eventKpi.setKpiPeriod(eventService.calculatePeriod(periodo));
+            eventKpi.setKpiResult(eventService.calculateKpiResult(periodo));
+            eventKpi.setKpiTaskRunners(eventService.getTaskRunnerExecutions(periodo));
             if(Double.isNaN(eventKpi.getKpiValue())) {
                 eventKpi.setKpiComment("No hay datos de eventos");
             }
@@ -281,6 +293,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     public double getKPIAverage(List<Double> kpis) {
         double average = 0;
+
+        if(kpis.isEmpty()){ //Basicamente si fallaron todos los taskrunners
+            return 1;
+        }
 
         for (Double kpi : kpis) {
             if(!Double.isNaN(kpi)) {

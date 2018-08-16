@@ -7,15 +7,14 @@ import hubble.backend.business.services.interfaces.operations.rules.EventGroupRu
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
 import hubble.backend.business.services.models.measures.rules.EventsGroupRule;
 import hubble.backend.core.enums.MonitoringFields;
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.core.utils.KpiHelper;
 import hubble.backend.core.utils.Threshold;
-import hubble.backend.storage.models.ApplicationStorage;
-import hubble.backend.storage.models.EventStorage;
-import hubble.backend.storage.models.Events;
-import hubble.backend.storage.models.Threashold;
+import hubble.backend.storage.models.*;
 import hubble.backend.storage.repositories.EventRepository;
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +30,8 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
     EventGroupRulesOperations eventsRulesOperation;
     @Autowired
     EventRepository eventRepository;
+    @Autowired
+    TaskRunnerRepository taskRunnerRepository;
 
     private double warningKpiThreshold;
     private double criticalKpiThreshold;
@@ -236,6 +237,9 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         this.lWarningKpiThreshold = threshold.getWarning();
         List<EventStorage> events = eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(application.getId()
                 ,startDate,endDate,"Good");
+        if (events.isEmpty() && !this.calculateKpiResult(periodo).equals(Results.RESULTS.FAILURE)){
+            return 10;
+        }
         return calculateKPI(events);
     }
 
@@ -272,6 +276,46 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
 
         return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(severityPointsTotal,lCriticalKpiThreshold);//,10d);
 
+    }
+
+    @Override
+    public Results.RESULTS calculateKpiResult(String periodo){
+        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(periodo);
+
+        if (containsAFailure(taskExecutions)){
+            return Results.RESULTS.FAILURE;
+        }
+        if(containsNoData(taskExecutions)){
+            return Results.RESULTS.NO_DATA;
+        }
+        return Results.RESULTS.SUCCESS;
+    }
+
+    public boolean containsAFailure(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.FAILURE));
+    }
+
+    public boolean containsNoData(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.NO_DATA));
+    }
+
+    @Override
+    public List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo){
+        String periodoTaskRunner = this.calculatePeriod(periodo);
+
+        Date startDate = DateHelper.getStartDate(periodoTaskRunner);
+        Date endDate = DateHelper.getEndDate(periodoTaskRunner);
+
+        List<TaskRunnerExecution> taskExecutions = taskRunnerRepository.findExecutionsByProviderIdAndPeriod("sitescope",startDate,endDate);
+        return taskExecutions;
+    }
+
+    public String calculatePeriod(String periodo){
+        if (periodo.equals("default")){ //esto se hace por como funciona el date helper
+            return "hora";
+        }else {
+            return periodo;
+        }
     }
 
 

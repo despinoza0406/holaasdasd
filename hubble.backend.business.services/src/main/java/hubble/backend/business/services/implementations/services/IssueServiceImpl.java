@@ -10,13 +10,11 @@ import hubble.backend.business.services.models.distValues.issues.DistributionIss
 import hubble.backend.business.services.models.distValues.issues.DistributionIssuesUnit;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
-import hubble.backend.storage.models.ApplicationStorage;
-import hubble.backend.storage.models.Defects;
-import hubble.backend.storage.models.IssueStorage;
-import hubble.backend.storage.models.Threashold;
+import hubble.backend.storage.models.*;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.IssueRepository;
 
@@ -25,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -37,13 +36,16 @@ public class IssueServiceImpl implements IssueService {
     @Autowired
     IssueRepository issueRepository;
     @Autowired
+    ApplicationRepository applicationRepository;
+    @Autowired
+    TaskRunnerRepository taskRunnerRepository;
+    @Autowired
     MapperConfiguration mapper;
     @Autowired
     IssueOperations issueOperation;
     @Autowired
     IssuesKpiOperations issueKpiOperation;
-    @Autowired
-    ApplicationRepository applicationRepository;
+
 
     private double superior;
     private double inferior;
@@ -132,6 +134,9 @@ public class IssueServiceImpl implements IssueService {
         this.lWarningKpiThreshold = threshold.getWarning();
         List<IssueStorage> issuesStorage =
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(application.getId(), startDate, endDate);
+        if(issuesStorage.isEmpty() && !this.calculateKpiResult(periodo).equals(Results.RESULTS.FAILURE)){
+            return 10;
+        }
         return calculateKPI(issuesStorage);
     }
 
@@ -271,7 +276,7 @@ public class IssueServiceImpl implements IssueService {
                             issueStorage.getTimestamp().compareTo(startDates.get(index)) >= 0 &&
                             issueStorage.getTimestamp().compareTo(endDates.get(index)) <= 0).
                     collect(Collectors.toList());
-            if(issueStorageList.size()>0) {
+            if(!issueStorageList.isEmpty()) {
                 double value = issueStorageList.stream().mapToDouble(issue ->
                         (issue.getPriority() + issue.getSeverity()) / 2).
                         sum();
@@ -324,6 +329,39 @@ public class IssueServiceImpl implements IssueService {
 
         return CalculationHelper.calculateMinInfiniteCriticalHealthIndex(totalCriticity,lCriticalKpiThreshold);//,10);
 
+    }
+
+    @Override
+    public Results.RESULTS calculateKpiResult(String periodo){
+        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(periodo);
+
+        if (containsAFailure(taskExecutions)){
+            return Results.RESULTS.FAILURE;
+        }
+        if(containsNoData(taskExecutions)){
+            return Results.RESULTS.NO_DATA;
+        }
+        return Results.RESULTS.SUCCESS;
+    }
+
+    public boolean containsAFailure(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.FAILURE));
+    }
+
+    public boolean containsNoData(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.NO_DATA));
+    }
+
+    @Override
+    public List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo){
+        String periodoTaskRunner = this.calculatePeriod(periodo);
+
+        Date startDate = DateHelper.getStartDate(periodoTaskRunner);
+        Date endDate = DateHelper.getEndDate(periodoTaskRunner);
+
+        List<TaskRunnerExecution> taskExecutions = taskRunnerRepository.findExecutionsByProviderIdAndPeriod("jira",startDate,endDate);
+        taskExecutions.addAll(taskRunnerRepository.findExecutionsByProviderIdAndPeriod("alm",startDate,endDate));
+        return taskExecutions;
     }
 
     public String calculatePeriod(String periodo){

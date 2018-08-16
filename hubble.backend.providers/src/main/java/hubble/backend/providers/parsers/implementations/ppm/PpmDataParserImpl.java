@@ -72,7 +72,7 @@ public class PpmDataParserImpl implements PpmDataParser {
                 logger.error(ex.getMessage());
                 ppmTransport.setResult(Results.RESULTS.FAILURE);
             }
-            if(ppmTransport.getResult().equals(Results.RESULTS.SUCCESS) && detailedRequests.size() == 0) {
+            if(ppmTransport.getResult().equals(Results.RESULTS.SUCCESS) && detailedRequests.isEmpty()) {
                 ppmTransport.setResult(Results.RESULTS.NO_DATA);
             }
 

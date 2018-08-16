@@ -6,7 +6,9 @@ import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.Issue;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
+import hubble.backend.core.enums.Results;
 import hubble.backend.storage.models.ApplicationStorage;
+import hubble.backend.storage.models.TaskRunnerExecution;
 
 import java.util.List;
 
@@ -27,4 +29,8 @@ public interface IssueService extends ServiceBase<Issue>,
     double calculateHistoryDayBeforeKpiByApplication(ApplicationStorage application);
 
     String calculatePeriod(String periodo);
+
+    Results.RESULTS calculateKpiResult(String periodo);
+
+    List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo);
 }

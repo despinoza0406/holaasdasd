@@ -11,11 +11,13 @@ import hubble.backend.business.services.models.Performance;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
 import hubble.backend.business.services.models.distValues.performance.DistributionPerformanceGroup;
 import hubble.backend.business.services.models.distValues.performance.DistributionPerformanceUnit;
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.AvailabilityStorage;
+import hubble.backend.storage.models.TaskRunnerExecution;
 import hubble.backend.storage.models.Threashold;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.AvailabilityRepository;
@@ -27,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import hubble.backend.storage.repositories.TaskRunnerRepository;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -38,6 +41,8 @@ public class PerformanceServiceImpl implements PerformanceService {
     AvailabilityRepository availabilityRepository;
     @Autowired
     ApplicationRepository applicationRepository;
+    @Autowired
+    TaskRunnerRepository taskRunnerRepository;
     @Autowired
     PerformanceOperations performanceOperation;
     @Autowired
@@ -204,6 +209,9 @@ public class PerformanceServiceImpl implements PerformanceService {
         Date endDate = DateHelper.getEndDate(periodo);
         List<AvailabilityStorage> availabilityStorageList =
                 availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(application.getId(),startDate,endDate);
+        if(availabilityStorageList.isEmpty() && !this.calculateKpiResult(periodo).equals(Results.RESULTS.FAILURE)){
+            return 1;
+        }
         double totalPerformance = 0;
         for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
             totalPerformance = totalPerformance + availabilityStorage.getResponseTime();
@@ -390,7 +398,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                                 availabilityStorage.getTimeStamp().compareTo(startDates.get(index)) >= 0 &&
                                 availabilityStorage.getTimeStamp().compareTo(endDates.get(index)) <= 0).
                         collect(Collectors.toList());
-                if(transactionAvailability.size()>0) {
+                if(!transactionAvailability.isEmpty()) {
 
                     int value = transactionAvailability.stream().mapToInt(availabilityStorage ->
                             (int)availabilityStorage.getResponseTime()).
@@ -414,6 +422,39 @@ public class PerformanceServiceImpl implements PerformanceService {
             }
         }
         return distValues;
+    }
+
+    @Override
+    public Results.RESULTS calculateKpiResult(String periodo){
+        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(periodo);
+
+        if (containsAFailure(taskExecutions)){
+            return Results.RESULTS.FAILURE;
+        }
+        if(containsNoData(taskExecutions)){
+            return Results.RESULTS.NO_DATA;
+        }
+        return Results.RESULTS.SUCCESS;
+    }
+
+    public boolean containsAFailure(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.FAILURE));
+    }
+
+    public boolean containsNoData(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.NO_DATA));
+    }
+
+    @Override
+    public List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo){
+        String periodoTaskRunner = this.calculatePeriod(periodo);
+
+        Date startDate = DateHelper.getStartDate(periodoTaskRunner);
+        Date endDate = DateHelper.getEndDate(periodoTaskRunner);
+
+        List<TaskRunnerExecution> taskExecutions = taskRunnerRepository.findExecutionsByProviderIdAndPeriod("bsm",startDate,endDate);
+        taskExecutions.addAll(taskRunnerRepository.findExecutionsByProviderIdAndPeriod("apppulse",startDate,endDate));
+        return taskExecutions;
     }
 
     public String calculatePeriod(String periodo){
