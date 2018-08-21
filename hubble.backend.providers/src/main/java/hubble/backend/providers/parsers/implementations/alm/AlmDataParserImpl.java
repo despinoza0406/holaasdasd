@@ -91,6 +91,7 @@ public class AlmDataParserImpl implements AlmDataParser {
             model.setProviderOrigin(configuration.getProviderOrigin());
         }catch (NullPointerException e){
             almTransport.setResult(Results.RESULTS.FAILURE);
+            almTransport.setError("Error en la configuracion de alm. Por favor revisar los valores suministrados");
             logger.error("Error en la configuracion de alm. Por favor revisar los valores suministrados");
         }
         return model;

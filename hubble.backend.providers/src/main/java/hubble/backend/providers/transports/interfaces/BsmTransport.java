@@ -1,5 +1,7 @@
 package hubble.backend.providers.transports.interfaces;
 
+import hubble.backend.core.enums.Results;
+
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPMessage;
 
@@ -9,7 +11,9 @@ public interface BsmTransport extends Transport<SOAPBody> {
 
     public void setQuery(String query);
 
-    public String getResult();
+    public Results.RESULTS getResult();
+
+    public String getError();
 
     public SOAPMessage getMessage();
 

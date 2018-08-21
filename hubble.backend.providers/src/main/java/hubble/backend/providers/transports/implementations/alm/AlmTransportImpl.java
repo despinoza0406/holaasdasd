@@ -249,4 +249,6 @@ public class AlmTransportImpl implements AlmTransport {
     }
 
     public void setResult(Results.RESULTS result){ this.result = result; }
+
+    public void setError(String error) { this.error = error; }
 }

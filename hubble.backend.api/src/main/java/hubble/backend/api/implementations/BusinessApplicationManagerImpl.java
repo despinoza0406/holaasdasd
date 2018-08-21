@@ -314,7 +314,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             case "Disponibilidad":
                 distValues = availabilityService.getDistValues(id,period);
                 break;
-            case "performance":
+            case "Performance":
                 distValues = performanceService.getDistValues(id,period);
                 break;
             case "Incidencias":

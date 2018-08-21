@@ -62,13 +62,8 @@ public class BsmParserDataImpl implements BsmDataParser {
 
                 this.save(availabilitiesStorage);
             }
-            Results.RESULTS  result;
-            if(bsmTransport.getResult().equals("ok")){
-                result = Results.RESULTS.SUCCESS;
-            }else {
-                result = Results.RESULTS.FAILURE;
-            }
-            taskRunnerRepository.save(executionFactory.createExecution("bsm",result,bsmTransport.getResult()));
+
+            taskRunnerRepository.save(executionFactory.createExecution("bsm",bsmTransport.getResult(),bsmTransport.getError()));
         }
     }
 

@@ -156,8 +156,8 @@ public class IssueServiceImpl implements IssueService {
                 issueRepository.findIssuesByApplicationIdBetweenDates(id, DateHelper.getYesterday(), DateHelper.getDateNow());
         List<Integer> distValuesInt = new ArrayList<>();
         for (IssueStorage issue : issuesStorage) {
-            float criticity = (issue.getPriority() + issue.getSeverity()) / 2;
-            distValuesInt.add(calculateCriticityForDashboardTwo(criticity));
+            float criticity = (this.getPriority(issue) + this.getSeverity(issue)) / 2;
+            distValuesInt.add((int) criticity);
         }
         return distValuesInt;
     }
@@ -188,16 +188,15 @@ public class IssueServiceImpl implements IssueService {
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(id,startDate,endDate);
         for (IssueStorage issue : issuesStorage) {
             String status = "Critical";
-            float criticity = (issue.getPriority() + issue.getSeverity()) / 2;
-            int criticityDashTwo = this.calculateCriticityForDashboardTwo(criticity);
-            if(criticityDashTwo == 2){
+            int criticity = (this.getPriority(issue) + this.getSeverity(issue)) / 2;
+            if(criticity == 2){
                 status = "Warning";
             }
-            if(criticityDashTwo == 3){
+            if(criticity == 1){
                 status = "OK";
             }
             distValues.add(new DistributionIssuesUnit(
-                    criticityDashTwo,
+                    criticity,
                     status,
                     issue.getDescription(),
                     dateFormat.format(issue.getRegisteredDate())
@@ -240,12 +239,11 @@ public class IssueServiceImpl implements IssueService {
             default:
                 for (IssueStorage issue : issuesStorage) {
                     String status = "Critical";
-                    float criticity = issue.getPriority() + issue.getSeverity() / 2;
-                    int criticityDashTwo = this.calculateCriticityForDashboardTwo(criticity);
-                    if(criticityDashTwo == 2){
+                    int criticity = (this.getPriority(issue) + this.getSeverity(issue)) / 2;
+                    if(criticity == 2){
                         status = "Warning";
                     }
-                    if(criticityDashTwo == 3){
+                    if(criticity == 1){
                         status = "OK";
                     }
                     distValues.add(new DistributionIssuesUnit(
@@ -277,8 +275,8 @@ public class IssueServiceImpl implements IssueService {
                             issueStorage.getTimestamp().compareTo(endDates.get(index)) <= 0).
                     collect(Collectors.toList());
             if(!issueStorageList.isEmpty()) {
-                double value = issueStorageList.stream().mapToDouble(issue ->
-                        (issue.getPriority() + issue.getSeverity()) / 2).
+                int value = issueStorageList.stream().mapToInt(issue ->
+                        (this.getPriority(issue) + this.getSeverity(issue)) / 2).
                         sum();
                 String status = "Critical";
                 if (value <= lWarningKpiThreshold) {
@@ -301,21 +299,45 @@ public class IssueServiceImpl implements IssueService {
         return distValues;
     }
 
-    private Integer calculateCriticityForDashboardTwo(float criticity){
-        if(criticity >= 4){
-            return 1;
+
+    private Integer getPriority(IssueStorage issue){
+        int priority = issue.getPriority();
+        if(issue.getProviderOrigin().equalsIgnoreCase("ALM")){
+            if (priority >= 3){
+                return 3;
+            }else {
+                return priority;
+            }
+        }else {
+            if (priority >= 4){
+                return 1;
+            }
+            if (priority >= 3){
+                return 2;
+            }else {
+                return 3;
+            }
         }
-        if(criticity >=3) {
-            return 2;
-        } else
-            return 3;
+    }
+
+    private Integer getSeverity(IssueStorage issue){
+        int severity = issue.getSeverity();
+        if(issue.getProviderOrigin().equalsIgnoreCase("ALM")){
+            if (severity >= 3){
+                return 3;
+            }else {
+                return severity;
+            }
+        }else {
+            return severity;
+        }
     }
 
     private double calculateKPI(List<IssueStorage> issuesStorage){
         double totalCriticity = 0;
 
         for(IssueStorage issueStorage : issuesStorage) {
-            double criticity = round((issueStorage.getSeverity() + issueStorage.getPriority()) / 2);
+            double criticity = round((this.getSeverity(issueStorage) + this.getPriority(issueStorage)) / 2);
             totalCriticity = totalCriticity + criticity;
         }
 

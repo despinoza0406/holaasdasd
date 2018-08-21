@@ -26,4 +26,6 @@ public interface AlmTransport {
     public String getError();
 
     public void setResult(Results.RESULTS result);
+
+    public void setError(String error);
 }

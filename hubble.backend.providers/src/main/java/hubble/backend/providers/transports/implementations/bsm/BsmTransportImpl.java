@@ -1,5 +1,6 @@
 package hubble.backend.providers.transports.implementations.bsm;
 
+import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.providers.configurations.environments.BsmProviderEnvironment;
 import hubble.backend.providers.transports.interfaces.BsmTransport;
@@ -29,7 +30,8 @@ public class BsmTransportImpl implements BsmTransport {
     SOAPMessage message = null;
     String query = EMPTY;
     private final Logger logger = LoggerFactory.getLogger(BsmTransportImpl.class);
-    private String result = "ok";
+    private String error = "ok";
+    Results.RESULTS  result;
 
     public BsmTransportImpl() {
     }
@@ -92,7 +94,8 @@ public class BsmTransportImpl implements BsmTransport {
 
             this.message = soapMessage;
         } catch (SOAPException ex) {
-            result = ex.getMessage();
+            error = ex.getMessage();
+            result = Results.RESULTS.FAILURE;
             logger.error(ex.getMessage());
         }
 
@@ -153,20 +156,26 @@ public class BsmTransportImpl implements BsmTransport {
 
             if (soapResponse == null) {
                 logger.error("There is no response from BSM: {}", bsmProviderEnvironment.getSoapEndpointUrl());
-                result = "There is no response from BSM: " + bsmProviderEnvironment.getSoapEndpointUrl();
+                error = "There is no response from BSM: " + bsmProviderEnvironment.getSoapEndpointUrl();
+                result = Results.RESULTS.FAILURE;
                 return null;
             }
 
             return soapResponse.getSOAPBody();
         } catch (SOAPException ex) {
             logger.debug(ex.toString());
-            result = ex.getMessage();
+            error = ex.getMessage();
+            result = Results.RESULTS.FAILURE;
         }
 
         return null;
     }
 
-    public String getResult() {
+    public Results.RESULTS getResult() {
         return result;
+    }
+
+    public String getError() {
+        return error;
     }
 }
