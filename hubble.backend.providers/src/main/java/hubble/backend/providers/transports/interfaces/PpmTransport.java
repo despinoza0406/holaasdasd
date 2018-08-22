@@ -29,4 +29,6 @@ public interface PpmTransport {
 
     public void setResult(Results.RESULTS result);
 
+    public void setError(String error);
+
 }

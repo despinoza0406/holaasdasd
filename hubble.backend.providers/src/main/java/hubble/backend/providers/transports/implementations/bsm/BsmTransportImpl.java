@@ -164,7 +164,7 @@ public class BsmTransportImpl implements BsmTransport {
             return soapResponse.getSOAPBody();
         } catch (SOAPException ex) {
             logger.debug(ex.toString());
-            error = ex.getMessage();
+            error ="Error de conexion";
             result = Results.RESULTS.FAILURE;
         }
 
@@ -175,7 +175,11 @@ public class BsmTransportImpl implements BsmTransport {
         return result;
     }
 
+    public void setResult(Results.RESULTS result) { this.result = result; }
+
     public String getError() {
         return error;
     }
+
+    public void setError(String error) { this.error = error; }
 }

@@ -58,8 +58,8 @@ public class JiraDataParserImpl implements JiraDataParser {
     @Override
     public void run() {
         if(configuration.taskEnabled()) {
-            String jiraUser;
-            String jiraPassword;
+            String jiraUser = "";
+            String jiraPassword = "";
 
             try {
                 jiraUser = jiraTransport.getEnvironment().getUser();
@@ -67,8 +67,8 @@ public class JiraDataParserImpl implements JiraDataParser {
 
             }catch (NullPointerException e){
                 logger.error("Error en environment de jira. Por favor revisar los valores suministrados");
-                taskRunnerRepository.save(executionFactory.createExecution("jira", Results.RESULTS.FAILURE,e.getMessage()));
-                return;
+                jiraTransport.setResult(Results.RESULTS.FAILURE);
+                jiraTransport.setError("Error en environment de jira. Por favor revisar los valores suministrados");
             }
 
             String encodedAuthString = EncoderHelper.encodeToBase64(jiraUser, jiraPassword);
@@ -77,52 +77,55 @@ public class JiraDataParserImpl implements JiraDataParser {
             IssueStorage issueStorage;
 
             jiraTransport.setEncodedCredentials(encodedAuthString);
-            String[] projectsKey;
+            String[] projectsKey = null;
 
             try {
                 projectsKey = jiraTransport.getConfiguration().getProjectKeys();
             }catch (NullPointerException e){
                 logger.error("Error en la configuracion de jira. Por favor revisar los valores suministrados");
-                taskRunnerRepository.save(executionFactory.createExecution("jira", Results.RESULTS.FAILURE,e.getMessage()));
-                return;
+                jiraTransport.setResult(Results.RESULTS.FAILURE);
+                jiraTransport.setError("Error en la configuracion de jira. Por favor revisar los valores suministrados");
             }
-
-            for (String project : projectsKey) {
-                JSONObject response;
-                int startAt = 0;
-                int totalIssues = 0;
-                int maxResults = 0;
-                try {
-                    response = jiraTransport.getIssuesByProject(project, startAt);
-                    totalIssues = response.getInt("total");
-                    maxResults = response.getInt("maxResults");
-                }catch (NullPointerException e){
-                    logger.error("No se obtuvo respuesta del proyecto " + project);
-                    jiraTransport.setResult(Results.RESULTS.FAILURE);
-                    jiraTransport.setError("No se obtuvo respuesta del proyecto " + project);
-                    break;
-                }
-                do {
-                    response = jiraTransport.getIssuesByProject(project, startAt);
-                    jiraModel = this.parse(response);
+            if (projectsKey != null) {
+                for (String project : projectsKey) {
+                    JSONObject response;
+                    int startAt = 0;
+                    int totalIssues = 0;
+                    int maxResults = 0;
                     try {
-                        issues = jiraModel.getIssues();
-                    }catch (Exception e){
-                        logger.error("No se pudieron obtener los issues de jira del proyecto "+project);
+                        response = jiraTransport.getIssuesByProject(project, startAt);
+                        totalIssues = response.getInt("total");
+                        maxResults = response.getInt("maxResults");
+                    } catch (NullPointerException e) {
+                        logger.error("No se obtuvo respuesta del proyecto " + project);
                         jiraTransport.setResult(Results.RESULTS.FAILURE);
-                        jiraTransport.setError("No se pudieron obtener los issues de jira del proyecto " + project);
+                        jiraTransport.setError("No se obtuvo respuesta del proyecto " + project);
                         break;
                     }
-                    for (JiraIssueModel issue : issues) {
-                        issueStorage = jiraMapperConfiguration.mapToIssueStorage(issue);
-                        issueRepository.save(issueStorage);
+                    do {
+                        response = jiraTransport.getIssuesByProject(project, startAt);
+                        jiraModel = this.parse(response);
+                        try {
+                            issues = jiraModel.getIssues();
+                        } catch (Exception e) {
+                            logger.error("No se pudieron obtener los issues de jira del proyecto " + project);
+                            jiraTransport.setResult(Results.RESULTS.FAILURE);
+                            jiraTransport.setError("No se pudieron obtener los issues de jira del proyecto " + project);
+                            break;
+                        }
+                        for (JiraIssueModel issue : issues) {
+                            issueStorage = jiraMapperConfiguration.mapToIssueStorage(issue);
+                            issueRepository.save(issueStorage);
+                        }
+                        startAt = startAt + maxResults;
                     }
-                    startAt = startAt + maxResults;
-                }
-                while (startAt < totalIssues);
+                    while (startAt < totalIssues);
 
+                }
             }
-            taskRunnerRepository.save(executionFactory.createExecution("jira",jiraTransport.getResult(),jiraTransport.getError()));
+            for (String hubbleAppName : configuration.getValuesToIdMap().keySet()) {
+                taskRunnerRepository.save(executionFactory.createExecution("jira",hubbleAppName, jiraTransport.getResult(), jiraTransport.getError()));
+            }
         }
     }
 

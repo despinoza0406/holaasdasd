@@ -22,4 +22,8 @@ public interface BsmTransport extends Transport<SOAPBody> {
     public SOAPBody getApplications();
 
     public SOAPBody call();
+
+    public void setError(String error);
+
+    public void setResult(Results.RESULTS result);
 }

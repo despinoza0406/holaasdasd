@@ -110,7 +110,7 @@ public class AlmTransportImpl implements AlmTransport {
         } catch (UnirestException e) {
             logger.error(e.getMessage());
             result = Results.RESULTS.FAILURE;
-            error = e.getMessage();
+            error = "Error de conexion";
         }
 
         if (data == null) {

@@ -168,8 +168,9 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
     }
 
     private void saveTaskExecution(){
-        taskRunnerRepository.save(executionFactory.createExecution("sitescope",siteScopeTransport.getResult(),siteScopeTransport.getError()));
-
+        for (String hubbleAppName : configuration.getApplicationValueToIdMap().keySet()) {
+            taskRunnerRepository.save(executionFactory.createExecution("sitescope",hubbleAppName, siteScopeTransport.getResult(), siteScopeTransport.getError()));
+        }
     }
 
 

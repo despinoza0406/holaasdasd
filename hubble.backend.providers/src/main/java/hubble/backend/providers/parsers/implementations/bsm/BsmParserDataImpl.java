@@ -56,14 +56,22 @@ public class BsmParserDataImpl implements BsmDataParser {
 
             List<BsmProviderModel> transactions = parse(data);
 
+
+            this.availabilitiesStorage = new ArrayList<>();
             if (transactions != null) {
-                this.availabilitiesStorage = new ArrayList<>();
+
                 this.availabilitiesStorage = mapperConfifuration.mapToAvailabilitiesStorage(transactions);
 
                 this.save(availabilitiesStorage);
             }
-
-            taskRunnerRepository.save(executionFactory.createExecution("bsm",bsmTransport.getResult(),bsmTransport.getError()));
+            for (String hubbleAppName : configuration.getApplicationValueToIdMap().keySet()) {
+                if (availabilitiesStorage.stream().noneMatch(availability -> availability.getApplicationId().equals(hubbleAppName)) && !bsmTransport.getResult().equals(Results.RESULTS.FAILURE)){
+                    taskRunnerRepository.save(executionFactory.createExecution("bsm", hubbleAppName, Results.RESULTS.WARNING,
+                            "No se obtuvo ninguna muestra que se pudiera mappear a " + hubbleAppName));
+                }else {
+                    taskRunnerRepository.save(executionFactory.createExecution("bsm", hubbleAppName, bsmTransport.getResult(), bsmTransport.getError()));
+                }
+            }
         }
     }
 

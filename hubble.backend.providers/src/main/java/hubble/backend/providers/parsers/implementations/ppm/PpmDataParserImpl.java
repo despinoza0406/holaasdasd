@@ -50,8 +50,8 @@ public class PpmDataParserImpl implements PpmDataParser {
                         ppmTransport.getEnvironment().getPassword());
             }catch (NullPointerException e){
                 logger.error("Error en environment de ppm. Por favor revisar los valores suministrados");
-                taskRunnerRepository.save(executionFactory.createExecution("ppm", Results.RESULTS.FAILURE,e.getMessage()));
-                return;
+                ppmTransport.setResult(Results.RESULTS.FAILURE);
+                ppmTransport.setError("Error en environment de ppm. Por favor revisar los valores suministrados");
             }
 
             List<String> requestTypeIds = ppmTransport.getConfiguredRequestTypes(encodedAuthString);
@@ -81,8 +81,9 @@ public class PpmDataParserImpl implements PpmDataParser {
                 workItemRepository.save(workItem);
             }
 
-            taskRunnerRepository.save(executionFactory.createExecution("ppm",ppmTransport.getResult(),ppmTransport.getError()));
-
+            for (String hubbleAppName : configuration.getApplicationValueToIdMap().keySet()) {
+                taskRunnerRepository.save(executionFactory.createExecution("ppm",hubbleAppName, ppmTransport.getResult(), ppmTransport.getError()));
+            }
         }
     }
 
@@ -160,5 +161,7 @@ public class PpmDataParserImpl implements PpmDataParser {
                 + applicationName);
         return null;
     }
+
+
 
 }

@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 public class TaskRunnerExecutionFactory {
     private final Logger logger = LoggerFactory.getLogger(TaskRunnerExecutionFactory.class);
 
-    public TaskRunnerExecution createExecution(String provider, Results.RESULTS result, String description){
+    public TaskRunnerExecution createExecution(String provider,String applicationId, Results.RESULTS result, String description){
         logger.info("Ejecucion de " + provider + ". Resultado: " + result.toString());
-        return new TaskRunnerExecution(provider,result,description, DateHelper.getDateNow());
+        return new TaskRunnerExecution(provider,applicationId,result,description, DateHelper.getDateNow());
     }
 }

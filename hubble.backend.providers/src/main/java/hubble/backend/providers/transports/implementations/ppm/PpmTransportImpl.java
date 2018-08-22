@@ -195,10 +195,16 @@ public class PpmTransportImpl implements PpmTransport {
     @Override
     public List<String> getConfiguredRequestTypes(String encodedAuthString) {
         String requestTypeIds = "";
+        if (encodedAuthString == ""){
+            return null;
+        }
+
         try {
             requestTypeIds = configuration.getRequestTypeIds();
         }catch (NullPointerException e){
             logger.error("Error en config de ppm. Por favor revisar los valores suministrados");
+            this.result = Results.RESULTS.FAILURE;
+            this.error = "Error en config de ppm. Por favor revisar los valores suministrados";
         }
 
         List<String> requestTypeIdsToBeRetrieved = new ArrayList();
@@ -236,5 +242,9 @@ public class PpmTransportImpl implements PpmTransport {
 
     public void setResult(Results.RESULTS result){
         this.result = result;
+    }
+
+    public void setError(String error){
+        this.error = error;
     }
 }

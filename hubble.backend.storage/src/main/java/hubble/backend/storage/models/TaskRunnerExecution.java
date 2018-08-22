@@ -7,12 +7,14 @@ import java.util.Date;
 public class TaskRunnerExecution {
     private String id;
     private String provider;
-    private Results.RESULTS result; //Cambiarlo a un enum
+    private String applicationId;
+    private Results.RESULTS result;
     private String description;
     private Date timestamp;
 
-    public TaskRunnerExecution(String provider, Results.RESULTS result, String description, Date timestamp){
+    public TaskRunnerExecution(String provider,String applicationId, Results.RESULTS result, String description, Date timestamp){
         this.provider = provider;
+        this.applicationId = applicationId;
         this.result = result;
         this.description = description;
         this.timestamp = timestamp;

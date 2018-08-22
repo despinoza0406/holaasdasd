@@ -105,35 +105,45 @@ public class AlmDataParserImpl implements AlmDataParser {
     @Override
     public void run() {
         if(configuration.taskEnabled()) {
+            List<IssueStorage> issueStorageList = new ArrayList<>();
             try {
                 almTransport.login();
             }catch (NullPointerException e){
-                taskRunnerRepository.save(executionFactory.createExecution("alm", Results.RESULTS.FAILURE,almTransport.getError()));
+                almTransport.setResult(Results.RESULTS.FAILURE);
+                almTransport.setError("Error en el login a alm");
                 logger.error("Error en environment de alm. Por favor revisar los valores suministrados");
-                return;
             }
             Map<String, String> cookies = almTransport.getSessionCookies();
             int startInd = 1;
             int cantDefects;
             do {
-                JSONObject allDefects;
+                JSONObject allDefects = null;
                 try {
                     allDefects = almTransport.getOpenDefects(cookies, startInd);
                 }catch (NullPointerException e){
-                    taskRunnerRepository.save(executionFactory.createExecution("alm", Results.RESULTS.FAILURE,almTransport.getError()));
-                    logger.error("Error en environment de alm. Por favor revisar los valores suministrados");
-                    return;
+                    almTransport.setError("Error de conexion");
+                    almTransport.setResult(Results.RESULTS.FAILURE);
+                    logger.error("Error de conexion a alm");
+                    break;
                 }
                 cantDefects = (allDefects.getInt("TotalResults"));
                 List<JSONObject> defects = this.parseList(allDefects);
                 for (JSONObject defect : defects) {
                     IssueStorage issue = this.convert(this.parse(defect));
-                    issueRepository.save(issue);
+                    issueStorageList.add(issue);
                 }
+                issueRepository.save(issueStorageList);
                 startInd += defects.size();
             } while (cantDefects >= startInd);
             almTransport.logout();
-            taskRunnerRepository.save(executionFactory.createExecution("alm",almTransport.getResult(),almTransport.getError()));
+            for (String hubbleAppName : configuration.getApplicationValueToIdMap().keySet()) {
+                if (!issueStorageList.stream().anyMatch(issue -> issue.getBusinessApplicationId().equals(hubbleAppName)) && !almTransport.getResult().equals(Results.RESULTS.FAILURE)){
+                    taskRunnerRepository.save(executionFactory.createExecution("alm", hubbleAppName, Results.RESULTS.WARNING,
+                            "No se obtuvo ninguna muestra que se pudiera mappear a " + hubbleAppName));
+                }else {
+                    taskRunnerRepository.save(executionFactory.createExecution("alm", hubbleAppName, almTransport.getResult(), almTransport.getError()));
+                }
+            }
         }
     }
 
