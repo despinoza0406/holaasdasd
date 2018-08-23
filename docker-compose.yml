@@ -1,30 +1,29 @@
 version: '3.0'
 
-services:
+services:   
+    #mongodb:
+    #    image: mongo:latest
+    #    container_name: "hubble-mongodb"
+    #    ports:
+    #        - "27017:27017"
+    #    hostname: mongodb
+    #    volumes:
+    #        - "/data/db"
+    
+    hubble-api:
+        build: ./hubble.backend.api
+        container_name: "hubble-api"
+        ports:
+            - "8080:8080"
+        hostname: hubble-api
+        #depends_on:
+        #    - mongodb
+        
     hubble-taskrunner:
             build: ./hubble.backend.tasksrunner
             container_name: "hubble-taskrunner"
             hostname: hubble-taskrunner
-            stdin_open: true
-            tty: true
-            depends_on:
-                - mongodb
-                - hubble-api
-            
-    mongodb:
-        image: mongo:latest
-        container_name: "hubble-mongodb"
-        ports:
-            - "27017:27017"
-        hostname: mongodb
-        volumes:
-            - "/data/db"
-    
-    hubble-api:
-        build: ./hubble.backend.api
-        container_name: "hubble-backend"
-        ports:
-            - "8080:8080"
-        hostname: hubble-api
-        depends_on:
-            - mongodb
+        #    stdin_open: true
+        #    tty: true
+        #    depends_on:
+        #        - hubble-api
