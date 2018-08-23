@@ -162,6 +162,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         setKPIs(businessApplicationFrontend, applicationStorage, periodo);
         setHealthIndex(businessApplicationFrontend, businessApplicationFrontend.getKpis());
         setPastHealthIndex(businessApplicationFrontend, applicationStorage);
+        setResult(businessApplicationFrontend);
 
         return businessApplicationFrontend;
     }
@@ -198,6 +199,16 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
         double healthIndex = getKPIAverage(kpis);
         businessApplicationFrontend.setHealthIndex(healthIndex);
+    }
+
+    public void setResult(BusinessApplicationFrontend businessApplicationFrontend){
+        List<KpiFrontend> kpis = businessApplicationFrontend.getKpis();
+        if (kpis.stream().allMatch(kpi -> kpi.getKpiResult().equals(Results.RESULTS.SUCCESS))){
+            businessApplicationFrontend.setResult(Results.RESULTS.SUCCESS);
+        }else{
+            businessApplicationFrontend.setResult(Results.RESULTS.FAILURE);
+        }
+
     }
 
     public void setPastHealthIndex(BusinessApplicationFrontend businessApplicationFrontend, ApplicationStorage application) {
