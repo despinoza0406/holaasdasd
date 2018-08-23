@@ -36,9 +36,9 @@ public interface AvailabilityService extends
 
     String calculatePeriod(String periodo);
 
-    Results.RESULTS calculateKpiResult(String periodo);
+    Results.RESULTS calculateKpiResult(String applicationId,String periodo);
 
-    List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo);
+    List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId, String periodo);
 
 
 

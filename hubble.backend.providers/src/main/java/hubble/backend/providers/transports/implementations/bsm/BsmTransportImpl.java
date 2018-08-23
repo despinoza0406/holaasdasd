@@ -2,9 +2,11 @@ package hubble.backend.providers.transports.implementations.bsm;
 
 import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalendarHelper;
+import hubble.backend.core.utils.DateHelper;
 import hubble.backend.providers.configurations.environments.BsmProviderEnvironment;
 import hubble.backend.providers.transports.interfaces.BsmTransport;
 import java.util.Calendar;
+import java.util.Date;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPBody;
@@ -16,6 +18,10 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 import static org.apache.commons.lang.StringUtils.EMPTY;
+
+import hubble.backend.storage.models.Frecuency;
+import hubble.backend.storage.repositories.ProvidersRepository;
+import org.apache.commons.lang.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +32,8 @@ public class BsmTransportImpl implements BsmTransport {
 
     @Autowired
     private BsmProviderEnvironment bsmProviderEnvironment;
+    @Autowired
+    private ProvidersRepository providersRepository;
 
     SOAPMessage message = null;
     String query = EMPTY;
@@ -41,13 +49,12 @@ public class BsmTransportImpl implements BsmTransport {
 
         StringBuilder queryBuilder = new StringBuilder();
 
-        Calendar from = CalendarHelper.getNow();
-        Calendar to = CalendarHelper.getNow();
+        Date from = this.getStartDate();
+        Date to = DateHelper.getDateNow();
 
-        from.add(Calendar.HOUR, -1);
 
-        long since = from.getTimeInMillis() / 1000;
-        long now = to.getTimeInMillis() / 1000;
+        long since = from.getTime() / 1000;
+        long now = to.getTime() / 1000;
 
         queryBuilder.append(" select profile_name, szTransactionName, szLocationName,szStatusName, iComponentErrorCount, time_stamp,szScriptName, dResponseTime, dGreenThreshold, dRedThreshold");
         queryBuilder.append(" from trans_t  where time_stamp>=").append(Long.toString(since));
@@ -169,6 +176,30 @@ public class BsmTransportImpl implements BsmTransport {
         }
 
         return null;
+    }
+
+    private Date getStartDate(){
+        Frecuency frecuency = providersRepository.bsm().getTaskRunner().getSchedule().getFrecuency();
+        switch (frecuency){
+            case DAYLY:
+                return DateHelper.getYesterday();
+
+            case HOURLY:
+                return DateHelper.getAnHourAgo();
+
+            case EVERY_30_MINUTES:
+                return DateHelper.getNMinutesAgo(30);
+
+            case EVERY_15_MINUTES:
+                return DateHelper.getNMinutesAgo(15);
+
+            case EVERY_5_MINUTES:
+                return DateHelper.getNMinutesAgo(5);
+
+            default:
+                return DateHelper.getAnHourAgo();
+
+        }
     }
 
     public Results.RESULTS getResult() {

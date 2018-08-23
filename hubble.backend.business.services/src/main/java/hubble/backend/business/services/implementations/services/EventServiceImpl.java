@@ -264,13 +264,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Results.RESULTS calculateKpiResult(String periodo){
-        return eventKpiOperation.calculateKpiResult(periodo);
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
+        return eventKpiOperation.calculateKpiResult(applicationId,periodo);
     }
 
     @Override
-    public List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo){
-        return eventKpiOperation.getTaskRunnerExecutions(periodo);
+    public List<TaskRunnerExecution> getTaskRunnerExecutions(String application,String periodo){
+        return eventKpiOperation.getTaskRunnerExecutions(application,periodo);
     }
 
     public String calculatePeriod(String periodo){

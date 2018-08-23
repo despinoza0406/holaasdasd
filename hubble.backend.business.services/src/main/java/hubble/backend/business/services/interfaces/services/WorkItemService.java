@@ -29,7 +29,7 @@ public interface WorkItemService extends ServiceBase<WorkItem>,
 
     String calculatePeriod(String periodo);
 
-    Results.RESULTS calculateKpiResult(String periodo);
+    Results.RESULTS calculateKpiResult(String applicationId,String periodo);
 
-    List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo);
+    List<TaskRunnerExecution> getTaskRunnerExecutions(String application, String periodo);
 }

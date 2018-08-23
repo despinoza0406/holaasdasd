@@ -206,7 +206,7 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
                 startDate,endDate,
                 "IN_PROGRESS");
 
-        if(workItems.isEmpty() && !this.calculateKpiResult(periodo).equals(Results.RESULTS.FAILURE)){
+        if(workItems.isEmpty() && !this.calculateKpiResult(application.getApplicationId(),periodo).equals(Results.RESULTS.FAILURE)){
             return 10;
         }
 
@@ -247,16 +247,28 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
 
 
     @Override
-    public Results.RESULTS calculateKpiResult(String periodo){
-        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(periodo);
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
+        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(applicationId,periodo);
 
-        if (containsAFailure(taskExecutions)){
+        Date endDate = DateHelper.getEndDate(periodo);
+        Date startDate = DateHelper.getStartDate(periodo);
+        List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(applicationId,
+                startDate,endDate,
+                "IN_PROGRESS");
+        if (allFailures(taskExecutions) && workItems.isEmpty()){ //Si hubo fallos y no se tienen datos
             return Results.RESULTS.FAILURE;
+        }
+        if (containsAFailure(taskExecutions) || containsWarning(taskExecutions)){ //Si hubo fallos y se tienen datos
+            return Results.RESULTS.WARNING;
         }
         if(containsNoData(taskExecutions)){
             return Results.RESULTS.NO_DATA;
         }
         return Results.RESULTS.SUCCESS;
+    }
+
+    public boolean allFailures(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().allMatch(execution -> execution.getResult().equals(Results.RESULTS.FAILURE));
     }
 
     public boolean containsAFailure(final List<TaskRunnerExecution> taskExecutions){
@@ -267,14 +279,18 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
         return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.NO_DATA));
     }
 
+    public boolean containsWarning(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.WARNING));
+    }
+
     @Override
-    public List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo){
+    public List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo){
         String periodoTaskRunner = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodoTaskRunner);
         Date endDate = DateHelper.getEndDate(periodoTaskRunner);
 
-        List<TaskRunnerExecution> taskExecutions = taskRunnerRepository.findExecutionsByProviderIdAndPeriod("ppm",startDate,endDate);
+        List<TaskRunnerExecution> taskExecutions = taskRunnerRepository.findExecutionsByProviderAndApplicationIdAndPeriod("ppm",applicationId,startDate,endDate);
         return taskExecutions;
     }
 

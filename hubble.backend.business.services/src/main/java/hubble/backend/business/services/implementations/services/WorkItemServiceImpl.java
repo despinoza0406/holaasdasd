@@ -262,12 +262,12 @@ public class WorkItemServiceImpl implements WorkItemService {
     }
 
     @Override
-    public Results.RESULTS calculateKpiResult(String periodo){
-        return workItemKpiOperation.calculateKpiResult(periodo);
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
+        return workItemKpiOperation.calculateKpiResult(applicationId,periodo);
     }
     @Override
-    public List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo){
-        return workItemKpiOperation.getTaskRunnerExecutions(periodo);
+    public List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo){
+        return workItemKpiOperation.getTaskRunnerExecutions(applicationId,periodo);
     }
 
     public String calculatePeriod(String periodo){

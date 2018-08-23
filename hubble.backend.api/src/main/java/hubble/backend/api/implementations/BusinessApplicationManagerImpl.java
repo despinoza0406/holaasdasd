@@ -228,8 +228,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             availabilityKpi.setKpiShortName("D");
             availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPI(application,periodo));
             availabilityKpi.setKpiPeriod(availabilityService.calculatePeriod(periodo));
-            availabilityKpi.setKpiResult(availabilityService.calculateKpiResult(periodo));
-            availabilityKpi.setKpiTaskRunners(availabilityService.getTaskRunnerExecutions(periodo));
+            availabilityKpi.setKpiResult(availabilityService.calculateKpiResult(application.getApplicationId(),periodo));
+            availabilityKpi.setKpiTaskRunners(availabilityService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(availabilityKpi.getKpiValue())) {
                 availabilityKpi.setKpiComment("No hay datos de availability");
             }
@@ -242,8 +242,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             performanceKpi.setKpiShortName("P");
             performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
             performanceKpi.setKpiPeriod(performanceService.calculatePeriod(periodo));
-            performanceKpi.setKpiResult(performanceService.calculateKpiResult(periodo));
-            performanceKpi.setKpiTaskRunners(performanceService.getTaskRunnerExecutions(periodo));
+            performanceKpi.setKpiResult(performanceService.calculateKpiResult(application.getApplicationId(),periodo));
+            performanceKpi.setKpiTaskRunners(performanceService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(performanceKpi.getKpiValue())) {
                 performanceKpi.setKpiComment("No hay datos de performance");
             }
@@ -255,8 +255,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             issuesKpi.setKpiShortName("I");
             issuesKpi.setKpiValue(issueService.calculateHistoryKPIByApplication(application,periodo));
             issuesKpi.setKpiPeriod(issueService.calculatePeriod(periodo));
-            issuesKpi.setKpiResult(issueService.calculateKpiResult(periodo));
-            issuesKpi.setKpiTaskRunners(issueService.getTaskRunnerExecutions(periodo));
+            issuesKpi.setKpiResult(issueService.calculateKpiResult(application.getApplicationId(),periodo));
+            issuesKpi.setKpiTaskRunners(issueService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(issuesKpi.getKpiValue())) {
                 issuesKpi.setKpiComment("No hay datos de issues");
             }
@@ -268,8 +268,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             workitemKpi.setKpiShortName("T");
             workitemKpi.setKpiValue(workItemService.calculateDeflectionDaysKPI(application,periodo));
             workitemKpi.setKpiPeriod(workItemService.calculatePeriod(periodo));
-            workitemKpi.setKpiResult(workItemService.calculateKpiResult(periodo));
-            workitemKpi.setKpiTaskRunners(workItemService.getTaskRunnerExecutions(periodo));
+            workitemKpi.setKpiResult(workItemService.calculateKpiResult(application.getApplicationId(),periodo));
+            workitemKpi.setKpiTaskRunners(workItemService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(workitemKpi.getKpiValue())){
                 workitemKpi.setKpiComment("No hay datos de tareas");
             }
@@ -281,8 +281,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             eventKpi.setKpiShortName("E");
             eventKpi.setKpiValue(eventService.calculateSeverityKPI(application,periodo));
             eventKpi.setKpiPeriod(eventService.calculatePeriod(periodo));
-            eventKpi.setKpiResult(eventService.calculateKpiResult(periodo));
-            eventKpi.setKpiTaskRunners(eventService.getTaskRunnerExecutions(periodo));
+            eventKpi.setKpiResult(eventService.calculateKpiResult(application.getApplicationId(),periodo));
+            eventKpi.setKpiTaskRunners(eventService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(eventKpi.getKpiValue())) {
                 eventKpi.setKpiComment("No hay datos de eventos");
             }

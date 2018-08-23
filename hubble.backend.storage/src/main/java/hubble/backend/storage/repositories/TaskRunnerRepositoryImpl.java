@@ -29,15 +29,16 @@ public class TaskRunnerRepositoryImpl implements TaskRunnerOperations {
 
     }
 
-    public List<TaskRunnerExecution> findExecutionsByProviderIdAndPeriod(String id, Date startDate, Date endDate){
+    public List<TaskRunnerExecution> findExecutionsByProviderAndApplicationIdAndPeriod(String id,String applicationId, Date startDate, Date endDate){
 
-        Criteria isSameId = Criteria.where("provider").is(id);
+        Criteria isSameProvider = Criteria.where("provider").is(id);
+        Criteria isSameApp = Criteria.where("applicationId").in(applicationId);
         Criteria startDateCriteria = Criteria.where("timestamp").gte(startDate);
         Criteria endDateCriteria = Criteria.where("timestamp").lte(endDate);
 
         List<TaskRunnerExecution> executions = mongo
                 .find(Query
-                        .query(isSameId.andOperator(startDateCriteria,endDateCriteria))
+                        .query(isSameProvider.andOperator(startDateCriteria,endDateCriteria,isSameApp))
                 ,TaskRunnerExecution.class);
         return executions;
 

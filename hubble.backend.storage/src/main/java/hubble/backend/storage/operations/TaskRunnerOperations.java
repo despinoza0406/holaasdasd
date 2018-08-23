@@ -9,7 +9,7 @@ public interface TaskRunnerOperations {
 
     boolean exist(TaskRunnerExecution taskRunnerExecution);
 
-    List<TaskRunnerExecution> findExecutionsByProviderIdAndPeriod(String id, Date startDate,Date endDate);
+    List<TaskRunnerExecution> findExecutionsByProviderAndApplicationIdAndPeriod(String id,String applicationId, Date startDate,Date endDate);
 
 
 }

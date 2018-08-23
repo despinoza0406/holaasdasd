@@ -316,7 +316,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         Date startDate = DateHelper.getStartDate(periodo);
         List<AvailabilityStorage> availabilityStorageList =
                 availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(application.getId(),startDate,endDate);
-        if(availabilityStorageList.isEmpty() && !this.calculateKpiResult(periodo).equals(Results.RESULTS.FAILURE)){
+        if(availabilityStorageList.isEmpty() && !this.calculateKpiResult(application.getApplicationId(),periodo).equals(Results.RESULTS.FAILURE)){
             return 1;
         }
         double totalOk = 0;
@@ -380,16 +380,27 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public Results.RESULTS calculateKpiResult(String periodo){
-        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(periodo);
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
+        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(applicationId,periodo);
 
-        if (containsAFailure(taskExecutions)){
+        Date endDate = DateHelper.getEndDate(periodo);
+        Date startDate = DateHelper.getStartDate(periodo);
+        List<AvailabilityStorage> availabilities = availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(applicationId,startDate,endDate);
+
+        if (allFailures(taskExecutions) && availabilities.isEmpty()){ //Si todos fallaron y no se tienen datos
             return Results.RESULTS.FAILURE;
+        }
+        if (containsAFailure(taskExecutions) || containsWarning(taskExecutions)){ //Si hubo fallos y se tienen datos
+            return Results.RESULTS.WARNING;
         }
         if(containsNoData(taskExecutions)){
             return Results.RESULTS.NO_DATA;
         }
         return Results.RESULTS.SUCCESS;
+    }
+
+    public boolean allFailures(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().allMatch(execution -> execution.getResult().equals(Results.RESULTS.FAILURE));
     }
 
     public boolean containsAFailure(final List<TaskRunnerExecution> taskExecutions){
@@ -400,15 +411,18 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.NO_DATA));
     }
 
+    public boolean containsWarning(final List<TaskRunnerExecution> taskExecutions){
+        return taskExecutions.stream().anyMatch(execution -> execution.getResult().equals(Results.RESULTS.WARNING));
+    }
     @Override
-    public List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo){
+    public List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo){
         String periodoTaskRunner = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodoTaskRunner);
         Date endDate = DateHelper.getEndDate(periodoTaskRunner);
 
-        List<TaskRunnerExecution> taskExecutions = taskRunnerRepository.findExecutionsByProviderIdAndPeriod("bsm",startDate,endDate);
-        taskExecutions.addAll(taskRunnerRepository.findExecutionsByProviderIdAndPeriod("apppulse",startDate,endDate));
+        List<TaskRunnerExecution> taskExecutions = taskRunnerRepository.findExecutionsByProviderAndApplicationIdAndPeriod("bsm",applicationId,startDate,endDate);
+        taskExecutions.addAll(taskRunnerRepository.findExecutionsByProviderAndApplicationIdAndPeriod("apppulse",applicationId,startDate,endDate));
         return taskExecutions;
     }
 

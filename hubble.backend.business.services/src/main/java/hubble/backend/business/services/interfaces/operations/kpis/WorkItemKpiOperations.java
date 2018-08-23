@@ -24,7 +24,7 @@ public interface WorkItemKpiOperations extends
 
     public double calculatePastDayKPI(ApplicationStorage application);
 
-    Results.RESULTS calculateKpiResult(String periodo);
+    Results.RESULTS calculateKpiResult(String applicationId,String periodo);
 
-    List<TaskRunnerExecution> getTaskRunnerExecutions(String periodo);
+    List<TaskRunnerExecution> getTaskRunnerExecutions(String applicaitonId, String periodo);
 }

@@ -1,5 +1,6 @@
 package hubble.backend.core.utils;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTimeComparator;
 
 import java.text.DateFormat;
@@ -79,6 +80,12 @@ public class DateHelper {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.HOUR, -hours);
         return cal.getTime();
+    }
+
+    public static Date getNMinutesAgo(int minutes){
+        Date date = getDateNow();
+        Date newDate = DateUtils.addMinutes(date,-minutes);
+        return newDate;
     }
 
     public static Date parseDateTime(String dateString) {
