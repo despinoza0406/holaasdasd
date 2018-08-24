@@ -7,7 +7,6 @@ import hubble.backend.api.models.*;
 import hubble.backend.business.services.interfaces.services.*;
 import hubble.backend.business.services.interfaces.services.kpis.KpiAveragesService;
 import hubble.backend.business.services.models.Application;
-import hubble.backend.business.services.models.Availability;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.measures.Uptime;
@@ -23,9 +22,7 @@ import hubble.backend.core.utils.DateHelper;
 import static hubble.backend.storage.models.KPITypes.*;
 import static java.util.stream.Collectors.toList;
 
-import hubble.backend.storage.models.ApplicationStorage;
-import hubble.backend.storage.models.KPITypes;
-import hubble.backend.storage.models.KPIs;
+import hubble.backend.storage.models.*;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -116,20 +113,6 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     @Override
-    public List<Availability> getAvailabilityLast10Minutes(String applicationId) {
-        List<Availability> availabilityList = availabilityService.getLast10Minutes(applicationId);
-        availabilityList.sort(Comparator.comparing(Availability::getTimeStamp));
-        return availabilityList;
-    }
-
-    @Override
-    public List<Availability> getAvailabilityLastHour(String applicationId) {
-        List<Availability> availabilityList = availabilityService.getLastHour(applicationId);
-        availabilityList.sort(Comparator.comparing(Availability::getTimeStamp));
-        return availabilityList;
-    }
-
-    @Override
     public List<BusinessApplicationProfile> getBusinessApplicationsPageLimit(int page, int limit) {
 
         List<BusinessApplication> applications = getAllApplications();
@@ -160,9 +143,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         businessApplicationFrontend.setLastUpdate(DateHelper.lastExecutionDate);
         businessApplicationFrontend.setPastUpdate(DateHelper.addDaysToDate(DateHelper.lastExecutionDate, -1));
         setKPIs(businessApplicationFrontend, applicationStorage, periodo);
+        setResult(businessApplicationFrontend);
         setHealthIndex(businessApplicationFrontend, businessApplicationFrontend.getKpis());
         setPastHealthIndex(businessApplicationFrontend, applicationStorage);
-        setResult(businessApplicationFrontend);
+
 
         return businessApplicationFrontend;
     }
@@ -345,9 +329,9 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     @Override
-    public KPIs getKPIs(String id) {
+    public KPIs getKPIs(String id,String periodo) {
         ApplicationStorage applicationStorage = applicationRepository.findApplicationById(id);
-        return applicationStorage.getKpis();
+        return this.filterKPIsByPeriod(applicationStorage.getKpis(),periodo);
     }
 
     private List<DistValues> convertIntegerListToDistValues(List<Integer> distValuesInt) {
@@ -364,5 +348,75 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         List<ApplicationStorage> applicationDtoList = applicationService.getAll().stream().filter((a) -> includeInactives || a.isActive()).collect(toList());
         return applicationMapper.mapToBusinessApplicationLigthList(applicationDtoList);
         
+    }
+
+    private KPIs filterKPIsByPeriod(KPIs kpis,String periodo){
+        KPIs filteredKPIs = new KPIs();
+
+
+        Events events = new Events();
+        events.setEnabled(kpis.getEvents().isEnabled());
+        events.setSiteScope(kpis.getEvents().getSiteScope());
+
+        Availavility availavility = new Availavility();
+        availavility.setEnabled(kpis.getAvailability().isEnabled());
+        availavility.setAppPulse(kpis.getAvailability().getAppPulse());
+        availavility.setBsm(kpis.getAvailability().getBsm());
+
+        Performance performance = new Performance();
+        performance.setEnabled(kpis.getPerformance().isEnabled());
+        performance.setAppPulse(kpis.getPerformance().getAppPulse());
+        performance.setBsm(kpis.getPerformance().getBsm());
+
+        Defects defects = new Defects();
+        defects.setEnabled(kpis.getDefects().isEnabled());
+        defects.setAlm(kpis.getDefects().getAlm());
+        defects.setJira(kpis.getDefects().getJira());
+
+        Tasks tasks = new Tasks();
+        tasks.setEnabled(kpis.getTasks().isEnabled());
+        tasks.setPpm(kpis.getTasks().getPpm());
+
+
+        switch (periodo){
+            case "default":
+                events.setHourThreashold(kpis.getEvents().getHourThreashold());
+                tasks.setDayThreashold(kpis.getTasks().getDayThreashold());
+                performance.setHourThreashold(kpis.getPerformance().getHourThreashold());
+                availavility.setHourThreashold(kpis.getAvailability().getHourThreashold());
+                defects.setDayThreashold(kpis.getDefects().getDayThreashold());
+                break;
+            case "dia":
+                events.setDayThreashold(kpis.getEvents().getDayThreashold());
+                tasks.setDayThreashold(kpis.getTasks().getDayThreashold());
+                performance.setDayThreashold(kpis.getPerformance().getDayThreashold());
+                availavility.setDayThreashold(kpis.getAvailability().getDayThreashold());
+                defects.setDayThreashold(kpis.getDefects().getDayThreashold());
+                break;
+            case "semana":
+                events.setWeekThreashold(kpis.getEvents().getWeekThreashold());
+                tasks.setWeekThreashold(kpis.getTasks().getWeekThreashold());
+                performance.setWeekThreashold(kpis.getPerformance().getWeekThreashold());
+                availavility.setWeekThreashold(kpis.getAvailability().getWeekThreashold());
+                defects.setWeekThreashold(kpis.getDefects().getWeekThreashold());
+                break;
+            case "mes":
+                events.setMonthThreashold(kpis.getEvents().getMonthThreashold());
+                tasks.setMonthThreashold(kpis.getTasks().getMonthThreashold());
+                performance.setMonthThreashold(kpis.getPerformance().getMonthThreashold());
+                availavility.setMonthThreashold(kpis.getAvailability().getMonthThreashold());
+                defects.setMonthThreashold(kpis.getDefects().getMonthThreashold());
+                break;
+            default:
+                return kpis;
+
+        }
+        filteredKPIs.setTasks(tasks);
+        filteredKPIs.setPerformance(performance);
+        filteredKPIs.setAvailability(availavility);
+        filteredKPIs.setEvents(events);
+        filteredKPIs.setDefects(defects);
+        filteredKPIs.setEnabledKPIs(kpis.getEnabledKPIs());
+        return filteredKPIs;
     }
 }

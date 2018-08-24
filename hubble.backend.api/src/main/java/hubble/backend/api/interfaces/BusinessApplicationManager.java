@@ -18,10 +18,6 @@ public interface BusinessApplicationManager {
 
     public List<ApplicationUptime> getUptimeLastMonth(String applicationId);
 
-    public List<Availability> getAvailabilityLast10Minutes(String applicationId);
-
-    public List<Availability> getAvailabilityLastHour(String applicationId);
-
     public List<BusinessApplicationProfile> getBusinessApplicationsPageLimit(int page, int limit);
 
     public BusinessApplicationFrontend getBusinessApplicationFrontend(String id,String periodo);
@@ -30,7 +26,7 @@ public interface BusinessApplicationManager {
 
     public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id,String period);
 
-    public KPIs getKPIs(String id);
+    public KPIs getKPIs(String id,String periodo);
     
     public List<BusinessApplicationLigth> getApplicationsLigth(boolean includeInactives);
 }

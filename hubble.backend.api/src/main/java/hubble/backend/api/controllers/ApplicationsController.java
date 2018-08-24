@@ -104,7 +104,8 @@ public class ApplicationsController {
     @TokenRequired
     @RolUserRequired
     @GetMapping(value = "/{id}/kpis")
-    public KPIs getApplicationKPIs(HttpServletRequest req, @PathVariable("id") String appId) {
+    public KPIs getApplicationKPIs(HttpServletRequest req, @PathVariable("id") String appId,
+                                   @RequestParam(value = "periodo", required = false, defaultValue = "") String periodo) {
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
 
@@ -114,7 +115,7 @@ public class ApplicationsController {
                 throw new RuntimeException("El usuario no tiene acutorizado el acceso a la aplicación solicitada");
             }
 
-            return businessAppMgr.getKPIs(appId);
+            return businessAppMgr.getKPIs(appId,periodo);
 
         } else {
             throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
