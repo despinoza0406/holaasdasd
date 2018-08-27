@@ -50,25 +50,33 @@ public class BsmParserDataImpl implements BsmDataParser {
     @Override
     public void run() {
 
-        if(configuration.taskEnabled()) {
+        try {
+            if (configuration.taskEnabled()) {
 
-            SOAPBody data = bsmTransport.getData();
+                SOAPBody data = bsmTransport.getData();
 
-            List<BsmProviderModel> transactions = parse(data);
+                List<BsmProviderModel> transactions = parse(data);
 
 
-            this.availabilitiesStorage = new ArrayList<>();
-            if (transactions != null) {
+                this.availabilitiesStorage = new ArrayList<>();
+                if (transactions != null) {
 
-                this.availabilitiesStorage = mapperConfifuration.mapToAvailabilitiesStorage(transactions);
+                    this.availabilitiesStorage = mapperConfifuration.mapToAvailabilitiesStorage(transactions);
 
-                this.save(availabilitiesStorage);
+                    this.save(availabilitiesStorage);
+                }
+
             }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            bsmTransport.setError("Algo paso");
+            bsmTransport.setResult(Results.RESULTS.FAILURE);
+        }finally {
             for (String hubbleAppName : configuration.getApplicationValueToIdMap().keySet()) {
-                if (availabilitiesStorage.stream().noneMatch(availability -> availability.getApplicationId().equals(hubbleAppName)) && !bsmTransport.getResult().equals(Results.RESULTS.FAILURE)){
+                if (availabilitiesStorage.stream().noneMatch(availability -> availability.getApplicationId().equals(hubbleAppName)) && !bsmTransport.getResult().equals(Results.RESULTS.FAILURE)) {
                     taskRunnerRepository.save(executionFactory.createExecution("bsm", hubbleAppName, Results.RESULTS.WARNING,
                             "No se obtuvo ninguna muestra que se pudiera mappear a " + hubbleAppName));
-                }else {
+                } else {
                     taskRunnerRepository.save(executionFactory.createExecution("bsm", hubbleAppName, bsmTransport.getResult(), bsmTransport.getError()));
                 }
             }
