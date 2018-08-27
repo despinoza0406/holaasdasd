@@ -361,7 +361,7 @@ public class IssueServiceImpl implements IssueService {
         Date startDate = DateHelper.getStartDate(periodo);
         List<IssueStorage> issues = issueRepository.findIssuesByApplicationIdBetweenDates(applicationId,startDate,endDate);
 
-        if (allFailures(taskExecutions) && issues.isEmpty()){ //Si hubo fallos y no se tienen datos
+        if (allFailures(taskExecutions)){ //Si hubo fallos y no se tienen datos
             return Results.RESULTS.FAILURE;
         }
         if (containsAFailure(taskExecutions) || containsWarning(taskExecutions)){ //Si hubo fallos y se tienen datos

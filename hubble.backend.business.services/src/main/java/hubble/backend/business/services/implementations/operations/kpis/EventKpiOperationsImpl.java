@@ -286,7 +286,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         Date startDate = DateHelper.getStartDate(periodo);
         List<EventStorage> events = eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(applicationId
                 ,startDate,endDate,"Good");
-        if (allFailures(taskExecutions) && events.isEmpty()){ //Si hubo fallos y no se tienen datos
+        if (allFailures(taskExecutions)){ //Si fueron todos fallos
             return Results.RESULTS.FAILURE;
         }
         if (containsAFailure(taskExecutions) || containsWarning(taskExecutions)){ //Si hubo fallos y se tienen datos

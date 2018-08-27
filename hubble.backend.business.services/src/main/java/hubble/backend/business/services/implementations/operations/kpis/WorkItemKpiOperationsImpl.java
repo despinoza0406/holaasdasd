@@ -255,7 +255,7 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
         List<WorkItemStorage> workItems = workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(applicationId,
                 startDate,endDate,
                 "IN_PROGRESS");
-        if (allFailures(taskExecutions) && workItems.isEmpty()){ //Si hubo fallos y no se tienen datos
+        if (allFailures(taskExecutions)){ //Si hubo fallos y no se tienen datos
             return Results.RESULTS.FAILURE;
         }
         if (containsAFailure(taskExecutions) || containsWarning(taskExecutions)){ //Si hubo fallos y se tienen datos

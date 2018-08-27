@@ -433,7 +433,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         Date startDate = DateHelper.getStartDate(periodo);
         List<AvailabilityStorage> availabilities = availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(applicationId,startDate,endDate);
 
-        if (allFailures(taskExecutions) && availabilities.isEmpty()){ //Si hubo fallos y no se tienen datos
+        if (allFailures(taskExecutions)){ //Si hubo fallos y no se tienen datos
             return Results.RESULTS.FAILURE;
         }
         if (containsAFailure(taskExecutions) || containsWarning(taskExecutions)){ //Si hubo fallos y se tienen datos
