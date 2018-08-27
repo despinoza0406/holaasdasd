@@ -49,7 +49,6 @@ public class BsmParserDataImpl implements BsmDataParser {
 
     @Override
     public void run() {
-
         try {
             if (configuration.taskEnabled()) {
 
@@ -73,12 +72,7 @@ public class BsmParserDataImpl implements BsmDataParser {
             bsmTransport.setResult(Results.RESULTS.FAILURE);
         }finally {
             for (String hubbleAppName : configuration.getApplicationValueToIdMap().keySet()) {
-                if (availabilitiesStorage.stream().noneMatch(availability -> availability.getApplicationId().equals(hubbleAppName)) && !bsmTransport.getResult().equals(Results.RESULTS.FAILURE)) {
-                    taskRunnerRepository.save(executionFactory.createExecution("bsm", hubbleAppName, Results.RESULTS.WARNING,
-                            "No se obtuvo ninguna muestra que se pudiera mappear a " + hubbleAppName));
-                } else {
-                    taskRunnerRepository.save(executionFactory.createExecution("bsm", hubbleAppName, bsmTransport.getResult(), bsmTransport.getError()));
-                }
+                taskRunnerRepository.save(executionFactory.createExecution("bsm", hubbleAppName, bsmTransport.getResult(), bsmTransport.getError()));
             }
         }
     }

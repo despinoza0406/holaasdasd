@@ -1,6 +1,7 @@
 package hubble.backend.providers.parsers.implementations.sitescope;
 
 import hubble.backend.core.enums.Providers;
+import hubble.backend.core.enums.Results;
 import hubble.backend.providers.configurations.SiteScopeConfiguration;
 import hubble.backend.providers.configurations.factories.TaskRunnerExecutionFactory;
 import hubble.backend.providers.configurations.mappers.sitescope.SiteScopeMapperConfiguration;
@@ -47,34 +48,41 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
 
     @Override
     public void run() {
-        if(configuration.taskEnabled()) {
-            List<String> groups = siteScopeTransport.getApplicationNames();
-            if (groups == null){
-                this.saveTaskExecution();
-                return;
-            }
-            List<String> groupPaths = siteScopeTransport.getPathsToGroups(groups);
+        try {
+            if (configuration.taskEnabled()) {
+                List<String> groups = siteScopeTransport.getApplicationNames();
+                if (groups == null) {
+                    this.saveTaskExecution();
+                    return;
+                }
+                List<String> groupPaths = siteScopeTransport.getPathsToGroups(groups);
 
-            if (groupPaths == null){
-                this.saveTaskExecution();
-                return;
-            }
+                if (groupPaths == null) {
+                    this.saveTaskExecution();
+                    return;
+                }
 
-            List<JSONObject> groupsSnapshots = siteScopeTransport.getGroupsSnapshots(groupPaths);
+                List<JSONObject> groupsSnapshots = siteScopeTransport.getGroupsSnapshots(groupPaths);
 
-            if (groupsSnapshots == null){
-                this.saveTaskExecution();
-                return;
-            }
+                if (groupsSnapshots == null) {
+                    this.saveTaskExecution();
+                    return;
+                }
 
-            for (JSONObject snapshot : groupsSnapshots) {
-                List<EventStorage> events = this.convert(this.parse(snapshot));
-                for(EventStorage event : events){
-                    if (!eventRepository.exist(event)) {
-                        eventRepository.save(event);
+                for (JSONObject snapshot : groupsSnapshots) {
+                    List<EventStorage> events = this.convert(this.parse(snapshot));
+                    for (EventStorage event : events) {
+                        if (!eventRepository.exist(event)) {
+                            eventRepository.save(event);
+                        }
                     }
                 }
             }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            siteScopeTransport.setError("Algo paso");
+            siteScopeTransport.setResult(Results.RESULTS.FAILURE);
+        }finally {
             this.saveTaskExecution();
         }
     }

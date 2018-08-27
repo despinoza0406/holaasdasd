@@ -27,6 +27,10 @@ public interface SiteScopeTransport {
 
     Results.RESULTS getResult();
 
+    void setError(String error);
+
+    void setResult(Results.RESULTS result);
+
 
 
 

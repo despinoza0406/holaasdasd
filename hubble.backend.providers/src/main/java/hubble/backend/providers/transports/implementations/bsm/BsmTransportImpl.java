@@ -38,8 +38,8 @@ public class BsmTransportImpl implements BsmTransport {
     SOAPMessage message = null;
     String query = EMPTY;
     private final Logger logger = LoggerFactory.getLogger(BsmTransportImpl.class);
-    private String error = "ok";
-    Results.RESULTS  result;
+    private String error = "";
+    Results.RESULTS  result = Results.RESULTS.SUCCESS;
 
     public BsmTransportImpl() {
     }

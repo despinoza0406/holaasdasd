@@ -42,47 +42,54 @@ public class PpmDataParserImpl implements PpmDataParser {
 
     @Override
     public void run() {
-        if(configuration.taskEnabled()) {
-            String encodedAuthString= "";
-            try {
-                encodedAuthString = ppmTransport.encodeToBase64(
-                        ppmTransport.getEnvironment().getUser(),
-                        ppmTransport.getEnvironment().getPassword());
-            }catch (NullPointerException e){
-                logger.error("Error en environment de ppm. Por favor revisar los valores suministrados");
-                ppmTransport.setResult(Results.RESULTS.FAILURE);
-                ppmTransport.setError("Error en environment de ppm. Por favor revisar los valores suministrados");
-            }
-
-            List<String> requestTypeIds = ppmTransport.getConfiguredRequestTypes(encodedAuthString);
-            List<JSONObject> requestsToBeParsed = new ArrayList<JSONObject>();
-            List<JSONObject> detailedRequests = new ArrayList<JSONObject>();
-            try {
-                for (String id : requestTypeIds) {
-                    requestsToBeParsed.addAll(ppmTransport.getRequests(encodedAuthString, id));
+        try {
+            if (configuration.taskEnabled()) {
+                String encodedAuthString = "";
+                try {
+                    encodedAuthString = ppmTransport.encodeToBase64(
+                            ppmTransport.getEnvironment().getUser(),
+                            ppmTransport.getEnvironment().getPassword());
+                } catch (NullPointerException e) {
+                    logger.error("Error en environment de ppm. Por favor revisar los valores suministrados");
+                    ppmTransport.setResult(Results.RESULTS.FAILURE);
+                    ppmTransport.setError("Error en environment de ppm. Por favor revisar los valores suministrados");
                 }
 
-                for (JSONObject request : requestsToBeParsed) {
-                    JSONObject reqDetails = ppmTransport.getRequestDetails(encodedAuthString, request.getString("id"));
-                    if (reqDetails != null) {
-                        detailedRequests.add(reqDetails);
+                List<String> requestTypeIds = ppmTransport.getConfiguredRequestTypes(encodedAuthString);
+                List<JSONObject> requestsToBeParsed = new ArrayList<JSONObject>();
+                List<JSONObject> detailedRequests = new ArrayList<JSONObject>();
+                try {
+                    for (String id : requestTypeIds) {
+                        requestsToBeParsed.addAll(ppmTransport.getRequests(encodedAuthString, id));
                     }
+
+                    for (JSONObject request : requestsToBeParsed) {
+                        JSONObject reqDetails = ppmTransport.getRequestDetails(encodedAuthString, request.getString("id"));
+                        if (reqDetails != null) {
+                            detailedRequests.add(reqDetails);
+                        }
+                    }
+                } catch (NullPointerException ex) {
+                    logger.error(ex.getMessage());
+                    ppmTransport.setResult(Results.RESULTS.FAILURE);
                 }
-            }catch (NullPointerException ex){
-                logger.error(ex.getMessage());
-                ppmTransport.setResult(Results.RESULTS.FAILURE);
-            }
-            if(ppmTransport.getResult().equals(Results.RESULTS.SUCCESS) && detailedRequests.isEmpty()) {
-                ppmTransport.setResult(Results.RESULTS.NO_DATA);
-            }
+                if (ppmTransport.getResult().equals(Results.RESULTS.SUCCESS) && detailedRequests.isEmpty()) {
+                    ppmTransport.setResult(Results.RESULTS.NO_DATA);
+                }
 
-            for (JSONObject detailedRequest : detailedRequests) {
-                WorkItemStorage workItem = this.convert(this.parse(detailedRequest));
-                workItemRepository.save(workItem);
-            }
+                for (JSONObject detailedRequest : detailedRequests) {
+                    WorkItemStorage workItem = this.convert(this.parse(detailedRequest));
+                    workItemRepository.save(workItem);
+                }
 
+            }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            ppmTransport.setError("Algo paso");
+            ppmTransport.setResult(Results.RESULTS.FAILURE);
+        }finally {
             for (String hubbleAppName : configuration.getApplicationValueToIdMap().keySet()) {
-                taskRunnerRepository.save(executionFactory.createExecution("ppm",hubbleAppName, ppmTransport.getResult(), ppmTransport.getError()));
+                taskRunnerRepository.save(executionFactory.createExecution("ppm", hubbleAppName, ppmTransport.getResult(), ppmTransport.getError()));
             }
         }
     }
