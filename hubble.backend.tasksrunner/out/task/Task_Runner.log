@@ -1,50 +1,6 @@
 28/08/2018 10:37:43.338 [main] INFO  h.b.t.a.TasksRunnerApplication - Starting TasksRunnerApplication v1.0-SNAPSHOT on AR-NB-234 with PID 13960 (C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target\hubble.backend.tasksrunner-1.0-SNAPSHOT.jar started by andre.vigneaux in C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target) 
 28/08/2018 10:37:43.398 [main] INFO  h.b.t.a.TasksRunnerApplication - The following profiles are active: test 
-28/08/2018 10:37:43.473 [main] INFO  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext - Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4e1e63ad: startup date [Tue Aug 28 10:37:43 ART 2018]; root of context hierarchy 
-28/08/2018 10:37:44.043 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final 
-28/08/2018 10:37:47.177 [main] INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer - Tomcat initialized with port(s): 8090 (http) 
-28/08/2018 10:37:47.198 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat] 
-28/08/2018 10:37:47.200 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.16 
-28/08/2018 10:37:47.353 [localhost-startStop-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext 
-28/08/2018 10:37:47.353 [localhost-startStop-1] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 3880 ms 
-28/08/2018 10:37:47.843 [localhost-startStop-1] INFO  o.s.b.w.s.ServletRegistrationBean - Mapping servlet: 'dispatcherServlet' to [/] 
-28/08/2018 10:37:47.854 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'characterEncodingFilter' to: [/*] 
-28/08/2018 10:37:47.855 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'hiddenHttpMethodFilter' to: [/*] 
-28/08/2018 10:37:47.856 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'httpPutFormContentFilter' to: [/*] 
-28/08/2018 10:37:47.858 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'requestContextFilter' to: [/*] 
-28/08/2018 10:37:49.026 [main] INFO  org.mongodb.driver.cluster - Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=50} 
-28/08/2018 10:37:49.131 [cluster-ClusterId{value='5b85502deb1e69368877e90f', description='null'}-localhost:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:1, serverValue:4}] to localhost:27017 
-28/08/2018 10:37:49.140 [cluster-ClusterId{value='5b85502deb1e69368877e90f', description='null'}-localhost:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[4, 0, 1]}, minWireVersion=0, maxWireVersion=7, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=5391400} 
-28/08/2018 10:37:50.809 [main] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:2, serverValue:5}] to localhost:27017 
-28/08/2018 10:37:51.503 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerAdapter - Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@4e1e63ad: startup date [Tue Aug 28 10:37:43 ART 2018]; root of context hierarchy 
-28/08/2018 10:37:51.636 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/execute]}" onto public void hubble.backend.tasksrunner.communication.controllers.ExecutionController.execute(java.lang.String) 
-28/08/2018 10:37:51.639 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/reschedule]}" onto public void hubble.backend.tasksrunner.communication.controllers.RescheduleController.reschedule(java.lang.String) 
-28/08/2018 10:37:51.644 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest) 
-28/08/2018 10:37:51.648 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) 
-28/08/2018 10:37:51.770 [main] INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler] 
-28/08/2018 10:37:51.771 [main] INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler] 
-28/08/2018 10:37:51.879 [main] INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler] 
-28/08/2018 10:37:52.258 [main] INFO  o.s.j.e.a.AnnotationMBeanExporter - Registering beans for JMX exposure on startup 
-28/08/2018 10:37:52.294 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8090"] 
-28/08/2018 10:37:52.334 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8090"] 
-28/08/2018 10:37:52.351 [main] INFO  o.a.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read 
-28/08/2018 10:37:52.386 [main] INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer - Tomcat started on port(s): 8090 (http) 
 28/08/2018 10:37:52.393 [main] INFO  h.b.t.a.TasksRunnerApplication - Started TasksRunnerApplication in 9.515 seconds (JVM running for 10.639) 
-28/08/2018 10:37:52.490 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor 
-28/08/2018 10:37:52.545 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl 
-28/08/2018 10:37:52.549 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.2.1 created. 
-28/08/2018 10:37:52.551 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized. 
-28/08/2018 10:37:52.553 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.2.1) '"Hubble Job Quartz Scheduler"' with instanceId 'NON_CLUSTERED'
-  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
-  NOT STARTED.
-  Currently in standby mode.
-  Number of jobs executed: 0
-  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 5 threads.
-  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
- 
-28/08/2018 10:37:52.555 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler '"Hubble Job Quartz Scheduler"' initialized from default resource file in Quartz package: 'quartz.properties' 
-28/08/2018 10:37:52.556 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.2.1 
-28/08/2018 10:37:52.940 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler "Hubble Job Quartz Scheduler"_$_NON_CLUSTERED started. 
 28/08/2018 10:40:02.554 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
 28/08/2018 10:40:02.564 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
 28/08/2018 10:40:02.569 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
@@ -57,7 +13,6 @@
 28/08/2018 10:55:00.464 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
 28/08/2018 10:55:00.485 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
 28/08/2018 10:55:00.489 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
-28/08/2018 11:00:00.084 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:3, serverValue:7}] to localhost:27017 
 28/08/2018 11:00:00.411 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
 28/08/2018 11:00:00.415 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
 28/08/2018 11:00:00.421 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
@@ -135,7 +90,6 @@
 28/08/2018 13:00:00.478 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
 28/08/2018 13:00:00.481 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
 28/08/2018 13:00:00.482 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
-28/08/2018 13:00:02.209 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  c.s.x.i.messaging.saaj.client.p2p - SAAJ0014: mensaje de respuesta no válido. La longitud del contenido de respuesta es cero. 
 28/08/2018 13:00:02.213 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.bsm.BsmTransportImpl - There is no response from BSM: http://t-srvbacapplsar.tsoftglobal.com/topaz/gdeopenapi/services/GdeWsOpenAPI?wsdl 
 28/08/2018 13:00:02.218 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
 28/08/2018 13:00:02.225 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 

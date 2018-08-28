@@ -17,16 +17,18 @@ services:
             - "8080:8080"
         hostname: hubble-api
         external_links:
-          - 4c6a1308315d:mongo-andre
+            - hubble-mongodb
         #depends_on:
         #    - mongodb
         
     hubble-taskrunner:
         build: ./hubble.backend.tasksrunner
         container_name: "hubble-taskrunner"
+        ports:
+            - "8090:8090"
         hostname: hubble-taskrunner
         external_links:
-          - 4c6a1308315d:mongo-andre
+            - hubble-mongodb
         #    stdin_open: true
         #    tty: true
         #    depends_on:

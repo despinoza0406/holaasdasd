@@ -1,0 +1,65 @@
+01/08/2018 12:17:34.169 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final 
+01/08/2018 12:17:34.253 [main] INFO  h.b.t.a.TasksRunnerApplication - Starting TasksRunnerApplication v1.0-SNAPSHOT on daniel-HP-240-G4-Notebook-PC with PID 9285 (/home/daniel/Documents/Work/IdeaProjects/Tsoft-Analytics-Bridge/hubble.backend.tasksrunner/target/hubble.backend.tasksrunner-1.0-SNAPSHOT.jar started by daniel in /home/daniel/Documents/Work/IdeaProjects/Tsoft-Analytics-Bridge/hubble.backend.tasksrunner/target) 
+01/08/2018 12:17:34.254 [main] INFO  h.b.t.a.TasksRunnerApplication - The following profiles are active: test 
+01/08/2018 12:17:34.348 [main] INFO  o.s.c.a.AnnotationConfigApplicationContext - Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@43df5096: startup date [Wed Aug 01 12:17:34 ART 2018]; root of context hierarchy 
+01/08/2018 12:17:36.505 [main] WARN  o.h.v.m.ParameterMessageInterpolator - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported 
+01/08/2018 12:17:38.039 [main] INFO  org.mongodb.driver.cluster - Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=50} 
+01/08/2018 12:17:38.268 [cluster-ClusterId{value='5b61cf1236472324453af7a4', description='null'}-localhost:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:1, serverValue:292}] to localhost:27017 
+01/08/2018 12:17:38.288 [cluster-ClusterId{value='5b61cf1236472324453af7a4', description='null'}-localhost:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=REPLICA_SET_PRIMARY, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 6, 3]}, minWireVersion=0, maxWireVersion=6, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=13683128, setName='rs0', canonicalAddress=localhost:27017, hosts=[localhost:27017], passives=[], arbiters=[], primary='localhost:27017', tagSet=TagSet{[]}, electionId=7fffffff0000000000000003, setVersion=1, lastWriteDate=Wed Aug 01 12:17:32 ART 2018, lastUpdateTimeNanos=25591358964727} 
+01/08/2018 12:17:41.127 [main] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:2, serverValue:293}] to localhost:27017 
+01/08/2018 12:17:41.825 [main] WARN  o.h.v.m.ParameterMessageInterpolator - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported 
+01/08/2018 12:17:41.970 [main] INFO  o.s.j.e.a.AnnotationMBeanExporter - Registering beans for JMX exposure on startup 
+01/08/2018 12:17:41.992 [main] INFO  h.b.t.a.TasksRunnerApplication - Started TasksRunnerApplication in 8.413 seconds (JVM running for 11.258) 
+01/08/2018 12:17:42.054 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor 
+01/08/2018 12:17:42.085 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl 
+01/08/2018 12:17:42.087 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.2.1 created. 
+01/08/2018 12:17:42.089 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized. 
+01/08/2018 12:17:42.091 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.2.1) '"Hubble Job Quartz Scheduler"' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 5 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+ 
+01/08/2018 12:17:42.091 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler '"Hubble Job Quartz Scheduler"' initialized from default resource file in Quartz package: 'quartz.properties' 
+01/08/2018 12:17:42.091 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.2.1 
+01/08/2018 12:17:42.792 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler "Hubble Job Quartz Scheduler"_$_NON_CLUSTERED started. 
+01/08/2018 12:17:42.837 [Thread-3] INFO  org.mongodb.driver.cluster - Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=500} 
+01/08/2018 12:17:42.898 [cluster-ClusterId{value='5b61cf1636472324453af7a5', description='null'}-localhost:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:3, serverValue:294}] to localhost:27017 
+01/08/2018 12:17:42.915 [cluster-ClusterId{value='5b61cf1636472324453af7a5', description='null'}-localhost:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=REPLICA_SET_PRIMARY, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 6, 3]}, minWireVersion=0, maxWireVersion=6, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=30, roundTripTimeNanos=16160825, setName='rs0', canonicalAddress=localhost:27017, hosts=[localhost:27017], passives=[], arbiters=[], primary='localhost:27017', tagSet=TagSet{[]}, electionId=7fffffff0000000000000003, setVersion=1, lastWriteDate=Wed Aug 01 12:17:42 ART 2018, lastUpdateTimeNanos=25595987263729} 
+01/08/2018 12:17:42.953 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:4, serverValue:295}] to localhost:27017 
+01/08/2018 12:17:42.962 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:5, serverValue:296}] to localhost:27017 
+01/08/2018 12:17:42.976 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:6, serverValue:297}] to localhost:27017 
+01/08/2018 12:17:43.160 [Thread-3] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:7, serverValue:298}] to localhost:27017 
+01/08/2018 12:17:43.388 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR c.s.x.i.messaging.saaj.client.p2p - SAAJ0009: Message send failed 
+01/08/2018 12:17:43.389 ["Hubble Job Quartz Scheduler"_Worker-4] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+01/08/2018 12:18:32.993 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:32.997 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.000 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.004 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.012 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.016 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.018 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.021 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.025 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.028 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.030 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.033 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.037 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.041 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.045 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.048 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.052 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.055 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.059 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.064 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.067 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.072 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+01/08/2018 12:18:33.747 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name: Banca MÃ³vil 
+01/08/2018 12:36:20.241 [Thread-4] INFO  o.s.c.a.AnnotationConfigApplicationContext - Closing org.springframework.context.annotation.AnnotationConfigApplicationContext@43df5096: startup date [Wed Aug 01 12:17:34 ART 2018]; root of context hierarchy 
+01/08/2018 12:36:20.536 [Thread-4] INFO  o.s.j.e.a.AnnotationMBeanExporter - Unregistering JMX-exposed beans on shutdown 
+01/08/2018 12:36:21.033 [Thread-4] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:5, serverValue:296}] to localhost:27017 because the pool has been closed. 
+01/08/2018 12:36:21.034 [Thread-4] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:6, serverValue:297}] to localhost:27017 because the pool has been closed. 
+01/08/2018 12:36:21.035 [Thread-4] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:4, serverValue:295}] to localhost:27017 because the pool has been closed. 
+01/08/2018 12:36:21.035 [Thread-4] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:2, serverValue:293}] to localhost:27017 because the pool has been closed. 
