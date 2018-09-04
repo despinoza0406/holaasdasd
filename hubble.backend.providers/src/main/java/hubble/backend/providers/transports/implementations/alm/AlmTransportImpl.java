@@ -1,5 +1,6 @@
 package hubble.backend.providers.transports.implementations.alm;
 
+import com.mashape.unirest.request.GetRequest;
 import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.DateHelper;
 import org.json.JSONArray;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AlmTransportImpl implements AlmTransport {
+    String authPath = "/authentication-point/authenticate";
 
     @Autowired
     private AlmProviderEnvironment environment;
@@ -32,6 +34,8 @@ public class AlmTransportImpl implements AlmTransport {
     private AlmConfiguration configuration;
 
     private final Logger logger = LoggerFactory.getLogger(AlmTransportImpl.class);
+
+    public AlmTransportImpl() {}
 
     public AlmTransportImpl(AlmProviderEnvironment environment) {
         this.environment = environment;
@@ -47,8 +51,7 @@ public class AlmTransportImpl implements AlmTransport {
 
     @Override
     public void login() {
-        String path = "/authentication-point/authenticate";
-        String url = buildUri(path);
+        String url = buildUri(authPath);
 
         try {
             Unirest.get(url).basicAuth(environment.getUserName(),
@@ -60,12 +63,42 @@ public class AlmTransportImpl implements AlmTransport {
         }
     }
 
+    public boolean testConnection(String host, String port, String user, String password) {
+        String fullPath = String.format("http://%s:%s/qcbin%s", host, port, authPath);
+        try {
+            HttpResponse response = Unirest.get(fullPath).basicAuth(user,
+                    password).asString();
+            return response.getStatus() == 200 ? true : false;
+        } catch (UnirestException e) {
+            logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
+            return false;
+        }
+    }
+
     @Override
     public void logout() {
         String path = "/authentication-point/logout";
         String Url = buildUri(path);
         try {
             Unirest.get(Url).asString();
+        } catch (UnirestException e) {
+            logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
+        }
+    }
+
+    public void logout(String host, String port) {
+        String path = "/authentication-point/logout";
+        String uri = String.format("http://%s:%s/qcbin%s",
+                host,
+                port,
+                path);
+
+        try {
+            Unirest.get(uri).asString();
         } catch (UnirestException e) {
             logger.error(e.getMessage());
             result = Results.RESULTS.FAILURE;

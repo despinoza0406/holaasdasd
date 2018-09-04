@@ -3,10 +3,13 @@ package hubble.backend.api.controllers;
 import hubble.backend.api.models.Auth;
 import hubble.backend.business.services.interfaces.services.UsersService;
 import hubble.backend.storage.models.AuthToken;
+import hubble.backend.storage.models.UserStorage;
 import hubble.backend.storage.repositories.UsersRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
+
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.is;
 import org.hamcrest.Description;
@@ -64,6 +67,7 @@ public class UsersControllerTest {
         when(
             service.authenticate(anyString(), eq(auth.getPassword().toCharArray()))
         ).thenReturn(new AuthToken(UUID.randomUUID(), LocalDateTime.now()));
+
         UsersController controller = new UsersController(service, mock(UsersRepository.class));
         assertThat(
             "autentication",
@@ -129,5 +133,23 @@ public class UsersControllerTest {
             }
 
         };
+    }
+
+    @Test
+    public void should_retrieve_name() {
+        UsersRepository repository = Mockito.mock(UsersRepository.class);
+        UsersService service = Mockito.mock(UsersService.class);
+        String admin = "admin@tsoftlatam.com";
+        UUID token = UUID.randomUUID();
+        String name = "name";
+        UserStorage newUser = new UserStorage();
+        newUser.setToken(new AuthToken(token, LocalDateTime.now()));
+        newUser.setEmail(admin);
+        newUser.setName(name);
+        repository.insert(newUser);
+        when(repository.findByAccessToken(token)).thenReturn(Optional.of(newUser));
+        UsersController controller = new UsersController(service, repository);
+        ResponseEntity response = controller.getName(token);
+        assertTrue(response.getStatusCode() == HttpStatus.OK);
     }
 }

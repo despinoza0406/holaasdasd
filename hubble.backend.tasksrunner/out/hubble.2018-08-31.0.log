@@ -1,0 +1,480 @@
+31/08/2018 12:23:41.149 [main] INFO  h.b.t.a.TasksRunnerApplication - Starting TasksRunnerApplication v1.0-SNAPSHOT on AR-NB-234 with PID 2288 (C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target\hubble.backend.tasksrunner-1.0-SNAPSHOT.jar started by andre.vigneaux in C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target) 
+31/08/2018 12:23:41.199 [main] INFO  h.b.t.a.TasksRunnerApplication - The following profiles are active: test 
+31/08/2018 12:23:41.417 [main] INFO  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext - Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@1f3c12d6: startup date [Fri Aug 31 12:23:41 ART 2018]; root of context hierarchy 
+31/08/2018 12:23:42.803 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final 
+31/08/2018 12:23:48.660 [main] INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer - Tomcat initialized with port(s): 8090 (http) 
+31/08/2018 12:23:48.702 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat] 
+31/08/2018 12:23:48.709 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.16 
+31/08/2018 12:23:49.037 [localhost-startStop-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext 
+31/08/2018 12:23:49.039 [localhost-startStop-1] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 7621 ms 
+31/08/2018 12:23:49.784 [localhost-startStop-1] INFO  o.s.b.w.s.ServletRegistrationBean - Mapping servlet: 'dispatcherServlet' to [/] 
+31/08/2018 12:23:49.800 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'characterEncodingFilter' to: [/*] 
+31/08/2018 12:23:49.802 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'hiddenHttpMethodFilter' to: [/*] 
+31/08/2018 12:23:49.803 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'httpPutFormContentFilter' to: [/*] 
+31/08/2018 12:23:49.805 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'requestContextFilter' to: [/*] 
+31/08/2018 12:23:52.415 [main] INFO  org.mongodb.driver.cluster - Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=50} 
+31/08/2018 12:23:52.643 [cluster-ClusterId{value='5b895d887589fe08f087934a', description='null'}-localhost:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:1, serverValue:3}] to localhost:27017 
+31/08/2018 12:23:52.654 [cluster-ClusterId{value='5b895d887589fe08f087934a', description='null'}-localhost:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 6, 4]}, minWireVersion=0, maxWireVersion=6, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=null, roundTripTimeNanos=7006900} 
+31/08/2018 12:23:55.597 [main] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:2, serverValue:4}] to localhost:27017 
+31/08/2018 12:23:56.829 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerAdapter - Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@1f3c12d6: startup date [Fri Aug 31 12:23:41 ART 2018]; root of context hierarchy 
+31/08/2018 12:23:57.121 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/execute]}" onto public void hubble.backend.tasksrunner.communication.controllers.ExecutionController.execute(java.lang.String) 
+31/08/2018 12:23:57.126 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/reschedule]}" onto public void hubble.backend.tasksrunner.communication.controllers.RescheduleController.reschedule(java.lang.String) 
+31/08/2018 12:23:57.133 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest) 
+31/08/2018 12:23:57.139 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) 
+31/08/2018 12:23:57.337 [main] INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler] 
+31/08/2018 12:23:57.338 [main] INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler] 
+31/08/2018 12:23:57.605 [main] INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler] 
+31/08/2018 12:23:58.247 [main] INFO  o.s.j.e.a.AnnotationMBeanExporter - Registering beans for JMX exposure on startup 
+31/08/2018 12:23:58.299 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8090"] 
+31/08/2018 12:23:58.356 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8090"] 
+31/08/2018 12:23:58.464 [main] INFO  o.a.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read 
+31/08/2018 12:23:58.555 [main] INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer - Tomcat started on port(s): 8090 (http) 
+31/08/2018 12:23:58.573 [main] INFO  h.b.t.a.TasksRunnerApplication - Started TasksRunnerApplication in 18.496 seconds (JVM running for 23.431) 
+31/08/2018 12:23:58.686 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor 
+31/08/2018 12:23:58.750 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl 
+31/08/2018 12:23:58.755 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.2.1 created. 
+31/08/2018 12:23:58.759 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized. 
+31/08/2018 12:23:58.762 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.2.1) '"Hubble Job Quartz Scheduler"' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 5 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+ 
+31/08/2018 12:23:58.764 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler '"Hubble Job Quartz Scheduler"' initialized from default resource file in Quartz package: 'quartz.properties' 
+31/08/2018 12:23:58.765 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.2.1 
+31/08/2018 12:23:58.931 [Thread-4] INFO  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext - Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@1f3c12d6: startup date [Fri Aug 31 12:23:41 ART 2018]; root of context hierarchy 
+31/08/2018 12:23:58.937 [Thread-4] INFO  o.s.j.e.a.AnnotationMBeanExporter - Unregistering JMX-exposed beans on shutdown 
+31/08/2018 12:23:58.954 [Thread-4] INFO  org.mongodb.driver.connection - Closed connection [connectionId{localValue:2, serverValue:4}] to localhost:27017 because the pool has been closed. 
+31/08/2018 12:26:20.795 [main] INFO  h.b.t.a.TasksRunnerApplication - Starting TasksRunnerApplication v1.0-SNAPSHOT on AR-NB-234 with PID 7536 (C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target\hubble.backend.tasksrunner-1.0-SNAPSHOT.jar started by andre.vigneaux in C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target) 
+31/08/2018 12:26:20.800 [main] INFO  h.b.t.a.TasksRunnerApplication - The following profiles are active: test 
+31/08/2018 12:26:20.861 [main] INFO  o.s.b.c.e.AnnotationConfigEmbeddedWebApplicationContext - Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@29e7e377: startup date [Fri Aug 31 12:26:20 ART 2018]; root of context hierarchy 
+31/08/2018 12:26:21.446 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 5.3.5.Final 
+31/08/2018 12:26:24.580 [main] INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer - Tomcat initialized with port(s): 8090 (http) 
+31/08/2018 12:26:24.600 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat] 
+31/08/2018 12:26:24.603 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet Engine: Apache Tomcat/8.5.16 
+31/08/2018 12:26:24.787 [localhost-startStop-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext 
+31/08/2018 12:26:24.788 [localhost-startStop-1] INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 3928 ms 
+31/08/2018 12:26:25.295 [localhost-startStop-1] INFO  o.s.b.w.s.ServletRegistrationBean - Mapping servlet: 'dispatcherServlet' to [/] 
+31/08/2018 12:26:25.306 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'characterEncodingFilter' to: [/*] 
+31/08/2018 12:26:25.308 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'hiddenHttpMethodFilter' to: [/*] 
+31/08/2018 12:26:25.309 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'httpPutFormContentFilter' to: [/*] 
+31/08/2018 12:26:25.310 [localhost-startStop-1] INFO  o.s.b.w.s.FilterRegistrationBean - Mapping filter: 'requestContextFilter' to: [/*] 
+31/08/2018 12:26:26.750 [main] INFO  org.mongodb.driver.cluster - Cluster created with settings {hosts=[localhost:27017], mode=SINGLE, requiredClusterType=UNKNOWN, serverSelectionTimeout='30000 ms', maxWaitQueueSize=50} 
+31/08/2018 12:26:26.858 [cluster-ClusterId{value='5b895e227589fe1d70a88456', description='null'}-localhost:27017] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:1, serverValue:7}] to localhost:27017 
+31/08/2018 12:26:26.866 [cluster-ClusterId{value='5b895e227589fe1d70a88456', description='null'}-localhost:27017] INFO  org.mongodb.driver.cluster - Monitor thread successfully connected to server with description ServerDescription{address=localhost:27017, type=STANDALONE, state=CONNECTED, ok=true, version=ServerVersion{versionList=[3, 6, 4]}, minWireVersion=0, maxWireVersion=6, maxDocumentSize=16777216, logicalSessionTimeoutMinutes=null, roundTripTimeNanos=4308800} 
+31/08/2018 12:26:28.391 [main] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:2, serverValue:8}] to localhost:27017 
+31/08/2018 12:26:29.079 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerAdapter - Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@29e7e377: startup date [Fri Aug 31 12:26:20 ART 2018]; root of context hierarchy 
+31/08/2018 12:26:29.256 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/execute]}" onto public void hubble.backend.tasksrunner.communication.controllers.ExecutionController.execute(java.lang.String) 
+31/08/2018 12:26:29.260 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/reschedule]}" onto public void hubble.backend.tasksrunner.communication.controllers.RescheduleController.reschedule(java.lang.String) 
+31/08/2018 12:26:29.265 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest) 
+31/08/2018 12:26:29.268 [main] INFO  o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) 
+31/08/2018 12:26:29.390 [main] INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler] 
+31/08/2018 12:26:29.393 [main] INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler] 
+31/08/2018 12:26:29.519 [main] INFO  o.s.w.s.h.SimpleUrlHandlerMapping - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler] 
+31/08/2018 12:26:29.920 [main] INFO  o.s.j.e.a.AnnotationMBeanExporter - Registering beans for JMX exposure on startup 
+31/08/2018 12:26:29.948 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8090"] 
+31/08/2018 12:26:29.984 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8090"] 
+31/08/2018 12:26:30.003 [main] INFO  o.a.tomcat.util.net.NioSelectorPool - Using a shared selector for servlet write/read 
+31/08/2018 12:26:30.047 [main] INFO  o.s.b.c.e.t.TomcatEmbeddedServletContainer - Tomcat started on port(s): 8090 (http) 
+31/08/2018 12:26:30.054 [main] INFO  h.b.t.a.TasksRunnerApplication - Started TasksRunnerApplication in 9.844 seconds (JVM running for 11.166) 
+31/08/2018 12:26:30.112 [main] INFO  org.quartz.impl.StdSchedulerFactory - Using default implementation for ThreadExecutor 
+31/08/2018 12:26:30.144 [main] INFO  o.quartz.core.SchedulerSignalerImpl - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl 
+31/08/2018 12:26:30.148 [main] INFO  org.quartz.core.QuartzScheduler - Quartz Scheduler v.2.2.1 created. 
+31/08/2018 12:26:30.150 [main] INFO  org.quartz.simpl.RAMJobStore - RAMJobStore initialized. 
+31/08/2018 12:26:30.153 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler meta-data: Quartz Scheduler (v2.2.1) '"Hubble Job Quartz Scheduler"' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 5 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+ 
+31/08/2018 12:26:30.154 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler '"Hubble Job Quartz Scheduler"' initialized from default resource file in Quartz package: 'quartz.properties' 
+31/08/2018 12:26:30.155 [main] INFO  org.quartz.impl.StdSchedulerFactory - Quartz scheduler version: 2.2.1 
+31/08/2018 12:26:30.571 [main] INFO  org.quartz.core.QuartzScheduler - Scheduler "Hubble Job Quartz Scheduler"_$_NON_CLUSTERED started. 
+31/08/2018 12:30:11.110 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 12:30:11.169 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:30:11.309 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:30:11.312 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:35:10.095 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 12:35:10.141 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:35:10.185 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:35:10.190 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:40:10.037 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 12:40:10.053 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:40:10.062 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:40:10.065 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:45:10.069 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 12:45:10.104 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:45:10.130 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:45:10.134 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:50:10.032 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 12:50:10.065 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:50:10.084 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:50:10.091 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:55:10.072 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 12:55:10.101 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:55:10.116 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 12:55:10.123 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:00:00.081 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  org.mongodb.driver.connection - Opened connection [connectionId{localValue:3, serverValue:9}] to localhost:27017 
+31/08/2018 13:00:00.647 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR c.s.x.i.messaging.saaj.client.p2p - SAAJ0009: fallo de envío de mensaje 
+31/08/2018 13:00:00.649 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+31/08/2018 13:00:00.665 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 13:00:00.669 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 13:00:00.672 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 13:00:10.115 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 13:00:10.143 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:00:10.180 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:00:10.196 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:05:10.074 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 13:05:10.100 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:05:10.135 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:05:10.144 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:10:10.078 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 13:10:10.098 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:10:10.111 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:10:10.126 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:15:10.070 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 13:15:10.094 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:15:10.120 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:15:10.126 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:35:38.586 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 13:35:38.591 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:35:38.593 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:35:38.595 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:40:10.057 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 13:40:10.075 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:40:10.084 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:40:10.092 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:45:10.059 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 13:45:10.080 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:45:10.091 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:45:10.096 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:50:10.019 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 13:50:10.024 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:50:10.026 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:50:10.028 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:55:10.018 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 13:55:10.301 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:55:10.394 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 13:55:10.481 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:00:00.078 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR c.s.x.i.messaging.saaj.client.p2p - SAAJ0009: fallo de envío de mensaje 
+31/08/2018 14:00:00.079 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+31/08/2018 14:00:00.083 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 14:00:00.084 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 14:00:00.086 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 14:00:10.023 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:00:10.027 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:00:10.028 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:00:10.030 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:05:10.073 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:05:10.095 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:05:10.103 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:05:10.112 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:10:10.061 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:10:10.079 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:10:10.086 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:10:10.091 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:15:10.056 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:15:10.074 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:15:10.080 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:15:10.085 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:20:10.053 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:20:10.072 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:20:10.080 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:20:10.086 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:25:10.069 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:25:10.092 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:25:10.097 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:25:10.101 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:30:10.061 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:30:10.077 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:30:10.084 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:30:10.092 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:35:10.056 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:35:10.082 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:35:10.091 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:35:10.093 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:40:10.054 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:40:10.068 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:40:10.072 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:40:10.077 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:45:10.020 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:45:10.034 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:45:10.037 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:45:10.039 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:50:10.035 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:50:10.052 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:50:10.058 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:50:10.061 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:55:10.023 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 14:55:10.041 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:55:10.047 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 14:55:10.052 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:00:00.125 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR c.s.x.i.messaging.saaj.client.p2p - SAAJ0009: fallo de envío de mensaje 
+31/08/2018 15:00:00.126 ["Hubble Job Quartz Scheduler"_Worker-5] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+31/08/2018 15:00:00.131 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 15:00:00.132 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 15:00:00.133 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 15:00:10.077 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:00:10.094 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:00:10.102 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:00:10.107 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:05:10.065 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:05:10.088 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:05:10.093 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:05:10.096 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:10:10.067 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:10:10.087 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:10:10.096 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:10:10.102 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:15:10.082 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:15:10.106 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:15:10.123 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:15:10.127 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:20:10.061 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:20:10.083 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:20:10.091 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:20:10.094 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:25:10.054 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:25:10.077 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:25:10.087 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:25:10.092 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:30:10.051 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:30:10.062 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:30:10.068 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:30:10.071 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:35:10.053 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:35:10.065 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:35:10.068 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:35:10.070 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:40:10.043 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:40:10.064 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:40:10.072 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:40:10.076 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:45:10.054 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:45:10.063 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:45:10.068 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:45:10.071 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:50:10.052 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:50:10.071 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:50:10.080 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:50:10.085 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:55:10.051 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 15:55:10.067 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:55:10.073 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 15:55:10.078 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:00:00.051 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR c.s.x.i.messaging.saaj.client.p2p - SAAJ0009: fallo de envío de mensaje 
+31/08/2018 16:00:00.053 ["Hubble Job Quartz Scheduler"_Worker-3] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+31/08/2018 16:00:00.059 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 16:00:00.061 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 16:00:00.066 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 16:00:10.022 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:00:10.026 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:00:10.027 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:00:10.029 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:05:10.054 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:05:10.073 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:05:10.083 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:05:10.092 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:10:10.067 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:10:10.089 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:10:10.096 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:10:10.102 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:15:10.064 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:15:10.083 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:15:10.093 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:15:10.098 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:20:10.052 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:20:10.075 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:20:10.086 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:20:10.093 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:25:10.019 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:25:10.031 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:25:10.037 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:25:10.045 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:30:10.029 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:30:10.044 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:30:10.049 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:30:10.053 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:35:10.022 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:35:10.027 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:35:10.037 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:35:10.039 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:40:10.043 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:40:10.048 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:40:10.051 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:40:10.055 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:45:10.019 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:45:10.027 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:45:10.055 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:45:10.064 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:50:10.027 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:50:10.033 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:50:10.037 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:50:10.048 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:55:10.020 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 16:55:10.031 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:55:10.034 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 16:55:10.037 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:00:00.129 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR c.s.x.i.messaging.saaj.client.p2p - SAAJ0009: fallo de envío de mensaje 
+31/08/2018 17:00:00.131 ["Hubble Job Quartz Scheduler"_Worker-1] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+31/08/2018 17:00:00.139 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 17:00:00.144 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 17:00:00.146 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 17:00:10.021 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:00:10.027 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:00:10.031 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:00:10.032 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:05:10.037 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:05:10.045 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:05:10.049 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:05:10.051 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:10:10.064 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:10:10.073 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:10:10.078 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:10:10.081 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:15:10.054 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:15:10.070 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:15:10.081 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:15:10.086 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:20:10.058 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:20:10.080 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:20:10.089 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:20:10.093 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:25:10.023 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:25:10.030 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:25:10.033 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:25:10.035 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:30:10.064 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:30:10.068 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:30:10.070 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:30:10.071 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:35:10.035 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:35:10.061 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:35:10.066 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:35:10.068 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:40:10.024 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:40:10.034 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:40:10.040 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:40:10.043 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:45:10.049 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:45:10.053 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:45:10.055 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:45:10.056 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:50:10.064 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:50:10.087 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:50:10.094 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:50:10.097 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:55:10.050 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 17:55:10.064 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:55:10.071 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 17:55:10.075 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:00:00.112 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR c.s.x.i.messaging.saaj.client.p2p - SAAJ0009: fallo de envío de mensaje 
+31/08/2018 18:00:00.135 ["Hubble Job Quartz Scheduler"_Worker-4] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+31/08/2018 18:00:00.140 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 18:00:00.141 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 18:00:00.143 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 18:00:10.081 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 18:00:10.093 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:00:10.095 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:00:10.099 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:05:10.053 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 18:05:10.070 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:05:10.075 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:05:10.079 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:10:10.052 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 18:10:10.077 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:10:10.082 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:10:10.085 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:15:10.043 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 18:15:10.057 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:15:10.062 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:15:10.065 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:20:10.040 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 18:20:10.061 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:20:10.065 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:20:10.071 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:25:10.049 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 18:25:10.067 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:25:10.074 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:25:10.078 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:30:10.028 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 18:30:10.048 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:30:10.053 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 18:30:10.058 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:20:56.938 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR c.s.x.i.messaging.saaj.client.p2p - SAAJ0009: fallo de envío de mensaje 
+31/08/2018 19:20:56.940 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+31/08/2018 19:20:56.943 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 19:20:56.944 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 19:20:56.945 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 19:21:06.904 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 19:21:06.910 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:21:06.913 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:21:06.915 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:25:10.021 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 19:25:10.041 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:25:10.046 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:25:10.047 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:30:10.042 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 19:30:10.049 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:30:10.053 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:30:10.055 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:35:10.042 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 19:35:10.056 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:35:10.065 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:35:10.070 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:40:10.056 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 19:40:10.075 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:40:10.090 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:40:10.095 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:45:10.039 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 19:45:10.055 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:45:10.064 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:45:10.067 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:50:10.021 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 19:50:10.035 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:50:10.045 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:50:10.049 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:55:10.050 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 19:55:10.095 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:55:10.099 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 19:55:10.101 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:00:00.084 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR c.s.x.i.messaging.saaj.client.p2p - SAAJ0009: fallo de envío de mensaje 
+31/08/2018 20:00:00.085 ["Hubble Job Quartz Scheduler"_Worker-1] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+31/08/2018 20:00:00.089 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 20:00:00.091 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 20:00:00.093 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 20:00:10.047 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 20:00:10.062 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:00:10.066 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:00:10.074 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:05:10.040 ["Hubble Job Quartz Scheduler"_Worker-3] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 20:05:10.058 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:05:10.069 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:05:10.074 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:10:10.042 ["Hubble Job Quartz Scheduler"_Worker-4] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 20:10:10.059 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:10:10.069 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:10:10.074 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:15:10.032 ["Hubble Job Quartz Scheduler"_Worker-5] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - org.apache.http.conn.ConnectTimeoutException: Connect to 10.10.20.248:8080 [/10.10.20.248] failed: connect timed out 
+31/08/2018 20:15:10.044 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:15:10.051 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 20:15:10.059 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 23:16:57.650 ["Hubble Job Quartz Scheduler"_Worker-1] ERROR c.s.x.i.messaging.saaj.client.p2p - SAAJ0009: fallo de envío de mensaje 
+31/08/2018 23:16:57.651 ["Hubble Job Quartz Scheduler"_Worker-1] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+31/08/2018 23:16:57.656 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 23:16:57.658 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  o.a.http.impl.execchain.RetryExec - I/O exception (java.net.SocketException) caught when processing request to {}->http://10.10.20.248:8080: Network is unreachable: connect 
+31/08/2018 23:16:57.660 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 23:16:57.663 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  o.a.http.impl.execchain.RetryExec - Retrying request to {}->http://10.10.20.248:8080 
+31/08/2018 23:16:57.666 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+31/08/2018 23:16:57.668 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  o.a.http.impl.execchain.RetryExec - I/O exception (java.net.SocketException) caught when processing request to {}->http://10.10.20.248:8080: Network is unreachable: connect 
+31/08/2018 23:16:57.673 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  o.a.http.impl.execchain.RetryExec - Retrying request to {}->http://10.10.20.248:8080 
+31/08/2018 23:16:57.678 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  o.a.http.impl.execchain.RetryExec - I/O exception (java.net.SocketException) caught when processing request to {}->http://10.10.20.248:8080: Network is unreachable: connect 
+31/08/2018 23:16:57.681 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  o.a.http.impl.execchain.RetryExec - Retrying request to {}->http://10.10.20.248:8080 
+31/08/2018 23:16:57.689 ["Hubble Job Quartz Scheduler"_Worker-2] ERROR h.b.p.t.i.s.SiteScopeTransportImpl - java.net.SocketException: Network is unreachable: connect 
+31/08/2018 23:16:57.695 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 23:16:57.697 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
+31/08/2018 23:16:57.699 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: FAILURE 
