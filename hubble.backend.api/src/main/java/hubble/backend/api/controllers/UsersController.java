@@ -13,19 +13,13 @@ import hubble.backend.storage.repositories.UsersRepository;
 import java.util.Optional;
 import java.util.UUID;
 import static java.util.stream.Collectors.toSet;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -60,6 +54,18 @@ public class UsersController {
         return found.isPresent()
                 ? new ResponseEntity(found.get().toJson(), HttpStatus.OK)
                 : new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
+
+    @TokenRequired
+    @GetMapping(value = "/name")
+    public ResponseEntity getName(@RequestHeader("access-token") UUID token) {
+        Optional<UserStorage> optional = usersRepo.findByAccessToken(token);
+        UserStorage user;
+        if (optional.isPresent()) {
+            return new ResponseEntity(optional.get().toJson(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
     }
 
 
@@ -176,5 +182,4 @@ public class UsersController {
         }
 
     }
-
 }

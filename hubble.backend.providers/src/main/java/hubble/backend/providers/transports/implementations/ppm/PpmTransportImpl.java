@@ -59,7 +59,7 @@ public class PpmTransportImpl implements PpmTransport {
         HttpResponse<JsonNode> data = null;
         JSONArray jsonArray = null;
         JSONObject jsonObject = null;
-        List<JSONObject> dataList = new ArrayList<JSONObject>();
+        List<JSONObject> dataList = new ArrayList<>();
         Boolean hasMultipleRequests = true;
 
         try {
@@ -100,9 +100,9 @@ public class PpmTransportImpl implements PpmTransport {
     public List<JSONObject> getAllRequestTypes(String encodedAuthString) {
         String path = "/itg/rest/dm/requestTypes?alt=application/json";
         String requestsUri = buildUri(path);
-        HttpResponse<JsonNode> data = null;
-        JSONArray jsonArray = null;
-        List<JSONObject> dataList = new ArrayList<JSONObject>();
+        HttpResponse<JsonNode> data;
+        JSONArray jsonArray;
+        List<JSONObject> dataList = new ArrayList<>();
 
         try {
             data = Unirest.get(requestsUri)
@@ -121,6 +121,29 @@ public class PpmTransportImpl implements PpmTransport {
         }
 
         return dataList;
+    }
+
+    public boolean testConnection(String host, String port, String user, String password) {
+        String path = "/itg/rest/dm/requestTypes?alt=application/json";
+        String requestsUri = String.format("http://%s:%s%s",
+                                host,
+                                port,
+                                path);
+        HttpResponse<JsonNode> data;
+        String encodedAuthString = encodeToBase64(user, password);
+
+        try {
+            data = Unirest.get(requestsUri)
+                    .header("Authorization", "Basic " + encodedAuthString)
+                    .asJson();
+        } catch (UnirestException e) {
+            result = Results.RESULTS.FAILURE;
+            logger.error(e.getMessage());
+            error = e.getMessage();
+            return false;
+        }
+
+        return data.getBody().getObject() != null;
     }
 
     @Override

@@ -109,6 +109,69 @@ public class BsmTransportImpl implements BsmTransport {
         return this.message;
     }
 
+    public SOAPMessage createMessage(String query, String soapEndpointUri, String username, String password, String soapAction) {
+
+        this.query = query;
+        try {
+
+            //Creaate Request
+            MessageFactory messageFactory = MessageFactory.newInstance();
+            SOAPMessage soapMessage = messageFactory.createMessage();
+
+            //CREATE SOAPENVELOPE
+            SOAPPart soapPart = soapMessage.getSOAPPart();
+
+            String myNamespace = "gdew";
+            String myNamespaceURI = soapEndpointUri;
+
+            // SOAP Envelope
+            SOAPEnvelope envelope = soapPart.getEnvelope();
+
+            envelope.addNamespaceDeclaration(myNamespace, myNamespaceURI);
+
+            SOAPBody soapBody = envelope.getBody();
+            SOAPElement soapBodyElem = soapBody.addChildElement("getDataWebService", myNamespace);
+            SOAPElement soapBodyUser = soapBodyElem.addChildElement("user", myNamespace);
+            SOAPElement soapBodyPassword = soapBodyElem.addChildElement("password", myNamespace);
+            SOAPElement soapBodyQuery = soapBodyElem.addChildElement("query", myNamespace);
+            soapBodyUser.addTextNode(username);
+            soapBodyPassword.addTextNode(password);
+            soapBodyQuery.addTextNode(this.query);
+
+            MimeHeaders headers = soapMessage.getMimeHeaders();
+            headers.addHeader("SOAPAction", soapAction);
+
+            soapMessage.saveChanges();
+
+            this.message = soapMessage;
+        } catch (SOAPException ex) {
+            error = ex.getMessage();
+            result = Results.RESULTS.FAILURE;
+            logger.error(ex.getMessage());
+        }
+
+        return this.message;
+    }
+
+    public boolean testConnection(String soapEndpointUri, String username, String password, String soapAction){
+        StringBuilder queryBuilder = new StringBuilder();
+        Date from = DateHelper.getAnHourAgo();
+        Date to = DateHelper.getDateNow();
+
+
+        long since = from.getTime() / 1000;
+        long now = to.getTime() / 1000;
+
+        queryBuilder.append(" select profile_name, szTransactionName, szLocationName,szStatusName, iComponentErrorCount, time_stamp,szScriptName, dResponseTime, dGreenThreshold, dRedThreshold");
+        queryBuilder.append(" from trans_t  where time_stamp>=").append(Long.toString(since));
+        queryBuilder.append(" and time_stamp<=").append(Long.toString(now));
+
+        this.createMessage(queryBuilder.toString(), soapEndpointUri, username, password, soapAction);
+        SOAPBody body = call(soapEndpointUri);
+
+        return body != null;
+    }
+
     @Override
     public String getQuery() {
         return query;
@@ -164,6 +227,39 @@ public class BsmTransportImpl implements BsmTransport {
             if (soapResponse == null) {
                 logger.error("There is no response from BSM: {}", bsmProviderEnvironment.getSoapEndpointUrl());
                 error = "There is no response from BSM: " + bsmProviderEnvironment.getSoapEndpointUrl();
+                result = Results.RESULTS.FAILURE;
+                return null;
+            }
+
+            return soapResponse.getSOAPBody();
+        } catch (SOAPException ex) {
+            logger.debug(ex.toString());
+            error ="Error de conexion";
+            result = Results.RESULTS.FAILURE;
+        }
+
+        return null;
+    }
+
+    public SOAPBody call(String soapEndpointUri) {
+
+        if (this.message == null) {
+            logger.error("The message is null");
+            return null;
+        }
+
+        try {
+            // Create SOAP Connection
+            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+            // Send SOAP Message to SOAP Server
+            SOAPMessage soapResponse = soapConnection.call(this.message, soapEndpointUri);
+
+            soapConnection.close();
+
+            if (soapResponse == null) {
+                logger.error("There is no response from BSM: {}", soapEndpointUri);
+                error = "There is no response from BSM: " + soapEndpointUri;
                 result = Results.RESULTS.FAILURE;
                 return null;
             }

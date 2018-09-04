@@ -5,6 +5,7 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import hubble.backend.core.enums.Results;
+import hubble.backend.core.utils.EncoderHelper;
 import hubble.backend.providers.configurations.JiraConfiguration;
 import hubble.backend.providers.configurations.environments.JiraProviderEnvironment;
 import hubble.backend.providers.transports.interfaces.JiraTransport;
@@ -61,6 +62,41 @@ public class JiraTransportImpl implements JiraTransport {
         return data;
     }
 
+    public boolean testConnection(String host, String port, String user, String password) {
+        String uri = String.format("http://%s:%s%s",
+                host,
+                port,
+                "/rest/api/2/permissions");
+
+        HttpResponse<JsonNode> response;
+        JSONObject data;
+        String encodedAuthString = EncoderHelper.encodeToBase64(user, password);
+
+        try {
+            response = Unirest.get(uri)
+                    .header("Accept", "application/json")
+                    .header("Authorization", "Basic " + encodedAuthString)
+                    .asJson();
+
+        } catch (UnirestException e) {
+            logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
+            return false;
+        }
+
+        data = response.getBody().getObject();
+
+        if (data == null) {
+            logger.warn("No se pudieron traer datos de jira");
+            result = Results.RESULTS.NO_DATA;
+            error = "No se tiene data";
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public JiraProviderEnvironment getEnvironment() {
         return this.environment;
@@ -95,6 +131,25 @@ public class JiraTransportImpl implements JiraTransport {
             Unirest.delete(requestsUri)
                     .header("Accept", "application/json")
                     .header("Authorization", "Basic " + getEncodedCredentials())
+                    .asJson();
+
+        } catch (UnirestException e) {
+            logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
+        }
+    }
+
+    public void logout(String host, String port, String user, String password) {
+        String uri = String.format("http://%s:%s%s",
+                host,
+                port,
+                "/rest/auth/1/session");
+        String encodedAuthString = EncoderHelper.encodeToBase64(user, password);
+        try {
+            Unirest.delete(uri)
+                    .header("Accept", "application/json")
+                    .header("Authorization", "Basic " + encodedAuthString)
                     .asJson();
 
         } catch (UnirestException e) {

@@ -128,7 +128,6 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
         HttpResponse<JsonNode> data = null;
         JSONObject jsonObject = null;
         List<JSONObject> dataList = new ArrayList<JSONObject>();
-        boolean hasMultipleGroups = true;
 
         try {
             data = Unirest.get(requestsUri)
@@ -194,7 +193,7 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
     private HttpResponse<JsonNode> getFullConfig(){
         String path = String.format("/SiteScope/api/admin/config/snapshot");
         String requestsUri = buildUri(path);
-        HttpResponse<JsonNode> data = null;
+        HttpResponse<JsonNode> data;
 
         try {
             data = Unirest.get(requestsUri)
@@ -209,6 +208,21 @@ public class SiteScopeTransportImpl implements SiteScopeTransport {
         }
     }
 
+    public boolean testConnection(String host, String port, String user, String password){
+        String path = "/SiteScope/api/admin/config/snapshot";
+        String requestsUri = String.format("http://%s:%s%s",
+                host,
+                port,
+                path);
+        try {
+            return Unirest.get(requestsUri).basicAuth(user, password).asJson().getStatus() == 200;
+        } catch (UnirestException e) {
+            logger.error(e.getMessage());
+            result = Results.RESULTS.FAILURE;
+            error = e.getMessage();
+            return false;
+        }
+    }
 
     private String buildUri(String path) {
         String uri = String.format("http://%s:%s%s",
