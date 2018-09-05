@@ -416,7 +416,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         filteredKPIs.setAvailability(availavility);
         filteredKPIs.setEvents(events);
         filteredKPIs.setDefects(defects);
-        filteredKPIs.setEnabledKPIs(kpis.getEnabledKPIs());
+        //filteredKPIs.setEnabledKPIs(kpis.getEnabledKPIs());
         return filteredKPIs;
     }
 }

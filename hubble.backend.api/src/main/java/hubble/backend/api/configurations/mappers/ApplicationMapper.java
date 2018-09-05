@@ -5,6 +5,7 @@ import hubble.backend.api.models.BusinessApplicationLigth;
 import hubble.backend.business.services.models.Application;
 import hubble.backend.storage.models.ApplicationStorage;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -46,24 +47,17 @@ public class ApplicationMapper {
     public List<BusinessApplicationLigth> mapToBusinessApplicationLigthList(List<ApplicationStorage> applications) {
 
         
-        mapper = new ModelMapper();
-        
         if (applications == null) {
             return null;
         }
-
-        PropertyMap<ApplicationStorage, BusinessApplicationLigth> personMap = new PropertyMap<ApplicationStorage, BusinessApplicationLigth>() {
-            @Override
-            protected void configure() {
-                map(source.getKpis().getEnabledKPIs(), destination.getEnabledKPIs());
-            }
-        };
-
-        Type applicationStorageTypeList = new TypeToken<List<BusinessApplicationLigth>>() {
-        }.getType();
+          
+        List<BusinessApplicationLigth> listBusinessApplicationLigth = new ArrayList<>();
         
-        mapper.addMappings(personMap);
-        return mapper.map(applications, applicationStorageTypeList);
+        applications.stream().forEach((app) -> {
+            listBusinessApplicationLigth.add(new BusinessApplicationLigth(app.getId(), app.getApplicationId(), app.getApplicationName(), app.getDescription(), app.isEnabledTaskRunner(), app.isActive(), app.getKpis().getEnabledKPIs()));
+        });
+        
+        return listBusinessApplicationLigth;
     }
 
 }

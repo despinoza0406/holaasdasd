@@ -17,6 +17,18 @@ public class BusinessApplicationLigth {
     private boolean enabledTaskRunner;
     boolean active;
     Set<KPITypes> enabledKPIs;
+
+    
+    public BusinessApplicationLigth(String id, String applicationId, String applicationName, String description, boolean enabledTaskRunner, boolean active, Set<KPITypes> enabledKPIs) {
+        this.id = id;
+        this.applicationId = applicationId;
+        this.applicationName = applicationName;
+        this.description = description;
+        this.enabledTaskRunner = enabledTaskRunner;
+        this.active = active;
+        this.enabledKPIs = enabledKPIs;
+    }
+    
     
 
     public String getId() {

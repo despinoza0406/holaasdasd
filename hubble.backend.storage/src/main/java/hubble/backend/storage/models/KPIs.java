@@ -2,6 +2,7 @@ package hubble.backend.storage.models;
 
 import java.util.HashSet;
 import java.util.Set;
+import org.springframework.data.annotation.Transient;
 
 /**
  * KPIs de una aplicación Hubble.
@@ -10,7 +11,6 @@ import java.util.Set;
  */
 public class KPIs {
 
-    private Set<KPITypes> enabledKPIs;
     private Tasks tasks;
     private Defects defects;
     private Availavility availability;
@@ -26,11 +26,13 @@ public class KPIs {
         this.availability = availability;
         this.performance = performance;
         this.events = events;
-        this.enabledKPIs = new HashSet<>();
     }
 
+    @Transient
     public Set<KPITypes> getEnabledKPIs() {
 
+        Set<KPITypes> enabledKPIs = new HashSet<>();
+        
         if (this.tasks.isEnabled()) {
             enabledKPIs.add(KPITypes.TASKS);
         }
@@ -52,10 +54,6 @@ public class KPIs {
         }
 
         return enabledKPIs;
-    }
-
-    public void setEnabledKPIs(Set<KPITypes> enabledKPIs) {
-        this.enabledKPIs = enabledKPIs;
     }
 
     public Tasks getTasks() {
