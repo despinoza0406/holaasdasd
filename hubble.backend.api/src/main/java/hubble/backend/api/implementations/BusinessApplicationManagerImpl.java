@@ -355,27 +355,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
 
         Events events = new Events();
-        events.setEnabled(kpis.getEvents().isEnabled());
-        events.setSiteScope(kpis.getEvents().getSiteScope());
-
         Availavility availavility = new Availavility();
-        availavility.setEnabled(kpis.getAvailability().isEnabled());
-        availavility.setAppPulse(kpis.getAvailability().getAppPulse());
-        availavility.setBsm(kpis.getAvailability().getBsm());
-
         Performance performance = new Performance();
-        performance.setEnabled(kpis.getPerformance().isEnabled());
-        performance.setAppPulse(kpis.getPerformance().getAppPulse());
-        performance.setBsm(kpis.getPerformance().getBsm());
-
         Defects defects = new Defects();
-        defects.setEnabled(kpis.getDefects().isEnabled());
-        defects.setAlm(kpis.getDefects().getAlm());
-        defects.setJira(kpis.getDefects().getJira());
-
         Tasks tasks = new Tasks();
-        tasks.setEnabled(kpis.getTasks().isEnabled());
-        tasks.setPpm(kpis.getTasks().getPpm());
 
 
         switch (periodo){
