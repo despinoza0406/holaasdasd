@@ -8,6 +8,8 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,8 +25,15 @@ public class ExecutionController {
     @Autowired
     TaskRunnerRepository taskRunnerRepository;
 
-    @RequestMapping(value = "/execute")
-    public void execute(@RequestParam(value = "id",defaultValue = "") String id){
-        schedulerMediator.execute(id);
+    @RequestMapping(value = "/execute",method = RequestMethod.POST)
+    public ResponseEntity<Void> execute(@RequestParam(value = "id",defaultValue = "") String id){
+        HttpStatus httpStatus;
+        if(schedulerMediator.execute(id)){
+            httpStatus = HttpStatus.OK;
+        }else{
+            httpStatus = HttpStatus.I_AM_A_TEAPOT;
+        }
+
+        return new ResponseEntity<>(httpStatus);
     }
 }

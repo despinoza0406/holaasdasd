@@ -152,8 +152,9 @@ public class SchedulerMediator implements SchedulerUserCommands, SchedulerTasksA
         menu.execute();
     }
 
-    public void execute(String provider){
+    public boolean execute(String provider){
         ProviderStorage storage = null;
+        boolean result = false;
 
         try {
             for (String groupName : scheduler.getJobGroupNames()) {
@@ -164,6 +165,7 @@ public class SchedulerMediator implements SchedulerUserCommands, SchedulerTasksA
 
                     if(jobName.equalsIgnoreCase(provider)) {
                         scheduler.triggerJob(jobKey);
+                        result = true;
                     }
                 }
 
@@ -171,11 +173,13 @@ public class SchedulerMediator implements SchedulerUserCommands, SchedulerTasksA
         }catch (SchedulerException e){
             logger.error(e.getMessage());
         }
+        return result;
     }
 
-    public void reschedule(String provider) {
+    public boolean reschedule(String provider) {
 
         ProviderStorage storage = null;
+        boolean result = false;
 
         try {
             for (String groupName : scheduler.getJobGroupNames()) {
@@ -223,6 +227,7 @@ public class SchedulerMediator implements SchedulerUserCommands, SchedulerTasksA
                         System.out.println("[jobName] : " + jobName + " [groupName] : "
                                 + jobKey.getGroup() + " - [nextExecution]" + newTrigger.getNextFireTime());
                         scheduler.resumeJob(jobKey);
+                        result = true;
                     }
                 }
 
@@ -230,5 +235,7 @@ public class SchedulerMediator implements SchedulerUserCommands, SchedulerTasksA
         }catch (SchedulerException e){
             logger.error(e.getMessage());
         }
+        return result;
     }
+
 }
