@@ -1,17 +1,20 @@
 package hubble.backend.business.services.models.distValues.tasks;
 
 import hubble.backend.business.services.models.distValues.DistValues;
+import hubble.backend.core.enums.DateTypes;
 
 public class DistributionTasksUnit extends DistValues {
     private String name;
     private String taskStatus;
-    private String endDate;
+    private DateTypes TipoFecha;
+    private String fecha;
 
-    public DistributionTasksUnit(int valor, String status, String name, String taskStatus, String endDate){
+    public DistributionTasksUnit(int valor, String status, String name, String taskStatus, String endDate, DateTypes tipoFecha){
         super(valor,status);
         this.name = name;
         this.taskStatus = taskStatus;
-        this.endDate = endDate;
+        this.fecha = endDate;
+        this.TipoFecha = tipoFecha;
     }
 
     public String getName() {
@@ -30,11 +33,20 @@ public class DistributionTasksUnit extends DistValues {
         this.taskStatus = taskStatus;
     }
 
-    public String getEndDate() {
-        return endDate;
+
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    public DateTypes getTipoFecha() {
+        return TipoFecha;
+    }
+
+    public void setTipoFecha(DateTypes tipoFecha) {
+        TipoFecha = tipoFecha;
     }
 }

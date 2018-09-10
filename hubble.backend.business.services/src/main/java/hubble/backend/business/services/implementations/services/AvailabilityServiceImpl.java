@@ -9,6 +9,7 @@ import hubble.backend.business.services.models.distValues.availability.Distribut
 import hubble.backend.business.services.models.distValues.availability.DistributionAvailabilityUnit;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
 import hubble.backend.business.services.models.distValues.DistValues;
+import hubble.backend.core.enums.DateTypes;
 import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.CalendarHelper;
@@ -198,7 +199,8 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                     availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 100,
                     availabilityStorage.getAvailabilityStatus(),
                     availabilityStorage.getTransactionName(),
-                    dateFormat.format(availabilityStorage.getTimeStamp()))
+                    dateFormat.format(availabilityStorage.getTimeStamp()),
+                    DateTypes.TIMESTAMP)
             );
         }
         return distValues;
@@ -249,7 +251,8 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                             availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 100,
                             availabilityStorage.getAvailabilityStatus().equals("Failed") ? "Critical" : "OK",
                             availabilityStorage.getTransactionName(),
-                            dateFormat.format(availabilityStorage.getTimeStamp()))
+                            dateFormat.format(availabilityStorage.getTimeStamp()),
+                            DateTypes.TIMESTAMP)
                     );
                 }
                 return distValues;
@@ -297,7 +300,8 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                             value,
                             status,
                             transaction,
-                            date
+                            date,
+                            DateTypes.RANGO
                     ));
                 }
             }

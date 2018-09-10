@@ -11,6 +11,7 @@ import hubble.backend.business.services.models.Performance;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
 import hubble.backend.business.services.models.distValues.performance.DistributionPerformanceGroup;
 import hubble.backend.business.services.models.distValues.performance.DistributionPerformanceUnit;
+import hubble.backend.core.enums.DateTypes;
 import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.CalendarHelper;
@@ -305,7 +306,8 @@ public class PerformanceServiceImpl implements PerformanceService {
                     (int) availabilityStorage.getResponseTime(), //Podria dar overflow porque un long tiene mas valores que un int
                     status,
                     availabilityStorage.getTransactionName(),
-                    dateFormat.format(availabilityStorage.getTimeStamp()))
+                    dateFormat.format(availabilityStorage.getTimeStamp()),
+                    DateTypes.TIMESTAMP)
             );
         }
 
@@ -370,7 +372,8 @@ public class PerformanceServiceImpl implements PerformanceService {
                             (int) availabilityStorage.getResponseTime(), //Podria dar overflow porque un long tiene mas valores que un int
                             status,
                             availabilityStorage.getTransactionName(),
-                            dateFormat.format(availabilityStorage.getTimeStamp()))
+                            dateFormat.format(availabilityStorage.getTimeStamp()),
+                            DateTypes.TIMESTAMP)
                     );
                 }
                 return distValues;
@@ -416,7 +419,8 @@ public class PerformanceServiceImpl implements PerformanceService {
                             value,
                             status,
                             transaction,
-                            date
+                            date,
+                            DateTypes.RANGO
                     ));
                 }
             }

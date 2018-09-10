@@ -1,41 +1,53 @@
 package hubble.backend.business.services.models.distValues.events;
 
 import hubble.backend.business.services.models.distValues.DistValues;
+import hubble.backend.core.enums.DateTypes;
 
 public class DistributionEventsUnit extends DistValues {
+    private DateTypes TipoFecha;
+    private String fecha;
+    private String TipoMonitor;
+    private String Mensaje;
 
-    private String date;
-    private String monitorType;
-    private String message;
-
-    public DistributionEventsUnit(int value, String status, String date, String monitorType, String message){
+    public DistributionEventsUnit(int value, String status, String date, String monitorType, String message,DateTypes tipo){
         super(value,status);
-        this.date = date;
-        this.monitorType = monitorType;
-        this.message = message;
+        this.fecha = date;
+        this.TipoMonitor = monitorType;
+        this.Mensaje = message;
+        this.TipoFecha = tipo;
     }
 
-    public String getDate() {
-        return date;
+
+
+    public DateTypes getTipoFecha() {
+        return TipoFecha;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setTipoFecha(DateTypes tipoFecha) {
+        TipoFecha = tipoFecha;
     }
 
-    public String getMonitorType() {
-        return monitorType;
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setMonitorType(String monitorType) {
-        this.monitorType = monitorType;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
-    public String getMessage() {
-        return message;
+    public String getTipoMonitor() {
+        return TipoMonitor;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setTipoMonitor(String tipoMonitor) {
+        TipoMonitor = tipoMonitor;
+    }
+
+    public String getMensaje() {
+        return Mensaje;
+    }
+
+    public void setMensaje(String mensaje) {
+        Mensaje = mensaje;
     }
 }

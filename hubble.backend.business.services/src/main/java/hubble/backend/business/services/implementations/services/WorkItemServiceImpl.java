@@ -11,6 +11,7 @@ import hubble.backend.business.services.models.distValues.tasks.DistributionTask
 import hubble.backend.business.services.models.distValues.tasks.DistributionTasksUnit;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;
+import hubble.backend.core.enums.DateTypes;
 import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
@@ -173,7 +174,9 @@ public class WorkItemServiceImpl implements WorkItemService {
                     ,status
                     ,workItemStorage.getTitle()
                     ,workItemStorage.getStatus()
-                    ,workItemStorage.getDueDate() == null ? "No due date" : dateFormat.format(workItemStorage.getDueDate())));
+                    ,workItemStorage.getDueDate() == null ? "No due date" : dateFormat.format(workItemStorage.getDueDate())
+                    ,DateTypes.FIN)
+            );
         }
 
         return distValues;
@@ -253,7 +256,8 @@ public class WorkItemServiceImpl implements WorkItemService {
                 distValues.add(new DistributionTasksGroup(
                         (int) value,
                         status,
-                        date
+                        date,
+                        DateTypes.RANGO
                 ));
             }
         }

@@ -10,6 +10,7 @@ import hubble.backend.business.services.models.distValues.issues.DistributionIss
 import hubble.backend.business.services.models.distValues.issues.DistributionIssuesUnit;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
+import hubble.backend.core.enums.DateTypes;
 import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalculationHelper;
 import hubble.backend.core.utils.CalendarHelper;
@@ -199,7 +200,8 @@ public class IssueServiceImpl implements IssueService {
                     criticity,
                     status,
                     issue.getDescription(),
-                    dateFormat.format(issue.getRegisteredDate())
+                    dateFormat.format(issue.getRegisteredDate()),
+                    DateTypes.ALTA
             ));
         }
         return distValues;
@@ -250,7 +252,8 @@ public class IssueServiceImpl implements IssueService {
                             criticity,
                             status,
                             issue.getDescription(),
-                            dateFormat.format(issue.getRegisteredDate())
+                            dateFormat.format(issue.getRegisteredDate()),
+                            DateTypes.ALTA
                     ));
                 }
                 return distValues;
@@ -291,7 +294,8 @@ public class IssueServiceImpl implements IssueService {
                 distValues.add(new DistributionIssuesGroup(
                         value,
                         status,
-                        date
+                        date,
+                        DateTypes.RANGO
                 ));
             }
         }

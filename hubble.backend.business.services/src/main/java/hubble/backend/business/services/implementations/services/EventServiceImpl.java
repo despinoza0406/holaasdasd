@@ -9,6 +9,7 @@ import hubble.backend.business.services.models.Event;
 import hubble.backend.business.services.models.distValues.events.DistributionEventsGroup;
 import hubble.backend.business.services.models.distValues.events.DistributionEventsUnit;
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
+import hubble.backend.core.enums.DateTypes;
 import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalendarHelper;
 import hubble.backend.core.utils.DateHelper;
@@ -155,7 +156,8 @@ public class EventServiceImpl implements EventService {
                     eventStorage.getStatus().equals("Error") ? "Critical" : eventStorage.getStatus(),
                     dateFormat.format(eventStorage.getUpdatedDate()),
                     eventStorage.getType(),
-                    eventStorage.getSummary()
+                    eventStorage.getSummary(),
+                    DateTypes.TIMESTAMP
             ));
         }
         return distValues;
@@ -255,7 +257,8 @@ public class EventServiceImpl implements EventService {
                             value,
                             status,
                             date,
-                            monitor
+                            monitor,
+                            DateTypes.RANGO
                     ));
                 }
             }

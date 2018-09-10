@@ -391,7 +391,12 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
                 defects.setMonthThreashold(kpis.getDefects().getMonthThreashold());
                 break;
             default:
-                return kpis;
+                events.setHourThreashold(kpis.getEvents().getHourThreashold());
+                tasks.setDayThreashold(kpis.getTasks().getDayThreashold());
+                performance.setHourThreashold(kpis.getPerformance().getHourThreashold());
+                availavility.setHourThreashold(kpis.getAvailability().getHourThreashold());
+                defects.setDayThreashold(kpis.getDefects().getDayThreashold());
+                break;
 
         }
         filteredKPIs.setTasks(tasks);
