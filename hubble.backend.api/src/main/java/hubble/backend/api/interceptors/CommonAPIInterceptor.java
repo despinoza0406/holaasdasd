@@ -74,7 +74,7 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
                 response.setHeader("Access-Control-Max-Age", "3600");
                 response.setHeader("Access-Control-Allow-Headers", "access-token");
                 response.addHeader("Access-Control-Expose-Headers", "access-token");
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "TokenInvalido");
+                response.sendError(response.getStatus());
                 return false;
             }
 
@@ -88,7 +88,9 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
     public void postHandle(HttpServletRequest request,
             HttpServletResponse response, Object handler,
             ModelAndView modelAndView) throws Exception {
-
+        
+        logger.log(Level.INFO, "Interceptando el response de la llamada a la API");
+       
         logger.log(Level.INFO, "Request URL::{0} Sent to Handler :: Current Time={1}",
                 new Object[]{request.getRequestURL().toString(), System.currentTimeMillis()});
     }
@@ -123,7 +125,7 @@ public class CommonAPIInterceptor extends HandlerInterceptorAdapter {
                         request.setAttribute("authenticated-user", user);
                         return true;
                     } else {
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                         throw new RuntimeException("No tiene el rol necesario para realizar esta acción.");
                     }
                 }

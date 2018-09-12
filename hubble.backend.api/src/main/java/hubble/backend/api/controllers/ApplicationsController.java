@@ -17,8 +17,9 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import hubble.backend.storage.models.KPIs;
 import hubble.backend.storage.models.UserStorage;
-import java.util.ArrayList;
+import java.io.IOException;
 import static java.util.stream.Collectors.toList;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -51,25 +52,21 @@ public class ApplicationsController {
     @TokenRequired
     @RolUserRequired
     @GetMapping(value = "/{id}")
-    public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req,
+    public BusinessApplicationFrontend getApplicationFrontend(HttpServletRequest req, HttpServletResponse resp,
             @PathVariable("id") String applicationId,
-            @RequestParam(value = "periodo", defaultValue = "default") String timePeriod) {
+            @RequestParam(value = "periodo", defaultValue = "default") String timePeriod) throws IOException {
+
+        BusinessApplicationFrontend applicationFrontend = null;
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
 
-        if (userAuthenticated != null && userAuthenticated.isUser()) {
-
-            if (!userAuthenticated.hasAccess(applicationId)) {
-                throw new RuntimeException("El usuario no tiene acutorizado el acceso a la aplicación solicitada");
-            }
-
-            BusinessApplicationFrontend applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId, timePeriod);
-
-            return applicationFrontend;
-
+        if (validateUserPermissions(userAuthenticated) && validateUserApps(userAuthenticated, applicationId)) {
+            applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId, timePeriod);
         } else {
-            throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
+            sendMethodNotAllowed(resp);
         }
+
+        return applicationFrontend;
 
     }
 
@@ -77,23 +74,22 @@ public class ApplicationsController {
     @TokenRequired
     @RolUserRequired
     @GetMapping(value = "/dashBoard")
-    public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req,
+    public List<BusinessApplicationFrontend> getApplications(HttpServletRequest req, HttpServletResponse resp,
             @RequestParam("include-inactives") Optional<Boolean> includeInactives,
             @RequestParam("page") int page,
             @RequestParam("limit") int limit,
-            @RequestParam(value = "periodo", defaultValue = "default") String periodo) {
+            @RequestParam(value = "periodo", defaultValue = "default") String periodo) throws IOException {
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
 
-        List<BusinessApplicationFrontend> applicationFrontends = businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false), periodo);
+        List<BusinessApplicationFrontend> applicationFrontends = null;
 
-        //Filtro por las aplicaciones q puede ver el usuario autenticado!
-        if (userAuthenticated != null && userAuthenticated.isUser()) {
-
+        if (validateUserPermissions(userAuthenticated)) {
+            applicationFrontends = businessAppMgr.getBusinessApplicationsFrontend(includeInactives.orElse(false), periodo);
+            //Filtro por las aplicaciones q puede ver el usuario autenticado!
             applicationFrontends = applicationFrontends.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
-
         } else {
-            throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
+            sendMethodNotAllowed(resp);
         }
 
         return applicationFrontends;
@@ -104,23 +100,18 @@ public class ApplicationsController {
     @TokenRequired
     @RolUserRequired
     @GetMapping(value = "/{id}/kpis")
-    public KPIs getApplicationKPIs(HttpServletRequest req, @PathVariable("id") String appId,
-                                   @RequestParam(value = "periodo", required = false, defaultValue = "") String periodo) {
+    public KPIs getApplicationKPIs(HttpServletRequest req, HttpServletResponse resp, @PathVariable("id") String appId,
+            @RequestParam(value = "periodo", required = false, defaultValue = "") String periodo) throws IOException {
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
+        KPIs kpis = null;
 
-        if (userAuthenticated != null && userAuthenticated.isUser()) {
-
-            if (!userAuthenticated.hasAccess(appId)) {
-                throw new RuntimeException("El usuario no tiene acutorizado el acceso a la aplicación solicitada");
-            }
-
-            return businessAppMgr.getKPIs(appId,periodo);
-
+        if (validateUserPermissions(userAuthenticated) && validateUserApps(userAuthenticated, appId)) {
+            kpis = businessAppMgr.getKPIs(appId, periodo);
         } else {
-            throw new RuntimeException("No se ha podido comprobar la autorización del usuario autenticado.");
+            sendMethodNotAllowed(resp);
         }
-
+        return kpis;
     }
 
     /**
@@ -144,6 +135,7 @@ public class ApplicationsController {
      * No tiene puesto rol required pq se usa con cualquiera de los dos!
      *
      * @param req
+     * @param resp
      * @param includeInactives
      * @return
      */
@@ -151,18 +143,19 @@ public class ApplicationsController {
     @TokenRequired
     @RolUserRequired
     @GetMapping(value = "/ligth", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<BusinessApplicationLigth> getApplicationsLigth(HttpServletRequest req, @RequestParam("include-inactives") Optional<Boolean> includeInactives) {
+    public List<BusinessApplicationLigth> getApplicationsLigth(HttpServletRequest req, HttpServletResponse resp, @RequestParam("include-inactives") Optional<Boolean> includeInactives) throws IOException {
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
+        List<BusinessApplicationLigth> businessApplicationLigth  = null;
 
-        List<BusinessApplicationLigth> businessApplicationLigth = businessAppMgr.getApplicationsLigth(includeInactives.orElse(false));
-
-        //Filtro por las aplicaciones q puede ver el usuario autenticado!
-        if (userAuthenticated != null && (userAuthenticated.isUser())) {
-
+        if (validateUserPermissions(userAuthenticated)) {
+             businessApplicationLigth = businessAppMgr.getApplicationsLigth(includeInactives.orElse(false));
+            //Filtro por las aplicaciones q puede ver el usuario autenticado!
             businessApplicationLigth = businessApplicationLigth.stream().filter(app -> userAuthenticated.getApplications().stream().map(ApplicationStorage::getId).anyMatch(id -> id.equalsIgnoreCase(app.getId()))).collect(toList());
-
+        } else {
+            sendMethodNotAllowed(resp);
         }
+
         return businessApplicationLigth;
 
     }
@@ -174,7 +167,6 @@ public class ApplicationsController {
     public ResponseEntity habilitarDeshabilitar(@RequestBody EnabledDisabledEntity enabledDisabledEntity) {
 
         try {
-
             applicationService.enabledDisabled(enabledDisabledEntity.getId(), enabledDisabledEntity.isEnabled());
             return new ResponseEntity<>(HttpStatus.OK);
 
@@ -250,6 +242,18 @@ public class ApplicationsController {
             return new ResponseEntity(new hubble.backend.api.models.Error(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Error", t.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    private void sendMethodNotAllowed(HttpServletResponse resp) throws IOException {
+        resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "No Autorizado");
+    }
+
+    private boolean validateUserPermissions(UserStorage userAuthenticated) {
+        return userAuthenticated != null && userAuthenticated.isUser();
+    }
+
+    private boolean validateUserApps(UserStorage userAuthenticated, String applicationId) {
+        return userAuthenticated.hasAccess(applicationId);
     }
 
 }
