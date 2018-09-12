@@ -16,6 +16,7 @@ public class Performance{
     private Threashold dayThreashold;
     private Threashold weekThreashold;
     private Threashold monthThreashold;
+    private Threashold unitaryThreashold;
     private ApplicationInProvider bsm;
     private ApplicationInProvider appPulse;
     private final double limiteInferior = 0;
@@ -24,13 +25,14 @@ public class Performance{
     public Performance() {
     }
 
-    public Performance(boolean enabled, Threashold hourThreashold, Threashold dayThreashold, Threashold weekThreashold,
+    public Performance(boolean enabled, Threashold hourThreashold, Threashold dayThreashold, Threashold weekThreashold, Threashold unitaryThreashold,
         Threashold monthThreashold, ApplicationInProvider bsm, ApplicationInProvider appPulse) {
         this.enabled = enabled;
         this.hourThreashold = hourThreashold;
         this.dayThreashold = dayThreashold;
         this.weekThreashold = weekThreashold;
         this.monthThreashold = monthThreashold;
+        this.unitaryThreashold = unitaryThreashold;
         this.bsm = bsm;
         this.appPulse = appPulse;
     }
@@ -77,6 +79,14 @@ public class Performance{
         this.monthThreashold = monthThreashold;
     }
 
+    public Threashold getUnitaryThreashold() {
+        return unitaryThreashold;
+    }
+
+    public void setUnitaryThreashold(Threashold unitaryThreashold) {
+        this.unitaryThreashold = unitaryThreashold;
+    }
+    
     public ApplicationInProvider getBsm() {
         return bsm;
     }
