@@ -16,6 +16,7 @@ public class Events{
     private Threashold dayThreashold;
     private Threashold weekThreashold;
     private Threashold monthThreashold;
+    private Threashold unitaryThreashold;
     private ApplicationInProvider siteScope;
     private final double limiteInferior = 0;
     private final double limiteSuperior = Double.POSITIVE_INFINITY;
@@ -30,6 +31,7 @@ public class Events{
         this.dayThreashold = dayThreashold;
         this.weekThreashold = weekThreashold;
         this.monthThreashold = monthThreashold;
+        this.unitaryThreashold = this.unitaryDefault();
         this.siteScope = siteScope;
     }
 
@@ -115,4 +117,17 @@ public class Events{
         return limiteSuperior;
     }
 
+    public Threashold unitaryDefault(){
+
+        return new Threashold(0,0,1,2);
+
+    }
+
+    public Threashold getUnitaryThreashold() {
+        return unitaryThreashold;
+    }
+
+    public void setUnitaryThreashold(Threashold unitaryThreashold) {
+        this.unitaryThreashold = unitaryThreashold;
+    }
 }
