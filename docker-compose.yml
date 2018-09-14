@@ -17,7 +17,7 @@ services:
             - "8080:8080"
         hostname: hubble-api
         external_links:
-            - hubble-mongodb
+            - mongo-andre
         network_mode: bridge
         
     hubble-taskrunner:
@@ -27,6 +27,6 @@ services:
             - "8090:8090"
         hostname: hubble-taskrunner
         external_links:
-            - hubble-mongodb
+            - mongo-andre
         network_mode: bridge
 
