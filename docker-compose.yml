@@ -17,9 +17,8 @@ services:
             - "8080:8080"
         hostname: hubble-api
         external_links:
-            - hubble-mongodb
-        #depends_on:
-        #    - mongodb
+            - mongodb
+        network_mode: bridge
         
     hubble-taskrunner:
         build: ./hubble.backend.tasksrunner
@@ -28,8 +27,6 @@ services:
             - "8090:8090"
         hostname: hubble-taskrunner
         external_links:
-            - hubble-mongodb
-        #    stdin_open: true
-        #    tty: true
-        #    depends_on:
-        #        - hubble-api
+            - mongodb
+        network_mode: bridge
+
