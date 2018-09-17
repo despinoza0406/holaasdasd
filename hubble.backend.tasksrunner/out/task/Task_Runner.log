@@ -1,12 +1,46 @@
-04/09/2018 14:56:12.860 [main] INFO  h.b.t.a.TasksRunnerApplication - Starting TasksRunnerApplication v1.0-SNAPSHOT on AR-NB-234 with PID 5308 (C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target\hubble.backend.tasksrunner-1.0-SNAPSHOT.jar started by andre.vigneaux in C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target) 
-04/09/2018 14:56:12.923 [main] INFO  h.b.t.a.TasksRunnerApplication - The following profiles are active: test 
-04/09/2018 14:56:26.744 [main] INFO  h.b.t.a.TasksRunnerApplication - Started TasksRunnerApplication in 14.874 seconds (JVM running for 17.41) 
-04/09/2018 15:00:03.464 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
-04/09/2018 15:00:03.491 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
-04/09/2018 15:00:03.508 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
-04/09/2018 15:00:05.373 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: SUCCESS 
-04/09/2018 15:00:05.378 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: SUCCESS 
-04/09/2018 15:00:05.383 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: SUCCESS 
-04/09/2018 15:05:00.325 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
-04/09/2018 15:05:00.340 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
-04/09/2018 15:05:00.346 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
+14/09/2018 13:45:26.979 [main] INFO  h.b.t.a.TasksRunnerApplication - Starting TasksRunnerApplication v1.0-SNAPSHOT on daniel-HP-240-G4-Notebook-PC with PID 8838 (/home/daniel/Documents/Work/IdeaProjects/Tsoft-Analytics-Bridge/hubble.backend.tasksrunner/target/hubble.backend.tasksrunner-1.0-SNAPSHOT.jar started by daniel in /home/daniel/Documents/Work/IdeaProjects/Tsoft-Analytics-Bridge/hubble.backend.tasksrunner/target) 
+14/09/2018 13:45:27.064 [main] INFO  h.b.t.a.TasksRunnerApplication - The following profiles are active: test 
+14/09/2018 13:45:51.942 [main] INFO  h.b.t.a.TasksRunnerApplication - Started TasksRunnerApplication in 26.7 seconds (JVM running for 31.949) 
+14/09/2018 13:46:13.261 ["Hubble Job Quartz Scheduler"_Worker-3] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+14/09/2018 13:46:13.291 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+14/09/2018 13:46:13.342 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+14/09/2018 13:46:13.350 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+14/09/2018 13:46:19.365 ["Hubble Job Quartz Scheduler"_Worker-4] WARN  h.b.p.p.i.bsm.BsmParserDataImpl - No se obtuvo data de BSM 
+14/09/2018 13:46:19.369 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+14/09/2018 13:46:19.372 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+14/09/2018 13:46:19.373 ["Hubble Job Quartz Scheduler"_Worker-4] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: FAILURE 
+14/09/2018 13:46:31.637 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de jira. Resultado: SUCCESS 
+14/09/2018 13:46:31.638 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de jira. Resultado: SUCCESS 
+14/09/2018 13:46:31.639 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de jira. Resultado: SUCCESS 
+14/09/2018 13:46:47.240 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
+14/09/2018 13:46:47.244 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
+14/09/2018 13:46:47.245 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
+14/09/2018 13:46:49.760 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de alm. Resultado: SUCCESS 
+14/09/2018 13:46:49.762 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de alm. Resultado: SUCCESS 
+14/09/2018 13:46:49.763 ["Hubble Job Quartz Scheduler"_Worker-5] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de alm. Resultado: SUCCESS 
+14/09/2018 13:47:38.221 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.230 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.241 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.248 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.259 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.264 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.282 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.289 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.298 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.314 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.323 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.328 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.332 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.337 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.342 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.346 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.350 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.358 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.366 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.375 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.387 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:38.391 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name:  
+14/09/2018 13:47:39.846 ["Hubble Job Quartz Scheduler"_Worker-2] WARN  h.b.p.p.i.ppm.PpmDataParserImpl - Ppm field for applications and ids map not correctly configured in properties file for specified app name: Banca MÃ³vil 
+14/09/2018 13:47:39.931 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de ppm. Resultado: SUCCESS 
+14/09/2018 13:47:39.932 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de ppm. Resultado: SUCCESS 
+14/09/2018 13:47:39.933 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de ppm. Resultado: SUCCESS 

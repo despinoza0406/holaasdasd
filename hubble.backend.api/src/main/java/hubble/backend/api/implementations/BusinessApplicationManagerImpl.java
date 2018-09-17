@@ -363,39 +363,39 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
         switch (periodo){
             case "default":
+                events.setUnitaryThreashold(kpis.getEvents().getUnitaryThreashold());
+                tasks.setUnitaryThreashold(kpis.getTasks().getUnitaryThreashold());
+                performance.setUnitaryThreashold(kpis.getPerformance().getUnitaryThreashold());
+                availavility.setUnitaryThreashold(kpis.getAvailability().getUnitaryThreashold());
+                defects.setUnitaryThreashold(kpis.getDefects().getUnitaryThreashold());
+                break;
+            case "dia":
                 events.setHourThreashold(kpis.getEvents().getHourThreashold());
                 tasks.setDayThreashold(kpis.getTasks().getDayThreashold());
                 performance.setHourThreashold(kpis.getPerformance().getHourThreashold());
                 availavility.setHourThreashold(kpis.getAvailability().getHourThreashold());
                 defects.setDayThreashold(kpis.getDefects().getDayThreashold());
                 break;
-            case "dia":
+            case "semana":
                 events.setDayThreashold(kpis.getEvents().getDayThreashold());
                 tasks.setDayThreashold(kpis.getTasks().getDayThreashold());
                 performance.setDayThreashold(kpis.getPerformance().getDayThreashold());
                 availavility.setDayThreashold(kpis.getAvailability().getDayThreashold());
                 defects.setDayThreashold(kpis.getDefects().getDayThreashold());
                 break;
-            case "semana":
+            case "mes":
                 events.setWeekThreashold(kpis.getEvents().getWeekThreashold());
                 tasks.setWeekThreashold(kpis.getTasks().getWeekThreashold());
                 performance.setWeekThreashold(kpis.getPerformance().getWeekThreashold());
                 availavility.setWeekThreashold(kpis.getAvailability().getWeekThreashold());
                 defects.setWeekThreashold(kpis.getDefects().getWeekThreashold());
                 break;
-            case "mes":
-                events.setMonthThreashold(kpis.getEvents().getMonthThreashold());
-                tasks.setMonthThreashold(kpis.getTasks().getMonthThreashold());
-                performance.setMonthThreashold(kpis.getPerformance().getMonthThreashold());
-                availavility.setMonthThreashold(kpis.getAvailability().getMonthThreashold());
-                defects.setMonthThreashold(kpis.getDefects().getMonthThreashold());
-                break;
             default:
-                events.setHourThreashold(kpis.getEvents().getHourThreashold());
-                tasks.setDayThreashold(kpis.getTasks().getDayThreashold());
-                performance.setHourThreashold(kpis.getPerformance().getHourThreashold());
-                availavility.setHourThreashold(kpis.getAvailability().getHourThreashold());
-                defects.setDayThreashold(kpis.getDefects().getDayThreashold());
+                events.setUnitaryThreashold(kpis.getEvents().getUnitaryThreashold());
+                tasks.setUnitaryThreashold(kpis.getTasks().getUnitaryThreashold());
+                performance.setUnitaryThreashold(kpis.getPerformance().getUnitaryThreashold());
+                availavility.setUnitaryThreashold(kpis.getAvailability().getUnitaryThreashold());
+                defects.setUnitaryThreashold(kpis.getDefects().getUnitaryThreashold());
                 break;
 
         }
@@ -404,7 +404,6 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         filteredKPIs.setAvailability(availavility);
         filteredKPIs.setEvents(events);
         filteredKPIs.setDefects(defects);
-        //filteredKPIs.setEnabledKPIs(kpis.getEnabledKPIs());
         return filteredKPIs;
     }
 }

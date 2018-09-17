@@ -102,10 +102,10 @@ public class ApplicationsServiceImpl implements ApplicationService {
         List<Threashold> th = crearThreasholdsDefaults();
 
         return new KPIs(
-                new Tasks(false, th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("", Boolean.FALSE)),
+                new Tasks(false, th.get(0), th.get(0), th.get(0), th.get(4), ApplicationInProvider.standard("", Boolean.FALSE)),
                 new Defects(false, th.get(3), th.get(3), th.get(3), ApplicationInProvider.standard("", Boolean.FALSE), ApplicationInProviderJira.standard("", "", Boolean.FALSE)),
                 new Availavility(false, th.get(1), th.get(1), th.get(1), th.get(1), ApplicationInProvider.standard("", Boolean.FALSE), ApplicationInProvider.standard("", Boolean.FALSE)),
-                new Performance(false, th.get(2), th.get(2), th.get(2), th.get(2), ApplicationInProvider.standard("", Boolean.FALSE), ApplicationInProvider.standard("", Boolean.FALSE)),
+                new Performance(false, th.get(2), th.get(2), th.get(2), th.get(2), th.get(5), ApplicationInProvider.standard("", Boolean.FALSE), ApplicationInProvider.standard("", Boolean.FALSE)),
                 new Events(false, th.get(0), th.get(0), th.get(0), th.get(0), ApplicationInProvider.standard("", Boolean.FALSE)));
     }
 
@@ -115,6 +115,9 @@ public class ApplicationsServiceImpl implements ApplicationService {
         threasholds.add(new Threashold(0, 0, 0, 0)); //Disponibilidad
         threasholds.add(new Threashold(0, 0, 0, 0)); //performance
         threasholds.add(new Threashold(0, 0, 0, 0)); //Defects
+        
+        threasholds.add(new Threashold(0, 0, 0, 0)); //Tasks Unitary
+        threasholds.add(new Threashold(0, 0, 0, 0)); //Performance Unitary
 
         return threasholds;
 

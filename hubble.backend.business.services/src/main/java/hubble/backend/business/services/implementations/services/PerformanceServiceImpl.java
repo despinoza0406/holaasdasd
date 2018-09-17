@@ -279,7 +279,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
         ApplicationStorage application = applicationRepository.findApplicationById(id);
-        Threashold threshold = application.getKpis().getPerformance().getHourThreashold();
+        Threashold threshold = application.getKpis().getPerformance().getUnitaryThreashold();
 
         inferior = threshold.getInferior();
         superior = threshold.getSuperior();

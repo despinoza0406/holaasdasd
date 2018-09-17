@@ -152,7 +152,7 @@ public class WorkItemServiceImpl implements WorkItemService {
         Date endDate = DateHelper.getEndDate(periodo);
 
         ApplicationStorage application = applicationRepository.findApplicationById(id);
-        Threashold threshold = application.getKpis().getTasks().getDayThreashold();
+        Threashold threshold = application.getKpis().getTasks().getUnitaryThreashold();
 
         double inferior = threshold.getInferior();
         double superior = threshold.getSuperior();
