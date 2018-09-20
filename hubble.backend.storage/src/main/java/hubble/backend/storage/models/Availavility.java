@@ -16,6 +16,7 @@ public class Availavility{
     private Threashold dayThreashold;
     private Threashold weekThreashold;
     private Threashold monthThreashold;
+    private Threashold unitaryThreashold;
     private ApplicationInProvider bsm;
     private ApplicationInProvider appPulse;
     private final double limiteInferior = 100;
@@ -31,6 +32,7 @@ public class Availavility{
         this.dayThreashold = dayThreashold;
         this.weekThreashold = weekThreashold;
         this.monthThreashold = monthThreashold;
+        this.unitaryThreashold = this.unitaryDefault();
         this.bsm = bsm;
         this.appPulse = appPulse;
     }
@@ -125,4 +127,17 @@ public class Availavility{
     }
 
 
+    public Threashold getUnitaryThreashold() {
+        return unitaryThreashold;
+    }
+
+    public void setUnitaryThreashold(Threashold unitaryThreashold) {
+        this.unitaryThreashold = unitaryThreashold;
+    }
+
+    public Threashold unitaryDefault(){
+
+        return new Threashold(100,100,50,0);
+
+    }
 }

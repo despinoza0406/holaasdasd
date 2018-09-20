@@ -200,7 +200,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                     availabilityStorage.getAvailabilityStatus(),
                     availabilityStorage.getTransactionName(),
                     dateFormat.format(availabilityStorage.getTimeStamp()),
-                    DateTypes.TIMESTAMP)
+                    DateTypes.Captura)
             );
         }
         return distValues;
@@ -252,7 +252,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                             availabilityStorage.getAvailabilityStatus().equals("Failed") ? "Critical" : "OK",
                             availabilityStorage.getTransactionName(),
                             dateFormat.format(availabilityStorage.getTimeStamp()),
-                            DateTypes.TIMESTAMP)
+                            DateTypes.Captura)
                     );
                 }
                 return distValues;
@@ -301,7 +301,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                             status,
                             transaction,
                             date,
-                            DateTypes.RANGO
+                            DateTypes.Rango
                     ));
                 }
             }

@@ -1,0 +1,12 @@
+04/09/2018 14:56:12.860 [main] INFO  h.b.t.a.TasksRunnerApplication - Starting TasksRunnerApplication v1.0-SNAPSHOT on AR-NB-234 with PID 5308 (C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target\hubble.backend.tasksrunner-1.0-SNAPSHOT.jar started by andre.vigneaux in C:\Users\andre.vigneaux\repositories\Tsoft-Analytics-Bridge\hubble.backend.tasksrunner\target) 
+04/09/2018 14:56:12.923 [main] INFO  h.b.t.a.TasksRunnerApplication - The following profiles are active: test 
+04/09/2018 14:56:26.744 [main] INFO  h.b.t.a.TasksRunnerApplication - Started TasksRunnerApplication in 14.874 seconds (JVM running for 17.41) 
+04/09/2018 15:00:03.464 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
+04/09/2018 15:00:03.491 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
+04/09/2018 15:00:03.508 ["Hubble Job Quartz Scheduler"_Worker-2] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
+04/09/2018 15:00:05.373 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: SUCCESS 
+04/09/2018 15:00:05.378 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: SUCCESS 
+04/09/2018 15:00:05.383 ["Hubble Job Quartz Scheduler"_Worker-1] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de bsm. Resultado: SUCCESS 
+04/09/2018 15:05:00.325 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
+04/09/2018 15:05:00.340 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 
+04/09/2018 15:05:00.346 ["Hubble Job Quartz Scheduler"_Worker-3] INFO  h.b.p.c.f.TaskRunnerExecutionFactory - Ejecucion de sitescope. Resultado: SUCCESS 

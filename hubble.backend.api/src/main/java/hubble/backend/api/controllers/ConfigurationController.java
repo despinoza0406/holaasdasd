@@ -1,6 +1,7 @@
 package hubble.backend.api.controllers;
 
 import hubble.backend.api.interfaces.RolAdminRequired;
+import hubble.backend.api.interfaces.RolUserRequired;
 import hubble.backend.api.interfaces.TokenRequired;
 import hubble.backend.core.utils.CalculationHelper;
 import org.json.simple.JSONObject;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class ConfigurationController {
 
     @TokenRequired
-    @RolAdminRequired
     @GetMapping(value = "/indexes")
     public ResponseEntity<Object> getIndexes() {
         JSONObject jsonObject = new JSONObject();

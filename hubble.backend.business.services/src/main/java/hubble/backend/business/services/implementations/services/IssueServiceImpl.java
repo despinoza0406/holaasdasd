@@ -201,7 +201,7 @@ public class IssueServiceImpl implements IssueService {
                     status,
                     issue.getDescription(),
                     dateFormat.format(issue.getRegisteredDate()),
-                    DateTypes.ALTA
+                    DateTypes.Alta
             ));
         }
         return distValues;
@@ -253,7 +253,7 @@ public class IssueServiceImpl implements IssueService {
                             status,
                             issue.getDescription(),
                             dateFormat.format(issue.getRegisteredDate()),
-                            DateTypes.ALTA
+                            DateTypes.Alta
                     ));
                 }
                 return distValues;
@@ -295,7 +295,7 @@ public class IssueServiceImpl implements IssueService {
                         value,
                         status,
                         date,
-                        DateTypes.RANGO
+                        DateTypes.Rango
                 ));
             }
         }

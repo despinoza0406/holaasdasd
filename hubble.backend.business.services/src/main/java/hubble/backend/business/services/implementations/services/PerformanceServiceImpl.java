@@ -279,7 +279,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
         ApplicationStorage application = applicationRepository.findApplicationById(id);
-        Threashold threshold = application.getKpis().getPerformance().getHourThreashold();
+        Threashold threshold = application.getKpis().getPerformance().getUnitaryThreashold();
 
         inferior = threshold.getInferior();
         superior = threshold.getSuperior();
@@ -307,7 +307,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                     status,
                     availabilityStorage.getTransactionName(),
                     dateFormat.format(availabilityStorage.getTimeStamp()),
-                    DateTypes.TIMESTAMP)
+                    DateTypes.Captura)
             );
         }
 
@@ -373,7 +373,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                             status,
                             availabilityStorage.getTransactionName(),
                             dateFormat.format(availabilityStorage.getTimeStamp()),
-                            DateTypes.TIMESTAMP)
+                            DateTypes.Captura)
                     );
                 }
                 return distValues;
@@ -420,7 +420,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                             status,
                             transaction,
                             date,
-                            DateTypes.RANGO
+                            DateTypes.Rango
                     ));
                 }
             }

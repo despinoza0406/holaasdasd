@@ -15,6 +15,7 @@ public class Defects {
     private Threashold dayThreashold;
     private Threashold weekThreashold;
     private Threashold monthThreashold;
+    private Threashold unitaryThreashold;
     private ApplicationInProvider alm;
     private ApplicationInProviderJira jira;
     private final double limiteInferior = 0;
@@ -29,6 +30,7 @@ public class Defects {
         this.dayThreashold = dayThreashold;
         this.weekThreashold = weekThreashold;
         this.monthThreashold = monthThreashold;
+        this.unitaryThreashold = this.unitaryDefault();
         this.alm = alm;
         this.jira = jira;
     }
@@ -113,4 +115,17 @@ public class Defects {
         return limiteSuperior;
     }
 
+    public Threashold unitaryDefault(){
+
+        return new Threashold(1,1,2,3);
+
+    }
+
+    public Threashold getUnitaryThreashold() {
+        return unitaryThreashold;
+    }
+
+    public void setUnitaryThreashold(Threashold unitaryThreashold) {
+        this.unitaryThreashold = unitaryThreashold;
+    }
 }
