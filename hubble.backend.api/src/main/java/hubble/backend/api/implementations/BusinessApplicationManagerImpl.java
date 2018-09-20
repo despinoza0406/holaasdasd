@@ -9,6 +9,7 @@ import hubble.backend.business.services.interfaces.services.kpis.KpiAveragesServ
 import hubble.backend.business.services.models.Application;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.measures.Uptime;
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.enums.Results;
@@ -155,6 +156,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id,String period) {
         BusinessApplicationFrontend businessApplicationFrontend = getBusinessApplicationFrontend(id,period);
         setDistValues(businessApplicationFrontend.getKpis(), id,period);
+        setLineGraphDistValues(businessApplicationFrontend.getKpis(),id,period);
         return businessApplicationFrontend;
     }
 
@@ -163,6 +165,14 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         for (KpiFrontend kpi : kpis) {
             distValues = getDistValuesOf(kpi.getKpiName(), id,period);
             kpi.setDistribution(distValues);
+        }
+    }
+
+    private void setLineGraphDistValues(List<KpiFrontend> kpis, String id, String period){
+        List<LineGraphDistValues> distValues;
+        for(KpiFrontend kpi : kpis){
+            distValues = getLineGraphDistValuesOf(kpi.getKpiName(),id,period);
+            kpi.setLineGraphValues(distValues);
         }
     }
 
@@ -320,6 +330,33 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
                 break;
             case "Eventos":
                 distValues = eventService.getDistValues(id,period);
+                break;
+            default:
+                distValues = new ArrayList<>();
+                break;
+        }
+        return distValues;
+    }
+
+    @Override
+    public List<LineGraphDistValues> getLineGraphDistValuesOf(String kpiName,String id, String period){
+        List<LineGraphDistValues> distValues;
+
+        switch (kpiName) {
+            case "Disponibilidad":
+                distValues = availabilityService.getLineGraphDistValues(id,period);
+                break;
+            case "Performance":
+                distValues = performanceService.getLineGraphDistValues(id,period);
+                break;
+            case "Incidencias":
+                distValues = issueService.getLineGraphDistValues(id,period);
+                break;
+            case "Tareas":
+                distValues = workItemService.getLineGraphDistValues(id,period);
+                break;
+            case "Eventos":
+                distValues = eventService.getLineGraphDistValues(id,period);
                 break;
             default:
                 distValues = new ArrayList<>();

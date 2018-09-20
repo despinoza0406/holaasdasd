@@ -6,6 +6,7 @@ import hubble.backend.business.services.interfaces.services.EventService;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.Event;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.events.DistributionEventsGroup;
 import hubble.backend.business.services.models.distValues.events.DistributionEventsUnit;
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
@@ -24,6 +25,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.sound.sampled.Line;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -140,6 +142,52 @@ public class EventServiceImpl implements EventService {
 
 
         return distValues;
+    }
+
+    @Override
+    public List<LineGraphDistValues> getLineGraphDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues;
+        String period = this.calculatePeriod(periodo);
+
+        if(period.equals("hora")){
+            distValues = this.getLineGraphUnitDistValues(id,period);
+        }else {
+            distValues = this.getLineGraphGroupDistValues(id,period);
+        }
+
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphUnitDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues;
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        List<EventStorage> eventsStorage =
+                eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(id,startDate,endDate, "Good");
+
+        dateFormat = new SimpleDateFormat("HH:mm");
+        distValues = eventsStorage.stream()
+                .sorted(Comparator.comparing(EventStorage::getUpdatedDate))
+                .map(eventStorage ->
+                new LineGraphDistValues(eventStorage.getId(),eventStorage.getSeverityPoints(),dateFormat.format(eventStorage.getUpdatedDate())))
+                .collect(Collectors.toList());
+
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphGroupDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        List<EventStorage> eventsStorage =
+                eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(id,startDate,endDate, "Good");
+
+        return distValues;
+
     }
 
     private List<DistValues> getUnitDistValues(String id, String periodo){

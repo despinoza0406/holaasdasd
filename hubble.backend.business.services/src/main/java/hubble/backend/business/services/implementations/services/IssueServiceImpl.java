@@ -6,6 +6,7 @@ import hubble.backend.business.services.interfaces.operations.kpis.IssuesKpiOper
 import hubble.backend.business.services.interfaces.services.IssueService;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.Issue;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.issues.DistributionIssuesGroup;
 import hubble.backend.business.services.models.distValues.issues.DistributionIssuesUnit;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
@@ -179,9 +180,56 @@ public class IssueServiceImpl implements IssueService {
         return distValues;
     }
 
+
+    @Override
+    public List<LineGraphDistValues> getLineGraphDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues;
+        String period = this.calculatePeriod(periodo);
+
+
+        if(period.equals("dia")) {
+            distValues = this.getLineGraphUnitDistValues(id,period);
+        }else{
+            distValues = this.getLineGraphGroupDistValues(id,period);
+        }
+
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphUnitDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        List<IssueStorage> issuesStorage =
+                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(id,startDate,endDate);
+
+        distValues = issuesStorage.stream()
+                .map(issue ->
+
+                        new LineGraphDistValues(issue.getId(),(this.getPriority(issue) + this.getSeverity(issue)) / 2,
+                        issue.getProviderOrigin() + "-" + issue.getExternalId()))
+                .sorted(Comparator.comparing(LineGraphDistValues::getxAxis))
+                .collect(Collectors.toList());
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphGroupDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+
+        List<IssueStorage> issuesStorage =
+                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(id,startDate,endDate);
+
+        return distValues;
+    }
+
     private List<DistValues> getUnitDistValues(String id, String periodo){
         List<DistValues> distValues = new ArrayList<>();
-        periodo = this.calculatePeriod(periodo);
 
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);

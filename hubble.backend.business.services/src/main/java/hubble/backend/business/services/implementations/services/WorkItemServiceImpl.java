@@ -7,6 +7,7 @@ import hubble.backend.business.services.interfaces.services.WorkItemService;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.WorkItem;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.tasks.DistributionTasksGroup;
 import hubble.backend.business.services.models.distValues.tasks.DistributionTasksUnit;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
@@ -134,7 +135,7 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     @Override
     public List<DistValues> getDistValues(String id, String periodo) {
-        List<DistValues> distValues = new ArrayList<>();
+        List<DistValues> distValues;
         String period = this.calculatePeriod(periodo);
 
         if(period.equals("dia")){
@@ -145,6 +146,56 @@ public class WorkItemServiceImpl implements WorkItemService {
         return distValues;
 
     }
+
+    @Override
+    public List<LineGraphDistValues> getLineGraphDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues;
+        String period = this.calculatePeriod(periodo);
+
+        if(period.equals("dia")){
+            distValues = this.getLineGraphUnitDistValues(id,period);
+        }else {
+            distValues = this.getLineGraphGroupDistValues(id,period);
+        }
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphUnitDistValues(String id,String periodo){
+        List<LineGraphDistValues> distValues;
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        ApplicationStorage application = applicationRepository.findApplicationById(id);
+        Threashold threshold = application.getKpis().getTasks().getUnitaryThreashold();
+
+        double inferior = threshold.getInferior();
+        double superior = threshold.getSuperior();
+        double criticalThreshold = threshold.getCritical();
+        double warningThreshold = threshold.getWarning();
+
+        List<WorkItemStorage> workItemsStorage =
+                workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(id,startDate,endDate, "IN_PROGRESS");
+
+        distValues = workItemsStorage.stream()
+                .map( workItem ->
+                new LineGraphDistValues(workItem.getId(),(int)workItem.getDeflectionDays(),workItem.getProviderOrigin() + "-" + Integer.toString(workItem.getExternalId())))
+                .sorted(Comparator.comparing(LineGraphDistValues::getxAxis))
+                .collect(Collectors.toList());
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphGroupDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        List<WorkItemStorage> workItemsStorage =
+                workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(id,startDate,endDate, "IN_PROGRESS");
+
+        return distValues;
+    }
+
 
     private List<DistValues> getUnitDistValues(String id, String periodo){
         List<DistValues> distValues = new ArrayList<>();
