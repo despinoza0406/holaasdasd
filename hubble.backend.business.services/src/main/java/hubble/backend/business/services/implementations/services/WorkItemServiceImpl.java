@@ -175,7 +175,7 @@ public class WorkItemServiceImpl implements WorkItemService {
                     ,workItemStorage.getTitle()
                     ,workItemStorage.getStatus()
                     ,workItemStorage.getDueDate() == null ? "No due date" : dateFormat.format(workItemStorage.getDueDate())
-                    ,DateTypes.FIN)
+                    ,DateTypes.Estimada_de_fin)
             );
         }
 
@@ -257,7 +257,7 @@ public class WorkItemServiceImpl implements WorkItemService {
                         (int) value,
                         status,
                         date,
-                        DateTypes.RANGO
+                        DateTypes.Rango
                 ));
             }
         }

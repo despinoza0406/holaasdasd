@@ -1,8 +1,8 @@
 package hubble.backend.core.enums;
 
 public enum DateTypes {
-    ALTA,
-    RANGO,
-    FIN,
-    TIMESTAMP
+    Alta,
+    Rango,
+    Estimada_de_fin,
+    Captura
 }

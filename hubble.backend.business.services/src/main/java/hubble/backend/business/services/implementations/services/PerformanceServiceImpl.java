@@ -307,7 +307,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                     status,
                     availabilityStorage.getTransactionName(),
                     dateFormat.format(availabilityStorage.getTimeStamp()),
-                    DateTypes.TIMESTAMP)
+                    DateTypes.Captura)
             );
         }
 
@@ -373,7 +373,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                             status,
                             availabilityStorage.getTransactionName(),
                             dateFormat.format(availabilityStorage.getTimeStamp()),
-                            DateTypes.TIMESTAMP)
+                            DateTypes.Captura)
                     );
                 }
                 return distValues;
@@ -420,7 +420,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                             status,
                             transaction,
                             date,
-                            DateTypes.RANGO
+                            DateTypes.Rango
                     ));
                 }
             }

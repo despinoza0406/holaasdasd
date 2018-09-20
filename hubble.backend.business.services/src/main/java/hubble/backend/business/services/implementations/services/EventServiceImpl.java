@@ -157,7 +157,7 @@ public class EventServiceImpl implements EventService {
                     dateFormat.format(eventStorage.getUpdatedDate()),
                     eventStorage.getType(),
                     eventStorage.getSummary(),
-                    DateTypes.TIMESTAMP
+                    DateTypes.Captura
             ));
         }
         return distValues;
@@ -258,7 +258,7 @@ public class EventServiceImpl implements EventService {
                             status,
                             date,
                             monitor,
-                            DateTypes.RANGO
+                            DateTypes.Rango
                     ));
                 }
             }
