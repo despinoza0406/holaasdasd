@@ -27,5 +27,5 @@ public interface BusinessApplicationManager {
     
     public List<BusinessApplicationLigth> getApplicationsLigth(boolean includeInactives);
 
-    public List<AvailabilityTable> getAllAvailabilityByFilter(JSONObject filter);
+    public List<AvailabilityTable> getAllAvailabilityByFilter(String appId, JSONObject filter);
 }

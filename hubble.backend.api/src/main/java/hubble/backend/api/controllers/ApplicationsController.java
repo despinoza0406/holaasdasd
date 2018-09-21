@@ -131,7 +131,7 @@ public class ApplicationsController {
         if (validateUserPermissions(userAuthenticated) && validateUserApps(userAuthenticated, appId)) {
             switch (kpi) {
                 case "performance":
-                    List<AvailabilityTable> results = businessAppMgr.getAllAvailabilityByFilter(body);
+                    List<AvailabilityTable> results = businessAppMgr.getAllAvailabilityByFilter(appId, body);
                     return new ResponseEntity(results, HttpStatus.OK);
             }
         } else {

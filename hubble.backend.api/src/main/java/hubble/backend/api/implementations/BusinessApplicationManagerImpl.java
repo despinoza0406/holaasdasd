@@ -411,7 +411,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     @Override
-    public List<AvailabilityTable> getAllAvailabilityByFilter(JSONObject filter) {
+    public List<AvailabilityTable> getAllAvailabilityByFilter(String appId, JSONObject filter) {
         AvailabilityMapper mapper = new AvailabilityMapper();
         List<AvailabilityTable> availabilityTable = new ArrayList<>();
         if (filter.has("id")) {
