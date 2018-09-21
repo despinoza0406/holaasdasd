@@ -1,12 +1,9 @@
 package hubble.backend.api.interfaces;
 
-import hubble.backend.api.models.ApplicationUptime;
-import hubble.backend.api.models.BusinessApplication;
-import hubble.backend.api.models.BusinessApplicationFrontend;
-import hubble.backend.api.models.BusinessApplicationLigth;
-import hubble.backend.api.models.BusinessApplicationProfile;
+import hubble.backend.api.models.*;
 import hubble.backend.business.services.models.Availability;
 import hubble.backend.storage.models.KPIs;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -29,4 +26,6 @@ public interface BusinessApplicationManager {
     public KPIs getKPIs(String id,String periodo);
     
     public List<BusinessApplicationLigth> getApplicationsLigth(boolean includeInactives);
+
+    public List<AvailabilityTable> getAllAvailabilityByFilter(JSONObject filter);
 }

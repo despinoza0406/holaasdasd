@@ -1,12 +1,14 @@
 package hubble.backend.api.implementations;
 
 import hubble.backend.api.configurations.mappers.ApplicationMapper;
+import hubble.backend.api.configurations.mappers.AvailabilityMapper;
 import hubble.backend.api.configurations.mappers.UptimeMapper;
 import hubble.backend.api.interfaces.BusinessApplicationManager;
 import hubble.backend.api.models.*;
 import hubble.backend.business.services.interfaces.services.*;
 import hubble.backend.business.services.interfaces.services.kpis.KpiAveragesService;
 import hubble.backend.business.services.models.Application;
+import hubble.backend.business.services.models.Availability;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.measures.Uptime;
@@ -24,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 
 import hubble.backend.storage.models.*;
 import hubble.backend.storage.repositories.ApplicationRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -405,5 +408,20 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         filteredKPIs.setEvents(events);
         filteredKPIs.setDefects(defects);
         return filteredKPIs;
+    }
+
+    @Override
+    public List<AvailabilityTable> getAllAvailabilityByFilter(JSONObject filter) {
+        AvailabilityMapper mapper = new AvailabilityMapper();
+        List<AvailabilityTable> availabilityTable = new ArrayList<>();
+        if (filter.has("id")) {
+            Availability availability = availabilityService.get(filter.getString("id"));
+            availabilityTable.add(mapper.mapAvailabilityToAvailabilityTable(availability));
+        } else {
+            //traerse availability con dateFrom y dateTo
+            //mapear a AvailabilityTable
+        }
+
+        return availabilityTable;
     }
 }
