@@ -123,7 +123,7 @@ public class ApplicationsController {
     public ResponseEntity getApplicationKPIGroupedData(HttpServletRequest req,
                                                              HttpServletResponse resp,
                                                              @PathVariable("id") String appId,
-                                                             @PathVariable("id") String kpi,
+                                                             @PathVariable("kpi") String kpi,
                                                              @RequestBody JSONObject body) throws IOException {
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
