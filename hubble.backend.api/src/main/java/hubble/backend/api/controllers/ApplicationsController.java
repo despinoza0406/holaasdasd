@@ -124,13 +124,14 @@ public class ApplicationsController {
                                                              HttpServletResponse resp,
                                                              @PathVariable("id") String appId,
                                                              @PathVariable("kpi") String kpi,
-                                                             @RequestBody JSONObject body) throws IOException {
+                                                             @RequestBody String body) throws IOException {
 
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
+        JSONObject jsonBody = new JSONObject(body);
 
         if (validateUserPermissions(userAuthenticated) && validateUserApps(userAuthenticated, appId)) {
 
-            List<FrontEndTable> results = businessAppMgr.getTablesByFilter(appId,kpi,body);
+            List<FrontEndTable> results = businessAppMgr.getTablesByFilter(appId,kpi,jsonBody);
             return new ResponseEntity(results, HttpStatus.OK);
 
         } else {

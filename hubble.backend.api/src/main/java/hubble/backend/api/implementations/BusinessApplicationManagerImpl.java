@@ -417,9 +417,11 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     @Override
     public List<FrontEndTable> getTablesByFilter(String appId, String kpi, JSONObject filter){
-        List<FrontEndTable> results = new ArrayList<FrontEndTable>();
+        List<FrontEndTable> results = new ArrayList<>();
         switch (kpi) {
             case "disponibilidad":
+                results = this.getAllAvailabilityByFilter(appId, filter);
+                break;
             case "performance":
                 results = this.getAllAvailabilityByFilter(appId, filter);
                 break;
