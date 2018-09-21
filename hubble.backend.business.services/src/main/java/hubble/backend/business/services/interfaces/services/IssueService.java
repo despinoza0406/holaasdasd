@@ -10,6 +10,7 @@ import hubble.backend.core.enums.Results;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.TaskRunnerExecution;
 
+import java.sql.SQLTransactionRollbackException;
 import java.util.List;
 
 public interface IssueService extends ServiceBase<Issue>,
@@ -33,4 +34,6 @@ public interface IssueService extends ServiceBase<Issue>,
     Results.RESULTS calculateKpiResult(String applicationId,String periodo);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo);
+
+    Issue get(String id);
 }

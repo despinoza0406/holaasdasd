@@ -32,4 +32,6 @@ public interface WorkItemService extends ServiceBase<WorkItem>,
     Results.RESULTS calculateKpiResult(String applicationId,String periodo);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String application, String periodo);
+
+    WorkItem get(String id);
 }

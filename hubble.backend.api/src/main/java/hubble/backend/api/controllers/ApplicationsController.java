@@ -8,10 +8,10 @@ import hubble.backend.api.interfaces.RolAdminRequired;
 import hubble.backend.api.interfaces.RolUserRequired;
 import hubble.backend.api.interfaces.TokenRequired;
 import hubble.backend.business.services.interfaces.services.ApplicationService;
-import hubble.backend.core.utils.KpiHelper;
+import hubble.backend.business.services.models.tables.AvailabilityTable;
+import hubble.backend.business.services.models.tables.FrontEndTable;
 import hubble.backend.storage.models.ApplicationStorage;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
@@ -129,11 +129,10 @@ public class ApplicationsController {
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
 
         if (validateUserPermissions(userAuthenticated) && validateUserApps(userAuthenticated, appId)) {
-            switch (kpi) {
-                case "performance":
-                    List<AvailabilityTable> results = businessAppMgr.getAllAvailabilityByFilter(appId, body);
-                    return new ResponseEntity(results, HttpStatus.OK);
-            }
+
+            List<FrontEndTable> results = businessAppMgr.getTablesByFilter(appId,kpi,body);
+            return new ResponseEntity(results, HttpStatus.OK);
+
         } else {
             sendMethodNotAllowed(resp);
         }

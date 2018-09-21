@@ -274,6 +274,11 @@ public class WorkItemServiceImpl implements WorkItemService {
         return workItemKpiOperation.getTaskRunnerExecutions(applicationId,periodo);
     }
 
+    @Override
+    public WorkItem get(String id){
+        return mapper.mapToWorkItemDto(workItemRepository.findOne(id));
+    }
+
     public String calculatePeriod(String periodo){
         if (periodo.equals("default")){ //esto se hace por como funciona el date helper
             return "dia";

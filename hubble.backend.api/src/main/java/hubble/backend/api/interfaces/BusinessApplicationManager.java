@@ -1,7 +1,8 @@
 package hubble.backend.api.interfaces;
 
 import hubble.backend.api.models.*;
-import hubble.backend.business.services.models.Availability;
+import hubble.backend.business.services.models.tables.AvailabilityTable;
+import hubble.backend.business.services.models.tables.FrontEndTable;
 import hubble.backend.storage.models.KPIs;
 import org.json.JSONObject;
 
@@ -27,5 +28,5 @@ public interface BusinessApplicationManager {
     
     public List<BusinessApplicationLigth> getApplicationsLigth(boolean includeInactives);
 
-    public List<AvailabilityTable> getAllAvailabilityByFilter(String appId, JSONObject filter);
+    public List<FrontEndTable> getTablesByFilter(String appId,String kpi, JSONObject filter);
 }

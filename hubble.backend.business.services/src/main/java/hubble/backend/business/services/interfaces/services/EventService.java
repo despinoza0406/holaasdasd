@@ -36,4 +36,6 @@ public interface EventService extends ServiceBase<Event> {
     Results.RESULTS calculateKpiResult(String applicationId,String periodo);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String application,String periodo);
+
+    Event get(String id);
 }

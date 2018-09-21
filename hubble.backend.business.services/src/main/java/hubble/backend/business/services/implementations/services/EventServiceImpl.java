@@ -48,6 +48,11 @@ public class EventServiceImpl implements EventService {
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     @Override
+    public Event get(String id){
+        return mapper.mapToEventDto(eventRepository.findOne(id));
+    }
+
+    @Override
     public List<Event> getLastDay(String applicationId) {
 
         Calendar yesterday = CalendarHelper.getNow();

@@ -1,6 +1,6 @@
-package hubble.backend.api.models;
+package hubble.backend.business.services.models.tables;
 
-public class AvailabilityTable {
+public class AvailabilityTable implements FrontEndTable {
     private String origen;
     private String transaccion;
     private String locacion;

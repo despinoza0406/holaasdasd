@@ -405,6 +405,12 @@ public class IssueServiceImpl implements IssueService {
         return taskExecutions;
     }
 
+
+    @Override
+    public Issue get(String id){
+        return mapper.mapToIssueDto(issueRepository.findOne(id));
+    }
+
     public String calculatePeriod(String periodo){
         if (periodo.equals("default")){ //esto se hace por como funciona el date helper
             return "dia";

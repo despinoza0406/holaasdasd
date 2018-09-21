@@ -1,17 +1,20 @@
 package hubble.backend.api.implementations;
 
 import hubble.backend.api.configurations.mappers.ApplicationMapper;
-import hubble.backend.api.configurations.mappers.AvailabilityMapper;
+import hubble.backend.business.services.configurations.mappers.AvailabilityMapper;
 import hubble.backend.api.configurations.mappers.UptimeMapper;
 import hubble.backend.api.interfaces.BusinessApplicationManager;
 import hubble.backend.api.models.*;
+import hubble.backend.business.services.configurations.mappers.EventsMapper;
+import hubble.backend.business.services.configurations.mappers.IssuesMapper;
+import hubble.backend.business.services.configurations.mappers.TasksMapper;
 import hubble.backend.business.services.interfaces.services.*;
 import hubble.backend.business.services.interfaces.services.kpis.KpiAveragesService;
-import hubble.backend.business.services.models.Application;
-import hubble.backend.business.services.models.Availability;
+import hubble.backend.business.services.models.*;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.measures.Uptime;
+import hubble.backend.business.services.models.tables.FrontEndTable;
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalendarHelper;
@@ -25,6 +28,7 @@ import static hubble.backend.storage.models.KPITypes.*;
 import static java.util.stream.Collectors.toList;
 
 import hubble.backend.storage.models.*;
+import hubble.backend.storage.models.Performance;
 import hubble.backend.storage.repositories.ApplicationRepository;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -410,10 +414,75 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         return filteredKPIs;
     }
 
+
     @Override
-    public List<AvailabilityTable> getAllAvailabilityByFilter(String appId, JSONObject filter) {
+    public List<FrontEndTable> getTablesByFilter(String appId, String kpi, JSONObject filter){
+        List<FrontEndTable> results = new ArrayList<FrontEndTable>();
+        switch (kpi) {
+            case "disponibilidad":
+            case "performance":
+                results = this.getAllAvailabilityByFilter(appId, filter);
+                break;
+            case "incidentes":
+                results = this.getAllIssuesByFilter(appId,filter);
+                break;
+            case "tareas":  
+                results = this.getAllTasksByFilter(appId,filter);
+                break;
+            case "eventos":
+                results = this.getAllEventsByFilter(appId,filter);
+                break;
+        }
+        return results;
+    }
+
+    private List<FrontEndTable> getAllEventsByFilter(String appId, JSONObject filter) {
+        EventsMapper mapper = new EventsMapper();
+        List<FrontEndTable> eventsTable = new ArrayList<>();
+        if(filter.has("id")){
+            Event event = eventService.get(filter.getString("id"));
+            eventsTable.add(mapper.mapEventToEventsTable(event));
+        }else {
+            //traer eventos con los dates
+            //mappear a eventsTable
+        }
+
+        return eventsTable;
+
+    }
+
+    private List<FrontEndTable> getAllTasksByFilter(String appId, JSONObject filter) {
+        TasksMapper mapper = new TasksMapper();
+        List<FrontEndTable> tasksTable = new ArrayList<>();
+        if(filter.has("id")){
+            WorkItem workItem = workItemService.get(filter.getString("id"));
+            tasksTable.add(mapper.mapWorkItemToTasksTable(workItem));
+        }else {
+            //traer workitems con los dates
+            //mappear a tasksTable
+        }
+
+        return tasksTable;
+    }
+
+    private List<FrontEndTable> getAllIssuesByFilter(String appId, JSONObject filter) {
+        IssuesMapper mapper = new IssuesMapper();
+        List<FrontEndTable> issuesTable = new ArrayList<>();
+        if(filter.has("id")){
+            Issue issue = issueService.get(filter.getString("id"));
+            issuesTable.add((mapper.mapIssueToIssuesTable(issue)));
+        }else {
+            //traer issues con los dates
+            //mappear a issuesTable
+        }
+
+        return issuesTable;
+
+    }
+
+    private List<FrontEndTable> getAllAvailabilityByFilter(String appId, JSONObject filter) {
         AvailabilityMapper mapper = new AvailabilityMapper();
-        List<AvailabilityTable> availabilityTable = new ArrayList<>();
+        List<FrontEndTable> availabilityTable = new ArrayList<>();
         if (filter.has("id")) {
             Availability availability = availabilityService.get(filter.getString("id"));
             availabilityTable.add(mapper.mapAvailabilityToAvailabilityTable(availability));

@@ -1,6 +1,6 @@
-package hubble.backend.api.configurations.mappers;
+package hubble.backend.business.services.configurations.mappers;
 
-import hubble.backend.api.models.AvailabilityTable;
+import hubble.backend.business.services.models.tables.AvailabilityTable;
 import hubble.backend.business.services.models.Availability;
 
 public class AvailabilityMapper {
