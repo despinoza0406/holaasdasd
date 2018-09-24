@@ -10,6 +10,7 @@ import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.Performance;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
 import hubble.backend.business.services.models.distValues.LineGraphDistValues;
+import hubble.backend.business.services.models.distValues.availability.AvailabilityLineGraphTooltip;
 import hubble.backend.business.services.models.distValues.performance.DistributionPerformanceGroup;
 import hubble.backend.business.services.models.distValues.performance.DistributionPerformanceUnit;
 import hubble.backend.core.enums.DateTypes;
@@ -305,7 +306,10 @@ public class PerformanceServiceImpl implements PerformanceService {
         distValues = availabilityStorageList.stream()
                 .sorted(Comparator.comparing(AvailabilityStorage::getTimeStamp))
                 .map(availability ->
-                        new LineGraphDistValues(availability.getId(),(int)availability.getResponseTime(),dateFormat.format(availability.getTimeStamp())))
+                        new LineGraphDistValues(availability.getId(),
+                                (int)availability.getResponseTime(),
+                                dateFormat.format(availability.getTimeStamp()),
+                                new AvailabilityLineGraphTooltip(availability.getProviderOrigin(), availability.getTransactionName(), availability.getLocationName())))
                 .collect(Collectors.toList());
 
         return distValues;

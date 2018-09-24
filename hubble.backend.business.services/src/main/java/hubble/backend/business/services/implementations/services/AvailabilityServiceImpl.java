@@ -6,6 +6,7 @@ import hubble.backend.business.services.interfaces.operations.kpis.AvailabilityK
 import hubble.backend.business.services.interfaces.services.AvailabilityService;
 import hubble.backend.business.services.models.*;
 import hubble.backend.business.services.models.distValues.LineGraphDistValues;
+import hubble.backend.business.services.models.distValues.availability.AvailabilityLineGraphTooltip;
 import hubble.backend.business.services.models.distValues.availability.DistributionAvailabilityGroup;
 import hubble.backend.business.services.models.distValues.availability.DistributionAvailabilityUnit;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
@@ -217,7 +218,8 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                 .map(availability ->
                 new LineGraphDistValues(availability.getId(),
                         availability.getAvailabilityStatus().equals("Failed") ? 0 : 100,
-                        dateFormat.format(availability.getTimeStamp())))
+                        dateFormat.format(availability.getTimeStamp()),
+                        new AvailabilityLineGraphTooltip(availability.getProviderOrigin(), availability.getTransactionName(), availability.getLocationName())))
                 .collect(Collectors.toList());
 
         return distValues;

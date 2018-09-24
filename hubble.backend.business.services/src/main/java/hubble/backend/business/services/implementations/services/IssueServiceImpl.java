@@ -9,6 +9,7 @@ import hubble.backend.business.services.models.Issue;
 import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.issues.DistributionIssuesGroup;
 import hubble.backend.business.services.models.distValues.issues.DistributionIssuesUnit;
+import hubble.backend.business.services.models.distValues.issues.IssuesLineGraphTooltip;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
 import hubble.backend.core.enums.DateTypes;
@@ -209,7 +210,8 @@ public class IssueServiceImpl implements IssueService {
                 .map(issue ->
 
                         new LineGraphDistValues(issue.getId(),(this.getPriority(issue) + this.getSeverity(issue)) / 2,
-                        issue.getProviderOrigin() + "-" + issue.getExternalId()))
+                        issue.getProviderOrigin() + "-" + issue.getExternalId(),
+                                new IssuesLineGraphTooltip(issue.getProviderName(), issue.getTitle(), issue.getStatus())))
                 .sorted(Comparator.comparing(LineGraphDistValues::getxAxis))
                 .collect(Collectors.toList());
 

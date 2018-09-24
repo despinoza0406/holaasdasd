@@ -9,6 +9,7 @@ import hubble.backend.business.services.models.Event;
 import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.events.DistributionEventsGroup;
 import hubble.backend.business.services.models.distValues.events.DistributionEventsUnit;
+import hubble.backend.business.services.models.distValues.events.EventsLineGraphTooltip;
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
 import hubble.backend.core.enums.DateTypes;
 import hubble.backend.core.enums.Results;
@@ -171,7 +172,10 @@ public class EventServiceImpl implements EventService {
         distValues = eventsStorage.stream()
                 .sorted(Comparator.comparing(EventStorage::getUpdatedDate))
                 .map(eventStorage ->
-                new LineGraphDistValues(eventStorage.getId(),eventStorage.getSeverityPoints(),dateFormat.format(eventStorage.getUpdatedDate())))
+                new LineGraphDistValues(eventStorage.getId(),
+                        eventStorage.getSeverityPoints(),
+                        dateFormat.format(eventStorage.getUpdatedDate()),
+                        new EventsLineGraphTooltip(eventStorage.getProviderName(), eventStorage.getType(), eventStorage.getStatus())))
                 .collect(Collectors.toList());
 
 

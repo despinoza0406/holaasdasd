@@ -10,6 +10,7 @@ import hubble.backend.business.services.models.WorkItem;
 import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.tasks.DistributionTasksGroup;
 import hubble.backend.business.services.models.distValues.tasks.DistributionTasksUnit;
+import hubble.backend.business.services.models.distValues.tasks.WorkItemLineGraphTooltip;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;
 import hubble.backend.core.enums.DateTypes;
@@ -178,7 +179,10 @@ public class WorkItemServiceImpl implements WorkItemService {
 
         distValues = workItemsStorage.stream()
                 .map( workItem ->
-                new LineGraphDistValues(workItem.getId(),(int)workItem.getDeflectionDays(),workItem.getProviderOrigin() + "-" + Integer.toString(workItem.getExternalId())))
+                new LineGraphDistValues(workItem.getId(),
+                        (int)workItem.getDeflectionDays(),
+                        workItem.getProviderOrigin() + "-" + Integer.toString(workItem.getExternalId()),
+                        new WorkItemLineGraphTooltip(workItem.getProviderName(), workItem.getTitle(), workItem.getStatus())))
                 .sorted(Comparator.comparing(LineGraphDistValues::getxAxis))
                 .collect(Collectors.toList());
 
