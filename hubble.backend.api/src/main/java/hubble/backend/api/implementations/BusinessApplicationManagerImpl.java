@@ -14,11 +14,12 @@ import hubble.backend.business.services.models.*;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.measures.Uptime;
-import hubble.backend.business.services.models.tables.FrontEndTable;
+import hubble.backend.business.services.models.tables.*;
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalendarHelper;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -416,8 +417,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
 
     @Override
-    public List<FrontEndTable> getTablesByFilter(String appId, String kpi, JSONObject filter){
-        List<FrontEndTable> results = new ArrayList<>();
+    public LineGraphTableResponse getTablesByFilter(String appId, String kpi, JSONObject filter){
+        LineGraphTableResponse results = new LineGraphTableResponse();
         switch (kpi) {
             case "disponibilidad":
                 results = this.getAllAvailabilityByFilter(appId, filter);
@@ -438,9 +439,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         return results;
     }
 
-    private List<FrontEndTable> getAllEventsByFilter(String appId, JSONObject filter) {
+    private LineGraphTableResponse getAllEventsByFilter(String appId, JSONObject filter) {
         EventsMapper mapper = new EventsMapper();
         List<FrontEndTable> eventsTable = new ArrayList<>();
+        List<String> properties;
         if(filter.has("id")){
             Event event = eventService.get(filter.getString("id"));
             eventsTable.add(mapper.mapEventToEventsTable(event));
@@ -448,14 +450,15 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             //traer eventos con los dates
             //mappear a eventsTable
         }
-
-        return eventsTable;
+        properties = this.getTableProperties("eventos");
+        return new LineGraphTableResponse(eventsTable,properties);
 
     }
 
-    private List<FrontEndTable> getAllTasksByFilter(String appId, JSONObject filter) {
+    private LineGraphTableResponse getAllTasksByFilter(String appId, JSONObject filter) {
         TasksMapper mapper = new TasksMapper();
         List<FrontEndTable> tasksTable = new ArrayList<>();
+        List<String> properties;
         if(filter.has("id")){
             WorkItem workItem = workItemService.get(filter.getString("id"));
             tasksTable.add(mapper.mapWorkItemToTasksTable(workItem));
@@ -463,13 +466,14 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             //traer workitems con los dates
             //mappear a tasksTable
         }
-
-        return tasksTable;
+        properties = this.getTableProperties("tareas");
+        return new LineGraphTableResponse(tasksTable,properties);
     }
 
-    private List<FrontEndTable> getAllIssuesByFilter(String appId, JSONObject filter) {
+    private LineGraphTableResponse getAllIssuesByFilter(String appId, JSONObject filter) {
         IssuesMapper mapper = new IssuesMapper();
         List<FrontEndTable> issuesTable = new ArrayList<>();
+        List<String> properties;
         if(filter.has("id")){
             Issue issue = issueService.get(filter.getString("id"));
             issuesTable.add((mapper.mapIssueToIssuesTable(issue)));
@@ -477,22 +481,52 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             //traer issues con los dates
             //mappear a issuesTable
         }
-
-        return issuesTable;
+        properties = this.getTableProperties("incidentes");
+        return new LineGraphTableResponse(issuesTable,properties);
 
     }
 
-    private List<FrontEndTable> getAllAvailabilityByFilter(String appId, JSONObject filter) {
+    private LineGraphTableResponse getAllAvailabilityByFilter(String appId, JSONObject filter) {
         AvailabilityMapper mapper = new AvailabilityMapper();
         List<FrontEndTable> availabilityTable = new ArrayList<>();
+        List<String> properties;
         if (filter.has("id")) {
             Availability availability = availabilityService.get(filter.getString("id"));
             availabilityTable.add(mapper.mapAvailabilityToAvailabilityTable(availability));
+
         } else {
             //traerse availability con dateFrom y dateTo
             //mapear a AvailabilityTable
         }
 
-        return availabilityTable;
+        properties = this.getTableProperties("disponibilidad");
+
+        return new LineGraphTableResponse(availabilityTable,properties);
     }
+
+    private List<String> getTableProperties (String kpi){
+        List<String> propiedades = new ArrayList<>();
+        Field[] fields = null;
+        switch (kpi){
+            case "disponibilidad":
+                fields = AvailabilityTable.class.getDeclaredFields();
+                break;
+            case "tareas":
+                fields = TasksTable.class.getDeclaredFields();
+                break;
+            case "incidentes":
+                fields = IssuesTable.class.getDeclaredFields();
+                break;
+            case "eventos":
+                fields = EventsTable.class.getDeclaredFields();
+                break;
+
+        }
+
+        for (Field field: fields){
+            propiedades.add(field.getName());
+        }
+        return propiedades;
+    }
+
 }

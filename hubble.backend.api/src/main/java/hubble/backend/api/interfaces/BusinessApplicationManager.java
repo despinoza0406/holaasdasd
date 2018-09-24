@@ -28,5 +28,5 @@ public interface BusinessApplicationManager {
     
     public List<BusinessApplicationLigth> getApplicationsLigth(boolean includeInactives);
 
-    public List<FrontEndTable> getTablesByFilter(String appId,String kpi, JSONObject filter);
+    public LineGraphTableResponse getTablesByFilter(String appId,String kpi, JSONObject filter);
 }

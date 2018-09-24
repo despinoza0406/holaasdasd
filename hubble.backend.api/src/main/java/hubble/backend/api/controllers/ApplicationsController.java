@@ -131,7 +131,8 @@ public class ApplicationsController {
 
         if (validateUserPermissions(userAuthenticated) && validateUserApps(userAuthenticated, appId)) {
 
-            List<FrontEndTable> results = businessAppMgr.getTablesByFilter(appId,kpi,jsonBody);
+            LineGraphTableResponse results = businessAppMgr.getTablesByFilter(appId,kpi,jsonBody);
+
             return new ResponseEntity(results, HttpStatus.OK);
 
         } else {

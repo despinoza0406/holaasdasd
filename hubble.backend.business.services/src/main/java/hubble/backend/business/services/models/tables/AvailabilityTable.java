@@ -1,5 +1,9 @@
 package hubble.backend.business.services.models.tables;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
 public class AvailabilityTable implements FrontEndTable {
     private String origen;
     private String transaccion;
@@ -19,6 +23,7 @@ public class AvailabilityTable implements FrontEndTable {
         this.tiempo_de_respuesta = tiempo_de_respuesta;
         this.estado = estado;
         this.sumario = sumario;
+
     }
 
     public String getOrigen() {
@@ -75,5 +80,14 @@ public class AvailabilityTable implements FrontEndTable {
 
     public void setSumario(String sumario) {
         this.sumario = sumario;
+    }
+
+    private List<String> getProperties(){
+        Field[] fields = this.getClass().getDeclaredFields();
+        List<String> properties = new ArrayList<>();
+        for(Field field: fields){
+            properties.add(field.getName());
+        }
+        return properties;
     }
 }
