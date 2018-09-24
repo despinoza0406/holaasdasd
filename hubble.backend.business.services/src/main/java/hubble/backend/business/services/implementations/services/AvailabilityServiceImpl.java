@@ -5,6 +5,7 @@ import hubble.backend.business.services.interfaces.operations.averages.Availabil
 import hubble.backend.business.services.interfaces.operations.kpis.AvailabilityKpiOperations;
 import hubble.backend.business.services.interfaces.services.AvailabilityService;
 import hubble.backend.business.services.models.*;
+import hubble.backend.business.services.models.distValues.GroupedLineGraphTooltip;
 import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.availability.AvailabilityLineGraphTooltip;
 import hubble.backend.business.services.models.distValues.availability.DistributionAvailabilityGroup;
@@ -229,10 +230,87 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         List<LineGraphDistValues> distValues = new ArrayList<>();
         Date endDate = DateHelper.getEndDate(period);
         Date startDate = DateHelper.getStartDate(period);
+        List<Date> startDates = new ArrayList<>();
+        List<Date> endDates = new ArrayList<>();
 
         List<AvailabilityStorage> availabilityStorageList =
                 availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id,startDate,endDate);
 
+        ApplicationStorage  applicationStorage = applicationRepository.findApplicationById(id);
+        Threashold threshold;
+        switch (period){
+            case "dia":
+                dateFormat = new SimpleDateFormat("HH:mm");
+                threshold = applicationStorage.getKpis().getAvailability().getHourThreashold();
+                for(int i=0; i<24; i++){
+                    startDates.add(DateUtils.addHours(startDate,i));
+                    endDates.add(DateUtils.addHours(startDate,i+1));
+                }
+                break;
+            case "semana":
+                dateFormat = new SimpleDateFormat("dd/MM");
+                threshold = applicationStorage.getKpis().getAvailability().getDayThreashold();
+                for(int i=0; i<7; i++){
+                    startDates.add(DateUtils.addDays(startDate,i));
+                    endDates.add(DateUtils.addDays(startDate,i+1));
+                }
+                break;
+            case "mes":
+                dateFormat = new SimpleDateFormat("dd/MM");
+                threshold = applicationStorage.getKpis().getAvailability().getWeekThreashold();
+                Date aux = startDate;
+                while (aux.before(endDate)){
+                    startDates.add(aux);
+                    if(DateUtils.addWeeks(aux,1).after(endDate)){
+                        endDates.add(endDate);
+                    }else {
+                        endDates.add(DateUtils.addWeeks(aux, 1));
+                    }
+                    aux = DateUtils.addWeeks(aux,1);
+                }
+                break;
+            default:
+
+                return this.getLineGraphUnitDistValues(id,period);
+        }
+        distValues = this.getLineGraphDistValuesByPeriod(availabilityStorageList,threshold,startDates,endDates);
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphDistValuesByPeriod(List<AvailabilityStorage> availabilityStorageList,Threashold threshold,List<Date> startDates, List<Date> endDates){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        inferior = threshold.getInferior();
+        warningThreshold = threshold.getWarning();
+        criticalThreshold = threshold.getCritical();
+        superior = threshold.getSuperior();
+
+        for (int i = 0; i<startDates.size();i++){
+            final int index = i;
+            List<AvailabilityStorage> availabilities = availabilityStorageList.stream().filter(
+                    availabilityStorage ->
+                            availabilityStorage.getTimeStamp().compareTo(startDates.get(index)) >= 0 &&
+                            availabilityStorage.getTimeStamp().compareTo(endDates.get(index)) <= 0 )
+                    .collect(Collectors.toList());
+            if(!availabilities.isEmpty()){
+                List<String> fechas = new ArrayList<>();
+                fechas.add(startDates.get(index).toString());
+                fechas.add(endDates.get(index).toString());
+                String id = String.join("-",fechas);
+                int value = availabilities.stream().mapToInt(availabilityStorage ->
+                        availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 100).
+                        sum() / availabilities.size();
+                String status = "Critical";
+                if (value >= warningThreshold) {
+                    status = "OK";
+                }
+                if (value <= warningThreshold && value > criticalThreshold) {
+                    status = "Warning";
+                }
+
+                String yAxis = dateFormat.format(startDates.get(index));
+                distValues.add(new LineGraphDistValues(id,value,yAxis,new GroupedLineGraphTooltip(availabilities.size(),status)));
+            }
+        }
         return distValues;
     }
 

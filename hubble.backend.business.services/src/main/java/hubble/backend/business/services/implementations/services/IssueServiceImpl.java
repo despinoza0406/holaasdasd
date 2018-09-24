@@ -6,6 +6,7 @@ import hubble.backend.business.services.interfaces.operations.kpis.IssuesKpiOper
 import hubble.backend.business.services.interfaces.services.IssueService;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.Issue;
+import hubble.backend.business.services.models.distValues.GroupedLineGraphTooltip;
 import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.issues.DistributionIssuesGroup;
 import hubble.backend.business.services.models.distValues.issues.DistributionIssuesUnit;
@@ -222,12 +223,84 @@ public class IssueServiceImpl implements IssueService {
         List<LineGraphDistValues> distValues = new ArrayList<>();
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
-
+        List<Date> startDates = new ArrayList<>();
+        List<Date> endDates = new ArrayList<>();
 
         List<IssueStorage> issuesStorage =
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(id,startDate,endDate);
 
+        ApplicationStorage  applicationStorage = applicationRepository.findApplicationById(id);
+        Threashold threshold;
+        switch (periodo){
+            case "semana":
+                dateFormat = new SimpleDateFormat("dd/MM");
+                threshold = applicationStorage.getKpis().getDefects().getDayThreashold();
+                for(int i=0; i<7; i++){
+                    startDates.add(DateUtils.addDays(startDate,i));
+                    endDates.add(DateUtils.addDays(startDate,i+1));
+                }
+                break;
+            case "mes":
+                dateFormat = new SimpleDateFormat("dd/MM");
+                threshold = applicationStorage.getKpis().getDefects().getWeekThreashold();
+                Date aux = startDate;
+                while (aux.before(endDate)){
+                    startDates.add(aux);
+                    if(DateUtils.addWeeks(aux,1).after(endDate)){
+                        endDates.add(endDate);
+                    }else {
+                        endDates.add(DateUtils.addWeeks(aux, 1));
+                    }
+                    aux = DateUtils.addWeeks(aux,1);
+                }
+                break;
+            default:
+                distValues = this.getLineGraphUnitDistValues(id, periodo);
+                return distValues;
+        }
+        distValues = this.getLineGraphDistValuesByPeriod(issuesStorage,threshold,startDates,endDates);
+
         return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphDistValuesByPeriod(List<IssueStorage> issuesList,Threashold threshold,List<Date> startDates, List<Date> endDates){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        inferior = threshold.getInferior();
+        lWarningKpiThreshold = threshold.getWarning();
+        lCriticalKpiThreshold = threshold.getCritical();
+        superior = threshold.getSuperior();
+
+        for(int j = 0; j<startDates.size(); j++){
+            final int index = j;
+            List<IssueStorage> issueStorageList = issuesList.stream().filter(
+                    issueStorage ->
+                            issueStorage.getTimestamp().compareTo(startDates.get(index)) >= 0 &&
+                                    issueStorage.getTimestamp().compareTo(endDates.get(index)) <= 0).
+                    collect(Collectors.toList());
+            if(!issueStorageList.isEmpty()) {
+                List<String> fechas = new ArrayList<>();
+                fechas.add(startDates.get(index).toString());
+                fechas.add(endDates.get(index).toString());
+                String id = String.join("-",fechas);
+                int value = issueStorageList.stream().mapToInt(issue ->
+                        (this.getPriority(issue) + this.getSeverity(issue)) / 2).
+                        sum();
+                String status = "Critical";
+                if (value <= lWarningKpiThreshold) {
+                    status = "OK";
+                }
+                if (value <= lCriticalKpiThreshold && value > lWarningKpiThreshold) {
+                    status = "Warning";
+                }
+
+
+                String yAxis = dateFormat.format(startDates.get(index));
+                distValues.add(new LineGraphDistValues(id,value,yAxis,new GroupedLineGraphTooltip(issueStorageList.size(),status)));
+            }
+        }
+
+        return distValues;
+
     }
 
     private List<DistValues> getUnitDistValues(String id, String periodo){
