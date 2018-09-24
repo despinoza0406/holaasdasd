@@ -5,6 +5,7 @@ import hubble.backend.business.services.interfaces.operations.averages.Availabil
 import hubble.backend.business.services.interfaces.operations.kpis.AvailabilityKpiOperations;
 import hubble.backend.business.services.interfaces.services.AvailabilityService;
 import hubble.backend.business.services.models.*;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.availability.DistributionAvailabilityGroup;
 import hubble.backend.business.services.models.distValues.availability.DistributionAvailabilityUnit;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
@@ -21,6 +22,7 @@ import hubble.backend.storage.repositories.AvailabilityRepository;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -182,6 +184,52 @@ public class AvailabilityServiceImpl implements AvailabilityService {
             distValues = this.getGroupDistValues(applicationId,availabilityperiod);
         }
 
+
+        return distValues;
+    }
+
+    @Override
+    public List<LineGraphDistValues> getLineGraphDistValues(String applicationId, String period){
+        List<LineGraphDistValues> distValues;
+        String availabilityperiod = this.calculatePeriod(period);
+
+        if(availabilityperiod.equals("hora")) {
+            distValues = this.getLineGraphUnitDistValues(applicationId,availabilityperiod);
+        }else{
+            distValues = this.getLineGraphGroupDistValues(applicationId,availabilityperiod);
+        }
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphUnitDistValues(String id, String period){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        Date endDate = DateHelper.getEndDate(period);
+        Date startDate = DateHelper.getStartDate(period);
+
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id,startDate,endDate);
+
+
+        dateFormat = new SimpleDateFormat("HH:mm");
+        distValues = availabilityStorageList.stream()
+                .sorted(Comparator.comparing(AvailabilityStorage::getTimeStamp))
+                .map(availability ->
+                new LineGraphDistValues(availability.getId(),
+                        availability.getAvailabilityStatus().equals("Failed") ? 0 : 100,
+                        dateFormat.format(availability.getTimeStamp())))
+                .collect(Collectors.toList());
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphGroupDistValues(String id, String period){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        Date endDate = DateHelper.getEndDate(period);
+        Date startDate = DateHelper.getStartDate(period);
+
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id,startDate,endDate);
 
         return distValues;
     }

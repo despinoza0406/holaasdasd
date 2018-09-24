@@ -6,6 +6,7 @@ import hubble.backend.api.models.BusinessApplicationFrontend;
 import hubble.backend.api.models.BusinessApplicationLigth;
 import hubble.backend.api.models.BusinessApplicationProfile;
 import hubble.backend.business.services.models.Availability;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.storage.models.KPIs;
 
 import java.util.List;
@@ -29,4 +30,6 @@ public interface BusinessApplicationManager {
     public KPIs getKPIs(String id,String periodo);
     
     public List<BusinessApplicationLigth> getApplicationsLigth(boolean includeInactives);
+
+    public List<LineGraphDistValues> getLineGraphDistValuesOf(String kpiName, String id, String period);
 }

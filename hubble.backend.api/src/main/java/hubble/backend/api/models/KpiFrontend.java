@@ -1,6 +1,7 @@
 package hubble.backend.api.models;
 
 import hubble.backend.business.services.models.distValues.DistValues;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.core.enums.Results;
 import hubble.backend.storage.models.TaskRunnerExecution;
 
@@ -15,6 +16,7 @@ public class KpiFrontend {
     private Results.RESULTS kpiResult;
     private List<TaskRunnerExecution> kpiTaskRunners;
     private List<DistValues> distribution;
+    private List<LineGraphDistValues> lineGraphValues;
 
     public KpiFrontend() {
     }
@@ -81,5 +83,13 @@ public class KpiFrontend {
 
     public void setKpiTaskRunners(List<TaskRunnerExecution> kpiTaskRunners) {
         this.kpiTaskRunners = kpiTaskRunners;
+    }
+
+    public List<LineGraphDistValues> getLineGraphValues() {
+        return lineGraphValues;
+    }
+
+    public void setLineGraphValues(List<LineGraphDistValues> lineGraphValues) {
+        this.lineGraphValues = lineGraphValues;
     }
 }
