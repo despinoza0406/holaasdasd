@@ -1,6 +1,7 @@
 package hubble.backend.api.interfaces;
 
 import hubble.backend.api.models.*;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.tables.AvailabilityTable;
 import hubble.backend.business.services.models.tables.FrontEndTable;
 import hubble.backend.storage.models.KPIs;
@@ -29,4 +30,6 @@ public interface BusinessApplicationManager {
     public List<BusinessApplicationLigth> getApplicationsLigth(boolean includeInactives);
 
     public LineGraphTableResponse getTablesByFilter(String appId,String kpi, JSONObject filter);
+
+    List<LineGraphDistValues> getLineGraphDistValuesOf(String kpiName, String id, String period);
 }
