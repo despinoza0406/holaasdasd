@@ -4,12 +4,14 @@ import hubble.backend.business.services.interfaces.services.kpis.InstantOperatio
 import hubble.backend.business.services.interfaces.services.kpis.OperationsKeyPerformanceIndicatorServiceBase;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.Issue;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
 import hubble.backend.core.enums.Results;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.TaskRunnerExecution;
 
+import java.sql.SQLTransactionRollbackException;
 import java.util.List;
 
 public interface IssueService extends ServiceBase<Issue>,
@@ -22,6 +24,8 @@ public interface IssueService extends ServiceBase<Issue>,
 
     List<DistValues> getDistValues(String id, String periodo);
 
+    List<LineGraphDistValues> getLineGraphDistValues(String id, String periodo);
+
     double calculateHistoryLastDayKpiByApplication(ApplicationStorage application);
 
     double calculateHistoryKPIByApplication(ApplicationStorage application,String periodo);
@@ -33,4 +37,8 @@ public interface IssueService extends ServiceBase<Issue>,
     Results.RESULTS calculateKpiResult(String applicationId,String periodo);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo);
+
+    Issue get(String id);
+
+    List<Issue> getIssuesBetweenDates(String appId,String dateFrom, String dateTo);
 }

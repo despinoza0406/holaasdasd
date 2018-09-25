@@ -166,6 +166,13 @@ public class MapperConfiguration {
         return mapper.map(workItemStorageList, issueDtoTypeList);
     }
 
+    public Event mapToEventDto(EventStorage eventStorage){
+        if(eventStorage == null){
+            return null;
+        }
+        return mapper.map(eventStorage,Event.class);
+    }
+
     public List<Event> mapToEventDtoList(List<EventStorage> eventStorageList){
         if (eventStorageList == null) {
             return null;

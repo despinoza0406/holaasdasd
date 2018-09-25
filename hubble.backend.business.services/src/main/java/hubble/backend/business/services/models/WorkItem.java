@@ -12,6 +12,7 @@ public class WorkItem {
     private String description;
     private Date registeredDate;
     private Date modifiedDate;
+    private Date dueDate;
     private int priority;
     private int severity;
     private String state;
@@ -25,6 +26,7 @@ public class WorkItem {
     private String transaction;
     private String transactionId;
     private int percentCompleted;
+    private long deflectionDays;
 
     public String getId() {
         return id;
@@ -176,5 +178,21 @@ public class WorkItem {
 
     public void setPercentCompleted(int percentCompleted) {
         this.percentCompleted = percentCompleted;
+    }
+
+    public long getDeflectionDays() {
+        return deflectionDays;
+    }
+
+    public void setDeflectionDays(long deflectionDays) {
+        this.deflectionDays = deflectionDays;
+    }
+
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
     }
 }

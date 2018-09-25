@@ -19,6 +19,8 @@ public class IssuePropertyMap extends PropertyMap<JiraIssueModel, IssueStorage> 
     protected void configure() {
 
         String providerName = Providers.PROVIDERS_NAME.JIRA.toString();
+        skip().setId(null);
+
         map().setTimestamp(DateHelper.getDateNow());
         map().setExternalId(source.getId());
         map().setAssignee(source.getFields().getAssignee().getName());
@@ -27,6 +29,7 @@ public class IssuePropertyMap extends PropertyMap<JiraIssueModel, IssueStorage> 
         map().setPriority(source.getFields().getPriority().getId());
         map().setStatus(source.getFields().getStatus().getName());
         map().setTitle(source.getFields().getSummary());
+        map().setProviderName(providerName);
         map().setProviderOrigin(providerName);
         using(dateConverter).
                 map(source.getFields().getResolutiondate()).setClosedDate(null);

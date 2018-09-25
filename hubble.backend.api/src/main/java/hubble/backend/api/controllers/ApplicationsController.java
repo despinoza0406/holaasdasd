@@ -2,16 +2,16 @@ package hubble.backend.api.controllers;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
-import hubble.backend.api.models.EnabledDisabledEntity;
+import hubble.backend.api.models.*;
 import hubble.backend.api.interfaces.BusinessApplicationManager;
 import hubble.backend.api.interfaces.RolAdminRequired;
 import hubble.backend.api.interfaces.RolUserRequired;
 import hubble.backend.api.interfaces.TokenRequired;
-import hubble.backend.api.models.BusinessApplicationFrontend;
-import hubble.backend.api.models.BusinessApplicationLigth;
 import hubble.backend.business.services.interfaces.services.ApplicationService;
-import hubble.backend.api.models.NewApplication;
+import hubble.backend.business.services.models.tables.AvailabilityTable;
+import hubble.backend.business.services.models.tables.FrontEndTable;
 import hubble.backend.storage.models.ApplicationStorage;
+
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +20,8 @@ import hubble.backend.storage.models.UserStorage;
 import java.io.IOException;
 import static java.util.stream.Collectors.toList;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -112,6 +114,32 @@ public class ApplicationsController {
             sendMethodNotAllowed(resp);
         }
         return kpis;
+    }
+
+    @CrossOrigin
+    @TokenRequired
+    @RolUserRequired
+    @PostMapping(value = "/{id}/{kpi}")
+    public ResponseEntity getApplicationKPIGroupedData(HttpServletRequest req,
+                                                             HttpServletResponse resp,
+                                                             @PathVariable("id") String appId,
+                                                             @PathVariable("kpi") String kpi,
+                                                             @RequestBody String body) throws IOException {
+
+        UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
+        JSONObject jsonBody = new JSONObject(body);
+
+        if (validateUserPermissions(userAuthenticated) && validateUserApps(userAuthenticated, appId)) {
+
+            LineGraphTableResponse results = businessAppMgr.getTablesByFilter(appId,kpi,jsonBody);
+
+            return new ResponseEntity(results, HttpStatus.OK);
+
+        } else {
+            sendMethodNotAllowed(resp);
+        }
+
+        return null;
     }
 
     /**

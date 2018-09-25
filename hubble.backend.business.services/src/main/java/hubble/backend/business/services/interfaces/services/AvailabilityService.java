@@ -6,6 +6,7 @@ import hubble.backend.business.services.interfaces.services.kpis.OperationsKeyPe
 import hubble.backend.business.services.models.Availability;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.core.enums.Results;
 import hubble.backend.storage.models.ApplicationStorage;
 import hubble.backend.storage.models.TaskRunnerExecution;
@@ -22,6 +23,8 @@ public interface AvailabilityService extends
 
     Availability get(String id);
 
+    List<Availability> getAvailabilitiesBetweenDates(String appId,String dateFrom,String dateTo);
+
     List<Availability> getLast10Minutes(String applicationId);
 
     List<Availability> getLastHour(String applicationId);
@@ -29,6 +32,8 @@ public interface AvailabilityService extends
     List<Integer> getDistValuesLastHour(String applicationId);
 
     List<DistValues> getDistValues(String applicationId, String period);
+
+    List<LineGraphDistValues> getLineGraphDistValues(String applicationId, String period);
 
     double calculateHealthIndexKPILastHour(ApplicationStorage application);
 

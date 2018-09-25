@@ -9,6 +9,9 @@ import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.Performance;
 import hubble.backend.business.services.models.business.ApplicationIndicators;
+import hubble.backend.business.services.models.distValues.GroupedLineGraphTooltip;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
+import hubble.backend.business.services.models.distValues.availability.AvailabilityLineGraphTooltip;
 import hubble.backend.business.services.models.distValues.performance.DistributionPerformanceGroup;
 import hubble.backend.business.services.models.distValues.performance.DistributionPerformanceUnit;
 import hubble.backend.core.enums.DateTypes;
@@ -26,6 +29,7 @@ import hubble.backend.storage.repositories.AvailabilityRepository;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -274,6 +278,136 @@ public class PerformanceServiceImpl implements PerformanceService {
         return distValues;
     }
 
+    @Override
+    public List<LineGraphDistValues> getLineGraphDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues;
+        String performancePeriod = this.calculatePeriod(periodo);
+
+
+        if(performancePeriod.equals("hora")) {
+            distValues = this.getLineGraphUnitDistValues(id,performancePeriod);
+        }else{
+            distValues = this.getLineGraphGroupDistValues(id,performancePeriod);
+        }
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphUnitDistValues(String id, String period){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        Date startDate = DateHelper.getStartDate(period);
+        Date endDate = DateHelper.getEndDate(period);
+
+
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id,startDate,endDate)
+                        .stream().filter(performance -> !performance.getAvailabilityStatus().equals("Failed"))
+                        .collect(Collectors.toList());
+        dateFormat = new SimpleDateFormat("HH:mm");
+        distValues = availabilityStorageList.stream()
+                .sorted(Comparator.comparing(AvailabilityStorage::getTimeStamp))
+                .map(availability ->
+                        new LineGraphDistValues(availability.getId(),
+                                (int)availability.getResponseTime(),
+                                dateFormat.format(availability.getTimeStamp()),
+                                new AvailabilityLineGraphTooltip(availability.getProviderOrigin(), availability.getTransactionName(), availability.getLocationName())))
+                .collect(Collectors.toList());
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphGroupDistValues(String id, String period){
+        List<LineGraphDistValues> distValues;
+        Date startDate = DateHelper.getStartDate(period);
+        Date endDate = DateHelper.getEndDate(period);
+        List<Date> startDates = new ArrayList<>();
+        List<Date> endDates = new ArrayList<>();
+
+        List<AvailabilityStorage> availabilityStorageList =
+                availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id,startDate,endDate)
+                        .stream().filter(performance -> !performance.getAvailabilityStatus().equals("Failed"))
+                        .collect(Collectors.toList());
+
+        ApplicationStorage  applicationStorage = applicationRepository.findApplicationById(id);
+        Threashold threshold;
+        switch (period){
+            case "dia":
+                dateFormat = new SimpleDateFormat("HH:mm");
+                threshold = applicationStorage.getKpis().getPerformance().getHourThreashold();
+                for(int i=0; i<24; i++){
+                    startDates.add(DateUtils.addHours(startDate,i));
+                    endDates.add(DateUtils.addHours(startDate,i+1));
+                }
+                break;
+            case "semana":
+                dateFormat = new SimpleDateFormat("dd/MM");
+                threshold = applicationStorage.getKpis().getPerformance().getDayThreashold();
+                for(int i=0; i<7; i++){
+                    startDates.add(DateUtils.addDays(startDate,i));
+                    endDates.add(DateUtils.addDays(startDate,i+1));
+                }
+                break;
+            case "mes":
+                dateFormat = new SimpleDateFormat("dd/MM");
+                threshold = applicationStorage.getKpis().getPerformance().getWeekThreashold();
+                Date aux = startDate;
+                while (aux.before(endDate)){
+                    startDates.add(aux);
+                    if(DateUtils.addWeeks(aux,1).after(endDate)){
+                        endDates.add(endDate);
+                    }else {
+                        endDates.add(DateUtils.addWeeks(aux, 1));
+                    }
+                    aux = DateUtils.addWeeks(aux,1);
+                }
+                break;
+            default:
+
+                return this.getLineGraphUnitDistValues(id,period);
+        }
+        distValues = this.getLineGraphDistValuesByPeriod(availabilityStorageList,threshold,startDates,endDates);
+        return distValues;
+
+    }
+
+    private List<LineGraphDistValues> getLineGraphDistValuesByPeriod(List<AvailabilityStorage> availabilityStorageList,Threashold threshold,List<Date> startDates, List<Date> endDates){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        inferior = threshold.getInferior();
+        warningThreshold = threshold.getWarning();
+        criticalThreshold = threshold.getCritical();
+        superior = threshold.getSuperior();
+
+        for (int i = 0; i<startDates.size();i++){
+            final int index = i;
+            List<AvailabilityStorage> availabilities = availabilityStorageList.stream().filter(
+                    availabilityStorage ->
+                            availabilityStorage.getTimeStamp().compareTo(startDates.get(index)) >= 0 &&
+                                    availabilityStorage.getTimeStamp().compareTo(endDates.get(index)) <= 0 )
+                    .collect(Collectors.toList());
+            if(!availabilities.isEmpty()){
+                List<String> fechas = new ArrayList<>();
+                fechas.add(startDates.get(index).toString());
+                fechas.add(endDates.get(index).toString());
+                String id = String.join("-",fechas);
+                int value = availabilities.stream().mapToInt(availabilityStorage ->
+                        (int) availabilityStorage.getResponseTime()).
+                        sum() / availabilities.size();
+                String status = "Critical";
+                if (value <= warningThreshold) {
+                    status = "OK";
+                }
+                if (value > warningThreshold && value <= criticalThreshold) {
+                    status = "Warning";
+                }
+
+                String yAxis = dateFormat.format(startDates.get(index));
+                distValues.add(new LineGraphDistValues(id,value,yAxis,new GroupedLineGraphTooltip(availabilities.size(),status)));
+            }
+        }
+        return distValues;
+
+    }
+
     private List<DistValues> getUnitDistValues(String id, String periodo){
         List<DistValues> distValues = new ArrayList<>();
         Date startDate = DateHelper.getStartDate(periodo);
@@ -407,10 +541,10 @@ public class PerformanceServiceImpl implements PerformanceService {
                             (int)availabilityStorage.getResponseTime()).
                             sum() / transactionAvailability.size();
                     String status = "Critical";
-                    if (value >= warningThreshold) {
+                    if (value <= warningThreshold) {
                         status = "OK";
                     }
-                    if (value <= warningThreshold && value > criticalThreshold) {
+                    if (value > warningThreshold && value <= criticalThreshold) {
                         status = "Warning";
                     }
 
