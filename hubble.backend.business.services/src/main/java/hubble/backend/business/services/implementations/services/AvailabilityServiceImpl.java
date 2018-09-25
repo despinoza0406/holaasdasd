@@ -22,6 +22,7 @@ import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.AvailabilityRepository;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -70,6 +71,22 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     @Override
     public Availability get(String id) {
         return mapper.mapToAvailabilityDto(availabilityRepository.findOne(id));
+    }
+
+    @Override
+    public List<Availability> getAvailabilitiesBetweenDates(String id,String dateFrom,String dateTo){
+        Date startDate = new Date();
+        Date endDate = new Date();
+        dateFormat = new SimpleDateFormat("dow mon dd hh:mm:ss zzz yyyy");
+        try {
+            startDate = dateFormat.parse(dateFrom);
+            endDate = dateFormat.parse(dateTo);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        List<AvailabilityStorage> availabilityStorages = availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(id,startDate,endDate);
+
+        return mapper.mapToAvailabilityDtoList(availabilityStorages);
     }
 
     @Override

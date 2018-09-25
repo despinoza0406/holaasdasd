@@ -23,6 +23,8 @@ public interface AvailabilityService extends
 
     Availability get(String id);
 
+    List<Availability> getAvailabilitiesBetweenDates(String appId,String dateFrom,String dateTo);
+
     List<Availability> getLast10Minutes(String applicationId);
 
     List<Availability> getLastHour(String applicationId);
