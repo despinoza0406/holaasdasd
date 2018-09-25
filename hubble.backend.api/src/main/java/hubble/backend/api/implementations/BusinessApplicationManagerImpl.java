@@ -447,8 +447,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             Event event = eventService.get(filter.getString("id"));
             eventsTable.add(mapper.mapEventToEventsTable(event));
         }else {
-            //traer eventos con los dates
-            //mappear a eventsTable
+            List<Event> events = eventService.getEventsBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
+            eventsTable.addAll(events.stream().map(event -> mapper.mapEventToEventsTable(event)).collect(toList()));
         }
         properties = this.getTableProperties("eventos");
         return new LineGraphTableResponse(eventsTable,properties);
@@ -463,8 +463,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             WorkItem workItem = workItemService.get(filter.getString("id"));
             tasksTable.add(mapper.mapWorkItemToTasksTable(workItem));
         }else {
-            //traer workitems con los dates
-            //mappear a tasksTable
+            List<WorkItem> workItems = workItemService.getWorkItemsBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
+            tasksTable.addAll(workItems.stream().map(workItem -> mapper.mapWorkItemToTasksTable(workItem)).collect(toList()));
         }
         properties = this.getTableProperties("tareas");
         return new LineGraphTableResponse(tasksTable,properties);
@@ -478,8 +478,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             Issue issue = issueService.get(filter.getString("id"));
             issuesTable.add((mapper.mapIssueToIssuesTable(issue)));
         }else {
-            //traer issues con los dates
-            //mappear a issuesTable
+            List<Issue> issues = issueService.getIssuesBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
+            issuesTable.addAll(issues.stream().map(issue -> mapper.mapIssueToIssuesTable(issue)).collect(toList()));
         }
         properties = this.getTableProperties("incidentes");
         return new LineGraphTableResponse(issuesTable,properties);
@@ -493,10 +493,9 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         if (filter.has("id")) {
             Availability availability = availabilityService.get(filter.getString("id"));
             availabilityTable.add(mapper.mapAvailabilityToAvailabilityTable(availability));
-
         } else {
-            //traerse availability con dateFrom y dateTo
-            //mapear a AvailabilityTable
+            List<Availability> availabilities = availabilityService.getAvailabilitiesBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
+            availabilityTable.addAll(availabilities.stream().map(availability -> mapper.mapAvailabilityToAvailabilityTable(availability)).collect(toList()));
         }
 
         properties = this.getTableProperties("disponibilidad");

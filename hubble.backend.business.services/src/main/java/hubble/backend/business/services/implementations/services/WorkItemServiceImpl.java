@@ -24,6 +24,7 @@ import hubble.backend.storage.repositories.TaskRunnerRepository;
 import hubble.backend.storage.repositories.WorkItemRepository;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -277,6 +278,24 @@ public class WorkItemServiceImpl implements WorkItemService {
     @Override
     public WorkItem get(String id){
         return mapper.mapToWorkItemDto(workItemRepository.findOne(id));
+    }
+
+    @Override
+    public List<WorkItem> getWorkItemsBetweenDates(String appId,String dateFrom,String dateTo){
+        Date startDate = new Date();
+        Date endDate = new Date();
+        dateFormat = new SimpleDateFormat("dow mon dd hh:mm:ss zzz yyyy");
+        try {
+            startDate = dateFormat.parse(dateFrom);
+            endDate = dateFormat.parse(dateTo);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        List<WorkItemStorage> workItemsStorage =
+                workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(appId,startDate,endDate, "IN_PROGRESS");
+
+        return mapper.mapToWorkItemDtoList(workItemsStorage);
     }
 
     public String calculatePeriod(String periodo){

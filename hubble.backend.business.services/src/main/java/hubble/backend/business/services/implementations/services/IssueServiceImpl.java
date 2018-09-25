@@ -20,6 +20,7 @@ import hubble.backend.storage.repositories.ApplicationRepository;
 import hubble.backend.storage.repositories.IssueRepository;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -409,6 +410,23 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public Issue get(String id){
         return mapper.mapToIssueDto(issueRepository.findOne(id));
+    }
+
+    @Override
+    public List<Issue> getIssuesBetweenDates(String appId,String dateFrom, String dateTo){
+        Date startDate = new Date();
+        Date endDate = new Date();
+        dateFormat = new SimpleDateFormat("dow mon dd hh:mm:ss zzz yyyy");
+        try {
+            startDate = dateFormat.parse(dateFrom);
+            endDate = dateFormat.parse(dateTo);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+        List<IssueStorage> issueStorages =
+                issueRepository.findIssuesByApplicationIdBetweenTimestampDates(appId,startDate,endDate);
+
+        return mapper.mapToIssueDtoList(issueStorages);
     }
 
     public String calculatePeriod(String periodo){

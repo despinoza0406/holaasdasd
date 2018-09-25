@@ -34,4 +34,6 @@ public interface WorkItemService extends ServiceBase<WorkItem>,
     List<TaskRunnerExecution> getTaskRunnerExecutions(String application, String periodo);
 
     WorkItem get(String id);
+
+    List<WorkItem> getWorkItemsBetweenDates(String appId,String dateFrom,String dateTo);
 }

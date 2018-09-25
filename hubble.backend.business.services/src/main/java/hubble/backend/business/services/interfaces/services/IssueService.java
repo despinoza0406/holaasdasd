@@ -36,4 +36,6 @@ public interface IssueService extends ServiceBase<Issue>,
     List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo);
 
     Issue get(String id);
+
+    List<Issue> getIssuesBetweenDates(String appId,String dateFrom, String dateTo);
 }

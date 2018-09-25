@@ -38,4 +38,6 @@ public interface EventService extends ServiceBase<Event> {
     List<TaskRunnerExecution> getTaskRunnerExecutions(String application,String periodo);
 
     Event get(String id);
+
+    List<Event> getEventsBetweenDates(String appId,String dateFrom,String dateTo);
 }

@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,6 +51,24 @@ public class EventServiceImpl implements EventService {
     @Override
     public Event get(String id){
         return mapper.mapToEventDto(eventRepository.findOne(id));
+    }
+
+    @Override
+    public List<Event> getEventsBetweenDates(String appId,String dateFrom,String dateTo){
+        Date startDate = new Date();
+        Date endDate = new Date();
+        dateFormat = new SimpleDateFormat("dow mon dd hh:mm:ss zzz yyyy");
+        try {
+            startDate = dateFormat.parse(dateFrom);
+            endDate = dateFormat.parse(dateTo);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
+
+        List<EventStorage> eventsStorage =
+                eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(appId,startDate,endDate, "Good");
+
+        return mapper.mapToEventDtoList(eventsStorage);
     }
 
     @Override
