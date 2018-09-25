@@ -6,8 +6,11 @@ import hubble.backend.business.services.interfaces.services.EventService;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.Event;
+import hubble.backend.business.services.models.distValues.GroupedLineGraphTooltip;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.events.DistributionEventsGroup;
 import hubble.backend.business.services.models.distValues.events.DistributionEventsUnit;
+import hubble.backend.business.services.models.distValues.events.EventsLineGraphTooltip;
 import hubble.backend.business.services.models.measures.kpis.EventsKpi;
 import hubble.backend.core.enums.DateTypes;
 import hubble.backend.core.enums.Results;
@@ -24,6 +27,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.sound.sampled.Line;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -162,6 +166,139 @@ public class EventServiceImpl implements EventService {
             distValues = this.getGroupDistValues(id,period);
         }
 
+
+        return distValues;
+    }
+
+    @Override
+    public List<LineGraphDistValues> getLineGraphDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues;
+        String period = this.calculatePeriod(periodo);
+
+        if(period.equals("hora")){
+            distValues = this.getLineGraphUnitDistValues(id,period);
+        }else {
+            distValues = this.getLineGraphGroupDistValues(id,period);
+        }
+
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphUnitDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues;
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        List<EventStorage> eventsStorage =
+                eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(id,startDate,endDate, "Good");
+
+        dateFormat = new SimpleDateFormat("HH:mm");
+        distValues = eventsStorage.stream()
+                .sorted(Comparator.comparing(EventStorage::getUpdatedDate))
+                .map(eventStorage ->
+                new LineGraphDistValues(eventStorage.getId(),
+                        eventStorage.getSeverityPoints(),
+                        dateFormat.format(eventStorage.getUpdatedDate()),
+                        new EventsLineGraphTooltip(eventStorage.getProviderName(), eventStorage.getType(), eventStorage.getStatus())))
+                .collect(Collectors.toList());
+
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphGroupDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+        List<Date> startDates = new ArrayList<>();
+        List<Date> endDates = new ArrayList<>();
+
+        List<EventStorage> eventsStorage =
+                eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(id,startDate,endDate, "Good");
+        ApplicationStorage  applicationStorage = applicationRepository.findApplicationById(id);
+        Threashold threshold;
+        Date aux = startDate;
+        switch (periodo){
+            case "dia":
+                threshold = applicationStorage.getKpis().getEvents().getHourThreashold();
+                while (aux.before(endDate)){
+                    startDates.add(aux);
+                    if(DateUtils.addHours(aux,1).after(endDate)){
+                        endDates.add(endDate);
+                    }else {
+                        endDates.add(DateUtils.addHours(aux, 1));
+                    }
+                    aux = DateUtils.addHours(aux,1);
+                }
+                break;
+            case "semana":
+                threshold = applicationStorage.getKpis().getEvents().getDayThreashold();
+                while (aux.before(endDate)){
+                    startDates.add(aux);
+                    if(DateUtils.addDays(aux,1).after(endDate)){
+                        endDates.add(endDate);
+                    }else {
+                        endDates.add(DateUtils.addDays(aux, 1));
+                    }
+                    aux = DateUtils.addDays(aux,1);
+                }
+                break;
+            case "mes":
+                threshold = applicationStorage.getKpis().getEvents().getWeekThreashold();
+                while (aux.before(endDate)){
+                    startDates.add(aux);
+                    if(DateUtils.addWeeks(aux,1).after(endDate)){
+                        endDates.add(endDate);
+                    }else {
+                        endDates.add(DateUtils.addWeeks(aux, 1));
+                    }
+                    aux = DateUtils.addWeeks(aux,1);
+                }
+                break;
+            default:
+                threshold = applicationStorage.getKpis().getEvents().getDayThreashold();
+                distValues = this.getLineGraphUnitDistValues(id, periodo);
+                return distValues;
+        }
+        distValues = this.getLineGraphDistValuesByPeriod(eventsStorage,threshold,startDates,endDates);
+        return distValues;
+
+    }
+
+    private List<LineGraphDistValues> getLineGraphDistValuesByPeriod(List<EventStorage> eventStorageList,Threashold threshold,List<Date> startDates, List<Date> endDates){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        double inferior = threshold.getInferior();
+        double warningThreshold = threshold.getWarning();
+        double criticalThreshold = threshold.getCritical();
+        double superior = threshold.getSuperior();
+
+            for(int j = 0; j<startDates.size(); j++){
+                final int index = j;
+                List<EventStorage> events = eventStorageList.stream().filter(
+                        eventStorage ->
+                                eventStorage.getUpdatedDate().compareTo(startDates.get(index)) >= 0 &&
+                                eventStorage.getUpdatedDate().compareTo(endDates.get(index)) <= 0).
+                        collect(Collectors.toList());
+                if(!events.isEmpty()) {
+                    List<String> fechas = new ArrayList<>();
+                    fechas.add(startDates.get(index).toString());
+                    fechas.add(endDates.get(index).toString());
+                    String id = String.join("-",fechas);
+                    int value = events.stream().mapToInt(eventStorage ->
+                            eventStorage.getSeverityPoints()).
+                            sum();
+                    String status = "Critical";
+                    if (value <= warningThreshold) {
+                        status = "OK";
+                    }
+                    if (value >= warningThreshold && value < criticalThreshold) {
+                        status = "Warning";
+                    }
+                    String yAxis = dateFormat.format(startDates.get(index));
+                    distValues.add(new LineGraphDistValues(id,value,yAxis,new GroupedLineGraphTooltip(events.size(),status)));
+                }
+            }
 
         return distValues;
     }

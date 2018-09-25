@@ -7,8 +7,11 @@ import hubble.backend.business.services.interfaces.services.WorkItemService;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.WorkItem;
+import hubble.backend.business.services.models.distValues.GroupedLineGraphTooltip;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.distValues.tasks.DistributionTasksGroup;
 import hubble.backend.business.services.models.distValues.tasks.DistributionTasksUnit;
+import hubble.backend.business.services.models.distValues.tasks.WorkItemLineGraphTooltip;
 import hubble.backend.business.services.models.measures.kpis.WorkItemsKpi;
 import hubble.backend.business.services.models.measures.quantities.WorkItemQuantity;
 import hubble.backend.core.enums.DateTypes;
@@ -135,7 +138,7 @@ public class WorkItemServiceImpl implements WorkItemService {
 
     @Override
     public List<DistValues> getDistValues(String id, String periodo) {
-        List<DistValues> distValues = new ArrayList<>();
+        List<DistValues> distValues;
         String period = this.calculatePeriod(periodo);
 
         if(period.equals("dia")){
@@ -146,6 +149,126 @@ public class WorkItemServiceImpl implements WorkItemService {
         return distValues;
 
     }
+
+    @Override
+    public List<LineGraphDistValues> getLineGraphDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues;
+        String period = this.calculatePeriod(periodo);
+
+        if(period.equals("dia")){
+            distValues = this.getLineGraphUnitDistValues(id,period);
+        }else {
+            distValues = this.getLineGraphGroupDistValues(id,period);
+        }
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphUnitDistValues(String id,String periodo){
+        List<LineGraphDistValues> distValues;
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+
+        ApplicationStorage application = applicationRepository.findApplicationById(id);
+        Threashold threshold = application.getKpis().getTasks().getUnitaryThreashold();
+
+        List<WorkItemStorage> workItemsStorage =
+                workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(id,startDate,endDate, "IN_PROGRESS");
+
+        distValues = workItemsStorage.stream()
+                .map( workItem ->
+                new LineGraphDistValues(workItem.getId(),
+                        (int)workItem.getDeflectionDays(),
+                        workItem.getProviderOrigin() + "-" + Integer.toString(workItem.getExternalId()),
+                        new WorkItemLineGraphTooltip(workItem.getProviderName(), workItem.getTitle(), workItem.getStatus())))
+                .sorted(Comparator.comparing(LineGraphDistValues::getxAxis))
+                .collect(Collectors.toList());
+
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphGroupDistValues(String id, String periodo){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        Date startDate = DateHelper.getStartDate(periodo);
+        Date endDate = DateHelper.getEndDate(periodo);
+        List<Date> startDates = new ArrayList<>();
+        List<Date> endDates = new ArrayList<>();
+
+        List<WorkItemStorage> workItemsStorage =
+                workItemRepository.findWorkItemsByApplicationIdBetweenDatesAndStatus(id,startDate,endDate, "IN_PROGRESS");
+        ApplicationStorage  applicationStorage = applicationRepository.findApplicationById(id);
+        Threashold threshold;
+        switch (periodo){
+            case "semana":
+                dateFormat = new SimpleDateFormat("dd/MM");
+                threshold = applicationStorage.getKpis().getTasks().getDayThreashold();
+                for(int i=0; i<7; i++){
+                    startDates.add(DateUtils.addDays(startDate,i));
+                    endDates.add(DateUtils.addDays(startDate,i+1));
+                }
+                break;
+            case "mes":
+                dateFormat = new SimpleDateFormat("dd/MM");
+                threshold = applicationStorage.getKpis().getTasks().getWeekThreashold();
+                Date aux = startDate;
+                while (aux.before(endDate)){
+                    startDates.add(aux);
+                    if(DateUtils.addWeeks(aux,1).after(endDate)){
+                        endDates.add(endDate);
+                    }else {
+                        endDates.add(DateUtils.addWeeks(aux, 1));
+                    }
+                    aux = DateUtils.addWeeks(aux,1);
+                }
+                break;
+            default:
+                distValues = this.getLineGraphUnitDistValues(id, periodo);
+                return distValues;
+        }
+
+        distValues = this.getLineGraphDistValuesByPeriod(workItemsStorage,threshold,startDates,endDates);
+        return distValues;
+    }
+
+    private List<LineGraphDistValues> getLineGraphDistValuesByPeriod(List<WorkItemStorage> workItemList,Threashold threshold,List<Date> startDates, List<Date> endDates){
+        List<LineGraphDistValues> distValues = new ArrayList<>();
+        double inferior = threshold.getInferior();
+        double lWarningKpiThreshold = threshold.getWarning();
+        double lCriticalKpiThreshold = threshold.getCritical();
+        double superior = threshold.getSuperior();
+
+
+        for(int j = 0; j<startDates.size(); j++){
+            final int index = j;
+            List<WorkItemStorage> workItemStorageList = workItemList.stream().filter(
+                    workItemStorage ->
+                            workItemStorage.getTimestamp().compareTo(startDates.get(index)) >= 0 &&
+                                    workItemStorage.getTimestamp().compareTo(endDates.get(index)) <= 0).
+                    collect(Collectors.toList());
+            if(!workItemStorageList.isEmpty()) {
+                List<String> fechas = new ArrayList<>();
+                fechas.add(startDates.get(index).toString());
+                fechas.add(endDates.get(index).toString());
+                String id = String.join("-",fechas);
+                double value = workItemStorageList.stream().mapToDouble(workItemStorage ->
+                        workItemStorage.getDeflectionDays()).
+                        sum();
+                String status = "Critical";
+                if (value <= lWarningKpiThreshold) {
+                    status = "OK";
+                }
+                if (value <= lCriticalKpiThreshold && value > lWarningKpiThreshold) {
+                    status = "Warning";
+                }
+
+
+                String yAxis = dateFormat.format(startDates.get(index));
+                distValues.add(new LineGraphDistValues(id,(int) value,yAxis,new GroupedLineGraphTooltip(workItemStorageList.size(),status)));
+            }
+        }
+
+        return distValues;
+    }
+
 
     private List<DistValues> getUnitDistValues(String id, String periodo){
         List<DistValues> distValues = new ArrayList<>();

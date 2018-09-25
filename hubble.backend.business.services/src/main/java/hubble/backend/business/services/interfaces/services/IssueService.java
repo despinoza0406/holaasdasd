@@ -4,6 +4,7 @@ import hubble.backend.business.services.interfaces.services.kpis.InstantOperatio
 import hubble.backend.business.services.interfaces.services.kpis.OperationsKeyPerformanceIndicatorServiceBase;
 import hubble.backend.business.services.models.distValues.DistValues;
 import hubble.backend.business.services.models.Issue;
+import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.measures.quantities.IssuesQuantity;
 import hubble.backend.business.services.models.measures.kpis.IssuesKpi;
 import hubble.backend.core.enums.Results;
@@ -22,6 +23,8 @@ public interface IssueService extends ServiceBase<Issue>,
     List<Integer> getDistValuesLastDay(String id);
 
     List<DistValues> getDistValues(String id, String periodo);
+
+    List<LineGraphDistValues> getLineGraphDistValues(String id, String periodo);
 
     double calculateHistoryLastDayKpiByApplication(ApplicationStorage application);
 
