@@ -36,6 +36,7 @@ public class AvailabilityPropertyMap extends PropertyMap<BsmProviderModel, Avail
         map().setScriptName(source.getSzscriptname());
         map().setNumberOfErrors(source.getIcomponenterrorcount());
 
+        map().setProviderName(source.getProviderName());
         map().setProviderOrigin(providerOrigin);
         using(timeStampConverter).map(source.getTime_stamp()).setTimeStamp(null);
         using(statusConverter).map(source.getSzstatusname()).setAvailabilityStatus("");

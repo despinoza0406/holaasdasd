@@ -27,6 +27,7 @@ public class AvailabilityStorage {
     private int numberOfErrors;
     private List<ErrorStorage> errors;
     private String providerOrigin;
+    private String providerName;
 
     public AvailabilityStorage() {
 
@@ -166,5 +167,13 @@ public class AvailabilityStorage {
 
     public void setProviderOrigin(String providerOrigin) {
         this.providerOrigin = providerOrigin;
+    }
+
+    public String getProviderName() {
+        return providerName;
+    }
+
+    public void setProviderName(String providerName) {
+        this.providerName = providerName;
     }
 }

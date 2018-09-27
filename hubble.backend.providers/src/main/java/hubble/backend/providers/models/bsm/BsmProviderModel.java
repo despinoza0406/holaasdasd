@@ -13,6 +13,7 @@ public class BsmProviderModel {
     private int dresponsetime;
     private int dgreenthreshold;
     private int dredthreshold;
+    private String providerName;
 
     public String getProfile_name() {
         return profile_name;
@@ -100,5 +101,13 @@ public class BsmProviderModel {
 
     public void setApplicationId(String applicationId) {
         this.applicationId = applicationId;
+    }
+
+    public String getProviderName() {
+        return providerName;
+    }
+
+    public void setProviderName(String providerName) {
+        this.providerName = providerName;
     }
 }

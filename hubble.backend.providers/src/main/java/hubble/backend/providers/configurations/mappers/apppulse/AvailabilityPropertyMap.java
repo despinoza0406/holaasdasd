@@ -17,6 +17,7 @@ public class AvailabilityPropertyMap extends PropertyMap<AvailabilityDataProvide
 
         skip().setId(null);
         map().setProviderOrigin(providerOrigin);
+        map().setProviderName(providerOrigin);
         using(timeStampConverter).map(source.getTimeStamp()).setTimeStamp(null);
     }
 

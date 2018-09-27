@@ -24,6 +24,17 @@ public class BSMConfigurationMongoImpl implements BSMConfiguration {
     }
 
     @Override
+    public String getApplicationFieldName(){
+        return providersRepository.bsm().getConfiguration().getBusinessApplicationFieldName();
+    }
+
+
+    @Override
+    public String getProviderName(){
+        return providersRepository.bsm().getName();
+    }
+
+    @Override
     public HashMap<String,String> getApplicationValueToIdMap() {
         List<ApplicationStorage> applications = applicationRepository.findAll().stream().
                 filter((a) ->

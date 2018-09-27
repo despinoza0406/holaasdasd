@@ -73,6 +73,10 @@ public class JiraConfigurationMongoImpl implements JiraConfiguration{
         return providersRepository.jira().getConfiguration();
     }
 
+
+    public String getProviderName(){
+        return providersRepository.jira().getName();
+    }
     //Esta para darme solo los que tengan project keys unicas
     public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) throws NullPointerException
     {

@@ -136,8 +136,8 @@ public class PpmDataParserImpl implements PpmDataParser {
         model.setApplicationId(resolveApplicationIdFromConfiguration(model.getBusinessApplication()));
         model.setPercentComplete(Integer.valueOf(getValue(ppmIssue, "REQ.PERCENT_COMPLETE")));
         model.setDueDate(getValue(ppmIssue, "REQD.P_DUE_DATE"));
-        model.setProviderName(hubble.backend.core.enums.Providers.PROVIDERS_NAME.PPM.toString());
-        model.setProviderOrigin(hubble.backend.core.enums.Providers.PROVIDERS_NAME.PPM.toString());
+        model.setProviderName(configuration.getProviderName());
+        model.setProviderOrigin(configuration.getProviderOrigin());
 
         return model;
     }

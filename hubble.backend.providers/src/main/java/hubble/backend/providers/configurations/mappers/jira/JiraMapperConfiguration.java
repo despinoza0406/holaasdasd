@@ -36,6 +36,7 @@ public class JiraMapperConfiguration {
     public IssueStorage mapToIssueStorage(JiraIssueModel jiraModel) {
         if (jiraModel == null)
             return null;
+        jiraModel.setProviderName(jiraConfig.getProviderName());
         IssueStorage issueStorage = mapper.map(jiraModel, IssueStorage.class);
         issueStorage.setBusinessApplicationId(resolveApplicationId(issueStorage.getBusinessApplication()));
         return issueStorage;
