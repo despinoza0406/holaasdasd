@@ -287,7 +287,7 @@ public class ApplicationsController {
     }
 
     private void sendNoSuchKPI(HttpServletResponse resp,String kpiName) throws IOException{
-        resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"No existe el KPI" + kpiName);
+        resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"No existe el KPI: " + kpiName);
     }
 
     private boolean validateUserPermissions(UserStorage userAuthenticated) {
