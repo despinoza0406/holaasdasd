@@ -323,7 +323,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     private List<DistValues> getDistValuesOf(String kpiName, String id, String period) {
         List<DistValues> distValues;
-        KPITypes kpi = KPITypes.valueOf(kpiName);
+        KPITypes kpi = KPITypes.valueOf(kpiName.toUpperCase());
         switch (kpi) {
             case AVAILABILITY:
                 distValues = availabilityService.getDistValues(id,period);
@@ -350,7 +350,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     @Override
     public List<LineGraphDistValues> getLineGraphDistValuesOf(String kpiName,String id, String period){
         List<LineGraphDistValues> distValues;
-        KPITypes kpi = KPITypes.valueOf(kpiName);
+        KPITypes kpi = KPITypes.valueOf(kpiName.toUpperCase());
         switch (kpi) {
             case AVAILABILITY:
                 distValues = availabilityService.getLineGraphDistValues(id,period);
@@ -457,7 +457,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     @Override
     public LineGraphTableResponse getTablesByFilter(String appId, String kpiName, JSONObject filter){
         LineGraphTableResponse results = new LineGraphTableResponse();
-        KPITypes kpi = KPITypes.valueOf(kpiName);
+        KPITypes kpi = KPITypes.valueOf(kpiName.toUpperCase());
         switch (kpi) {
             case AVAILABILITY:
                 results = this.getAllAvailabilityByFilter(appId, filter);
