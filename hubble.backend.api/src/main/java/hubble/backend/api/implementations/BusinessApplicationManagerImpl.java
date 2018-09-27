@@ -16,6 +16,7 @@ import hubble.backend.business.services.models.distValues.DistributionValues;
 import hubble.backend.business.services.models.distValues.LineGraphDistValues;
 import hubble.backend.business.services.models.measures.Uptime;
 import hubble.backend.business.services.models.tables.*;
+import hubble.backend.core.enums.KPITypes;
 import hubble.backend.core.enums.MonitoringFields;
 import hubble.backend.core.enums.Results;
 import hubble.backend.core.utils.CalendarHelper;
@@ -26,7 +27,7 @@ import java.util.stream.Collectors;
 
 import hubble.backend.core.utils.DateHelper;
 
-import static hubble.backend.storage.models.KPITypes.*;
+import static hubble.backend.core.enums.KPITypes.*;
 import static java.util.stream.Collectors.toList;
 
 import hubble.backend.storage.models.*;
@@ -322,21 +323,21 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
     private List<DistValues> getDistValuesOf(String kpiName, String id, String period) {
         List<DistValues> distValues;
-
-        switch (kpiName) {
-            case "Disponibilidad":
+        KPITypes kpi = KPITypes.valueOf(kpiName);
+        switch (kpi) {
+            case AVAILABILITY:
                 distValues = availabilityService.getDistValues(id,period);
                 break;
-            case "Performance":
+            case PERFORMANCE:
                 distValues = performanceService.getDistValues(id,period);
                 break;
-            case "Incidencias":
+            case DEFECTS:
                 distValues = issueService.getDistValues(id,period);
                 break;
-            case "Tareas":
+            case TASKS:
                 distValues = workItemService.getDistValues(id,period);
                 break;
-            case "Eventos":
+            case EVENTS:
                 distValues = eventService.getDistValues(id,period);
                 break;
             default:
@@ -349,21 +350,21 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     @Override
     public List<LineGraphDistValues> getLineGraphDistValuesOf(String kpiName,String id, String period){
         List<LineGraphDistValues> distValues;
-
-        switch (kpiName) {
-            case "Disponibilidad":
+        KPITypes kpi = KPITypes.valueOf(kpiName);
+        switch (kpi) {
+            case AVAILABILITY:
                 distValues = availabilityService.getLineGraphDistValues(id,period);
                 break;
-            case "Performance":
+            case PERFORMANCE:
                 distValues = performanceService.getLineGraphDistValues(id,period);
                 break;
-            case "Incidencias":
+            case DEFECTS:
                 distValues = issueService.getLineGraphDistValues(id,period);
                 break;
-            case "Tareas":
+            case TASKS:
                 distValues = workItemService.getLineGraphDistValues(id,period);
                 break;
-            case "Eventos":
+            case EVENTS:
                 distValues = eventService.getLineGraphDistValues(id,period);
                 break;
             default:
@@ -454,22 +455,23 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
 
     @Override
-    public LineGraphTableResponse getTablesByFilter(String appId, String kpi, JSONObject filter){
+    public LineGraphTableResponse getTablesByFilter(String appId, String kpiName, JSONObject filter){
         LineGraphTableResponse results = new LineGraphTableResponse();
+        KPITypes kpi = KPITypes.valueOf(kpiName);
         switch (kpi) {
-            case "disponibilidad":
+            case AVAILABILITY:
                 results = this.getAllAvailabilityByFilter(appId, filter);
                 break;
-            case "performance":
+            case PERFORMANCE:
                 results = this.getAllAvailabilityByFilter(appId, filter);
                 break;
-            case "incidentes":
+            case DEFECTS:
                 results = this.getAllIssuesByFilter(appId,filter);
                 break;
-            case "tareas":  
+            case TASKS:
                 results = this.getAllTasksByFilter(appId,filter);
                 break;
-            case "eventos":
+            case EVENTS:
                 results = this.getAllEventsByFilter(appId,filter);
                 break;
         }
@@ -487,7 +489,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             List<Event> events = eventService.getEventsBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
             eventsTable.addAll(events.stream().map(event -> mapper.mapEventToEventsTable(event)).collect(toList()));
         }
-        properties = this.getTableProperties("eventos");
+        properties = this.getTableProperties(EVENTS);
         return new LineGraphTableResponse(eventsTable,properties);
 
     }
@@ -503,7 +505,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             List<WorkItem> workItems = workItemService.getWorkItemsBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
             tasksTable.addAll(workItems.stream().map(workItem -> mapper.mapWorkItemToTasksTable(workItem)).collect(toList()));
         }
-        properties = this.getTableProperties("tareas");
+        properties = this.getTableProperties(TASKS);
         return new LineGraphTableResponse(tasksTable,properties);
     }
 
@@ -518,7 +520,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             List<Issue> issues = issueService.getIssuesBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
             issuesTable.addAll(issues.stream().map(issue -> mapper.mapIssueToIssuesTable(issue)).collect(toList()));
         }
-        properties = this.getTableProperties("incidentes");
+        properties = this.getTableProperties(DEFECTS);
         return new LineGraphTableResponse(issuesTable,properties);
 
     }
@@ -535,25 +537,25 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             availabilityTable.addAll(availabilities.stream().map(availability -> mapper.mapAvailabilityToAvailabilityTable(availability)).collect(toList()));
         }
 
-        properties = this.getTableProperties("disponibilidad");
+        properties = this.getTableProperties(AVAILABILITY);
 
         return new LineGraphTableResponse(availabilityTable,properties);
     }
 
-    private List<String> getTableProperties (String kpi){
+    private List<String> getTableProperties (KPITypes kpi){
         List<String> propiedades = new ArrayList<>();
         Field[] fields = null;
         switch (kpi){
-            case "disponibilidad":
+            case AVAILABILITY:
                 fields = AvailabilityTable.class.getDeclaredFields();
                 break;
-            case "tareas":
+            case TASKS:
                 fields = TasksTable.class.getDeclaredFields();
                 break;
-            case "incidentes":
+            case DEFECTS:
                 fields = IssuesTable.class.getDeclaredFields();
                 break;
-            case "eventos":
+            case EVENTS:
                 fields = EventsTable.class.getDeclaredFields();
                 break;
 

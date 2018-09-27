@@ -446,7 +446,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
                             status,
                             transaction,
                             date,
-                            DateTypes.Rango
+                            DateTypes.Lapso_de_Tiempo
                     ));
                 }
             }

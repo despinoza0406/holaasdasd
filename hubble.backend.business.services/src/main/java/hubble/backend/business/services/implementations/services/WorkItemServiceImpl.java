@@ -381,7 +381,7 @@ public class WorkItemServiceImpl implements WorkItemService {
                         (int) value,
                         status,
                         date,
-                        DateTypes.Rango
+                        DateTypes.Lapso_de_Tiempo
                 ));
             }
         }

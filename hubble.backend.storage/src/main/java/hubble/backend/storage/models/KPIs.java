@@ -2,6 +2,8 @@ package hubble.backend.storage.models;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import hubble.backend.core.enums.KPITypes;
 import org.springframework.data.annotation.Transient;
 
 /**

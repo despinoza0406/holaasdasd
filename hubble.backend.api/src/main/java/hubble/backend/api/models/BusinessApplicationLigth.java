@@ -1,6 +1,6 @@
 package hubble.backend.api.models;
 
-import hubble.backend.storage.models.KPITypes;
+import hubble.backend.core.enums.KPITypes;
 import java.util.Set;
 
 /**
