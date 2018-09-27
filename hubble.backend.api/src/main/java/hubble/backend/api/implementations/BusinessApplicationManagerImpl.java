@@ -162,25 +162,25 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     @Override
-    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id,String period) {
+    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id,String period) throws NoSuchKPIException {
         BusinessApplicationFrontend businessApplicationFrontend = getBusinessApplicationFrontend(id,period);
         setDistValues(businessApplicationFrontend.getKpis(), id,period);
         setLineGraphDistValues(businessApplicationFrontend.getKpis(),id,period);
         return businessApplicationFrontend;
     }
 
-    private void setDistValues(List<KpiFrontend> kpis, String id,String period) {
+    private void setDistValues(List<KpiFrontend> kpis, String id,String period) throws NoSuchKPIException {
         List<DistValues> distValues;
         for (KpiFrontend kpi : kpis) {
-            distValues = getDistValuesOf(kpi.getKpiName(), id,period);
+            distValues = getDistValuesOf(kpi.getKpiBackendName(), id,period);
             kpi.setDistribution(distValues);
         }
     }
 
-    private void setLineGraphDistValues(List<KpiFrontend> kpis, String id, String period){
+    private void setLineGraphDistValues(List<KpiFrontend> kpis, String id, String period) throws NoSuchKPIException {
         List<LineGraphDistValues> distValues;
         for(KpiFrontend kpi : kpis){
-            distValues = getLineGraphDistValuesOf(kpi.getKpiName(),id,period);
+            distValues = getLineGraphDistValuesOf(kpi.getKpiBackendName(),id,period);
             kpi.setLineGraphValues(distValues);
         }
     }
@@ -240,6 +240,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend availabilityKpi = new KpiFrontend();
             availabilityKpi.setKpiName("Disponibilidad");
             availabilityKpi.setKpiShortName("D");
+            availabilityKpi.setKpiBackendName(AVAILABILITY.toString());
             availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPI(application,periodo));
             availabilityKpi.setKpiPeriod(availabilityService.calculatePeriod(periodo));
             availabilityKpi.setKpiResult(availabilityService.calculateKpiResult(application.getApplicationId(),periodo));
@@ -254,6 +255,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend performanceKpi = new KpiFrontend();
             performanceKpi.setKpiName("Performance");
             performanceKpi.setKpiShortName("P");
+            performanceKpi.setKpiBackendName(PERFORMANCE.toString());
             performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
             performanceKpi.setKpiPeriod(performanceService.calculatePeriod(periodo));
             performanceKpi.setKpiResult(performanceService.calculateKpiResult(application.getApplicationId(),periodo));
@@ -267,6 +269,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend issuesKpi = new KpiFrontend();
             issuesKpi.setKpiName("Incidencias");
             issuesKpi.setKpiShortName("I");
+            issuesKpi.setKpiBackendName(DEFECTS.toString());
             issuesKpi.setKpiValue(issueService.calculateHistoryKPIByApplication(application,periodo));
             issuesKpi.setKpiPeriod(issueService.calculatePeriod(periodo));
             issuesKpi.setKpiResult(issueService.calculateKpiResult(application.getApplicationId(),periodo));
@@ -280,6 +283,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend workitemKpi = new KpiFrontend();
             workitemKpi.setKpiName("Tareas");
             workitemKpi.setKpiShortName("T");
+            workitemKpi.setKpiBackendName(TASKS.toString());
             workitemKpi.setKpiValue(workItemService.calculateDeflectionDaysKPI(application,periodo));
             workitemKpi.setKpiPeriod(workItemService.calculatePeriod(periodo));
             workitemKpi.setKpiResult(workItemService.calculateKpiResult(application.getApplicationId(),periodo));
@@ -293,6 +297,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             KpiFrontend eventKpi = new KpiFrontend();
             eventKpi.setKpiName("Eventos");
             eventKpi.setKpiShortName("E");
+            eventKpi.setKpiBackendName(EVENTS.toString());
             eventKpi.setKpiValue(eventService.calculateSeverityKPI(application,periodo));
             eventKpi.setKpiPeriod(eventService.calculatePeriod(periodo));
             eventKpi.setKpiResult(eventService.calculateKpiResult(application.getApplicationId(),periodo));
@@ -321,9 +326,14 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         return average / (double) kpis.size();
     }
 
-    private List<DistValues> getDistValuesOf(String kpiName, String id, String period) {
+    private List<DistValues> getDistValuesOf(String kpiName, String id, String period) throws NoSuchKPIException {
         List<DistValues> distValues;
-        KPITypes kpi = KPITypes.valueOf(kpiName.toUpperCase());
+        KPITypes kpi;
+        try {
+            kpi = KPITypes.valueOf(kpiName.toUpperCase());
+        }catch (IllegalArgumentException ex){
+            throw new NoSuchKPIException(kpiName);
+        }
         switch (kpi) {
             case AVAILABILITY:
                 distValues = availabilityService.getDistValues(id,period);
@@ -348,9 +358,14 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
     }
 
     @Override
-    public List<LineGraphDistValues> getLineGraphDistValuesOf(String kpiName,String id, String period){
+    public List<LineGraphDistValues> getLineGraphDistValuesOf(String kpiName,String id, String period) throws NoSuchKPIException {
         List<LineGraphDistValues> distValues;
-        KPITypes kpi = KPITypes.valueOf(kpiName.toUpperCase());
+        KPITypes kpi;
+        try {
+            kpi = KPITypes.valueOf(kpiName.toUpperCase());
+        }catch (IllegalArgumentException ex){
+            throw new NoSuchKPIException(kpiName);
+        }
         switch (kpi) {
             case AVAILABILITY:
                 distValues = availabilityService.getLineGraphDistValues(id,period);
@@ -455,9 +470,14 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
 
 
     @Override
-    public LineGraphTableResponse getTablesByFilter(String appId, String kpiName, JSONObject filter){
+    public LineGraphTableResponse getTablesByFilter(String appId, String kpiName, JSONObject filter) throws NoSuchKPIException {
         LineGraphTableResponse results = new LineGraphTableResponse();
-        KPITypes kpi = KPITypes.valueOf(kpiName.toUpperCase());
+        KPITypes kpi;
+        try {
+           kpi = KPITypes.valueOf(kpiName.toUpperCase());
+        }catch (IllegalArgumentException ex){
+            throw new NoSuchKPIException(kpiName);
+        }
         switch (kpi) {
             case AVAILABILITY:
                 results = this.getAllAvailabilityByFilter(appId, filter);

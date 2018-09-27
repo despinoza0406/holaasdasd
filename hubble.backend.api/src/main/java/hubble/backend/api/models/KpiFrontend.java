@@ -10,6 +10,7 @@ import java.util.List;
 public class KpiFrontend {
     private String kpiName;
     private String kpiShortName;
+    private String kpiBackendName;
     private double kpiValue;
     private String kpiComment;
     private String kpiPeriod;
@@ -91,5 +92,13 @@ public class KpiFrontend {
 
     public void setLineGraphValues(List<LineGraphDistValues> lineGraphValues) {
         this.lineGraphValues = lineGraphValues;
+    }
+
+    public String getKpiBackendName() {
+        return kpiBackendName;
+    }
+
+    public void setKpiBackendName(String kpiBackendName) {
+        this.kpiBackendName = kpiBackendName;
     }
 }
