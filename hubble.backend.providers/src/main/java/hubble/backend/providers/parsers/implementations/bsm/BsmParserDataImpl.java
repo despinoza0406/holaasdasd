@@ -49,6 +49,9 @@ public class BsmParserDataImpl implements BsmDataParser {
 
     @Override
     public void run() {
+        //Si alguna ejecucion anterior dio error, nunca va a volver a ser Success
+        bsmTransport.setError("");
+        bsmTransport.setResult(Results.RESULTS.SUCCESS);
         try {
             if (configuration.taskEnabled()) {
 

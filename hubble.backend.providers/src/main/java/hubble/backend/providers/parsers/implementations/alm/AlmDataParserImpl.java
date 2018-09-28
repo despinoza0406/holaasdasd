@@ -105,6 +105,8 @@ public class AlmDataParserImpl implements AlmDataParser {
     @Override
     public void run() {
         List<IssueStorage> issueStorageList = new ArrayList<>();
+        almTransport.setError("");
+        almTransport.setResult(Results.RESULTS.SUCCESS);
         try{
             if(configuration.taskEnabled()) {
 
