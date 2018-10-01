@@ -45,6 +45,10 @@ public class SiteScopeConfigurationMongoImpl implements SiteScopeConfiguration
         return mapApplications;
     }
 
+    public String getProviderName(){
+        return providersRepository.siteScope().getName();
+    }
+
     public boolean taskEnabled(){ return providersRepository.siteScope().isEnabled() && providersRepository.siteScope().getTaskRunner().isEnabled();}
 
     private SiteScope.Configuration getConfiguration(){

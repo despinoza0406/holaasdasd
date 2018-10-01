@@ -6,6 +6,7 @@ public class JiraIssueModel {
 	private String self;
 	private String key;
 	private JiraIssueFieldsModel fields;
+	private String providerName;
 	
 	public String getExpand() {
 		return expand;
@@ -36,5 +37,13 @@ public class JiraIssueModel {
 	}
 	public void setFields(JiraIssueFieldsModel fields) {
 		this.fields = fields;
+	}
+
+	public String getProviderName() {
+		return providerName;
+	}
+
+	public void setProviderName(String providerName) {
+		this.providerName = providerName;
 	}
 }

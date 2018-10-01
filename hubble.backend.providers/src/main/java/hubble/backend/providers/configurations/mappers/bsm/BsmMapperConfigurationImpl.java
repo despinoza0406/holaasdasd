@@ -100,6 +100,7 @@ public class BsmMapperConfigurationImpl implements BsmMapperConfiguration {
             newBsmProviderModel.setDgreenthreshold((int) Double.parseDouble(record[8]));
             newBsmProviderModel.setDredthreshold((int) Double.parseDouble(record[9]));
             newBsmProviderModel.setApplicationId(resolveApplicationIdFromConfiguration(newBsmProviderModel.getProfile_name()));
+            newBsmProviderModel.setProviderName(configuration.getProviderName());
 
             transactions.add(newBsmProviderModel);
         }

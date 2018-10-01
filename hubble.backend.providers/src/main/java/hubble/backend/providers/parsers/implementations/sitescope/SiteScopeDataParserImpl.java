@@ -148,7 +148,7 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
         model.setUpdatedDate(this.getDate(monitor.getDate()));
         model.setBusinessApplication(config.getString("name"));
         model.setApplicationId(resolveApplicationIdFromConfiguration(model.getBusinessApplication()));
-        model.setProviderName(Providers.PROVIDERS_NAME.SITE_SCOPE.toString());
+        model.setProviderName(configuration.getProviderName());
         model.setProviderOrigin(Providers.PROVIDERS_NAME.SITE_SCOPE.toString());
 
         return model;

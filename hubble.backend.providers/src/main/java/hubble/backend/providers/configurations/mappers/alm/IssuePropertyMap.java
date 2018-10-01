@@ -2,6 +2,7 @@ package hubble.backend.providers.configurations.mappers.alm;
 
 import hubble.backend.providers.models.alm.AlmDefectProviderModel;
 import hubble.backend.storage.models.IssueStorage;
+import org.jsoup.Jsoup;
 import org.modelmapper.PropertyMap;
 
 

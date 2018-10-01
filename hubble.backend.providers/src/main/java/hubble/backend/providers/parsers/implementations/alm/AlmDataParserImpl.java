@@ -17,6 +17,7 @@ import static org.apache.commons.lang.StringUtils.EMPTY;
 import hubble.backend.storage.repositories.TaskRunnerRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class AlmDataParserImpl implements AlmDataParser {
         model.setAssignee(getValue(almIssue, "owner"));
         model.setClosedDate(getValue(almIssue, "closing-date"));
         model.setCorrectedOnRelease(getValue(almIssue, "target-rel"));
-        model.setDescription(getValue(almIssue, "description"));
+        model.setDescription(Jsoup.parse(getValue(almIssue, "description")).text());
         model.setDetectedOnRelease(getValue(almIssue, "detected-in-rel"));
         model.setId(Integer.valueOf(getValue(almIssue, "id")));
         model.setModifiedDate(getValue(almIssue, "last-modified"));
