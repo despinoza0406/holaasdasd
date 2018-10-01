@@ -241,6 +241,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             availabilityKpi.setKpiName("Disponibilidad");
             availabilityKpi.setKpiShortName("D");
             availabilityKpi.setKpiBackendName(AVAILABILITY.toString());
+            availabilityKpi.setyAxisValue(AVAILABILITY.getKPIMeditionType());
+            availabilityKpi.setxAxisValue(periodo.equals("default") ? "Hora" : periodo);
             availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPI(application,periodo));
             availabilityKpi.setKpiPeriod(availabilityService.calculatePeriod(periodo));
             availabilityKpi.setKpiResult(availabilityService.calculateKpiResult(application.getApplicationId(),periodo));
@@ -256,6 +258,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             performanceKpi.setKpiName("Performance");
             performanceKpi.setKpiShortName("P");
             performanceKpi.setKpiBackendName(PERFORMANCE.toString());
+            performanceKpi.setyAxisValue(PERFORMANCE.getKPIMeditionType());
+            performanceKpi.setxAxisValue(periodo.equals("default") ? "Hora" : periodo);
             performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
             performanceKpi.setKpiPeriod(performanceService.calculatePeriod(periodo));
             performanceKpi.setKpiResult(performanceService.calculateKpiResult(application.getApplicationId(),periodo));
@@ -270,6 +274,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             issuesKpi.setKpiName("Incidencias");
             issuesKpi.setKpiShortName("I");
             issuesKpi.setKpiBackendName(DEFECTS.toString());
+            issuesKpi.setyAxisValue(DEFECTS.getKPIMeditionType());
+            issuesKpi.setxAxisValue(periodo.equals("default") ? "ID" : periodo);
             issuesKpi.setKpiValue(issueService.calculateHistoryKPIByApplication(application,periodo));
             issuesKpi.setKpiPeriod(issueService.calculatePeriod(periodo));
             issuesKpi.setKpiResult(issueService.calculateKpiResult(application.getApplicationId(),periodo));
@@ -284,6 +290,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             workitemKpi.setKpiName("Tareas");
             workitemKpi.setKpiShortName("T");
             workitemKpi.setKpiBackendName(TASKS.toString());
+            workitemKpi.setyAxisValue(TASKS.getKPIMeditionType());
+            workitemKpi.setxAxisValue(periodo.equals("default") ? "ID" : periodo);
             workitemKpi.setKpiValue(workItemService.calculateDeflectionDaysKPI(application,periodo));
             workitemKpi.setKpiPeriod(workItemService.calculatePeriod(periodo));
             workitemKpi.setKpiResult(workItemService.calculateKpiResult(application.getApplicationId(),periodo));
@@ -298,6 +306,8 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             eventKpi.setKpiName("Eventos");
             eventKpi.setKpiShortName("E");
             eventKpi.setKpiBackendName(EVENTS.toString());
+            eventKpi.setyAxisValue(EVENTS.getKPIMeditionType());
+            eventKpi.setxAxisValue(periodo.equals("default") ? "Hora" : periodo);
             eventKpi.setKpiValue(eventService.calculateSeverityKPI(application,periodo));
             eventKpi.setKpiPeriod(eventService.calculatePeriod(periodo));
             eventKpi.setKpiResult(eventService.calculateKpiResult(application.getApplicationId(),periodo));
