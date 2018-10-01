@@ -18,6 +18,8 @@ public class KpiFrontend {
     private List<TaskRunnerExecution> kpiTaskRunners;
     private List<DistValues> distribution;
     private List<LineGraphDistValues> lineGraphValues;
+    private String xAxisValue;
+    private String yAxisValue;
 
     public KpiFrontend() {
     }
@@ -100,5 +102,21 @@ public class KpiFrontend {
 
     public void setKpiBackendName(String kpiBackendName) {
         this.kpiBackendName = kpiBackendName;
+    }
+
+    public String getxAxisValue() {
+        return xAxisValue;
+    }
+
+    public void setxAxisValue(String xAxisValue) {
+        this.xAxisValue = xAxisValue;
+    }
+
+    public String getyAxisValue() {
+        return yAxisValue;
+    }
+
+    public void setyAxisValue(String yAxisValue) {
+        this.yAxisValue = yAxisValue;
     }
 }
