@@ -23,13 +23,13 @@ public interface BusinessApplicationManager {
 
     public List<BusinessApplicationFrontend> getBusinessApplicationsFrontend(boolean includeInactives,String periodo);
 
-    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id,String period);
+    public BusinessApplicationFrontend getBusinessApplicationFrontendDistValues(String id,String period) throws NoSuchKPIException;
 
     public KPIs getKPIs(String id,String periodo);
     
     public List<BusinessApplicationLigth> getApplicationsLigth(boolean includeInactives);
 
-    public LineGraphTableResponse getTablesByFilter(String appId,String kpi, JSONObject filter);
+    public LineGraphTableResponse getTablesByFilter(String appId,String kpi, JSONObject filter) throws NoSuchKPIException;
 
-    List<LineGraphDistValues> getLineGraphDistValuesOf(String kpiName, String id, String period);
+    List<LineGraphDistValues> getLineGraphDistValuesOf(String kpiName, String id, String period) throws NoSuchKPIException;
 }

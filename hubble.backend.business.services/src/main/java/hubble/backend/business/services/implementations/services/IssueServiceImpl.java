@@ -419,7 +419,7 @@ public class IssueServiceImpl implements IssueService {
                         value,
                         status,
                         date,
-                        DateTypes.Rango
+                        DateTypes.Lapso_de_Tiempo
                 ));
             }
         }

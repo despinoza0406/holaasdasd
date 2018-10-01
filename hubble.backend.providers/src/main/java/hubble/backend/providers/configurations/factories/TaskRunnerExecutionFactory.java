@@ -13,6 +13,6 @@ public class TaskRunnerExecutionFactory {
 
     public TaskRunnerExecution createExecution(String provider,String applicationId, Results.RESULTS result, String description){
         logger.info("Ejecucion de " + provider + ". Resultado: " + result.toString());
-        return new TaskRunnerExecution(provider,applicationId,result,description, DateHelper.getDateNow());
+        return new TaskRunnerExecution(provider,applicationId,result,description, DateHelper.getDateNow().toString());
     }
 }

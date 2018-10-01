@@ -10,9 +10,9 @@ public class TaskRunnerExecution {
     private String applicationId;
     private Results.RESULTS result;
     private String description;
-    private Date timestamp;
+    private String timestamp;
 
-    public TaskRunnerExecution(String provider,String applicationId, Results.RESULTS result, String description, Date timestamp){
+    public TaskRunnerExecution(String provider,String applicationId, Results.RESULTS result, String description, String timestamp){
         this.provider = provider;
         this.applicationId = applicationId;
         this.result = result;
@@ -52,11 +52,11 @@ public class TaskRunnerExecution {
         this.id = id;
     }
 
-    public Date getTimestamp() {
+    public String getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
     }
 

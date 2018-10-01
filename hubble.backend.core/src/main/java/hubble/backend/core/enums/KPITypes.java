@@ -1,4 +1,4 @@
-package hubble.backend.storage.models;
+package hubble.backend.core.enums;
 
 import static java.util.Arrays.asList;
 import java.util.HashSet;

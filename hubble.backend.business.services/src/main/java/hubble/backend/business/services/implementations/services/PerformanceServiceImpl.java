@@ -227,6 +227,10 @@ public class PerformanceServiceImpl implements PerformanceService {
         criticalThreshold = threshold.getCritical();
         warningThreshold = threshold.getWarning();
 
+        if(averagePerformance == 0){
+            return 1;
+        }
+
         if (averagePerformance <= warningThreshold) {
             return CalculationHelper.calculateOkHealthIndex(averagePerformance, inferior, warningThreshold);
         }
@@ -554,7 +558,7 @@ public class PerformanceServiceImpl implements PerformanceService {
                             status,
                             transaction,
                             date,
-                            DateTypes.Rango
+                            DateTypes.Lapso_de_Tiempo
                     ));
                 }
             }

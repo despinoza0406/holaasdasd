@@ -63,7 +63,11 @@ public class ApplicationsController {
         UserStorage userAuthenticated = (UserStorage) req.getAttribute("authenticated-user");
 
         if (validateUserPermissions(userAuthenticated) && validateUserApps(userAuthenticated, applicationId)) {
-            applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId, timePeriod);
+            try {
+                applicationFrontend = businessAppMgr.getBusinessApplicationFrontendDistValues(applicationId, timePeriod);
+            }catch (NoSuchKPIException e){
+                sendNoSuchKPI(resp,e.getMessage());
+            }
         } else {
             sendMethodNotAllowed(resp);
         }
@@ -131,9 +135,15 @@ public class ApplicationsController {
 
         if (validateUserPermissions(userAuthenticated) && validateUserApps(userAuthenticated, appId)) {
 
-            LineGraphTableResponse results = businessAppMgr.getTablesByFilter(appId,kpi,jsonBody);
+            try {
+                LineGraphTableResponse results = businessAppMgr.getTablesByFilter(appId,kpi,jsonBody);
+                return new ResponseEntity(results, HttpStatus.OK);
+            }catch (NoSuchKPIException e){
+                sendNoSuchKPI(resp,e.getMessage());
+            }
 
-            return new ResponseEntity(results, HttpStatus.OK);
+
+
 
         } else {
             sendMethodNotAllowed(resp);
@@ -274,6 +284,10 @@ public class ApplicationsController {
 
     private void sendMethodNotAllowed(HttpServletResponse resp) throws IOException {
         resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, "No Autorizado");
+    }
+
+    private void sendNoSuchKPI(HttpServletResponse resp,String kpiName) throws IOException{
+        resp.sendError(HttpServletResponse.SC_BAD_REQUEST,"No existe el KPI: " + kpiName);
     }
 
     private boolean validateUserPermissions(UserStorage userAuthenticated) {

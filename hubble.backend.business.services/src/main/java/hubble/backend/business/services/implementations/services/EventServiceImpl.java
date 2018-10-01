@@ -419,7 +419,7 @@ public class EventServiceImpl implements EventService {
                             status,
                             date,
                             monitor,
-                            DateTypes.Rango
+                            DateTypes.Lapso_de_Tiempo
                     ));
                 }
             }
