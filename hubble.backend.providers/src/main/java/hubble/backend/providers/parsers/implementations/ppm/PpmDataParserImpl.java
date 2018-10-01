@@ -42,9 +42,10 @@ public class PpmDataParserImpl implements PpmDataParser {
 
     @Override
     public void run() {
-        ppmTransport.setError("");
-        ppmTransport.setResult(Results.RESULTS.SUCCESS);
+
         try {
+            ppmTransport.setError("");
+            ppmTransport.setResult(Results.RESULTS.SUCCESS);
             if (configuration.taskEnabled()) {
                 String encodedAuthString = "";
                 try {

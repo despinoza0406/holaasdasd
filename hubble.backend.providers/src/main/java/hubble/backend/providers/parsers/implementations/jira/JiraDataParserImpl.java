@@ -57,9 +57,10 @@ public class JiraDataParserImpl implements JiraDataParser {
 
     @Override
     public void run() {
-        jiraTransport.setError("");
-        jiraTransport.setResult(Results.RESULTS.SUCCESS);
+
         try {
+            jiraTransport.setError("");
+            jiraTransport.setResult(Results.RESULTS.SUCCESS);
             if (configuration.taskEnabled()) {
                 String jiraUser = "";
                 String jiraPassword = "";

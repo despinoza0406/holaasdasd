@@ -48,9 +48,10 @@ public class SiteScopeDataParserImpl implements SiteScopeDataParser {
 
     @Override
     public void run() {
-        siteScopeTransport.setError("");
-        siteScopeTransport.setResult(Results.RESULTS.SUCCESS);
+
         try {
+            siteScopeTransport.setError("");
+            siteScopeTransport.setResult(Results.RESULTS.SUCCESS);
             if (configuration.taskEnabled()) {
                 List<String> groups = siteScopeTransport.getApplicationNames();
                 if (groups == null) {

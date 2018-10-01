@@ -39,7 +39,7 @@ public class BsmTransportImpl implements BsmTransport {
     String query = EMPTY;
     private final Logger logger = LoggerFactory.getLogger(BsmTransportImpl.class);
     private String error = "";
-    Results.RESULTS  result = Results.RESULTS.SUCCESS;
+    private Results.RESULTS  result = Results.RESULTS.SUCCESS;
 
     public BsmTransportImpl() {
     }
