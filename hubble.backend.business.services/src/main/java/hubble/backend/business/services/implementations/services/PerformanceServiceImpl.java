@@ -227,7 +227,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         criticalThreshold = threshold.getCritical();
         warningThreshold = threshold.getWarning();
 
-        if(averagePerformance == 0){
+        if(averagePerformance == 0 || Double.isNaN(averagePerformance)){
             return 1;
         }
 

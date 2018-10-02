@@ -513,7 +513,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         List<FrontEndTable> eventsTable = new ArrayList<>();
         List<String> properties;
         if(filter.has("id")){
-            Event event = eventService.get(filter.getString("id"));
+            Event event = eventService.get(filter.get("id").toString());
             eventsTable.add(mapper.mapEventToEventsTable(event));
         }else {
             List<Event> events = eventService.getEventsBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
@@ -529,7 +529,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         List<FrontEndTable> tasksTable = new ArrayList<>();
         List<String> properties;
         if(filter.has("id")){
-            WorkItem workItem = workItemService.get(filter.getString("id"));
+            WorkItem workItem = workItemService.get(filter.get("id").toString());
             tasksTable.add(mapper.mapWorkItemToTasksTable(workItem));
         }else {
             List<WorkItem> workItems = workItemService.getWorkItemsBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
@@ -544,7 +544,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         List<FrontEndTable> issuesTable = new ArrayList<>();
         List<String> properties;
         if(filter.has("id")){
-            Issue issue = issueService.get(filter.getString("id"));
+            Issue issue = issueService.get(filter.get("id").toString());
             issuesTable.add((mapper.mapIssueToIssuesTable(issue)));
         }else {
             List<Issue> issues = issueService.getIssuesBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
@@ -560,7 +560,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         List<FrontEndTable> availabilityTable = new ArrayList<>();
         List<String> properties;
         if (filter.has("id")) {
-            Availability availability = availabilityService.get(filter.getString("id"));
+            Availability availability = availabilityService.get(filter.get("id").toString());
             availabilityTable.add(mapper.mapAvailabilityToAvailabilityTable(availability));
         } else {
             List<Availability> availabilities = availabilityService.getAvailabilitiesBetweenDates(appId,filter.get("dateFrom").toString(),filter.get("dateTo").toString());
