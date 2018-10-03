@@ -15,22 +15,27 @@ public enum KPITypes implements KPICapabilities {
         public String getKPIMeditionType() {
             return "Días de desvío";
         }
+        public String getKPIForMenu() { return "Tareas"; }
     }, DEFECTS {
         public String getKPIMeditionType() {
             return "Severidad";
         }
+        public String getKPIForMenu() { return "Incidencias"; }
     }, AVAILABILITY {
         public String getKPIMeditionType() {
             return "Porcentaje de disponibilidad";
         }
+        public String getKPIForMenu() { return "Disponibilidad"; }
     }, PERFORMANCE {
         public String getKPIMeditionType() {
             return "Milisegundos";
         }
+        public String getKPIForMenu() { return "Performance"; }
     }, EVENTS {
         public String getKPIMeditionType() {
             return "Severidad";
         }
+        public String getKPIForMenu() { return "Eventos"; }
     };
     
     public static Set<KPITypes> all() {

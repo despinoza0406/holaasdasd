@@ -7,6 +7,8 @@ import hubble.backend.storage.models.ApplicationStorage;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.TypeToken;
@@ -54,7 +56,7 @@ public class ApplicationMapper {
         List<BusinessApplicationLigth> listBusinessApplicationLigth = new ArrayList<>();
         
         applications.stream().forEach((app) -> {
-            listBusinessApplicationLigth.add(new BusinessApplicationLigth(app.getId(), app.getApplicationId(), app.getApplicationName(), app.getDescription(), app.isEnabledTaskRunner(), app.isActive(), app.getKpis().getEnabledKPIs()));
+            listBusinessApplicationLigth.add(new BusinessApplicationLigth(app.getId(), app.getApplicationId(), app.getApplicationName(), app.getDescription(), app.isEnabledTaskRunner(), app.isActive(), app.getKpis().getEnabledKPIs(),app.getKpis().getEnabledKPIs().stream().map(kpi->kpi.getKPIForMenu()).collect(Collectors.toSet())));
         });
         
         return listBusinessApplicationLigth;

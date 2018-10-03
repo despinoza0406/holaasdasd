@@ -571,6 +571,9 @@ public class PerformanceServiceImpl implements PerformanceService {
     public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
         List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(applicationId,periodo);
 
+        if (taskExecutions.isEmpty()){
+            return Results.RESULTS.SUCCESS;
+        }
         Date endDate = DateHelper.getEndDate(periodo);
         Date startDate = DateHelper.getStartDate(periodo);
         List<AvailabilityStorage> availabilities = availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(applicationId,startDate,endDate);
