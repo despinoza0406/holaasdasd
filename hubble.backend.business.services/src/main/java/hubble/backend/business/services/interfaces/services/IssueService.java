@@ -34,6 +34,8 @@ public interface IssueService extends ServiceBase<Issue>,
 
     String calculatePeriod(String periodo);
 
+    String calculatePeriodFrontend(String periodo);
+
     Results.RESULTS calculateKpiResult(String applicationId,String periodo);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo);

@@ -428,4 +428,19 @@ public class WorkItemServiceImpl implements WorkItemService {
             return periodo;
         }
     }
+
+    public String calculatePeriodFrontend(String periodo){
+        switch (periodo){
+            case "default":
+                return "Ultima Dia";
+            case "dia":
+                return "Ultimo Dia";
+            case "semana":
+                return "Ultima Semana";
+            case "mes":
+                return "Ultimo Mes";
+            default:
+                return "Ultima Dia";
+        }
+    }
 }

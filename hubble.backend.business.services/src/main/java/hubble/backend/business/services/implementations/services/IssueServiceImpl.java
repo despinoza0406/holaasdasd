@@ -562,4 +562,19 @@ public class IssueServiceImpl implements IssueService {
             return periodo;
         }
     }
+
+    public String calculatePeriodFrontend(String periodo){
+        switch (periodo){
+            case "default":
+                return "Ultimo Dia";
+            case "dia":
+                return "Ultimo Dia";
+            case "semana":
+                return "Ultima Semana";
+            case "mes":
+                return "Ultimo Mes";
+            default:
+                return "Ultima Dia";
+        }
+    }
 }

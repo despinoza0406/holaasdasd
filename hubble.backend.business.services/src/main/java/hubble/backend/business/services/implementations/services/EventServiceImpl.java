@@ -444,4 +444,19 @@ public class EventServiceImpl implements EventService {
             return periodo;
         }
     }
+
+    public String calculatePeriodFrontend(String periodo){
+        switch (periodo){
+            case "default":
+                return "Ultima Hora";
+            case "dia":
+                return "Ultimo Dia";
+            case "semana":
+                return "Ultima Semana";
+            case "mes":
+                return "Ultimo Mes";
+            default:
+                return "Ultima Hora";
+        }
+    }
 }

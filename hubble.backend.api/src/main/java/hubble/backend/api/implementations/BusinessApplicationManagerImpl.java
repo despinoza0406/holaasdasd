@@ -245,6 +245,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             availabilityKpi.setxAxisValue(periodo.equals("default") ? "Hora" : periodo);
             availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPI(application,periodo));
             availabilityKpi.setKpiPeriod(availabilityService.calculatePeriod(periodo));
+            availabilityKpi.setKpiPeriodFront(availabilityService.calculatePeriodFrontend(periodo));
             availabilityKpi.setKpiResult(availabilityService.calculateKpiResult(application.getApplicationId(),periodo));
             availabilityKpi.setKpiTaskRunners(availabilityService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(availabilityKpi.getKpiValue())) {
@@ -262,6 +263,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             performanceKpi.setxAxisValue(periodo.equals("default") ? "Hora" : periodo);
             performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
             performanceKpi.setKpiPeriod(performanceService.calculatePeriod(periodo));
+            performanceKpi.setKpiPeriodFront(performanceService.calculatePeriodFrontend(periodo));
             performanceKpi.setKpiResult(performanceService.calculateKpiResult(application.getApplicationId(),periodo));
             performanceKpi.setKpiTaskRunners(performanceService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(performanceKpi.getKpiValue())) {
@@ -278,6 +280,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             issuesKpi.setxAxisValue(periodo.equals("default") ? "ID" : periodo);
             issuesKpi.setKpiValue(issueService.calculateHistoryKPIByApplication(application,periodo));
             issuesKpi.setKpiPeriod(issueService.calculatePeriod(periodo));
+            issuesKpi.setKpiPeriodFront(issueService.calculatePeriodFrontend(periodo));
             issuesKpi.setKpiResult(issueService.calculateKpiResult(application.getApplicationId(),periodo));
             issuesKpi.setKpiTaskRunners(issueService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(issuesKpi.getKpiValue())) {
@@ -294,6 +297,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             workitemKpi.setxAxisValue(periodo.equals("default") ? "ID" : periodo);
             workitemKpi.setKpiValue(workItemService.calculateDeflectionDaysKPI(application,periodo));
             workitemKpi.setKpiPeriod(workItemService.calculatePeriod(periodo));
+            workitemKpi.setKpiPeriodFront(workItemService.calculatePeriodFrontend(periodo));
             workitemKpi.setKpiResult(workItemService.calculateKpiResult(application.getApplicationId(),periodo));
             workitemKpi.setKpiTaskRunners(workItemService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(workitemKpi.getKpiValue())){
@@ -310,6 +314,7 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             eventKpi.setxAxisValue(periodo.equals("default") ? "Hora" : periodo);
             eventKpi.setKpiValue(eventService.calculateSeverityKPI(application,periodo));
             eventKpi.setKpiPeriod(eventService.calculatePeriod(periodo));
+            eventKpi.setKpiPeriodFront(eventService.calculatePeriodFrontend(periodo));
             eventKpi.setKpiResult(eventService.calculateKpiResult(application.getApplicationId(),periodo));
             eventKpi.setKpiTaskRunners(eventService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(eventKpi.getKpiValue())) {

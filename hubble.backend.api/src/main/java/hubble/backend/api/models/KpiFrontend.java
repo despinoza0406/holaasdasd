@@ -14,6 +14,7 @@ public class KpiFrontend {
     private double kpiValue;
     private String kpiComment;
     private String kpiPeriod;
+    private String kpiPeriodFront;
     private Results.RESULTS kpiResult;
     private List<TaskRunnerExecution> kpiTaskRunners;
     private List<DistValues> distribution;
@@ -118,5 +119,13 @@ public class KpiFrontend {
 
     public void setyAxisValue(String yAxisValue) {
         this.yAxisValue = yAxisValue;
+    }
+
+    public String getKpiPeriodFront() {
+        return kpiPeriodFront;
+    }
+
+    public void setKpiPeriodFront(String kpiPeriodFront) {
+        this.kpiPeriodFront = kpiPeriodFront;
     }
 }
