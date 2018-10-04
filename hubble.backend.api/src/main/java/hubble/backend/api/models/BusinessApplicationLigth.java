@@ -17,7 +17,7 @@ public class BusinessApplicationLigth {
     private boolean enabledTaskRunner;
     boolean active;
     Set<KPITypes> enabledKPIs;
-    Set<String> kpisForMenu;
+    private Set<String> kpisForMenu;
 
     
     public BusinessApplicationLigth(String id, String applicationId, String applicationName, String description, boolean enabledTaskRunner, boolean active, Set<KPITypes> enabledKPIs,Set<String> kpisForMenu) {
@@ -88,7 +88,13 @@ public class BusinessApplicationLigth {
     public void setEnabledTaskRunner(boolean enabledTaskRunner) {
         this.enabledTaskRunner = enabledTaskRunner;
     }
-    
-    
-    
+
+
+    public Set<String> getKpisForMenu() {
+        return kpisForMenu;
+    }
+
+    public void setKpisForMenu(Set<String> kpisForMenu) {
+        this.kpisForMenu = kpisForMenu;
+    }
 }
