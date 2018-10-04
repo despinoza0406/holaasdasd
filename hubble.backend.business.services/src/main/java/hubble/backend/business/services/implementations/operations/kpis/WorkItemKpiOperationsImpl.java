@@ -210,6 +210,10 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
             return 10;
         }
 
+        if(workItems.isEmpty() && this.calculateKpiResult(application.getApplicationId(),periodo).equals(Results.RESULTS.FAILURE)){
+            return 1;
+        }
+
         return calculateKPI(workItems);
     }
 
