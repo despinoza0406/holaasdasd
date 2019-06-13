@@ -455,7 +455,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public double calculateHealthIndexKPI(ApplicationStorage application,String periodo) {
+    public double calculateHealthIndexKPI(ApplicationStorage application,String periodo,Results.RESULTS kpiResult) {
 
         Threashold threshold = application.getKpis().getAvailability().getThreashold(periodo);
 
@@ -465,13 +465,11 @@ public class AvailabilityServiceImpl implements AvailabilityService {
         Date startDate = DateHelper.getStartDate(periodo);
         List<AvailabilityStorage> availabilityStorageList =
                 availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(application.getId(),startDate,endDate);
-        if(availabilityStorageList.isEmpty() && !this.calculateKpiResult(application.getApplicationId(),periodo).equals(Results.RESULTS.FAILURE)){
+        if(availabilityStorageList.isEmpty() && !kpiResult.equals(Results.RESULTS.FAILURE)){
             return 1;
         }
         double totalOk = 0;
-        for (AvailabilityStorage availabilityStorage : availabilityStorageList) {
-            totalOk = totalOk + (availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1);
-        }
+        totalOk = availabilityStorageList.stream().mapToDouble(availabilityStorage -> availabilityStorage.getAvailabilityStatus().equals("Failed") ? 0 : 1).sum();
 
         n = (totalOk * 100d) / (double) availabilityStorageList.size() ;
 
@@ -529,8 +527,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     }
 
     @Override
-    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
-        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(applicationId,periodo);
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions){
 
         if (taskExecutions.isEmpty()){
             return Results.RESULTS.SUCCESS;

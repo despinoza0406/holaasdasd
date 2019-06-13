@@ -193,7 +193,7 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
     }
 
     @Override
-    public double calculateKPI(ApplicationStorage application,String periodo){
+    public double calculateKPI(ApplicationStorage application,String periodo,Results.RESULTS results){
         Threashold threshold = application.getKpis().getTasks().getThreashold(periodo);
         Date startDate = DateHelper.getStartDate(periodo);
         Date endDate = DateHelper.getEndDate(periodo);
@@ -206,11 +206,11 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
                 startDate,endDate,
                 "IN_PROGRESS");
 
-        if(workItems.isEmpty() && !this.calculateKpiResult(application.getApplicationId(),periodo).equals(Results.RESULTS.FAILURE)){
+        if(workItems.isEmpty() && !results.equals(Results.RESULTS.FAILURE)){
             return 10;
         }
 
-        if(workItems.isEmpty() && this.calculateKpiResult(application.getApplicationId(),periodo).equals(Results.RESULTS.FAILURE)){
+        if(workItems.isEmpty() && results.equals(Results.RESULTS.FAILURE)){
             return 1;
         }
 
@@ -251,8 +251,7 @@ public class WorkItemKpiOperationsImpl implements WorkItemKpiOperations {
 
 
     @Override
-    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
-        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(applicationId,periodo);
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions){
 
         if (taskExecutions.isEmpty()){
             return Results.RESULTS.SUCCESS;

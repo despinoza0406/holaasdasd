@@ -57,7 +57,7 @@ public class BsmTransportImpl implements BsmTransport {
         long now = to.getTime() / 1000;
 
         queryBuilder.append(" select profile_name, szTransactionName, szLocationName,szStatusName, iComponentErrorCount, time_stamp,szScriptName, dResponseTime, dGreenThreshold, dRedThreshold");
-        queryBuilder.append(" from trans_t  where time_stamp>=").append(Long.toString(since));
+        queryBuilder.append(" from devscore_api  where time_stamp>=").append(Long.toString(since));
         queryBuilder.append(" and time_stamp<=").append(Long.toString(now));
 
         this.createMessage(queryBuilder.toString());

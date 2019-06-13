@@ -37,13 +37,13 @@ public interface AvailabilityService extends
 
     double calculateHealthIndexKPILastHour(ApplicationStorage application);
 
-    double calculateHealthIndexKPI(ApplicationStorage applicationStorage, String periodo);
+    double calculateHealthIndexKPI(ApplicationStorage applicationStorage, String periodo,Results.RESULTS kpiResult);
 
     String calculatePeriod(String periodo);
 
     String calculatePeriodFrontend(String periodo);
 
-    Results.RESULTS calculateKpiResult(String applicationId,String periodo);
+    Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId, String periodo);
 

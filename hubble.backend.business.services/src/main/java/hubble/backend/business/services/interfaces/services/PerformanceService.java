@@ -35,7 +35,7 @@ public interface PerformanceService extends
 
     public double calculateHealthIndexKPILastHour(ApplicationStorage applicationStorage);
 
-    public double calculateHealthIndexKPI(ApplicationStorage applicationStorage,String periodo);
+    public double calculateHealthIndexKPI(ApplicationStorage applicationStorage,String periodo,Results.RESULTS results);
 
     public double calculateHealthIndexKPILastMonth(ApplicationStorage application);
 
@@ -43,7 +43,7 @@ public interface PerformanceService extends
 
     String calculatePeriodFrontend(String periodo);
 
-    Results.RESULTS calculateKpiResult(String applicationId,String periodo);
+    Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo);
 }

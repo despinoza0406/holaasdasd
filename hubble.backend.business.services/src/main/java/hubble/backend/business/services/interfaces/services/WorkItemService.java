@@ -20,7 +20,7 @@ public interface WorkItemService extends ServiceBase<WorkItem>,
 
     public double calculateLastDayDeflectionDaysKpi(ApplicationStorage application);
 
-    public double calculateDeflectionDaysKPI(ApplicationStorage application,String periodo);
+    public double calculateDeflectionDaysKPI(ApplicationStorage application,String periodo,Results.RESULTS results);
 
     public double calculatePastDayDeflectionDaysKpi(ApplicationStorage application);
 
@@ -34,7 +34,7 @@ public interface WorkItemService extends ServiceBase<WorkItem>,
 
     String calculatePeriodFrontend(String periodo);
 
-    Results.RESULTS calculateKpiResult(String applicationId,String periodo);
+    Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String application, String periodo);
 

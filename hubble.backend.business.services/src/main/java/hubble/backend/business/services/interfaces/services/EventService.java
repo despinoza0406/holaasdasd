@@ -24,7 +24,7 @@ public interface EventService extends ServiceBase<Event> {
 
     double calculateLastHourSeverityKpi(ApplicationStorage application);
 
-    double calculateSeverityKPI(ApplicationStorage application,String periodo);
+    double calculateSeverityKPI(ApplicationStorage application,String periodo,Results.RESULTS results);
 
     List<Integer> getDistValuesLastDay(String id);
 
@@ -38,7 +38,7 @@ public interface EventService extends ServiceBase<Event> {
 
     String calculatePeriodFrontend(String periodo);
 
-    Results.RESULTS calculateKpiResult(String applicationId,String periodo);
+    Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String application,String periodo);
 

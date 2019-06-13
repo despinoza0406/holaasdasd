@@ -119,8 +119,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public double calculateSeverityKPI(ApplicationStorage application,String periodo){
-        return eventKpiOperation.calculateKPI(application,periodo);
+    public double calculateSeverityKPI(ApplicationStorage application,String periodo,Results.RESULTS results){
+        return eventKpiOperation.calculateKPI(application,periodo,results);
     }
 
     @Override
@@ -428,8 +428,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
-        return eventKpiOperation.calculateKpiResult(applicationId,periodo);
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions){
+        return eventKpiOperation.calculateKpiResult(applicationId,periodo,taskExecutions);
     }
 
     @Override

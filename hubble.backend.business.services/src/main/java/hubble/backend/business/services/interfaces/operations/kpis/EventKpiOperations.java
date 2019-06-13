@@ -25,9 +25,9 @@ public interface EventKpiOperations extends
 
     public double calculateLastHourKPI(ApplicationStorage application);
 
-    public double calculateKPI(ApplicationStorage application,String periodo);
+    public double calculateKPI(ApplicationStorage application,String periodo,Results.RESULTS results);
 
-    Results.RESULTS calculateKpiResult(String applicationId,String periodo);
+    Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo);
 }

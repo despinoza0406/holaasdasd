@@ -205,7 +205,7 @@ public class PerformanceServiceImpl implements PerformanceService {
     }
 
     @Override
-    public double calculateHealthIndexKPI(ApplicationStorage application, String periodo) {
+    public double calculateHealthIndexKPI(ApplicationStorage application, String periodo,Results.RESULTS results) {
         Threashold threshold = application.getKpis().getPerformance().getThreashold(periodo);
 
         periodo = this.calculatePeriod(periodo);
@@ -214,7 +214,7 @@ public class PerformanceServiceImpl implements PerformanceService {
         Date endDate = DateHelper.getEndDate(periodo);
         List<AvailabilityStorage> availabilityStorageList =
                 availabilityRepository.findAvailabilitiesByApplicationIdAndPeriod(application.getId(),startDate,endDate);
-        if(availabilityStorageList.isEmpty() && !this.calculateKpiResult(application.getApplicationId(),periodo).equals(Results.RESULTS.FAILURE)){
+        if(availabilityStorageList.isEmpty() && !results.equals(Results.RESULTS.FAILURE)){
             return 1;
         }
         double totalPerformance = 0;
@@ -568,8 +568,7 @@ public class PerformanceServiceImpl implements PerformanceService {
 
 
     @Override
-    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
-        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(applicationId,periodo);
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions){
 
         if (taskExecutions.isEmpty()){
             return Results.RESULTS.SUCCESS;

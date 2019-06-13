@@ -152,10 +152,10 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
         businessApplicationFrontend.setId(applicationStorage.getId());
         businessApplicationFrontend.setLastUpdate(DateHelper.lastExecutionDate);
         businessApplicationFrontend.setPastUpdate(DateHelper.addDaysToDate(DateHelper.lastExecutionDate, -1));
-        setKPIs(businessApplicationFrontend, applicationStorage, periodo);
-        setResult(businessApplicationFrontend);
-        setHealthIndex(businessApplicationFrontend, businessApplicationFrontend.getKpis());
-        setPastHealthIndex(businessApplicationFrontend, applicationStorage);
+        this.setKPIs(businessApplicationFrontend, applicationStorage, periodo);
+        this.setResult(businessApplicationFrontend);
+        this.setHealthIndex(businessApplicationFrontend, businessApplicationFrontend.getKpis());
+        this.setPastHealthIndex(businessApplicationFrontend, applicationStorage);
 
 
         return businessApplicationFrontend;
@@ -243,11 +243,11 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             availabilityKpi.setKpiBackendName(AVAILABILITY.toString());
             availabilityKpi.setyAxisValue(AVAILABILITY.getKPIMeditionType());
             availabilityKpi.setxAxisValue(periodo.equals("default") ? "Hora" : periodo);
-            availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPI(application,periodo));
+            availabilityKpi.setKpiTaskRunners(availabilityService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
+            availabilityKpi.setKpiResult(availabilityService.calculateKpiResult(application.getApplicationId(),periodo,availabilityKpi.getKpiTaskRunners()));
+            availabilityKpi.setKpiValue(availabilityService.calculateHealthIndexKPI(application,periodo,availabilityKpi.getKpiResult()));
             availabilityKpi.setKpiPeriod(availabilityService.calculatePeriod(periodo));
             availabilityKpi.setKpiPeriodFront(availabilityService.calculatePeriodFrontend(periodo));
-            availabilityKpi.setKpiResult(availabilityService.calculateKpiResult(application.getApplicationId(),periodo));
-            availabilityKpi.setKpiTaskRunners(availabilityService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(availabilityKpi.getKpiValue())) {
                 availabilityKpi.setKpiComment("No hay datos de availability");
             }
@@ -261,11 +261,11 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             performanceKpi.setKpiBackendName(PERFORMANCE.toString());
             performanceKpi.setyAxisValue(PERFORMANCE.getKPIMeditionType());
             performanceKpi.setxAxisValue(periodo.equals("default") ? "Hora" : periodo);
-            performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo));
+            performanceKpi.setKpiTaskRunners(performanceService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
+            performanceKpi.setKpiResult(performanceService.calculateKpiResult(application.getApplicationId(),periodo,performanceKpi.getKpiTaskRunners()));
+            performanceKpi.setKpiValue(performanceService.calculateHealthIndexKPI(application,periodo,performanceKpi.getKpiResult()));
             performanceKpi.setKpiPeriod(performanceService.calculatePeriod(periodo));
             performanceKpi.setKpiPeriodFront(performanceService.calculatePeriodFrontend(periodo));
-            performanceKpi.setKpiResult(performanceService.calculateKpiResult(application.getApplicationId(),periodo));
-            performanceKpi.setKpiTaskRunners(performanceService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(performanceKpi.getKpiValue())) {
                 performanceKpi.setKpiComment("No hay datos de performance");
             }
@@ -278,11 +278,11 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             issuesKpi.setKpiBackendName(DEFECTS.toString());
             issuesKpi.setyAxisValue(DEFECTS.getKPIMeditionType());
             issuesKpi.setxAxisValue(periodo.equals("default") ? "ID" : periodo);
-            issuesKpi.setKpiValue(issueService.calculateHistoryKPIByApplication(application,periodo));
+            issuesKpi.setKpiTaskRunners(issueService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
+            issuesKpi.setKpiResult(issueService.calculateKpiResult(application.getApplicationId(),periodo,issuesKpi.getKpiTaskRunners()));
+            issuesKpi.setKpiValue(issueService.calculateHistoryKPIByApplication(application,periodo,issuesKpi.getKpiResult()));
             issuesKpi.setKpiPeriod(issueService.calculatePeriod(periodo));
             issuesKpi.setKpiPeriodFront(issueService.calculatePeriodFrontend(periodo));
-            issuesKpi.setKpiResult(issueService.calculateKpiResult(application.getApplicationId(),periodo));
-            issuesKpi.setKpiTaskRunners(issueService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(issuesKpi.getKpiValue())) {
                 issuesKpi.setKpiComment("No hay datos de issues");
             }
@@ -295,11 +295,11 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             workitemKpi.setKpiBackendName(TASKS.toString());
             workitemKpi.setyAxisValue(TASKS.getKPIMeditionType());
             workitemKpi.setxAxisValue(periodo.equals("default") ? "ID" : periodo);
-            workitemKpi.setKpiValue(workItemService.calculateDeflectionDaysKPI(application,periodo));
+            workitemKpi.setKpiTaskRunners(workItemService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
+            workitemKpi.setKpiResult(workItemService.calculateKpiResult(application.getApplicationId(),periodo,workitemKpi.getKpiTaskRunners()));
+            workitemKpi.setKpiValue(workItemService.calculateDeflectionDaysKPI(application,periodo,workitemKpi.getKpiResult()));
             workitemKpi.setKpiPeriod(workItemService.calculatePeriod(periodo));
             workitemKpi.setKpiPeriodFront(workItemService.calculatePeriodFrontend(periodo));
-            workitemKpi.setKpiResult(workItemService.calculateKpiResult(application.getApplicationId(),periodo));
-            workitemKpi.setKpiTaskRunners(workItemService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(workitemKpi.getKpiValue())){
                 workitemKpi.setKpiComment("No hay datos de tareas");
             }
@@ -312,11 +312,11 @@ public class BusinessApplicationManagerImpl implements BusinessApplicationManage
             eventKpi.setKpiBackendName(EVENTS.toString());
             eventKpi.setyAxisValue(EVENTS.getKPIMeditionType());
             eventKpi.setxAxisValue(periodo.equals("default") ? "Hora" : periodo);
-            eventKpi.setKpiValue(eventService.calculateSeverityKPI(application,periodo));
+            eventKpi.setKpiTaskRunners(eventService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
+            eventKpi.setKpiResult(eventService.calculateKpiResult(application.getApplicationId(),periodo,eventKpi.getKpiTaskRunners()));
+            eventKpi.setKpiValue(eventService.calculateSeverityKPI(application,periodo,eventKpi.getKpiResult()));
             eventKpi.setKpiPeriod(eventService.calculatePeriod(periodo));
             eventKpi.setKpiPeriodFront(eventService.calculatePeriodFrontend(periodo));
-            eventKpi.setKpiResult(eventService.calculateKpiResult(application.getApplicationId(),periodo));
-            eventKpi.setKpiTaskRunners(eventService.getTaskRunnerExecutions(application.getApplicationId(),periodo));
             if(Double.isNaN(eventKpi.getKpiValue())) {
                 eventKpi.setKpiComment("No hay datos de eventos");
             }

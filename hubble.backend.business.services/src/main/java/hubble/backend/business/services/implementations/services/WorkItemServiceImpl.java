@@ -116,8 +116,8 @@ public class WorkItemServiceImpl implements WorkItemService {
     }
 
     @Override
-    public double calculateDeflectionDaysKPI(ApplicationStorage application,String periodo){
-        return workItemKpiOperation.calculateKPI(application,periodo);
+    public double calculateDeflectionDaysKPI(ApplicationStorage application,String periodo,Results.RESULTS results){
+        return workItemKpiOperation.calculateKPI(application,periodo,results);
     }
 
     @Override
@@ -390,8 +390,8 @@ public class WorkItemServiceImpl implements WorkItemService {
     }
 
     @Override
-    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
-        return workItemKpiOperation.calculateKpiResult(applicationId,periodo);
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions){
+        return workItemKpiOperation.calculateKpiResult(applicationId,periodo,taskExecutions);
     }
     @Override
     public List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo){

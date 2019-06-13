@@ -125,7 +125,7 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public double calculateHistoryKPIByApplication(ApplicationStorage application,String periodo) {
+    public double calculateHistoryKPIByApplication(ApplicationStorage application,String periodo,Results.RESULTS results) {
         Threashold threshold = application.getKpis().getDefects().getThreashold(periodo);
 
         periodo = this.calculatePeriod(periodo);
@@ -139,7 +139,7 @@ public class IssueServiceImpl implements IssueService {
         this.lWarningKpiThreshold = threshold.getWarning();
         List<IssueStorage> issuesStorage =
                 issueRepository.findIssuesByApplicationIdBetweenTimestampDates(application.getId(), startDate, endDate);
-        if(issuesStorage.isEmpty() && !this.calculateKpiResult(application.getApplicationId(),periodo).equals(Results.RESULTS.FAILURE)){
+        if(issuesStorage.isEmpty() && !results.equals(Results.RESULTS.FAILURE)){
             return 10;
         }
         return calculateKPI(issuesStorage);
@@ -482,9 +482,7 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
-        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(applicationId,periodo);
-
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions){
         if (taskExecutions.isEmpty()){
             return Results.RESULTS.SUCCESS;
         }

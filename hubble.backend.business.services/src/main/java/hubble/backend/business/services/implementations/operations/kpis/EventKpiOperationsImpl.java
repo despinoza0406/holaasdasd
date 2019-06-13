@@ -221,7 +221,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
     }
 
     @Override
-    public double calculateKPI(ApplicationStorage application,String periodo){
+    public double calculateKPI(ApplicationStorage application,String periodo,Results.RESULTS results){
         Threashold threshold = application.getKpis().getEvents().getThreashold(periodo);
 
         if (periodo.equals("default")){ //esto se hace por como funciona el date helper
@@ -237,7 +237,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
         this.lWarningKpiThreshold = threshold.getWarning();
         List<EventStorage> events = eventRepository.findEventsByApplicationIdBetweenDatesAndDifferentStatus(application.getId()
                 ,startDate,endDate,"Good");
-        if (events.isEmpty() && !this.calculateKpiResult(application.getApplicationId(),periodo).equals(Results.RESULTS.FAILURE)){
+        if (events.isEmpty() && !results.equals(Results.RESULTS.FAILURE)){
             return 10;
         }
         return calculateKPI(events);
@@ -279,8 +279,7 @@ public class EventKpiOperationsImpl implements EventKpiOperations {
     }
 
     @Override
-    public Results.RESULTS calculateKpiResult(String applicationId,String periodo){
-        List<TaskRunnerExecution> taskExecutions = this.getTaskRunnerExecutions(applicationId,periodo);
+    public Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions){
 
         if (taskExecutions.isEmpty()){
             return Results.RESULTS.SUCCESS;

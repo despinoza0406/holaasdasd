@@ -28,7 +28,7 @@ public interface IssueService extends ServiceBase<Issue>,
 
     double calculateHistoryLastDayKpiByApplication(ApplicationStorage application);
 
-    double calculateHistoryKPIByApplication(ApplicationStorage application,String periodo);
+    double calculateHistoryKPIByApplication(ApplicationStorage application,String periodo,Results.RESULTS results);
 
     double calculateHistoryDayBeforeKpiByApplication(ApplicationStorage application);
 
@@ -36,7 +36,7 @@ public interface IssueService extends ServiceBase<Issue>,
 
     String calculatePeriodFrontend(String periodo);
 
-    Results.RESULTS calculateKpiResult(String applicationId,String periodo);
+    Results.RESULTS calculateKpiResult(String applicationId,String periodo,List<TaskRunnerExecution> taskExecutions);
 
     List<TaskRunnerExecution> getTaskRunnerExecutions(String applicationId,String periodo);
 
